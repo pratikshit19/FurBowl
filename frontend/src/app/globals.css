@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+/* ─── FurBowl Design System — Plum + Butter Yellow + Cream + Coral ───────── */
+
+@theme inline {
+  /* 🍇 Plum (Primary Dark) */
+  --color-plum-50: #fdf6fa;
+  --color-plum-100: #f9ebf5;
+  --color-plum-200: #f2d4ea;
+  --color-plum-300: #e6b0d6;
+  --color-plum-400: #d381ba;
+  --color-plum-500: #b9589b;
+  --color-plum-600: #993f7c;
+  --color-plum-700: #7b3062;
+  --color-plum-800: #552143;
+  --color-plum-900: #3e192f;
+  --color-plum-950: #2a0f1f;
+
+  /* 🧈 Butter Yellow (Secondary Warm) */
+  --color-butter-50: #fefdf5;
+  --color-butter-100: #fef9e3;
+  --color-butter-200: #fdeeb8;
+  --color-butter-300: #fbe285;
+  --color-butter-400: #f8d254;
+  --color-butter-500: #f4bd25;
+  --color-butter-600: #d99b16;
+
+  /* 🍦 Cream (Base Backgrounds) */
+  --color-cream-50: #ffffff;
+  --color-cream-100: #faf6ed;
+  --color-cream-200: #f4ebd6;
+  --color-cream-300: #ebd8b6;
+
+  /* 🪸 Coral (Primary CTA & Accent) */
+  --color-coral-50: #fff5f3;
+  --color-coral-100: #ffe6e2;
+  --color-coral-200: #fcd0c9;
+  --color-coral-300: #f9a79a;
+  --color-coral-400: #f37765;
+  --color-coral-500: #ee5a48;
+  --color-coral-600: #d83b27;
+  --color-coral-700: #b52c1a;
+
+  /* Legacy Turquoise Mappings — Redirected to new Plum + Coral palette */
+  --color-turquoise-50: #faf6ed;
+  --color-turquoise-100: #fdeeb8;
+  --color-turquoise-200: #fbe285;
+  --color-turquoise-300: #f8d254;
+  --color-turquoise-400: #f37765;
+  --color-turquoise-500: #ee5a48;
+  --color-turquoise-600: #ee5a48;
+  --color-turquoise-700: #3e192f;
+  --color-turquoise-800: #2a0f1f;
+  --color-turquoise-900: #1f0b17;
+  --color-turquoise-950: #180812;
+
+  /* Neutrals */
+  --color-offwhite: #FAF6ED;
+  --color-warm-brown: #3E192F;
+
+  /* Semantic */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EE5A48;
+  --color-info: #3B82F6;
+
+  /* Product Accent Colors */
+  --color-product-chicken-rice: #EE5A48;
+  --color-product-chicken-broth: #3E192F;
+  --color-product-paneer-medley: #7C5FA6;
+  --color-product-lamb-lentils: #5A7A52;
+  --color-product-egg-superfood: #FBE285;
+
+  /* Typography */
+  --font-sans: var(--font-inter);
+  --container-2xl: 1400px;
+}
+
+/* ─── Base Styles ────────────────────────────────────────────────────────── */
+
+:root {
+  --header-height: 72px;
+}
+
+body {
+  background-color: #faf6ed;
+  color: #3e192f;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Smooth Scrolling ───────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
+}
+
+/* ─── Focus Styles (Accessibility) ───────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid #ee5a48;
+  outline-offset: 2px;
+}
+
+/* ─── Selection ──────────────────────────────────────────────────────────── */
+
+::selection {
+  background-color: #fbe285;
+  color: #3e192f;
+}
+
+/* ─── Scrollbar (subtle) ─────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e6b0d6;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b9589b;
+}
+
+/* ─── Veg / Non-Veg Indicator ────────────────────────────────────────────── */
+
+.veg-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #22C55E;
+  border-radius: 2px;
+}
+
+.veg-indicator::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22C55E;
+}
+
+.nonveg-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #EE5A48;
+  border-radius: 2px;
+}
+
+.nonveg-indicator::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #EE5A48;
+}
+
+/* ─── Container ──────────────────────────────────────────────────────────── */
+
+.container-main {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-main {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-main {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+/* ─── Section Spacing ────────────────────────────────────────────────────── */
+
+.section-padding {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+}
