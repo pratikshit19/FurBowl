@@ -31,7 +31,7 @@ export default function WhyFurBowlPage() {
         <div className="container-main max-w-2xl">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to Upgrade Your Dog's Bowl?</h2>
           <p className="text-gray-500 mb-8">Try our ready-to-eat pouches today with free delivery on orders above ₹499.</p>
-          <Link href="/shop" className="bg-turquoise-600 text-white font-semibold px-8 py-4 rounded-full hover:bg-turquoise-700 transition-colors inline-block text-sm">
+          <Link href="/shop" className="bg-turquoise-600 text-white font-semibold px-8 py-4 rounded-xl hover:bg-turquoise-700 transition-colors inline-block text-sm">
             Shop All Fresh Meals
           </Link>
         </div>

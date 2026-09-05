@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function AuthLayout({ children }) {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-[#faf6ed] flex flex-col items-center justify-center py-12 px-4">
       {/* Logo */}
       <Link href="/" className="mb-8 block">
         <Image
@@ -17,16 +17,16 @@ export default function AuthLayout({ children }) {
       </Link>
 
       {/* Card */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-sm border border-plum-900/10 p-8 sm:p-10">
         {children}
       </div>
 
       {/* Footer note */}
-      <p className="mt-6 text-xs text-gray-400 text-center">
+      <p className="mt-6 text-xs text-plum-900/50 text-center">
         By continuing, you agree to FurBowl's{' '}
-        <Link href="/terms-conditions" className="underline hover:text-turquoise-600">Terms</Link>{' '}
+        <Link href="/terms-conditions" className="underline hover:text-coral-500 transition-colors">Terms</Link>{' '}
         and{' '}
-        <Link href="/privacy-policy" className="underline hover:text-turquoise-600">Privacy Policy</Link>.
+        <Link href="/privacy-policy" className="underline hover:text-coral-500 transition-colors">Privacy Policy</Link>.
       </p>
     </div>
   );

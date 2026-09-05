@@ -24,7 +24,7 @@ const PLACEHOLDER_PRODUCT = {
   isVeg: false,
   foodType: 'WET',
   category: { name: 'Meals', slug: 'meals' },
-  images: [{ url: '/images/products/chicken-rice-front.jpg', altText: 'Chicken Rice Front' }],
+  images: [{ url: '/images/products/only-chicken-rice-front.jpg', altText: 'Chicken Rice Front' }],
   variants: [{ id: 'v1', name: '100g', mrp: 99, sellingPrice: 89, stockQuantity: 100 }],
   reviews: [],
   averageRating: 0,
@@ -75,25 +75,25 @@ export default async function ProductPage({ params }) {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="bg-gray-50 border-b border-gray-100">
-        <div className="container-main py-3">
-          <nav className="text-sm text-gray-500" aria-label="Breadcrumb">
+      <div className="bg-[#faf6ed] border-b border-plum-900/5">
+        <div className="container-main py-3.5">
+          <nav className="text-xs md:text-sm text-plum-900/60" aria-label="Breadcrumb">
             <ol className="flex items-center gap-2 flex-wrap">
-              <li><Link href="/" className="hover:text-turquoise-600 transition-colors">Home</Link></li>
-              <li aria-hidden="true">/</li>
-              <li><Link href="/shop" className="hover:text-turquoise-600 transition-colors">Shop</Link></li>
+              <li><Link href="/" className="hover:text-coral-500 transition-colors">Home</Link></li>
+              <li aria-hidden="true" className="text-plum-900/30">/</li>
+              <li><Link href="/shop" className="hover:text-coral-500 transition-colors">Shop</Link></li>
               {product.category && (
                 <>
-                  <li aria-hidden="true">/</li>
+                  <li aria-hidden="true" className="text-plum-900/30">/</li>
                   <li>
-                    <Link href={`/shop?category=${product.category.slug}`} className="hover:text-turquoise-600 transition-colors capitalize">
+                    <Link href={`/shop?category=${product.category.slug}`} className="hover:text-coral-500 transition-colors capitalize">
                       {product.category.name}
                     </Link>
                   </li>
                 </>
               )}
-              <li aria-hidden="true">/</li>
-              <li className="text-gray-900 font-medium truncate max-w-xs" aria-current="page">{product.name}</li>
+              <li aria-hidden="true" className="text-plum-900/30">/</li>
+              <li className="text-plum-900 font-semibold truncate max-w-xs" aria-current="page">{product.name}</li>
             </ol>
           </nav>
         </div>
@@ -104,9 +104,9 @@ export default async function ProductPage({ params }) {
 
       {/* Related Products */}
       {relatedProducts && relatedProducts.length > 0 && (
-        <section className="section-padding bg-gray-50" aria-labelledby="related-products-heading">
+        <section className="section-padding bg-[#faf6ed]/60 border-t border-plum-900/5" aria-labelledby="related-products-heading">
           <div className="container-main">
-            <h2 id="related-products-heading" className="text-2xl font-bold text-gray-900 mb-8">
+            <h2 id="related-products-heading" className="text-2xl font-extrabold text-plum-900 tracking-tight mb-8">
               You Might Also Like
             </h2>
             <ProductGrid products={relatedProducts} />

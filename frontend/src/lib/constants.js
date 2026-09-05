@@ -4,10 +4,55 @@ export const SITE_NAME = 'FurBowl';
 export const SITE_TAGLINE = 'Real Food. Pure Love.';
 export const SITE_DESCRIPTION = 'Fresh, ready-to-eat dog food made with real, human-grade ingredients.';
 
+// ─── Products Navigation ───────────────────────────────────────────────────
+
+export const PRODUCTS_NAV = [
+  {
+    id: 'chicken-rice-with-vegetables',
+    name: 'Chicken Rice with Vegetables',
+    slug: 'chicken-rice-with-vegetables',
+    shortDescription: 'Complete meal with real chicken, rice & amla.',
+    isVeg: false,
+    image: '/images/products/chicken-rice-front.jpg',
+  },
+  {
+    id: 'chicken-broth',
+    name: 'Chicken Broth',
+    slug: 'chicken-broth',
+    shortDescription: 'Warm bone broth for hydration & digestion.',
+    isVeg: false,
+    image: '/images/products/chicken-broth-front.jpg',
+  },
+  {
+    id: 'paneer-medley',
+    name: 'Paneer Medley',
+    slug: 'paneer-medley',
+    shortDescription: 'Vegetarian meal with paneer, quinoa & superfoods.',
+    isVeg: true,
+    image: '/images/products/paneer-medley-front.jpg',
+  },
+  {
+    id: 'lamb-lentils-with-vegetables',
+    name: 'Lamb & Lentils with Vegetables',
+    slug: 'lamb-lentils-with-vegetables',
+    shortDescription: 'Premium lamb with lentils & rosemary.',
+    isVeg: false,
+    image: '/images/products/lamb-lentils-front.jpg',
+  },
+  {
+    id: 'egg-superfood',
+    name: 'Egg Superfood',
+    slug: 'egg-superfood',
+    shortDescription: 'Highest-protein meal with turmeric & ashwagandha.',
+    isVeg: true,
+    image: '/images/products/egg-superfood-front.jpg',
+  },
+];
+
 // ─── Navigation ─────────────────────────────────────────────────────────────
 
 export const NAV_LINKS = [
-  { label: 'Shop', href: '/shop' },
+  { label: 'Products', href: '/shop', hasDropdown: true },
   { label: 'Find Food', href: '/find-food' },
   { label: 'Why FurBowl', href: '/why-furbowl' },
   { label: 'About', href: '/about' },
@@ -19,12 +64,14 @@ export const NAV_LINKS = [
 
 export const FOOTER_LINKS = {
   shop: {
-    title: 'Shop',
+    title: 'Products',
     links: [
       { label: 'All Products', href: '/shop' },
-      { label: 'Meals', href: '/shop?category=meals' },
-      { label: 'Broth', href: '/shop?category=broth' },
-      { label: 'Find Food for My Dog', href: '/find-food' },
+      { label: 'Chicken Rice with Vegetables', href: '/shop/chicken-rice-with-vegetables' },
+      { label: 'Chicken Broth', href: '/shop/chicken-broth' },
+      { label: 'Paneer Medley', href: '/shop/paneer-medley' },
+      { label: 'Lamb & Lentils', href: '/shop/lamb-lentils-with-vegetables' },
+      { label: 'Egg Superfood', href: '/shop/egg-superfood' },
     ],
   },
   company: {

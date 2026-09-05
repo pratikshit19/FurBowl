@@ -127,13 +127,13 @@ function CouponInput() {
           onChange={(e) => setCode(e.target.value.toUpperCase())}
           onKeyDown={(e) => e.key === 'Enter' && apply()}
           placeholder="Enter coupon code"
-          className="flex-1 border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500"
+          className="flex-1 border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all"
           aria-label="Coupon code"
         />
         <button
           onClick={apply}
           disabled={loading || !code.trim()}
-          className="px-4 py-2.5 bg-gray-900 text-white text-sm font-semibold rounded-lg hover:bg-gray-700 disabled:opacity-50 transition-colors"
+          className="px-5 py-2.5 bg-plum-900 text-white text-sm font-bold rounded-xl hover:bg-plum-800 disabled:opacity-50 transition-all"
         >
           {loading ? '…' : 'Apply'}
         </button>
@@ -175,7 +175,7 @@ export default function CartPage() {
           <div className="text-6xl mb-6">🛒</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-3">Your cart is empty</h1>
           <p className="text-gray-500 mb-8">Looks like you haven't added anything yet.</p>
-          <Link href="/shop" className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-turquoise-700 transition-colors">
+          <Link href="/shop" className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-turquoise-700 transition-colors">
             Shop Now
           </Link>
         </div>

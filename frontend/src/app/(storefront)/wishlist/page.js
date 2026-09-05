@@ -26,7 +26,7 @@ export default function WishlistPage() {
           </p>
           <Link
             href="/shop"
-            className="inline-flex items-center justify-center bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-sm px-8 py-3.5 rounded-full transition-all shadow-md active:scale-95"
+            className="inline-flex items-center justify-center bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-sm px-8 py-3.5 rounded-xl transition-all shadow-md active:scale-95"
           >
             Explore Recipes
           </Link>

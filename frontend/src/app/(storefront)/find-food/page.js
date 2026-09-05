@@ -198,13 +198,13 @@ export default function FindFoodPage() {
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => { setCurrentStep(0); setAnswers({}); setIsCompleted(false); }}
-                className="px-6 py-3 border border-gray-200 text-gray-700 rounded-full font-medium text-sm hover:border-gray-400 transition-colors"
+                className="px-6 py-3 border border-plum-900/20 text-plum-900 rounded-xl font-medium text-sm hover:border-plum-900/40 hover:bg-plum-900/5 transition-colors"
               >
                 Retake Quiz
               </button>
               <Link
                 href={`/shop/${recommendedProduct.slug}`}
-                className="px-6 py-3 bg-turquoise-600 text-white rounded-full font-semibold text-sm hover:bg-turquoise-700 transition-colors"
+                className="px-6 py-3 bg-turquoise-600 text-white rounded-xl font-semibold text-sm hover:bg-turquoise-700 transition-colors"
               >
                 View Product Details
               </Link>

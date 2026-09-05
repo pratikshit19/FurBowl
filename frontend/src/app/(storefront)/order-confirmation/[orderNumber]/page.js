@@ -39,13 +39,13 @@ export default function OrderConfirmationPage({ params }) {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/account/orders"
-            className="inline-flex items-center justify-center gap-2 bg-turquoise-600 text-white px-8 py-3 rounded-full font-semibold text-sm hover:bg-turquoise-700 transition-colors"
+            className="inline-flex items-center justify-center gap-2 bg-turquoise-600 text-white px-8 py-3 rounded-xl font-semibold text-sm hover:bg-turquoise-700 transition-colors"
           >
             View My Orders
           </Link>
           <Link
             href="/shop"
-            className="inline-flex items-center justify-center gap-2 border border-gray-300 text-gray-700 px-8 py-3 rounded-full font-medium text-sm hover:border-turquoise-600 hover:text-turquoise-600 transition-colors"
+            className="inline-flex items-center justify-center gap-2 border border-plum-900/20 text-plum-900 px-8 py-3 rounded-xl font-medium text-sm hover:border-plum-900/40 hover:bg-plum-900/5 transition-colors"
           >
             Continue Shopping
           </Link>

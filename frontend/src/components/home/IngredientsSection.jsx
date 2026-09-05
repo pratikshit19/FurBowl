@@ -54,7 +54,7 @@ const INGREDIENT_GROUPS = [
 
 export default function IngredientsSection() {
   return (
-    <section className="section-padding bg-[#faf6ed]" aria-labelledby="ingredients-section-heading">
+    <section className="section-padding bg-white" aria-labelledby="ingredients-section-heading">
       <div className="container-main space-y-12">
         
         {/* Header */}
@@ -75,7 +75,7 @@ export default function IngredientsSection() {
           {INGREDIENT_GROUPS.map((group) => (
             <div
               key={group.id}
-              className="bg-white p-6 rounded-3xl border border-plum-900/10 shadow-sm hover:shadow-md hover:border-coral-500/30 transition-all duration-300 flex flex-col justify-between group"
+              className="bg-[#faf6ed] p-6 rounded-3xl border border-plum-900/10 shadow-sm hover:shadow-md hover:border-coral-500/30 transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -104,7 +104,7 @@ export default function IngredientsSection() {
                   {group.items.map((item) => (
                     <span
                       key={item}
-                      className="text-xs font-bold text-plum-900 bg-[#faf6ed] px-2.5 py-1 rounded-lg border border-plum-900/10"
+                      className="text-xs font-bold text-plum-900 bg-white px-2.5 py-1 rounded-lg border border-plum-900/10"
                     >
                       {item}
                     </span>
@@ -116,7 +116,7 @@ export default function IngredientsSection() {
         </div>
 
         {/* Bottom CTA Banner */}
-        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-plum-900/10 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 max-w-4xl mx-auto">
+        <div className="bg-[#faf6ed] rounded-2xl p-6 sm:p-8 border border-plum-900/10 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6 max-w-4xl mx-auto">
           <div className="flex items-center gap-4 text-center sm:text-left">
             <div className="w-12 h-12 rounded-full bg-butter-300 flex items-center justify-center text-plum-900 shrink-0 hidden sm:flex">
               <svg className="w-6 h-6 text-plum-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -134,7 +134,7 @@ export default function IngredientsSection() {
           </div>
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-xs sm:text-sm px-6 py-3 rounded-full transition-all shadow-md active:scale-95 shrink-0"
+            className="inline-flex items-center gap-2 bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-xs sm:text-sm px-6 py-3 rounded-xl transition-all shadow-md active:scale-95 shrink-0"
           >
             Explore Meals
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

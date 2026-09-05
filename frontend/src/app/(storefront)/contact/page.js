@@ -72,38 +72,38 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Your Name *</label>
+                    <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Your Name *</label>
                     <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500" placeholder="Priya Sharma" />
+                      className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="Priya Sharma" />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Email *</label>
+                    <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Email *</label>
                     <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500" placeholder="priya@example.com" />
+                      className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="priya@example.com" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Phone Number</label>
+                  <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Phone Number</label>
                   <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500" placeholder="9876543210 (optional)" />
+                    className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="8860503685 (optional)" />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Subject</label>
+                  <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Subject</label>
                   <input value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500" placeholder="Question about feeding guide..." />
+                    className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="Question about feeding guide..." />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Message *</label>
+                  <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Message *</label>
                   <textarea required rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500" placeholder="How can we help you?" />
+                    className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="How can we help you?" />
                 </div>
 
                 <button type="submit" disabled={loading}
-                  className="w-full bg-turquoise-600 text-white py-3.5 rounded-xl font-semibold text-sm hover:bg-turquoise-700 disabled:opacity-50 transition-colors">
-                  {loading ? 'Sending...' : 'Send Message'}
+                  className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 disabled:opacity-50 transition-all shadow-md shadow-coral-500/20">
+                  {loading ? 'Sending…' : 'Send Message'}
                 </button>
               </form>
             )}

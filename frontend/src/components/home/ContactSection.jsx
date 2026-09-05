@@ -54,7 +54,7 @@ export default function ContactSection() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email address..."
-                    className="flex-1 bg-white text-plum-900 font-medium px-4 py-3.5 rounded-2xl text-sm placeholder-plum-900/40 focus:outline-none focus:ring-2 focus:ring-coral-500"
+                    className="flex-1 bg-white text-plum-900 font-medium px-4 py-3.5 rounded-2xl text-sm placeholder-plum-900/40 border border-plum-900/10 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all"
                   />
                   <button
                     type="submit"
@@ -105,8 +105,8 @@ export default function ContactSection() {
             </div>
             <h3 className="font-extrabold text-plum-900 text-base mb-1">WhatsApp Support</h3>
             <p className="text-xs text-plum-900/60 mb-2">Instant help for orders & delivery</p>
-            <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer" className="text-xs font-extrabold text-coral-500 hover:underline">
-              +91 98765 43210
+            <a href="https://wa.me/918860503685" target="_blank" rel="noreferrer" className="text-xs font-extrabold text-coral-500 hover:underline">
+              +91 88605 03685
             </a>
           </div>
 

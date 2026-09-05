@@ -63,13 +63,13 @@ export default function AboutSection() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-7 py-3.5 rounded-full text-sm font-semibold hover:bg-turquoise-700 transition-colors shadow-sm"
+                className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-7 py-3.5 rounded-xl text-sm font-semibold hover:bg-turquoise-700 transition-colors shadow-sm"
               >
                 Our Full Story
               </Link>
               <Link
                 href="/why-furbowl"
-                className="inline-flex items-center gap-2 border border-gray-300 text-gray-700 px-7 py-3.5 rounded-full text-sm font-medium hover:border-turquoise-600 hover:text-turquoise-600 transition-colors"
+                className="inline-flex items-center gap-2 border border-plum-900/20 text-plum-900 px-7 py-3.5 rounded-xl text-sm font-medium hover:border-plum-900/40 hover:bg-plum-900/5 transition-colors"
               >
                 Why FurBowl
               </Link>

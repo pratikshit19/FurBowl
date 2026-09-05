@@ -27,51 +27,51 @@ function AddressForm({ onSubmit, initial }) {
     <form onSubmit={(e) => { e.preventDefault(); onSubmit(form); }} className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">Full Name *</label>
+          <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Full Name *</label>
           <input required value={form.fullName} onChange={(e) => set('fullName', e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500" placeholder="Priya Sharma" />
+            className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="Priya Sharma" />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">Phone *</label>
+          <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Phone *</label>
           <input required value={form.phone} onChange={(e) => set('phone', e.target.value.replace(/\D/g,'').slice(0,10))}
             inputMode="numeric" maxLength={10}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500" placeholder="9876543210" />
+            className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="8860503685" />
         </div>
       </div>
       <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">Address Line 1 *</label>
+        <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Address Line 1 *</label>
         <input required value={form.addressLine1} onChange={(e) => set('addressLine1', e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500" placeholder="House/Flat No., Street" />
+          className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="House/Flat No., Street" />
       </div>
       <div>
-        <label className="block text-xs font-medium text-gray-700 mb-1">Address Line 2</label>
+        <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Address Line 2</label>
         <input value={form.addressLine2} onChange={(e) => set('addressLine2', e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500" placeholder="Landmark, Area (optional)" />
+          className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="Landmark, Area (optional)" />
       </div>
       <div className="grid grid-cols-3 gap-3">
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">City *</label>
+          <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">City *</label>
           <input required value={form.city} onChange={(e) => set('city', e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500" placeholder="Mumbai" />
+            className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="Mumbai" />
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">State *</label>
+          <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">State *</label>
           <select required value={form.state} onChange={(e) => set('state', e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500 bg-white">
+            className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all bg-white">
             <option value="">Select</option>
             {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">Pincode *</label>
+          <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Pincode *</label>
           <input required value={form.pincode} onChange={(e) => set('pincode', e.target.value.replace(/\D/g,'').slice(0,6))}
             inputMode="numeric" maxLength={6}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-turquoise-500 focus:border-turquoise-500" placeholder="400001" />
+            className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="400001" />
         </div>
       </div>
 
       <button type="submit" id="save-address-btn"
-        className="w-full bg-turquoise-600 text-white py-3 rounded-xl font-semibold text-sm hover:bg-turquoise-700 transition-colors mt-2">
+        className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 transition-all shadow-md shadow-coral-500/20 mt-2">
         Continue to Payment
       </button>
     </form>
