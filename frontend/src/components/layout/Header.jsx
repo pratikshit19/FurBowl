@@ -186,7 +186,7 @@ export default function Header() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="text-xs font-semibold text-plum-900/70 bg-plum-900/[0.03] border-l border-gray-200 focus:border-l-gray-200 px-3 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none cursor-pointer h-full border-y-0"
+                className="text-xs font-medium text-plum-900/70 bg-plum-900/[0.03] border-l border-gray-200 focus:border-l-gray-200 px-3 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none cursor-pointer h-full border-y-0"
               >
                 <option value="">All categories</option>
                 <option value="meals">Fresh Meals</option>
@@ -214,10 +214,10 @@ export default function Header() {
                   className="flex flex-col text-left group cursor-pointer focus:outline-none"
                   aria-expanded={accountDropdownOpen}
                 >
-                  <span className="text-xs font-semibold text-plum-900/60 leading-none">
+                  <span className="text-xs font-normal text-plum-900/60 leading-none">
                     {hydrated && isAuthenticated ? 'Welcome' : 'Login / Signup'}
                   </span>
-                  <span className="text-sm font-bold text-plum-900 group-hover:text-coral-500 transition-colors flex items-center gap-1 mt-0.5">
+                  <span className="text-sm font-medium text-plum-900 group-hover:text-coral-500 transition-colors flex items-center gap-1 mt-0.5">
                     {hydrated && isAuthenticated ? user?.name?.split(' ')[0] || 'My Account' : 'My account'}
                     <svg
                       className={`w-3.5 h-3.5 text-plum-900/40 group-hover:text-coral-500 transition-transform duration-200 ${
@@ -401,7 +401,7 @@ export default function Header() {
                     </span>
                   )}
                 </div>
-                <span className="text-sm font-bold text-plum-900 group-hover:text-coral-500 transition-colors hidden sm:inline">
+                <span className="text-sm font-medium text-plum-900 group-hover:text-coral-500 transition-colors hidden sm:inline">
                   Cart
                 </span>
               </Link>
@@ -439,8 +439,8 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setProductsDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
-                          isActive || productsDropdownOpen ? 'text-coral-500 font-extrabold' : 'text-plum-900/90'
+                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors hover:text-coral-500 ${
+                          isActive || productsDropdownOpen ? 'text-coral-500 font-semibold' : 'text-plum-900/90'
                         }`}
                       >
                         <span>{link.label}</span>
@@ -524,8 +524,8 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setContactDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
-                          isActive || contactDropdownOpen ? 'text-coral-500 font-extrabold' : 'text-plum-900/90'
+                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors hover:text-coral-500 ${
+                          isActive || contactDropdownOpen ? 'text-coral-500 font-semibold' : 'text-plum-900/90'
                         }`}
                       >
                         <span>{link.label}</span>
@@ -556,14 +556,14 @@ export default function Header() {
                         <div className="relative z-10 space-y-0.5">
                           <a
                             href="tel:+919876543210"
-                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-semibold text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
+                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
                             onClick={() => setContactDropdownOpen(false)}
                           >
                             <span>Call Us</span>
                           </a>
                           <a
                             href="mailto:hello@furbowl.in"
-                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-semibold text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
+                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
                             onClick={() => setContactDropdownOpen(false)}
                           >
                             <span>Email Us</span>
@@ -572,7 +572,7 @@ export default function Header() {
                             href="https://wa.me/919876543210"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-semibold text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
+                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
                             onClick={() => setContactDropdownOpen(false)}
                           >
                             <span>WhatsApp Us</span>
@@ -587,8 +587,8 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
-                      isActive ? 'text-coral-500 font-extrabold' : 'text-plum-900/90'
+                    className={`text-xs sm:text-sm font-medium transition-colors hover:text-coral-500 ${
+                      isActive ? 'text-coral-500 font-semibold' : 'text-plum-900/90'
                     }`}
                   >
                     {link.label}

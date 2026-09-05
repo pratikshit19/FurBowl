@@ -1,9 +1,10 @@
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -44,7 +45,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`} data-scroll-behavior="smooth">
+    <html lang="en" className={`${poppins.variable} h-full`} data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col antialiased">{children}</body>
     </html>
   );

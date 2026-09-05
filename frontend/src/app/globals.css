@@ -72,7 +72,7 @@
   --color-product-egg-superfood: #FBE285;
 
   /* Typography */
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-poppins);
   --container-2xl: 1400px;
 }
 
@@ -86,8 +86,30 @@ body {
   background-color: #faf6ed;
   color: #3e192f;
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Global Light Typography Overrides ──────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6,
+p, span, a, button, input, select, textarea,
+label, li, th, td, div {
+  font-weight: 300;
+}
+
+.font-medium,
+.font-semibold {
+  font-weight: 400 !important;
+}
+
+.font-bold,
+.font-extrabold,
+.font-black,
+strong,
+b {
+  font-weight: 400 !important;
 }
 
 /* ─── Smooth Scrolling ───────────────────────────────────────────────────── */
