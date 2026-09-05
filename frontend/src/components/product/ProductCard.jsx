@@ -39,7 +39,7 @@ export default function ProductCard({ product, priority = false }) {
   };
 
   return (
-    <div className="group relative flex flex-col justify-between bg-white rounded-3xl overflow-hidden border border-plum-900/5 hover:border-coral-500/20 shadow-sm hover:shadow-[0_15px_30px_-10px_rgba(62,25,47,0.08)] transition-all duration-300 transform hover:-translate-y-1">
+    <div className="group relative flex flex-col justify-between bg-white rounded-xl overflow-hidden border border-plum-900/5 hover:border-coral-500/20 shadow-sm hover:shadow-[0_15px_30px_-10px_rgba(62,25,47,0.08)] transition-all duration-300 transform hover:-translate-y-1">
       {/* Image & Badges Container */}
       <Link
         href={`/shop/${product.slug}`}
@@ -138,7 +138,7 @@ export default function ProductCard({ product, priority = false }) {
 
           <button
             onClick={handleAddToCart}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm active:scale-95 shrink-0 ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md text-xs font-semibold transition-all shadow-sm active:scale-95 shrink-0 ${
               added
                 ? 'bg-emerald-600 text-white shadow-emerald-600/10'
                 : 'bg-coral-500 hover:bg-coral-600 text-white shadow-coral-500/15'

@@ -62,7 +62,7 @@ export default function ProductFilters() {
           <button
             key={cat.value}
             onClick={() => updateFilter('category', cat.value)}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm active:scale-95 ${
+            className={`px-4 py-2 rounded-md text-xs font-semibold transition-all shadow-sm active:scale-95 ${
               activeCategory === cat.value
                 ? 'bg-coral-500 text-white shadow-coral-500/15'
                 : 'bg-white text-plum-900/80 border border-plum-900/5 hover:border-coral-500/20'
@@ -80,7 +80,7 @@ export default function ProductFilters() {
       <div className="flex items-center gap-2">
         <button
           onClick={() => updateFilter('isVeg', activeIsVeg === 'true' ? '' : 'true')}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all shadow-sm active:scale-95 ${
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-md text-xs font-semibold border transition-all shadow-sm active:scale-95 ${
             activeIsVeg === 'true'
               ? 'border-emerald-500/40 text-emerald-800 bg-emerald-50'
               : 'border-plum-900/5 text-plum-900/80 bg-white hover:border-coral-500/20'
@@ -100,7 +100,7 @@ export default function ProductFilters() {
           id="sort-select"
           value={activeSort}
           onChange={(e) => updateFilter('sort', e.target.value)}
-          className="text-xs font-semibold border border-plum-900/10 rounded-xl px-3.5 py-1.5 text-plum-900/80 bg-white focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 shadow-sm cursor-pointer transition-all"
+          className="text-xs font-semibold border border-plum-900/10 rounded-md px-3.5 py-1.5 text-plum-900/80 bg-white focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 shadow-sm cursor-pointer transition-all"
         >
           {SORT_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>

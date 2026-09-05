@@ -56,8 +56,8 @@ export const NAV_LINKS = [
   { label: 'Find Food', href: '/find-food' },
   { label: 'Why FurBowl', href: '/why-furbowl' },
   { label: 'About', href: '/about' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'FAQs', href: '/faq' },
+  { label: 'Contact', href: '/contact', hasContactDropdown: true },
 ];
 
 // ─── Footer Links ───────────────────────────────────────────────────────────

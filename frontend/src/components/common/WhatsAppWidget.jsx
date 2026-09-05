@@ -6,7 +6,7 @@ export default function WhatsAppWidget() {
       href="https://wa.me/918860503685"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 flex items-center bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-xl p-3 sm:p-3.5 shadow-xl opacity-80 hover:opacity-100 transition-all duration-300 transform hover:scale-105 group"
+      className="fixed bottom-6 right-6 z-50 flex items-center bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-md p-3 sm:p-3.5 shadow-xl opacity-80 hover:opacity-100 transition-all duration-300 transform hover:scale-105 group"
       aria-label="Chat with us on WhatsApp (+91 88605 03685)"
     >
       <div className="flex items-center gap-2">

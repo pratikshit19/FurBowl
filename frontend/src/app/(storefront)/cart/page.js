@@ -175,7 +175,7 @@ export default function CartPage() {
           <div className="text-6xl mb-6">🛒</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-3">Your cart is empty</h1>
           <p className="text-gray-500 mb-8">Looks like you haven't added anything yet.</p>
-          <Link href="/shop" className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-turquoise-700 transition-colors">
+          <Link href="/shop" className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-turquoise-700 transition-colors">
             Shop Now
           </Link>
         </div>

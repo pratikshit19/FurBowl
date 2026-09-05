@@ -8,7 +8,7 @@ import { formatPrice, SUBSCRIPTION_DISCOUNT_PERCENT } from '@/lib/constants';
 
 function QuantitySelector({ value, onChange, min = 1, max = 99 }) {
   return (
-    <div className="flex items-center border border-plum-900/10 rounded-xl bg-white shadow-sm overflow-hidden w-fit">
+    <div className="flex items-center border border-plum-900/10 rounded-md bg-white shadow-sm overflow-hidden w-fit">
       <button
         onClick={() => onChange(Math.max(min, value - 1))}
         disabled={value <= min}
@@ -187,7 +187,7 @@ export default function ProductDetail({ product }) {
                 <button
                   type="button"
                   onClick={() => setIsSubscription(false)}
-                  className={`flex-1 flex items-center gap-3 p-3.5 rounded-xl border text-sm transition-all text-left ${
+                  className={`flex-1 flex items-center gap-3 p-3.5 rounded-md border text-sm transition-all text-left ${
                     !isSubscription
                       ? 'border-coral-500 bg-coral-50/40 text-plum-900 shadow-sm ring-1 ring-coral-500/20'
                       : 'border-plum-900/10 bg-white text-plum-900/80 hover:border-plum-900/20'
@@ -206,7 +206,7 @@ export default function ProductDetail({ product }) {
                 <button
                   type="button"
                   onClick={() => setIsSubscription(true)}
-                  className={`flex-1 flex items-center gap-3 p-3.5 rounded-xl border text-sm transition-all text-left ${
+                  className={`flex-1 flex items-center gap-3 p-3.5 rounded-md border text-sm transition-all text-left ${
                     isSubscription
                       ? 'border-coral-500 bg-coral-50/40 text-plum-900 shadow-sm ring-1 ring-coral-500/20'
                       : 'border-plum-900/10 bg-white text-plum-900/80 hover:border-plum-900/20'
@@ -235,7 +235,7 @@ export default function ProductDetail({ product }) {
                 id="add-to-cart-btn"
                 onClick={handleAddToCart}
                 disabled={addingToCart || !displayVariant || displayVariant.stockQuantity === 0}
-                className={`flex-1 py-3.5 px-8 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
+                className={`flex-1 py-3.5 px-8 rounded-md font-bold text-sm transition-all flex items-center justify-center gap-2 ${
                   added
                     ? 'bg-emerald-600 text-white shadow-md'
                     : displayVariant?.stockQuantity === 0

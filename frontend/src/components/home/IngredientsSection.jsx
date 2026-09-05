@@ -134,7 +134,7 @@ export default function IngredientsSection() {
           </div>
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-xs sm:text-sm px-6 py-3 rounded-xl transition-all shadow-md active:scale-95 shrink-0"
+            className="inline-flex items-center gap-2 bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-xs sm:text-sm px-6 py-3 rounded-md transition-all shadow-md active:scale-95 shrink-0"
           >
             Explore Meals
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
