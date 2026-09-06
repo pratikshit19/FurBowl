@@ -52,6 +52,7 @@ export const PRODUCTS_NAV = [
 // ─── Navigation ─────────────────────────────────────────────────────────────
 
 export const NAV_LINKS = [
+  { label: 'Home', href: '/' },
   { label: 'Products', href: '/shop', hasDropdown: true },
   { label: 'Find Food', href: '/find-food' },
   { label: 'Why FurBowl', href: '/why-furbowl' },
