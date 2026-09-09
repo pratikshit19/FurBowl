@@ -186,7 +186,8 @@ export default function Header() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="text-xs font-medium text-plum-900/70 bg-plum-900/[0.03] border-l border-gray-200 focus:border-l-gray-200 px-3 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none cursor-pointer h-full border-y-0"
+                style={{ outline: 'none', boxShadow: 'none' }}
+                className="text-xs font-medium text-plum-900/70 bg-plum-900/[0.03] border-l border-gray-200 px-3 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none cursor-pointer h-full border-y-0"
               >
                 <option value="">All categories</option>
                 <option value="meals">Fresh Meals</option>
@@ -439,8 +440,8 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setProductsDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors hover:text-coral-500 ${
-                          isActive || productsDropdownOpen ? 'text-coral-500 font-semibold' : 'text-plum-900/90'
+                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
+                          isActive || productsDropdownOpen ? 'text-coral-500' : 'text-plum-900/90'
                         }`}
                       >
                         <span>{link.label}</span>
@@ -459,13 +460,13 @@ export default function Header() {
 
                       {/* Dropdown Menu Panel */}
                       <div
-                        className={`absolute top-full left-0 w-[360px] bg-white border border-plum-900/10 rounded-2xl shadow-xl p-3.5 transition-all duration-200 z-50 transform origin-top-left ${
+                        className={`absolute top-full left-0 w-[280px] bg-white border border-plum-900/10 rounded-2xl shadow-xl p-3 transition-all duration-200 z-50 transform origin-top-left ${
                           productsDropdownOpen
                             ? 'opacity-100 visible translate-y-1'
                             : 'opacity-0 invisible -translate-y-2 pointer-events-none'
                         }`}
                       >
-                        <div className="flex items-center justify-between pb-2.5 mb-2 border-b border-plum-900/5 px-2">
+                        <div className="flex items-center justify-between pb-2.5 mb-1.5 border-b border-plum-900/5 px-2">
                           <span className="text-[11px] font-bold uppercase tracking-widest text-plum-900/50">Our Fresh Dog Meals</span>
                           <Link
                             href="/shop"
@@ -482,29 +483,11 @@ export default function Header() {
                               key={product.slug}
                               href={`/shop/${product.slug}`}
                               onClick={() => setProductsDropdownOpen(false)}
-                              className="flex items-center gap-3 p-2 rounded-xl hover:bg-[#faf6ed] transition-colors group/item"
+                              className="block px-3 py-2 rounded-xl hover:bg-[#faf6ed] transition-colors group/item"
                             >
-                              <div className="w-10 h-10 relative rounded-lg bg-[#faf6ed] border border-plum-900/5 overflow-hidden shrink-0 flex items-center justify-center p-1">
-                                <Image
-                                  src={product.image}
-                                  alt={product.name}
-                                  fill
-                                  className="object-contain p-0.5 group-hover/item:scale-105 transition-transform"
-                                  sizes="40px"
-                                />
-                              </div>
-
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-1.5 mb-0.5">
-                                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${product.isVeg ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                                  <h4 className="text-xs font-semibold text-plum-900 group-hover/item:text-coral-500 transition-colors truncate">
-                                    {product.name}
-                                  </h4>
-                                </div>
-                                <p className="text-[11px] text-plum-900/50 truncate font-normal">
-                                  {product.shortDescription}
-                                </p>
-                              </div>
+                              <span className="text-xs sm:text-sm font-medium text-plum-900 group-hover/item:text-coral-500 transition-colors truncate block">
+                                {product.name}
+                              </span>
                             </Link>
                           ))}
                         </div>
@@ -524,8 +507,8 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setContactDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium transition-colors hover:text-coral-500 ${
-                          isActive || contactDropdownOpen ? 'text-coral-500 font-semibold' : 'text-plum-900/90'
+                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
+                          isActive || contactDropdownOpen ? 'text-coral-500' : 'text-plum-900/90'
                         }`}
                       >
                         <span>{link.label}</span>
@@ -587,8 +570,8 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-xs sm:text-sm font-medium transition-colors hover:text-coral-500 ${
-                      isActive ? 'text-coral-500 font-semibold' : 'text-plum-900/90'
+                    className={`text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
+                      isActive ? 'text-coral-500' : 'text-plum-900/90'
                     }`}
                   >
                     {link.label}

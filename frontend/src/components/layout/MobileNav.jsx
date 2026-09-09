@@ -128,14 +128,13 @@ export default function MobileNav({ isOpen, onClose }) {
                             <Link
                               href={`/shop/${product.slug}`}
                               onClick={onClose}
-                              className={`flex items-center gap-2 py-2 px-3 rounded-md text-sm font-medium transition-colors ${
+                              className={`block py-2 px-3 rounded-md text-sm font-medium transition-colors ${
                                 pathname === `/shop/${product.slug}`
                                   ? 'text-coral-500 bg-coral-50 font-bold'
                                   : 'text-plum-900/80 hover:text-coral-500 hover:bg-gray-50'
                               }`}
                             >
-                              <span className={`w-2 h-2 rounded-full shrink-0 ${product.isVeg ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                              <span className="truncate">{product.name}</span>
+                              <span className="truncate block">{product.name}</span>
                             </Link>
                           </li>
                         ))}

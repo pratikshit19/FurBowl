@@ -1,14 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatPrice } from '@/lib/constants';
 import useCartStore from '@/store/cartStore';
 
+const emptySubscribe = () => () => {};
+
 export default function ProductCard({ product, priority = false }) {
-  const [added, setAdded] = useState(false);
+  const isHydrated = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
+  const items = useCartStore((s) => s.items);
   const addItem = useCartStore((s) => s.addItem);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const removeItem = useCartStore((s) => s.removeItem);
 
   const primaryImage = product.images?.[0];
   let imageUrl = primaryImage?.url || '';
@@ -18,6 +28,13 @@ export default function ProductCard({ product, priority = false }) {
   }
 
   const primaryVariant = product.variants?.[0];
+
+  // Find this product's primary variant in the cart
+  const cartItem = items.find(
+    (i) => (primaryVariant?.id ? i.variantId === primaryVariant.id : i.productId === product.id) && !i.isSubscription
+  );
+  const currentQty = cartItem?.quantity || 0;
+
   const hasDiscount =
     primaryVariant &&
     Number(primaryVariant.mrp) > Number(primaryVariant.sellingPrice);
@@ -34,8 +51,27 @@ export default function ProductCard({ product, priority = false }) {
     e.stopPropagation();
     if (!primaryVariant) return;
     addItem(product, primaryVariant, 1);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1800);
+  };
+
+  const handleIncrement = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!cartItem) {
+      if (primaryVariant) addItem(product, primaryVariant, 1);
+    } else {
+      updateQuantity(cartItem.id, currentQty + 1);
+    }
+  };
+
+  const handleDecrement = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!cartItem) return;
+    if (currentQty <= 1) {
+      removeItem(cartItem.id);
+    } else {
+      updateQuantity(cartItem.id, currentQty - 1);
+    }
   };
 
   return (
@@ -80,7 +116,7 @@ export default function ProductCard({ product, priority = false }) {
       {/* Info & Action Body */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          {/* Header Row: Veg/Non-veg & Rating */}
+          {/* Header Row: Veg/Non-veg */}
           <div className="flex items-center justify-between gap-2 mb-2">
             {product.isVeg ? (
               <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/50">
@@ -93,18 +129,11 @@ export default function ProductCard({ product, priority = false }) {
                 Non-Veg
               </span>
             )}
-
-            <div className="flex items-center gap-1 text-amber-400 text-xs font-medium">
-              <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-              </svg>
-              <span className="text-plum-900/60 font-medium">5.0</span>
-            </div>
           </div>
 
           {/* Product Title */}
           <Link href={`/shop/${product.slug}`}>
-            <h3 className="font-medium text-plum-900 text-base leading-snug mb-1 group-hover:text-coral-500 transition-colors line-clamp-2 min-h-[44px]">
+            <h3 className="font-bold text-plum-900 text-base leading-snug mb-1 group-hover:text-coral-500 transition-colors line-clamp-2 min-h-[44px]">
               {product.name}
             </h3>
           </Link>
@@ -122,7 +151,7 @@ export default function ProductCard({ product, priority = false }) {
           <div>
             {primaryVariant ? (
               <div className="flex items-baseline gap-1.5">
-                <span className="text-lg font-bold text-plum-900 leading-none">
+                <span className="text-lg font-extrabold text-plum-900 leading-none">
                   {formatPrice(primaryVariant.sellingPrice)}
                 </span>
                 {hasDiscount && (
@@ -136,30 +165,44 @@ export default function ProductCard({ product, priority = false }) {
             )}
           </div>
 
-          <button
-            onClick={handleAddToCart}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md text-xs font-semibold transition-all shadow-sm active:scale-95 shrink-0 ${
-              added
-                ? 'bg-emerald-600 text-white shadow-emerald-600/10'
-                : 'bg-coral-500 hover:bg-coral-600 text-white shadow-coral-500/15'
-            }`}
-          >
-            {added ? (
-              <>
+          {isHydrated && currentQty > 0 ? (
+            <div className="inline-flex items-center bg-coral-500 text-white rounded-md shadow-sm h-8 shrink-0 overflow-hidden font-bold text-xs select-none">
+              <button
+                type="button"
+                onClick={handleDecrement}
+                className="w-7 h-full flex items-center justify-center hover:bg-coral-600 active:scale-90 transition-all cursor-pointer"
+                aria-label="Decrease quantity"
+              >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H6" />
                 </svg>
-                <span>Added</span>
-              </>
-            ) : (
-              <>
-                <span>Add</span>
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              </button>
+              <span className="min-w-[22px] text-center font-extrabold px-1 text-xs">
+                {currentQty}
+              </span>
+              <button
+                type="button"
+                onClick={handleIncrement}
+                className="w-7 h-full flex items-center justify-center hover:bg-coral-600 active:scale-90 transition-all cursor-pointer"
+                aria-label="Increase quantity"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-              </>
-            )}
-          </button>
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              className="inline-flex items-center justify-center min-w-[68px] gap-1.5 px-3.5 py-2 h-8 rounded-md text-xs font-bold transition-all shadow-sm active:scale-95 shrink-0 bg-coral-500 hover:bg-coral-600 text-white shadow-coral-500/15 cursor-pointer"
+            >
+              <span>Add</span>
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
     </div>

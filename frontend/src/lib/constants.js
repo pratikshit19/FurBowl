@@ -81,7 +81,6 @@ export const FOOTER_LINKS = {
       { label: 'About Us', href: '/about' },
       { label: 'Why FurBowl', href: '/why-furbowl' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Reviews', href: '/reviews' },
     ],
   },
   help: {

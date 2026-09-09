@@ -3,7 +3,6 @@ import FeaturedProducts from '@/components/home/FeaturedProducts';
 import IngredientsSection from '@/components/home/IngredientsSection';
 import WhyFurBowl from '@/components/home/WhyFurBowl';
 import AboutSection from '@/components/home/AboutSection';
-import TestimonialsSection from '@/components/home/TestimonialsSection';
 import FAQSection from '@/components/home/FAQSection';
 
 export const metadata = {
@@ -37,7 +36,6 @@ export default async function HomePage() {
       <FeaturedProducts products={featuredProducts} />
       <WhyFurBowl />
       <AboutSection />
-      <TestimonialsSection />
       <FAQSection />
     </>
   );

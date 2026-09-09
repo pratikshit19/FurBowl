@@ -40,7 +40,7 @@ function AccordionItem({ faq, isOpen, onToggle }) {
         aria-controls={`faq-answer-${faq.id}`}
         id={`faq-question-${faq.id}`}
       >
-        <span className="font-medium text-gray-900">{faq.question}</span>
+        <span className="font-semibold text-gray-900">{faq.question}</span>
         <span className={`flex-shrink-0 w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center transition-colors ${isOpen ? 'border-turquoise-500 bg-turquoise-50' : ''}`}>
           <svg
             className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-turquoise-600' : 'text-gray-500'}`}
