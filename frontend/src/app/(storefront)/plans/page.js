@@ -71,7 +71,7 @@ const MONTHLY_PLANS = [
     ],
     buttonText: 'Get Full Fresh Plan',
     buttonStyle: 'bg-peach-500 hover:bg-peach-600 text-white shadow-md hover:shadow-lg',
-    image: '/images/home/furbowl-box-bundle.jpg',
+    image: '/images/home/furbowl-golden-retriever-feast.jpg',
   },
   {
     id: 'custom-box-plan',
@@ -181,7 +181,7 @@ export default function PlansPage() {
   return (
     <div className="bg-white min-h-screen">
       {/* 1. Header Banner */}
-      <section className="bg-[#faf6ed] border-b border-plum-900/5 py-14 sm:py-20">
+      <section className="bg-[#ffe3db] border-b border-plum-900/5 py-14 sm:py-20">
         <div className="container-main text-center max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-xs font-extrabold uppercase tracking-widest mb-3">
             <Sparkles className="w-3.5 h-3.5 text-teal-600" />
@@ -254,7 +254,7 @@ export default function PlansPage() {
                     </div>
 
                     {/* Price Block */}
-                    <div className="p-4 rounded-2xl bg-[#faf6ed] border border-plum-900/5 mb-6">
+                    <div className="p-4 rounded-2xl bg-[#ffe3db] border border-plum-900/5 mb-6">
                       <div className="flex items-baseline gap-2">
                         <span className="text-3xl font-black text-plum-900">
                           ₹{plan.price}
@@ -318,7 +318,7 @@ export default function PlansPage() {
       </section>
 
       {/* 3. Subscription Perks Grid */}
-      <section className="py-16 sm:py-20 bg-[#faf6ed] border-t border-b border-plum-900/5">
+      <section className="py-16 sm:py-20 bg-[#ffe3db] border-t border-b border-plum-900/5">
         <div className="container-main max-w-5xl">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-teal-600 block mb-1">
@@ -402,7 +402,7 @@ export default function PlansPage() {
       </section>
 
       {/* 5. Frequently Asked Questions */}
-      <section className="py-16 sm:py-20 bg-[#faf6ed] border-t border-plum-900/5">
+      <section className="py-16 sm:py-20 bg-[#ffe3db] border-t border-plum-900/5">
         <div className="container-main max-w-3xl">
           <div className="text-center mb-10">
             <span className="text-xs font-bold uppercase tracking-widest text-teal-600 block mb-1">

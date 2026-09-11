@@ -135,8 +135,8 @@ export default function ComparisonSection() {
                 {/* Photo Window of Fresh Gourmet Food Bowl with Smiling Retriever */}
                 <div className="relative w-full h-52 sm:h-60 bg-cream-100 overflow-hidden">
                   <Image
-                    src="/images/home/fresh-dog-bowl.jpg"
-                    alt="Fresh human-grade chicken, pumpkin, peas dog food in a ceramic bowl with smiling golden retriever"
+                    src="/images/home/furbowl-golden-retriever-feast.jpg"
+                    alt="Happy Golden Retriever with fresh human-grade FurBowl meal and recipe packs"
                     fill
                     className="object-cover object-center"
                     sizes="(max-width: 1024px) 100vw, 50vw"

@@ -172,7 +172,7 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-7 lg:gap-8" aria-label="Main navigation">
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-8" aria-label="Main navigation">
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
 
@@ -187,19 +187,19 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setProductsDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-sm font-bold transition-colors hover:text-peach-600 ${
+                        className={`inline-flex items-center gap-1.5 text-[16.5px] font-bold transition-colors hover:text-peach-600 ${
                           isActive || productsDropdownOpen ? 'text-peach-600' : 'text-plum-900'
                         }`}
                       >
                         <span>{link.label}</span>
                         <svg
-                          className={`w-3.5 h-3.5 text-plum-900/50 transition-transform duration-200 ${
+                          className={`w-4 h-4 text-plum-900/50 transition-transform duration-200 ${
                             productsDropdownOpen ? 'rotate-180 text-peach-600' : ''
                           }`}
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
-                          strokeWidth={2}
+                          strokeWidth={2.2}
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                         </svg>
@@ -214,7 +214,7 @@ export default function Header() {
                         }`}
                       >
                         <div className="flex items-center justify-between pb-2.5 mb-1.5 border-b border-plum-900/5 px-2">
-                          <span className="text-[11px] font-bold uppercase tracking-widest text-plum-900/50">Our Fresh Dog Meals</span>
+                          <span className="text-xs font-bold uppercase tracking-widest text-plum-900/50">Our Fresh Dog Meals</span>
                           <Link
                             href="/shop"
                             onClick={() => setProductsDropdownOpen(false)}
@@ -232,7 +232,7 @@ export default function Header() {
                               onClick={() => setProductsDropdownOpen(false)}
                               className="block px-3 py-2 rounded-xl hover:bg-teal-50 transition-colors group/item"
                             >
-                              <span className="text-xs sm:text-sm font-medium text-plum-900 group-hover/item:text-teal-600 transition-colors truncate block">
+                              <span className="text-sm sm:text-[15px] font-medium text-plum-900 group-hover/item:text-teal-600 transition-colors truncate block">
                                 {product.name}
                               </span>
                             </Link>
@@ -247,7 +247,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-sm font-bold transition-colors hover:text-peach-600 ${
+                    className={`text-[16.5px] font-bold transition-colors hover:text-peach-600 ${
                       isActive ? 'text-peach-600' : 'text-plum-900'
                     }`}
                   >
@@ -302,13 +302,13 @@ export default function Header() {
                   className="flex flex-col text-left group cursor-pointer focus:outline-none"
                   aria-expanded={accountDropdownOpen}
                 >
-                  <span className="text-xs font-normal text-plum-900/60 leading-none">
+                  <span className="text-[12px] font-medium text-plum-900/60 leading-none">
                     {hydrated && isAuthenticated ? 'Welcome' : 'Login / Signup'}
                   </span>
-                  <span className="text-sm font-medium text-plum-900 group-hover:text-peach-600 transition-colors flex items-center gap-1 mt-0.5">
+                  <span className="text-[15.5px] font-bold text-plum-900 group-hover:text-peach-600 transition-colors flex items-center gap-1 mt-0.5">
                     {hydrated && isAuthenticated ? user?.name?.split(' ')[0] || 'My Account' : 'My account'}
                     <svg
-                      className={`w-3.5 h-3.5 text-plum-900/40 group-hover:text-peach-600 transition-transform duration-200 ${
+                      className={`w-4 h-4 text-plum-900/40 group-hover:text-peach-600 transition-transform duration-200 ${
                         accountDropdownOpen ? 'rotate-180 text-peach-600' : ''
                       }`}
                       fill="none"
@@ -489,7 +489,7 @@ export default function Header() {
                     </span>
                   )}
                 </div>
-                <span className="text-sm font-medium text-plum-900 group-hover:text-teal-600 transition-colors hidden sm:inline">
+                <span className="text-[15.5px] font-bold text-plum-900 group-hover:text-teal-600 transition-colors hidden sm:inline">
                   Cart
                 </span>
               </Link>

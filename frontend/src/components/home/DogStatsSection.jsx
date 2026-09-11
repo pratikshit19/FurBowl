@@ -17,7 +17,7 @@ const STATS = [
     dogName: 'Luna, 2 yrs',
     accentColor: 'text-teal-600',
     borderColor: 'border-teal-200',
-    bgLight: 'bg-teal-50/70',
+    bgLight: 'bg-white/85 backdrop-blur-xs',
   },
   {
     id: 'human-grade',
@@ -30,7 +30,7 @@ const STATS = [
     dogName: 'Fresh Real Food',
     accentColor: 'text-peach-600',
     borderColor: 'border-peach-200',
-    bgLight: 'bg-peach-50/70',
+    bgLight: 'bg-white/85 backdrop-blur-xs',
   },
   {
     id: 'fillers',
@@ -43,7 +43,7 @@ const STATS = [
     dogName: 'Oreo, 3 yrs',
     accentColor: 'text-teal-600',
     borderColor: 'border-teal-200',
-    bgLight: 'bg-teal-50/70',
+    bgLight: 'bg-white/85 backdrop-blur-xs',
   },
   {
     id: 'simmer',
@@ -56,26 +56,26 @@ const STATS = [
     dogName: 'Bruno, 4 yrs',
     accentColor: 'text-peach-600',
     borderColor: 'border-peach-200',
-    bgLight: 'bg-peach-50/70',
+    bgLight: 'bg-white/85 backdrop-blur-xs',
   },
 ];
 
 const TIMELINE = [
   {
-    day: 'Day 3',
+    day: 'Day 1',
     badgeColor: 'bg-teal-500 text-white',
-    title: 'Instant Mealtime Joy',
-    desc: 'Licked-clean bowls in seconds with no coaxing or picky sniffing.',
-    image: '/images/dog1.jpg',
-    alt: 'Dog licking lips happily',
+    title: 'Clean Bowls & Licked Spoons',
+    desc: 'Pure aromatic excitement at mealtime with real whole steam-cooked meat.',
+    image: '/images/home/pack/max.jpg',
+    alt: 'Excited feeding puppy Max',
   },
   {
     day: 'Day 7',
     badgeColor: 'bg-peach-500 text-white',
-    title: 'Firm Stools & Less Gas',
-    desc: 'Noticeably firmer, smaller stools and a calm digestive tract.',
-    image: '/images/home/pack/milo.jpg',
-    alt: 'Happy healthy dog Milo',
+    title: 'Firmer Stools & Less Gas',
+    desc: '90%+ natural bio-digestibility means smaller clean pickups and zero bloating.',
+    image: '/images/home/pack/charlie.jpg',
+    alt: 'Happy healthy dog Charlie',
   },
   {
     day: 'Day 14',
@@ -97,8 +97,21 @@ const TIMELINE = [
 
 export default function DogStatsSection() {
   return (
-    <section id="dog-stats-section" className="py-16 sm:py-24 bg-white border-b border-plum-900/5">
-      <div className="container-main">
+    <section id="dog-stats-section" className="py-16 sm:py-24 relative overflow-hidden bg-[#ff7a59]/22 border-b border-plum-900/5">
+      {/* Low-opacity large dog shifted up in the top-middle behind the stats */}
+      <div className="absolute inset-0 flex items-start justify-center pt-6 sm:pt-12 pointer-events-none select-none z-0 overflow-hidden">
+        <div className="relative w-[500px] h-[500px] sm:w-[650px] sm:h-[650px] lg:w-[800px] lg:h-[800px] opacity-20 mix-blend-multiply [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_75%)]">
+          <Image
+            src="/images/home/hero-golden-dog.jpg"
+            alt=""
+            fill
+            className="object-contain"
+            priority={false}
+          />
+        </div>
+      </div>
+
+      <div className="container-main relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <p className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-teal-600 mb-3">
@@ -160,7 +173,7 @@ export default function DogStatsSection() {
         </div>
 
         {/* The 30-Day Fresh Food Transformation Roadmap with Dog Photos */}
-        <div className="bg-[#faf6ed] rounded-3xl border border-cream-300 p-6 sm:p-10 shadow-xs">
+        <div className="bg-white/85 backdrop-blur-xs rounded-3xl border border-plum-900/10 p-6 sm:p-10 shadow-xs">
           <div className="text-center max-w-xl mx-auto mb-10">
             <span className="text-xs font-bold text-peach-600 uppercase tracking-widest block mb-1">
               What To Expect

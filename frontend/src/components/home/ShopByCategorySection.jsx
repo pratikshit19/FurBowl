@@ -62,8 +62,8 @@ const CATEGORIES = [
     borderHover: 'hover:border-teal-300',
     priceText: '6 Fresh Flavors',
     link: '/shop',
-    image: '/images/home/fresh-dog-bowl.jpg',
-    alt: 'Fresh gourmet chicken and pumpkin bowl with smiling golden retriever',
+    image: '/images/home/furbowl-golden-retriever-feast.jpg',
+    alt: 'Smiling Golden Retriever with fresh FurBowl bowl and recipe boxes',
     icon: Utensils,
   },
 ];
