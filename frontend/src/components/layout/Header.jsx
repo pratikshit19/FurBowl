@@ -156,7 +156,64 @@ export default function Header() {
 
         {/* Main Middle Row (Logo, Navigation Links, Account & Cart) */}
         <div className="container-main py-1.5 sm:py-2">
-          <div className="flex items-center justify-between gap-4 md:gap-8">
+          {/* Mobile Header Row (lg:hidden) — Left Menu, Centered Logo, Right Search & Cart */}
+          <div className="flex lg:hidden items-center justify-between gap-2 py-1">
+            {/* Left: Hamburger Menu Button (opens bottom drawer) */}
+            <button
+              type="button"
+              className="flex items-center justify-center w-10 h-10 -ml-1.5 rounded-xl text-plum-900 hover:text-peach-600 active:scale-95 transition-all"
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={mobileNavOpen}
+            >
+              <svg className="w-7 h-7 stroke-[2.2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
+              </svg>
+            </button>
+
+            {/* Center: FurBowl Logo */}
+            <Link href="/" className="flex items-center justify-center" aria-label={`${SITE_NAME} - Home`}>
+              <Image
+                src="/images/LOGO2.png"
+                alt={SITE_NAME}
+                width={140}
+                height={50}
+                priority
+                unoptimized
+                className="h-10 sm:h-11 w-auto object-contain"
+              />
+            </Link>
+
+            {/* Right: Search & Cart Icons */}
+            <div className="flex items-center gap-0.5 -mr-1">
+              <Link
+                href="/shop"
+                className="flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-teal-600 active:scale-95 transition-all"
+                aria-label="Search products"
+              >
+                <svg className="w-6 h-6 stroke-[2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+              </Link>
+              <Link
+                href="/cart"
+                className="flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-teal-600 relative active:scale-95 transition-all"
+                aria-label={`Cart${hydrated && cartCount > 0 ? ` (${cartCount} items)` : ''}`}
+              >
+                <svg className="w-6 h-6 stroke-[1.8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
+                </svg>
+                {hydrated && cartCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-peach-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center leading-none shadow-xs">
+                    {cartCount > 9 ? '9+' : cartCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+          </div>
+
+          {/* Desktop Header Row (hidden lg:flex) */}
+          <div className="hidden lg:flex items-center justify-between gap-4 md:gap-8">
             
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center" aria-label={`${SITE_NAME} - Home`}>
@@ -493,18 +550,6 @@ export default function Header() {
                   Cart
                 </span>
               </Link>
-
-              {/* Mobile Menu Button */}
-              <button
-                className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-colors"
-                onClick={() => setMobileNavOpen(true)}
-                aria-label="Open menu"
-                aria-expanded={mobileNavOpen}
-              >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
             </div>
           </div>
         </div>
