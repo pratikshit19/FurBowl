@@ -1,4 +1,5 @@
 import ProductCard from '@/components/product/ProductCard';
+import { PawPrint } from 'lucide-react';
 
 export default function ProductGrid({ products, loading }) {
   if (loading) {
@@ -22,7 +23,9 @@ export default function ProductGrid({ products, loading }) {
   if (!products || products.length === 0) {
     return (
       <div className="py-20 text-center">
-        <div className="text-5xl mb-4">🐾</div>
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-butter-100 flex items-center justify-center text-coral-600">
+          <PawPrint className="w-8 h-8" />
+        </div>
         <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
         <p className="text-gray-500 text-sm">Try adjusting your filters</p>
       </div>

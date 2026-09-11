@@ -1,75 +1,95 @@
 @import "tailwindcss";
 
-/* ─── FurBowl Design System — Plum + Butter Yellow + Cream + Coral ───────── */
+/* ─── FurBowl Design System — Cyan (#15aec0) + Slate (#57585a) + Ice (#cff0f3) + White ───────── */
 
 @theme inline {
-  /* 🍇 Plum (Primary Dark) */
-  --color-plum-50: #fdf6fa;
-  --color-plum-100: #f9ebf5;
-  --color-plum-200: #f2d4ea;
-  --color-plum-300: #e6b0d6;
-  --color-plum-400: #d381ba;
-  --color-plum-500: #b9589b;
-  --color-plum-600: #993f7c;
-  --color-plum-700: #7b3062;
-  --color-plum-800: #552143;
-  --color-plum-900: #3e192f;
-  --color-plum-950: #2a0f1f;
+  /* 🩵 Teal Accent — #15aec0 */
+  --color-teal-50: #f0fafb;
+  --color-teal-100: #dcf5f7;
+  --color-teal-200: #cff0f3;
+  --color-teal-300: #9be1e9;
+  --color-teal-400: #53c9d7;
+  --color-teal-500: #15aec0;
+  --color-teal-600: #0f8e9d;
+  --color-teal-700: #10727e;
+  --color-teal-800: #135c66;
+  --color-teal-900: #144d55;
+  --color-teal-950: #083238;
 
-  /* 🧈 Butter Yellow (Secondary Warm) */
-  --color-butter-50: #fefdf5;
-  --color-butter-100: #fef9e3;
-  --color-butter-200: #fdeeb8;
-  --color-butter-300: #fbe285;
-  --color-butter-400: #f8d254;
-  --color-butter-500: #f4bd25;
-  --color-butter-600: #d99b16;
+  /* 🍑 Peach Accent — #ff7a59 */
+  --color-peach-50: #fff5f2;
+  --color-peach-100: #ffeae4;
+  --color-peach-200: #ffd8ce;
+  --color-peach-300: #ffbcaa;
+  --color-peach-400: #ff9b82;
+  --color-peach-500: #ff7a59;
+  --color-peach-600: #f06442;
+  --color-peach-700: #db4d2c;
+  --color-peach-800: #b83b1e;
+  --color-peach-900: #963119;
 
-  /* 🍦 Cream (Base Backgrounds) */
-  --color-cream-50: #ffffff;
+  /* 🍦 Light Beige & Cream Palette */
+  --color-cream-50: #fdfbf7;
   --color-cream-100: #faf6ed;
-  --color-cream-200: #f4ebd6;
-  --color-cream-300: #ebd8b6;
+  --color-cream-200: #f4efdf;
+  --color-cream-300: #ece4cd;
+  --color-beige-50: #fdfbf7;
+  --color-beige-100: #faf6ed;
+  --color-beige-200: #f4efdf;
+  --color-beige-300: #ece4cd;
 
-  /* 🪸 Coral (Primary CTA & Accent) */
-  --color-coral-50: #fff5f3;
-  --color-coral-100: #ffe6e2;
-  --color-coral-200: #fcd0c9;
-  --color-coral-300: #f9a79a;
-  --color-coral-400: #f37765;
-  --color-coral-500: #ee5a48;
-  --color-coral-600: #d83b27;
-  --color-coral-700: #b52c1a;
+  /* 🧈 Butter mapped to warm light cream */
+  --color-butter-50: #fdfbf7;
+  --color-butter-100: #faf6ed;
+  --color-butter-200: #f4efdf;
+  --color-butter-300: #ece4cd;
+  --color-butter-400: #e2d6b7;
+  --color-butter-500: #15aec0;
+  --color-butter-600: #0f8e9d;
 
-  /* Legacy Turquoise Mappings — Redirected to new Plum + Coral palette */
-  --color-turquoise-50: #faf6ed;
-  --color-turquoise-100: #fdeeb8;
-  --color-turquoise-200: #fbe285;
-  --color-turquoise-300: #f8d254;
-  --color-turquoise-400: #f37765;
-  --color-turquoise-500: #ee5a48;
-  --color-turquoise-600: #ee5a48;
-  --color-turquoise-700: #3e192f;
-  --color-turquoise-800: #2a0f1f;
-  --color-turquoise-900: #1f0b17;
-  --color-turquoise-950: #180812;
+  /* 🪸 Coral mapped to warm Peach */
+  --color-coral-50: #fff5f2;
+  --color-coral-100: #ffeae4;
+  --color-coral-200: #ffd8ce;
+  --color-coral-300: #ffbcaa;
+  --color-coral-400: #ff9b82;
+  --color-coral-500: #ff7a59;
+  --color-coral-600: #f06442;
+  --color-coral-700: #db4d2c;
+
+  /* 🩵 Cyan mapped to Teal */
+  --color-cyan-50: #f0fafb;
+  --color-cyan-100: #dcf5f7;
+  --color-cyan-200: #cff0f3;
+  --color-cyan-300: #9be1e9;
+  --color-cyan-400: #53c9d7;
+  --color-cyan-500: #15aec0;
+  --color-cyan-600: #0f8e9d;
+  --color-cyan-700: #10727e;
+  --color-cyan-800: #135c66;
+  --color-cyan-900: #144d55;
+
+  /* Brand Accents */
+  --color-furbowl-cyan: #15aec0;
+  --color-furbowl-teal: #15aec0;
+  --color-furbowl-peach: #ff7a59;
+
+  /* ☕ Neutral Dark Text (Warm Espresso for high readability) */
+  --color-plum-50: #fdfbf7;
+  --color-plum-100: #faf6ed;
+  --color-plum-200: #f4efdf;
+  --color-plum-300: #ded7ce;
+  --color-plum-400: #8a827d;
+  --color-plum-500: #6b635f;
+  --color-plum-600: #544d49;
+  --color-plum-700: #423b37;
+  --color-plum-800: #332d2a;
+  --color-plum-900: #25201d;
+  --color-plum-950: #191513;
 
   /* Neutrals */
-  --color-offwhite: #FAF6ED;
-  --color-warm-brown: #3E192F;
-
-  /* Semantic */
-  --color-success: #22C55E;
-  --color-warning: #F59E0B;
-  --color-error: #EE5A48;
-  --color-info: #3B82F6;
-
-  /* Product Accent Colors */
-  --color-product-chicken-rice: #EE5A48;
-  --color-product-chicken-broth: #3E192F;
-  --color-product-paneer-medley: #7C5FA6;
-  --color-product-lamb-lentils: #5A7A52;
-  --color-product-egg-superfood: #FBE285;
+  --color-offwhite: #ffffff;
+  --color-warm-brown: #25201d;
 
   /* Typography */
   --font-sans: var(--font-inter);
@@ -83,8 +103,8 @@
 }
 
 body {
-  background-color: #faf6ed;
-  color: #3e192f;
+  background-color: #fdfbf7;
+  color: #25201d;
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -93,6 +113,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
+  color: #25201d;
 }
 
 strong, b, th {
@@ -116,8 +137,8 @@ html {
 /* ─── Selection ──────────────────────────────────────────────────────────── */
 
 ::selection {
-  background-color: #fbe285;
-  color: #3e192f;
+  background-color: #cff0f3;
+  color: #10727e;
 }
 
 /* ─── Scrollbar (subtle) ─────────────────────────────────────────────────── */
@@ -131,12 +152,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e6b0d6;
+  background: #cff0f3;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b9589b;
+  background: #15aec0;
 }
 
 /* ─── Veg / Non-Veg Indicator ────────────────────────────────────────────── */
@@ -147,7 +168,7 @@ html {
   justify-content: center;
   width: 16px;
   height: 16px;
-  border: 1.5px solid #22C55E;
+  border: 1.5px solid #22c55e;
   border-radius: 2px;
 }
 
@@ -156,7 +177,7 @@ html {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #22C55E;
+  background-color: #22c55e;
 }
 
 .nonveg-indicator {
@@ -165,7 +186,7 @@ html {
   justify-content: center;
   width: 16px;
   height: 16px;
-  border: 1.5px solid #EE5A48;
+  border: 1.5px solid #ef4444;
   border-radius: 2px;
 }
 
@@ -174,7 +195,7 @@ html {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #EE5A48;
+  background-color: #ef4444;
 }
 
 /* ─── Container ──────────────────────────────────────────────────────────── */
@@ -222,3 +243,105 @@ html {
     padding-bottom: 6rem;
   }
 }
+
+/* ─── 3D Website Transformation Utilities ───────────────────────────────── */
+
+.perspective-800 {
+  perspective: 800px;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+@keyframes bowl-descend {
+  0% {
+    transform: translateY(-140px) scale(0.85);
+    opacity: 0;
+  }
+  65% {
+    transform: translateY(10px) scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes ingredient-tumble {
+  0% {
+    transform: translateY(-90px) rotate(-25deg) scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(8px) rotate(8deg) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes steam-rise {
+  0% {
+    transform: translateY(0) scale(0.7);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-32px) scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-wheel-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(21, 174, 192, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(21, 174, 192, 0);
+  }
+}
+
+.animate-float {
+  animation: float-subtle 4.5s ease-in-out infinite;
+}
+
+.animate-steam {
+  animation: steam-rise 2.5s ease-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: spin-wheel-pulse 2.2s infinite;
+}
+

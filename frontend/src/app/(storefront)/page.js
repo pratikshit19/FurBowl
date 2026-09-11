@@ -1,42 +1,36 @@
 import HeroCarousel from '@/components/home/HeroCarousel';
-import FeaturedProducts from '@/components/home/FeaturedProducts';
+import ShopByCategorySection from '@/components/home/ShopByCategorySection';
 import IngredientsSection from '@/components/home/IngredientsSection';
-import WhyFurBowl from '@/components/home/WhyFurBowl';
-import AboutSection from '@/components/home/AboutSection';
-import FAQSection from '@/components/home/FAQSection';
+import MenuSection from '@/components/home/MenuSection';
+import ComparisonSection from '@/components/home/ComparisonSection';
+import DogStatsSection from '@/components/home/DogStatsSection';
 
 export const metadata = {
   title: 'FurBowl — Real Food. Pure Love. | Fresh Dog Food India',
   description:
-    'Fresh, ready-to-eat dog food made with real, human-grade ingredients. Chicken Rice, Paneer Medley, Egg Superfood, Lamb & Lentils, Chicken Broth. Free shipping above ₹499.',
+    'Fresh, human-grade dog food cooked gently with real ingredients. Shop by Category, explore our ingredients, try our chef-crafted meals, and see the FurBowl difference.',
 };
 
-// Fetch featured products server-side for SEO
-async function getFeaturedProducts() {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/products/featured`,
-      { next: { revalidate: 300 } } // cache 5 minutes
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.products;
-  } catch {
-    return null; // graceful fallback to placeholder data
-  }
-}
-
-export default async function HomePage() {
-  const featuredProducts = await getFeaturedProducts();
-
+export default function HomePage() {
   return (
     <>
+      {/* 1. Hero Carousel */}
       <HeroCarousel />
+
+      {/* 2. Shop by Category */}
+      <ShopByCategorySection />
+
+      {/* 3. Our Ingredients */}
       <IngredientsSection />
-      <FeaturedProducts products={featuredProducts} />
-      <WhyFurBowl />
-      <AboutSection />
-      <FAQSection />
+
+      {/* 4. Our Products / Meals */}
+      <MenuSection />
+
+      {/* 5. Comparison Section */}
+      <ComparisonSection />
+
+      {/* 6. Section where there are some stats for dogs */}
+      <DogStatsSection />
     </>
   );
 }

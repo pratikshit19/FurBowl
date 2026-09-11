@@ -66,16 +66,16 @@ export default function MobileNav({ isOpen, onClose }) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 h-[72px] border-b border-gray-100 shrink-0">
           <Image
-            src="/images/dark-logo.png"
+            src="/images/LOGO2.png"
             alt="FurBowl"
-            width={120}
-            height={36}
+            width={140}
+            height={48}
             unoptimized
-            className="h-9 w-auto object-contain"
+            className="h-10 w-auto object-contain"
           />
           <button
             onClick={onClose}
-            className="flex items-center justify-center w-10 h-10 rounded-full text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors"
+            className="flex items-center justify-center w-10 h-10 rounded-full text-plum-900/60 hover:text-plum-900 hover:bg-plum-900/5 transition-colors"
             aria-label="Close menu"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -92,12 +92,12 @@ export default function MobileNav({ isOpen, onClose }) {
                 return (
                   <li key={link.href} className="space-y-1">
                     <div className="flex items-center justify-between py-2 px-3 rounded-lg text-base font-bold text-plum-900">
-                      <Link href={link.href} onClick={onClose} className="hover:text-coral-500 transition-colors">
+                      <Link href={link.href} onClick={onClose} className="hover:text-peach-600 transition-colors">
                         {link.label}
                       </Link>
                       <button
                         onClick={() => setProductsOpen(!productsOpen)}
-                        className="p-1.5 rounded-md text-plum-900/60 hover:text-coral-500 hover:bg-gray-100 transition-colors"
+                        className="p-1.5 rounded-md text-plum-900/60 hover:text-peach-600 hover:bg-cream-100 transition-colors"
                         aria-label="Toggle products menu"
                       >
                         <svg
@@ -113,12 +113,12 @@ export default function MobileNav({ isOpen, onClose }) {
                     </div>
 
                     {productsOpen && (
-                      <ul className="pl-3 pr-1 space-y-1 pb-2 border-l-2 border-coral-500/30 ml-3">
+                      <ul className="pl-3 pr-1 space-y-1 pb-2 border-l-2 border-peach-300 ml-3">
                         <li>
                           <Link
                             href="/shop"
                             onClick={onClose}
-                            className="block py-2 px-3 rounded-md text-xs font-extrabold uppercase tracking-wider text-coral-500 hover:bg-coral-50 transition-colors"
+                            className="block py-2 px-3 rounded-md text-xs font-extrabold uppercase tracking-wider text-peach-600 hover:bg-peach-50 transition-colors"
                           >
                             All Products →
                           </Link>
@@ -130,8 +130,8 @@ export default function MobileNav({ isOpen, onClose }) {
                               onClick={onClose}
                               className={`block py-2 px-3 rounded-md text-sm font-medium transition-colors ${
                                 pathname === `/shop/${product.slug}`
-                                  ? 'text-coral-500 bg-coral-50 font-bold'
-                                  : 'text-plum-900/80 hover:text-coral-500 hover:bg-gray-50'
+                                  ? 'text-peach-600 bg-peach-50 font-bold'
+                                  : 'text-plum-900/80 hover:text-teal-600 hover:bg-teal-50/50'
                               }`}
                             >
                               <span className="truncate block">{product.name}</span>
@@ -151,8 +151,8 @@ export default function MobileNav({ isOpen, onClose }) {
                     onClick={onClose}
                     className={`block py-3 px-3 rounded-lg text-base font-bold transition-colors ${
                       pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
-                        ? 'text-coral-500 bg-coral-50'
-                        : 'text-plum-900 hover:text-coral-500 hover:bg-gray-50'
+                        ? 'text-peach-600 bg-peach-50'
+                        : 'text-plum-900 hover:text-peach-600 hover:bg-cream-100/50'
                     }`}
                   >
                     {link.label}
@@ -164,12 +164,12 @@ export default function MobileNav({ isOpen, onClose }) {
         </nav>
 
         {/* Bottom Actions */}
-        <div className="absolute bottom-0 left-0 right-0 px-6 py-6 border-t border-gray-100 bg-white">
+        <div className="absolute bottom-0 left-0 right-0 px-6 py-6 border-t border-plum-900/10 bg-white">
           <div className="space-y-3">
             <Link
               href="/login"
               onClick={onClose}
-              className="flex items-center gap-3 py-3 px-3 rounded-lg text-gray-700 hover:text-turquoise-600 hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 py-3 px-3 rounded-lg text-plum-900 hover:text-teal-600 hover:bg-teal-50 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -179,7 +179,7 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/wishlist"
               onClick={onClose}
-              className="flex items-center gap-3 py-3 px-3 rounded-lg text-gray-700 hover:text-turquoise-600 hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 py-3 px-3 rounded-lg text-plum-900 hover:text-peach-600 hover:bg-peach-50 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
@@ -189,7 +189,7 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/cart"
               onClick={onClose}
-              className="flex items-center gap-3 py-3 px-3 rounded-lg text-gray-700 hover:text-turquoise-600 hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-3 py-3 px-3 rounded-lg text-plum-900 hover:text-teal-600 hover:bg-teal-50 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />

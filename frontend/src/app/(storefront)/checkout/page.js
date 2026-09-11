@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Check, Phone } from 'lucide-react';
 import useCartStore from '@/store/cartStore';
 import useAuthStore from '@/store/authStore';
 import { formatPrice } from '@/lib/constants';
@@ -258,7 +259,7 @@ export default function CheckoutPage() {
             <div key={s.key} className="flex items-center gap-3">
               <div className={`flex items-center gap-2 ${step === s.key ? 'text-turquoise-700' : step === 'payment' && s.key === 'address' ? 'text-gray-400' : 'text-gray-400'}`}>
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${step === s.key ? 'bg-turquoise-600 text-white' : step === 'payment' && s.key === 'address' ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
-                  {step === 'payment' && s.key === 'address' ? '✓' : s.num}
+                  {step === 'payment' && s.key === 'address' ? <Check className="w-3.5 h-3.5" /> : s.num}
                 </div>
                 <span className="text-sm font-medium hidden sm:inline">{s.label}</span>
               </div>
@@ -282,7 +283,7 @@ export default function CheckoutPage() {
                   <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Delivering to</p>
                   <p className="text-sm font-medium text-gray-900">{address.fullName}</p>
                   <p className="text-xs text-gray-500">{address.addressLine1}, {address.city}, {address.state} – {address.pincode}</p>
-                  <p className="text-xs text-gray-500">📱 {address.phone}</p>
+                  <p className="text-xs text-gray-500 flex items-center gap-1 mt-0.5"><Phone className="w-3 h-3 text-gray-400 shrink-0 inline" /> {address.phone}</p>
                 </div>
                 <button onClick={() => setStep('address')} className="text-xs text-turquoise-600 font-medium hover:underline">Change</button>
               </div>

@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useCartStore from '@/store/cartStore';
+import Link from 'next/link';
+import { Utensils, ShieldCheck, Scale, Sparkles, Snowflake, Calendar, Check } from 'lucide-react';
 import ProductGallery from '@/components/product/ProductGallery';
 import { formatPrice, SUBSCRIPTION_DISCOUNT_PERCENT } from '@/lib/constants';
 
@@ -72,7 +74,7 @@ export default function ProductDetail({ product }) {
   const TABS = ['description', 'ingredients', 'nutrition', 'feeding'];
 
   return (
-    <div className="section-padding bg-[#faf6ed]">
+    <div className="section-padding bg-white">
       <div className="container-main">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           {/* Gallery */}
@@ -230,44 +232,82 @@ export default function ProductDetail({ product }) {
                     : 'bg-coral-500 hover:bg-coral-600 active:scale-[0.98] text-white shadow-md shadow-coral-500/20'
                 }`}
               >
-                {addingToCart ? 'Adding…' : added ? '✓ Added to Cart' : displayVariant?.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                {addingToCart ? (
+                  'Adding…'
+                ) : added ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Check className="w-4 h-4 shrink-0" />
+                    <span>Added to Cart</span>
+                  </span>
+                ) : displayVariant?.stockQuantity === 0 ? (
+                  'Out of Stock'
+                ) : (
+                  'Add to Cart'
+                )}
               </button>
             </div>
 
-            {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-3 py-4 my-6 border-y border-plum-900/5 bg-white/60 rounded-2xl p-3">
-              {[
-                { label: 'Free Shipping', sub: 'Above ₹499', icon: '🚚' },
-                { label: '7-Day Returns', sub: 'Hassle-free', icon: '↩️' },
-                { label: '100% Fresh', sub: 'No preservatives', icon: '🌿' },
-              ].map((badge) => (
-                <div key={badge.label} className="text-center p-1">
-                  <div className="text-xl mb-1">{badge.icon}</div>
-                  <div className="text-xs font-bold text-plum-900">{badge.label}</div>
-                  <div className="text-[11px] text-plum-900/50 font-medium">{badge.sub}</div>
-                </div>
-              ))}
+            {/* Breadcrumb matching Screen 5 */}
+            <nav className="flex items-center gap-2 text-xs text-plum-900/50 mb-3" aria-label="Breadcrumb">
+              <Link href="/" className="hover:text-coral-600 transition-colors">Home</Link>
+              <span>›</span>
+              <Link href="/shop" className="hover:text-coral-600 transition-colors">Our Food</Link>
+              <span>›</span>
+              <span className="text-plum-900 font-bold">{product.name}</span>
+            </nav>
+
+            {/* Title & Playful Subtitle */}
+            <h1 className="text-3xl sm:text-4xl font-black text-plum-900 tracking-tight mb-1">
+              {product.name}
+            </h1>
+            <p className="text-sm text-plum-900/70 font-normal mb-4">
+              Real chicken. Real vegetables. Real happiness.
+            </p>
+
+            {/* 3 Trust Badges Matching Screen 5 */}
+            <div className="grid grid-cols-3 gap-2 py-3 mb-6 border-y border-plum-900/10 bg-butter-50/50 rounded-2xl px-3">
+              <div className="flex flex-col items-center text-center p-1">
+                <Utensils className="w-5 h-5 text-plum-900 mb-1" />
+                <span className="text-[11px] font-bold text-plum-900 leading-tight">Human Grade</span>
+                <span className="text-[9px] text-plum-900/50">100% whole meat</span>
+              </div>
+              <div className="flex flex-col items-center text-center p-1 border-x border-plum-900/10">
+                <ShieldCheck className="w-5 h-5 text-coral-600 mb-1" />
+                <span className="text-[11px] font-bold text-plum-900 leading-tight">No Preservatives</span>
+                <span className="text-[9px] text-plum-900/50">Zero additives</span>
+              </div>
+              <div className="flex flex-col items-center text-center p-1">
+                <Scale className="w-5 h-5 text-plum-900 mb-1" />
+                <span className="text-[11px] font-bold text-plum-900 leading-tight">Complete & Balanced</span>
+                <span className="text-[9px] text-plum-900/50">Vet certified</span>
+              </div>
             </div>
 
             {/* Tabs */}
             <div className="mt-8">
               <div className="flex border-b border-plum-900/10 gap-2 md:gap-4 -mb-px overflow-x-auto">
-                {TABS.map((tab) => (
+                {['ingredients', 'feeding', 'nutrition', 'delivery'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-3 text-sm capitalize border-b-2 transition-colors whitespace-nowrap ${
+                    className={`px-4 py-3 text-xs sm:text-sm font-bold capitalize border-b-2 transition-colors whitespace-nowrap cursor-pointer ${
                       activeTab === tab
-                        ? 'border-coral-500 text-coral-600 font-bold'
-                        : 'border-transparent text-plum-900/60 font-medium hover:text-plum-900'
+                        ? 'border-coral-500 text-coral-600'
+                        : 'border-transparent text-plum-900/60 hover:text-plum-900'
                     }`}
                   >
-                    {tab === 'feeding' ? 'Feeding Guide' : tab}
+                    {tab === 'feeding'
+                      ? 'Feeding Guide'
+                      : tab === 'nutrition'
+                      ? 'Nutritional Information'
+                      : tab === 'delivery'
+                      ? 'Delivery & Storage'
+                      : 'Ingredients'}
                   </button>
                 ))}
               </div>
 
-              <div className="mt-4 bg-white rounded-2xl p-5 md:p-6 border border-plum-900/5 shadow-sm text-plum-900/80 text-sm leading-relaxed">
+              <div className="py-6">
                 {activeTab === 'description' && (
                   <div className="prose prose-sm text-plum-900/80 max-w-none">
                     <p className="leading-relaxed text-base">{product.description}</p>
@@ -276,7 +316,7 @@ export default function ProductDetail({ product }) {
                         <p className="font-bold text-plum-900 mb-3 text-sm uppercase tracking-wider">Key Benefits</p>
                         <ul className="grid sm:grid-cols-2 gap-2.5">
                           {product.keyBenefits.map((b, i) => (
-                            <li key={i} className="flex items-center gap-2.5 bg-[#faf6ed] p-2.5 rounded-xl border border-plum-900/5">
+                            <li key={i} className="flex items-center gap-2.5 bg-[#f0fafb] p-2.5 rounded-sm border border-plum-900/10">
                               <svg className="w-4 h-4 text-coral-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                               </svg>
@@ -292,8 +332,9 @@ export default function ProductDetail({ product }) {
                 {activeTab === 'ingredients' && (
                   <div>
                     <p className="text-plum-900/80 leading-relaxed mb-4 text-base">{product.ingredients}</p>
-                    <p className="text-xs text-plum-900/50 font-medium bg-[#faf6ed] p-3 rounded-xl border border-plum-900/5">
-                      ✨ All ingredients are 100% human-grade. No artificial additives, fillers, or preservatives.
+                    <p className="text-xs text-plum-900/70 font-medium bg-[#f0fafb] p-3 rounded-sm border border-plum-900/10 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-teal-600 shrink-0" />
+                      <span>All ingredients are 100% human-grade. No artificial additives, fillers, or preservatives.</span>
                     </p>
                   </div>
                 )}
@@ -350,6 +391,30 @@ export default function ProductDetail({ product }) {
                         <p className="text-amber-800 leading-relaxed font-normal">{product.dietChangeGuide}</p>
                       </div>
                     )}
+                  </div>
+                )}
+
+                {activeTab === 'delivery' && (
+                  <div className="space-y-4 text-xs sm:text-sm">
+                    <div className="flex items-start gap-3 p-3.5 bg-butter-50 rounded-xl border border-plum-900/10">
+                      <Snowflake className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-bold text-plum-900 mb-1">Refrigerated Fresh Delivery</h4>
+                        <p className="text-plum-900/70 font-normal">
+                          Shipped cold in temperature-controlled insulated packaging. Guaranteed to arrive chilled and ready to serve or store.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-3 p-3.5 bg-butter-50 rounded-xl border border-plum-900/10">
+                      <Calendar className="w-5 h-5 text-coral-500 shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-bold text-plum-900 mb-1">Storage Instructions</h4>
+                        <p className="text-plum-900/70 font-normal">
+                          Store unopened pouches in your refrigerator for up to 30 days, or in the freezer for up to 6 months. Once opened, consume within 48 hours.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

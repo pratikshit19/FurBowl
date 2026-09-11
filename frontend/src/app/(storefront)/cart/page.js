@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ShoppingCart, Lock, Truck, RotateCcw, ArrowLeft } from 'lucide-react';
 import useCartStore from '@/store/cartStore';
 import { formatPrice } from '@/lib/constants';
 
@@ -172,7 +173,9 @@ export default function CartPage() {
     return (
       <div className="section-padding">
         <div className="container-main max-w-5xl mx-auto text-center py-20">
-          <div className="text-6xl mb-6">🛒</div>
+          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-turquoise-50 text-turquoise-600 flex items-center justify-center">
+            <ShoppingCart className="w-10 h-10" />
+          </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-3">Your cart is empty</h1>
           <p className="text-gray-500 mb-8">Looks like you haven't added anything yet.</p>
           <Link href="/shop" className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-8 py-3 rounded-md font-semibold hover:bg-turquoise-700 transition-colors">
@@ -255,15 +258,25 @@ export default function CartPage() {
                 </svg>
               </Link>
 
-              <Link href="/shop" className="w-full mt-3 flex items-center justify-center text-sm text-gray-500 hover:text-turquoise-600 transition-colors py-2">
-                ← Continue Shopping
+              <Link href="/shop" className="w-full mt-3 flex items-center justify-center gap-1.5 text-sm text-gray-500 hover:text-turquoise-600 transition-colors py-2">
+                <ArrowLeft className="w-4 h-4 shrink-0" />
+                <span>Continue Shopping</span>
               </Link>
 
               {/* Trust */}
               <div className="mt-5 pt-5 border-t border-gray-100 grid grid-cols-3 gap-2 text-center text-xs text-gray-400">
-                <div>🔒<br />Secure<br />Payment</div>
-                <div>🚚<br />Free<br />Above ₹499</div>
-                <div>↩️<br />7-Day<br />Returns</div>
+                <div>
+                  <Lock className="w-4 h-4 text-turquoise-600 mx-auto mb-1" />
+                  Secure<br />Payment
+                </div>
+                <div>
+                  <Truck className="w-4 h-4 text-turquoise-600 mx-auto mb-1" />
+                  Free<br />Above ₹499
+                </div>
+                <div>
+                  <RotateCcw className="w-4 h-4 text-turquoise-600 mx-auto mb-1" />
+                  7-Day<br />Returns
+                </div>
               </div>
             </div>
           </div>

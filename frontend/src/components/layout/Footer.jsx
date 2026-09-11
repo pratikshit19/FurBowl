@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { PawPrint, CheckCircle2, Heart, ArrowUp } from 'lucide-react';
 import { SITE_NAME } from '@/lib/constants';
 
 export default function Footer() {
@@ -11,8 +12,10 @@ export default function Footer() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
+    if (email.trim()) {
+      setSubmitted(true);
+      setEmail('');
+    }
   };
 
   const scrollToTop = () => {
@@ -20,218 +23,223 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-plum-900 text-white pt-14 pb-8 border-t border-white/10" role="contentinfo">
-      <div className="container-main px-6 sm:px-10 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-10">
+    <footer className="relative bg-[#15aec0] text-white pt-12 sm:pt-16 pb-8 overflow-hidden" role="contentinfo">
+      <div className="container-main max-w-6xl">
+        
+        {/* Top Newsletter Section (Full width inside teal footer, not a separate card) */}
+        <div className="relative pb-12 sm:pb-16 border-b border-white/20">
           
-          {/* Left Main Column — Logo, Newsletter, Socials, Customer Care */}
-          <div className="lg:col-span-5 space-y-7">
-            {/* Logo */}
-            <Link href="/" className="inline-block">
-              <Image
-                src="/images/light-logo.png"
-                alt={SITE_NAME}
-                width={160}
-                height={50}
-                unoptimized
-                className="h-11 w-auto object-contain"
-              />
-            </Link>
+          {/* Playful dashed curved path & floating paw */}
+          <div className="absolute top-6 right-[38%] opacity-35 hidden md:block select-none pointer-events-none">
+            <svg width="140" height="40" viewBox="0 0 140 40" fill="none">
+              <path d="M5 25 C 45 5, 95 38, 135 15" stroke="white" strokeWidth="2" strokeDasharray="5 5" />
+            </svg>
+          </div>
+          <div className="absolute top-3 right-[35%] select-none pointer-events-none hidden md:block">
+            <PawPrint className="w-7 h-7 text-white/30" />
+          </div>
 
-            {/* Newsletter */}
-            <div>
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-butter-300 mb-3">
-                Get Latest Updates &amp; Offers
-              </h3>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            
+            {/* Left: Copy & Pill Input */}
+            <div className="lg:col-span-7 text-center lg:text-left">
+              <span className="text-[11px] font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full inline-block mb-3">
+                The FurBowl Community
+              </span>
+
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.1] mb-2">
+                Good food. <br />
+                Happier dogs.
+              </h2>
+
+              <p className="text-xs sm:text-sm text-white/90 font-normal max-w-md mx-auto lg:mx-0 mb-6 leading-relaxed">
+                Real food drops, nutrition advice from certified pet dietitians, and exclusive pack discounts.
+              </p>
+
               {submitted ? (
-                <div className="text-xs font-bold text-butter-300 py-2">
-                  ✓ Thank you! You're subscribed for updates.
+                <div className="bg-white/20 backdrop-blur-xs border border-white/40 rounded-full px-5 py-3 text-xs sm:text-sm font-bold flex items-center justify-center lg:justify-start gap-2.5 max-w-md mx-auto lg:mx-0">
+                  <CheckCircle2 className="w-5 h-5 text-white shrink-0" />
+                  <span>Welcome to the pack! Check your inbox for 15% off.</span>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex items-center max-w-sm">
+                <form
+                  onSubmit={handleSubmit}
+                  className="bg-white rounded-full p-1.5 sm:p-2 flex items-center shadow-md max-w-md mx-auto lg:mx-0 border border-white/40"
+                >
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Your email address..."
-                    className="w-full bg-white/10 border border-white/20 text-white placeholder-white/50 text-xs sm:text-sm px-4 py-2.5 rounded-l-full outline-none focus:border-butter-300 focus:bg-white/15 transition-all"
+                    placeholder="Enter your email"
+                    className="px-4 py-2 text-xs sm:text-sm text-plum-900 placeholder-plum-900/40 bg-transparent flex-1 outline-none font-medium"
                   />
                   <button
                     type="submit"
-                    className="bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-xs sm:text-sm px-6 py-2.5 rounded-r-full transition-colors shrink-0 shadow-md"
+                    className="bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all shrink-0 cursor-pointer shadow-sm"
                   >
-                    Submit
+                    Join the pack
                   </button>
                 </form>
               )}
             </div>
 
-            {/* Social Links */}
-            <div>
-              <p className="text-xs sm:text-sm font-semibold text-white/80 mb-3">
-                Let’s keep in touch
-              </p>
-              <div className="flex items-center gap-3">
-                {/* Facebook */}
-                <a
-                  href="https://facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook"
-                  className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-butter-300 hover:text-plum-900 transition-colors"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                </a>
-                {/* Instagram */}
-                <a
-                  href="https://instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Instagram"
-                  className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-butter-300 hover:text-plum-900 transition-colors"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
-                </a>
-                {/* LinkedIn */}
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="LinkedIn"
-                  className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-butter-300 hover:text-plum-900 transition-colors"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                  </svg>
-                </a>
-                {/* X */}
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="X"
-                  className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-butter-300 hover:text-plum-900 transition-colors"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                </a>
-                {/* YouTube */}
-                <a
-                  href="https://youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="YouTube"
-                  className="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-butter-300 hover:text-plum-900 transition-colors"
-                >
-                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                  </svg>
-                </a>
+            {/* Right: Golden Retriever Pup Portrait */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative w-44 sm:w-56 lg:w-64 aspect-square">
+                <Image
+                  src="/images/home/hero-golden-dog.jpg"
+                  alt="Happy Golden Retriever in FurBowl community banner"
+                  fill
+                  className="object-cover rounded-full border-4 border-white/50 shadow-xl"
+                />
               </div>
             </div>
 
-            {/* Customer Care */}
-            <div className="pt-2 space-y-3">
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-butter-300">
-                Customer Care
-              </h3>
-              <div className="space-y-2.5 text-xs sm:text-sm text-white/80">
-                {/* Email */}
-                <div className="flex items-center gap-2.5">
-                  <svg className="w-4 h-4 text-butter-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                  </svg>
-                  <a href="mailto:hello@furbowl.in" className="hover:text-coral-400 transition-colors text-white font-medium">
-                    hello@furbowl.in
-                  </a>
-                </div>
-                {/* Phone */}
-                <div className="flex items-start gap-2.5">
-                  <svg className="w-4 h-4 text-butter-300 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-2.828-1.428-5.127-3.727-6.555-6.555l1.293-.97c.362-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                  </svg>
-                  <div>
-                    <a href="tel:+918860503685" className="hover:text-coral-400 font-semibold text-white block transition-colors">
-                      +91 88605 03685
-                    </a>
-                    <span className="text-[11px] text-white/60 block">
-                      Mon – Sat, 10 AM – 6 PM IST
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
+          </div>
+        </div>
+
+        {/* Middle: 4 Columns on Same Teal Background */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 py-10 sm:py-12 border-b border-white/20">
+          
+          {/* Column 1: Shop */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-black uppercase tracking-wider text-butter-100">
+              Shop
+            </h3>
+            <ul className="space-y-2 text-xs sm:text-sm text-white/85 font-medium">
+              <li><Link href="/shop" className="hover:text-white hover:underline transition-colors">All Products</Link></li>
+              <li><Link href="/shop" className="hover:text-white hover:underline transition-colors">Build Your Box</Link></li>
+              <li><Link href="/shop" className="hover:text-white hover:underline transition-colors">Subscription</Link></li>
+              <li><Link href="/shop/chicken-harvest" className="hover:text-white hover:underline transition-colors">Chicken Harvest</Link></li>
+              <li><Link href="/shop/paneer-greens" className="hover:text-white hover:underline transition-colors">Paneer &amp; Greens</Link></li>
+            </ul>
           </div>
 
-          {/* Right Columns — Online Shopping, Customer Policies, Useful Links */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8 pt-2">
-            
-            {/* ONLINE SHOPPING */}
-            <div>
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-butter-300 mb-4">
-                Online Shopping
-              </h3>
-              <ul className="space-y-2.5 text-xs sm:text-sm text-white/70 font-semibold">
-                <li><Link href="/shop" className="hover:text-coral-400 transition-colors">Fresh Dog Food</Link></li>
-                <li><Link href="/shop?category=chicken" className="hover:text-coral-400 transition-colors">Chicken &amp; Rice</Link></li>
-                <li><Link href="/shop?category=paneer" className="hover:text-coral-400 transition-colors">Paneer Medley</Link></li>
-                <li><Link href="/shop?category=egg" className="hover:text-coral-400 transition-colors">Egg Superfood</Link></li>
-                <li><Link href="/find-food" className="hover:text-coral-400 transition-colors">Find Your Meal</Link></li>
-              </ul>
-            </div>
+          {/* Column 2: Learn */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-black uppercase tracking-wider text-butter-100">
+              Learn
+            </h3>
+            <ul className="space-y-2 text-xs sm:text-sm text-white/85 font-medium">
+              <li><Link href="/why-furbowl" className="hover:text-white hover:underline transition-colors">FurBowl School</Link></li>
+              <li><Link href="/#ingredients" className="hover:text-white hover:underline transition-colors">Ingredients</Link></li>
+              <li><Link href="/why-furbowl" className="hover:text-white hover:underline transition-colors">Feeding Guide</Link></li>
+              <li><Link href="/find-food" className="hover:text-white hover:underline transition-colors">Taste Profile Finder</Link></li>
+            </ul>
+          </div>
 
-            {/* CUSTOMER POLICIES */}
-            <div>
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-butter-300 mb-4">
-                Customer Policies
-              </h3>
-              <ul className="space-y-2.5 text-xs sm:text-sm text-white/70 font-semibold">
-                <li><Link href="/terms-conditions" className="hover:text-coral-400 transition-colors">Terms Of Use</Link></li>
-                <li><Link href="/privacy-policy" className="hover:text-coral-400 transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/shipping-returns" className="hover:text-coral-400 transition-colors">Refund Policy</Link></li>
-                <li><Link href="/shipping-returns" className="hover:text-coral-400 transition-colors">Shipping Policy</Link></li>
-                <li><Link href="/faq" className="hover:text-coral-400 transition-colors">FAQ's</Link></li>
-              </ul>
-            </div>
+          {/* Column 3: About */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-black uppercase tracking-wider text-butter-100">
+              About
+            </h3>
+            <ul className="space-y-2 text-xs sm:text-sm text-white/85 font-medium">
+              <li><Link href="/about" className="hover:text-white hover:underline transition-colors">Our Story</Link></li>
+              <li><Link href="/about" className="hover:text-white hover:underline transition-colors">Sustainability</Link></li>
+              <li><Link href="/contact" className="hover:text-white hover:underline transition-colors">Contact Us</Link></li>
+              <li><Link href="/faq" className="hover:text-white hover:underline transition-colors">Vet FAQs</Link></li>
+            </ul>
+          </div>
 
-            {/* USEFUL LINKS */}
-            <div>
-              <h3 className="text-xs font-extrabold uppercase tracking-widest text-butter-300 mb-4">
-                Useful Links
-              </h3>
-              <ul className="space-y-2.5 text-xs sm:text-sm text-white/70 font-semibold">
-                <li><Link href="/about" className="hover:text-coral-400 transition-colors">About Us</Link></li>
-                <li><Link href="/why-furbowl" className="hover:text-coral-400 transition-colors">Why FurBowl</Link></li>
-                <li><Link href="/contact" className="hover:text-coral-400 transition-colors">Contact Us</Link></li>
-                <li><Link href="/cart" className="hover:text-coral-400 transition-colors">Your Cart</Link></li>
-                <li><Link href="/wishlist" className="hover:text-coral-400 transition-colors">Your Wishlist</Link></li>
-              </ul>
+          {/* Column 4: Follow the pack */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-black uppercase tracking-wider text-butter-100">
+              Follow the pack
+            </h3>
+            <div className="flex items-center gap-2.5 pt-1">
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="w-9 h-9 rounded-full bg-white/20 hover:bg-white hover:text-[#15aec0] text-white flex items-center justify-center transition-colors shadow-2xs"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="w-9 h-9 rounded-full bg-white/20 hover:bg-white hover:text-[#15aec0] text-white flex items-center justify-center transition-colors shadow-2xs"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                </svg>
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+                className="w-9 h-9 rounded-full bg-white/20 hover:bg-white hover:text-[#15aec0] text-white flex items-center justify-center transition-colors shadow-2xs"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="white"/>
+                </svg>
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                className="w-9 h-9 rounded-full bg-white/20 hover:bg-white hover:text-[#15aec0] text-white flex items-center justify-center transition-colors shadow-2xs"
+              >
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
             </div>
-
+            <p className="text-[11px] text-white/80 font-normal pt-2">
+              Share your pup’s meal moments with #FurBowlPack
+            </p>
           </div>
 
         </div>
 
-        {/* Scroll To Top Button & Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10">
-          <p className="text-xs font-bold text-white/60">
-            © {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
-          </p>
-          <button
-            onClick={scrollToTop}
-            aria-label="Scroll to top"
-            className="w-10 h-10 rounded-full bg-butter-300 text-plum-900 flex items-center justify-center shadow-lg hover:bg-coral-500 hover:text-white transition-all active:scale-95"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-            </svg>
-          </button>
+        {/* Bottom Bar: Logo (Left) + Copyright (Center) + Heart (Right) */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/80 font-medium">
+          
+          {/* Logo on Left (seamless on teal background) */}
+          <Link href="/" className="inline-block" aria-label="FurBowl Home">
+            <Image
+              src="/images/LOGO1.png"
+              alt={SITE_NAME}
+              width={140}
+              height={112}
+              unoptimized
+              className="h-10 sm:h-12 w-auto object-contain brightness-0 invert"
+            />
+          </Link>
+
+          {/* Copyright in Center */}
+          <div className="text-center">
+            © 2026 FurBowl. All rights reserved. | Real Food. Happier Dogs.
+          </div>
+
+          {/* Privacy / Terms / Top Button on Right */}
+          <div className="flex items-center gap-4">
+            <Link href="/privacy-policy" className="hover:text-white hover:underline transition-colors">Privacy</Link>
+            <Link href="/terms-conditions" className="hover:text-white hover:underline transition-colors">Terms</Link>
+            <button
+              onClick={scrollToTop}
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-bold text-white bg-white/20 hover:bg-white hover:text-[#15aec0] px-3 py-1 rounded-full cursor-pointer ml-2"
+              aria-label="Back to top"
+            >
+              <span>Top</span>
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+            <span className="text-white ml-1 inline-flex items-center" aria-label="Pure love">
+              <Heart className="w-4 h-4 fill-white text-white" />
+            </span>
+          </div>
+
         </div>
 
       </div>

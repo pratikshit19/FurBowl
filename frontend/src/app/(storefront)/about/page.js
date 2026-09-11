@@ -1,5 +1,6 @@
 import AboutSection from '@/components/home/AboutSection';
 import Link from 'next/link';
+import { ShieldCheck, Leaf, Heart } from 'lucide-react';
 
 export const metadata = {
   title: 'About Us | FurBowl Pet Food',
@@ -31,17 +32,17 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Our Core Commitments</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-              <div className="text-3xl mb-3">🤝</div>
+              <ShieldCheck className="w-8 h-8 text-turquoise-600 mb-3" />
               <h3 className="font-bold text-gray-900 mb-2">Uncompromising Integrity</h3>
               <p className="text-sm text-gray-600 leading-relaxed">What is printed on our label is exactly what is inside the pouch. No hidden ingredients or misleading claims.</p>
             </div>
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-              <div className="text-3xl mb-3">🌱</div>
+              <Leaf className="w-8 h-8 text-turquoise-600 mb-3" />
               <h3 className="font-bold text-gray-900 mb-2">Pure Human-Grade</h3>
               <p className="text-sm text-gray-600 leading-relaxed">We source ingredients from the same supply chains that feed humans. Clean, safe, and wholesome.</p>
             </div>
             <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
-              <div className="text-3xl mb-3">❤️</div>
+              <Heart className="w-8 h-8 text-turquoise-600 mb-3" />
               <h3 className="font-bold text-gray-900 mb-2">Pet-First Always</h3>
               <p className="text-sm text-gray-600 leading-relaxed">Every recipe is designed around pet longevity, digestive ease, and taste satisfaction.</p>
             </div>

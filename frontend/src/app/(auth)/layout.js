@@ -3,21 +3,22 @@ import Image from 'next/image';
 
 export default function AuthLayout({ children }) {
   return (
-    <div className="min-h-screen bg-[#faf6ed] flex flex-col items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-[#f0fafb] flex flex-col items-center justify-center py-12 px-4">
       {/* Logo */}
       <Link href="/" className="mb-8 block">
         <Image
-          src="/images/dark-logo.png"
+          src="/images/LOGO2.jpeg"
           alt="FurBowl"
           width={180}
-          height={54}
+          height={60}
           priority
+          unoptimized
           className="h-14 w-auto object-contain"
         />
       </Link>
 
       {/* Card */}
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-sm border border-plum-900/10 p-8 sm:p-10">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-sm border border-plum-900/10 p-8 sm:p-10">
         {children}
       </div>
 

@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { Phone, Mail } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -385,7 +386,7 @@ export default function LoginPage() {
                 : 'border-transparent text-plum-900/50 hover:text-plum-900'
             }`}
           >
-            <span>📱</span>
+            <Phone className="w-3.5 h-3.5" />
             <span>Mobile OTP</span>
           </button>
           <button
@@ -397,7 +398,7 @@ export default function LoginPage() {
                 : 'border-transparent text-plum-900/50 hover:text-plum-900'
             }`}
           >
-            <span>✉️</span>
+            <Mail className="w-3.5 h-3.5" />
             <span>Email / Create Account</span>
           </button>
         </div>

@@ -140,13 +140,13 @@ export default function Header() {
       >
         {/* Top Announcement Bar */}
         <div
-          className={`bg-plum-900 text-white text-xs sm:text-sm font-normal tracking-wide transition-all duration-300 ease-in-out overflow-hidden ${
+          className={`bg-[#15aec0] text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ease-in-out overflow-hidden ${
             scrolled ? 'max-h-0 py-0 opacity-0' : 'max-h-12 py-2 px-4 opacity-100'
           }`}
         >
           <div className="container-main flex items-center justify-center text-center">
             <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-butter-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="w-4 h-4 text-butter-100 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.25h2.25c.427 0 .831.18 1.117.495l2.25 2.54m-5.617-3.035H12m-9 0h9" />
               </svg>
               <span>Free shipping on orders above ₹499</span>
@@ -154,24 +154,110 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Main Middle Row (Logo, Search Bar, Account & Cart) */}
-        <div className="container-main py-3.5">
+        {/* Main Middle Row (Logo, Navigation Links, Account & Cart) */}
+        <div className="container-main py-1.5 sm:py-2">
           <div className="flex items-center justify-between gap-4 md:gap-8">
             
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center" aria-label={`${SITE_NAME} - Home`}>
               <Image
-                src="/images/dark-logo.png"
+                src="/images/LOGO2.png"
                 alt={SITE_NAME}
-                width={160}
-                height={48}
+                width={200}
+                height={160}
                 priority
                 unoptimized
-                className="h-11 sm:h-12 w-auto object-contain"
+                className="h-12 sm:h-14 lg:h-16 w-auto object-contain"
               />
             </Link>
 
-            {/* Center Search Bar Widget */}
+            {/* Desktop Navigation Links */}
+            <nav className="hidden lg:flex items-center gap-7 lg:gap-8" aria-label="Main navigation">
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
+
+                if (link.hasDropdown) {
+                  return (
+                    <div
+                      key={link.href}
+                      className="relative"
+                      onMouseEnter={() => setProductsDropdownOpen(true)}
+                      onMouseLeave={() => setProductsDropdownOpen(false)}
+                    >
+                      <Link
+                        href={link.href}
+                        onClick={() => setProductsDropdownOpen(false)}
+                        className={`inline-flex items-center gap-1.5 text-sm font-bold transition-colors hover:text-peach-600 ${
+                          isActive || productsDropdownOpen ? 'text-peach-600' : 'text-plum-900'
+                        }`}
+                      >
+                        <span>{link.label}</span>
+                        <svg
+                          className={`w-3.5 h-3.5 text-plum-900/50 transition-transform duration-200 ${
+                            productsDropdownOpen ? 'rotate-180 text-peach-600' : ''
+                          }`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                        </svg>
+                      </Link>
+
+                      {/* Dropdown Menu Panel */}
+                      <div
+                        className={`absolute top-full left-0 w-[280px] bg-white border border-plum-900/10 rounded-2xl shadow-xl p-3 transition-all duration-200 z-50 transform origin-top-left ${
+                          productsDropdownOpen
+                            ? 'opacity-100 visible translate-y-1'
+                            : 'opacity-0 invisible -translate-y-2 pointer-events-none'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between pb-2.5 mb-1.5 border-b border-plum-900/5 px-2">
+                          <span className="text-[11px] font-bold uppercase tracking-widest text-plum-900/50">Our Fresh Dog Meals</span>
+                          <Link
+                            href="/shop"
+                            onClick={() => setProductsDropdownOpen(false)}
+                            className="text-xs font-bold text-peach-600 hover:text-plum-900 transition-colors flex items-center gap-1"
+                          >
+                            View All <span>→</span>
+                          </Link>
+                        </div>
+
+                        <div className="space-y-0.5">
+                          {PRODUCTS_NAV.map((product) => (
+                            <Link
+                              key={product.slug}
+                              href={`/shop/${product.slug}`}
+                              onClick={() => setProductsDropdownOpen(false)}
+                              className="block px-3 py-2 rounded-xl hover:bg-teal-50 transition-colors group/item"
+                            >
+                              <span className="text-xs sm:text-sm font-medium text-plum-900 group-hover/item:text-teal-600 transition-colors truncate block">
+                                {product.name}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`text-sm font-bold transition-colors hover:text-peach-600 ${
+                      isActive ? 'text-peach-600' : 'text-plum-900'
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Center Search Bar Widget (Commented out — easily uncomment to restore)
             <form
               onSubmit={handleSearchSubmit}
               className="hidden md:flex flex-1 max-w-2xl lg:max-w-3xl items-stretch h-11 border border-plum-900/15 rounded-md bg-white shadow-xs transition-all overflow-hidden focus-within:border-plum-900/15 focus-within:ring-0 focus-within:outline-none"
@@ -203,6 +289,7 @@ export default function Header() {
                 </svg>
               </button>
             </form>
+            */}
 
             {/* Right Actions */}
             <div className="flex items-center gap-3 sm:gap-5 shrink-0">
@@ -218,11 +305,11 @@ export default function Header() {
                   <span className="text-xs font-normal text-plum-900/60 leading-none">
                     {hydrated && isAuthenticated ? 'Welcome' : 'Login / Signup'}
                   </span>
-                  <span className="text-sm font-medium text-plum-900 group-hover:text-coral-500 transition-colors flex items-center gap-1 mt-0.5">
+                  <span className="text-sm font-medium text-plum-900 group-hover:text-peach-600 transition-colors flex items-center gap-1 mt-0.5">
                     {hydrated && isAuthenticated ? user?.name?.split(' ')[0] || 'My Account' : 'My account'}
                     <svg
-                      className={`w-3.5 h-3.5 text-plum-900/40 group-hover:text-coral-500 transition-transform duration-200 ${
-                        accountDropdownOpen ? 'rotate-180 text-coral-500' : ''
+                      className={`w-3.5 h-3.5 text-plum-900/40 group-hover:text-peach-600 transition-transform duration-200 ${
+                        accountDropdownOpen ? 'rotate-180 text-peach-600' : ''
                       }`}
                       fill="none"
                       viewBox="0 0 24 24"
@@ -249,7 +336,7 @@ export default function Header() {
                     /* Logged-In Menu */
                     <div className="relative z-10 space-y-3">
                       <div className="flex items-center gap-3 pb-3 border-b border-plum-900/10">
-                        <div className="w-10 h-10 rounded-full bg-butter-300 text-plum-900 font-extrabold flex items-center justify-center text-sm shadow-xs">
+                        <div className="w-10 h-10 rounded-full bg-cream-200 text-plum-900 font-extrabold flex items-center justify-center text-sm shadow-xs">
                           {user?.name?.[0]?.toUpperCase() || 'U'}
                         </div>
                         <div>
@@ -262,7 +349,7 @@ export default function Header() {
                         <Link
                           href="/account"
                           onClick={() => setAccountDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 text-xs font-bold text-plum-900 hover:bg-[#faf6ed] rounded-xl transition-colors"
+                          className="flex items-center justify-between px-3 py-2 text-xs font-bold text-plum-900 hover:bg-teal-50 rounded-xl transition-colors"
                         >
                           <span>My Dashboard</span>
                           <span>→</span>
@@ -272,7 +359,7 @@ export default function Header() {
                             logout();
                             setAccountDropdownOpen(false);
                           }}
-                          className="w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                          className="w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-peach-700 hover:bg-peach-50 rounded-xl transition-colors cursor-pointer"
                         >
                           <span>Logout</span>
                           <span>↳</span>
@@ -293,7 +380,7 @@ export default function Header() {
 
                       {quickStep === 'phone' ? (
                         <form onSubmit={handleQuickSendOtp} className="space-y-3">
-                          <div className="flex rounded-xl border border-plum-900/15 focus-within:border-coral-500 focus-within:ring-1 focus-within:ring-coral-500/30 transition-all bg-white overflow-hidden">
+                          <div className="flex rounded-xl border border-plum-900/15 focus-within:border-teal-500 focus-within:ring-1 focus-within:ring-teal-500/30 transition-all bg-white overflow-hidden">
                             <div className="flex items-center bg-plum-900/5 px-3 text-xs text-plum-900/70 font-bold border-r border-plum-900/10">
                               +91
                             </div>
@@ -310,13 +397,13 @@ export default function Header() {
                           </div>
 
                           {quickError && (
-                            <p className="text-[11px] text-rose-500 font-semibold text-center">{quickError}</p>
+                            <p className="text-[11px] text-peach-600 font-semibold text-center">{quickError}</p>
                           )}
 
                           <button
                             type="submit"
                             disabled={quickLoading || quickPhone.length !== 10}
-                            className="w-full bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-xs py-3 rounded-xl transition-all shadow-md shadow-coral-500/20 disabled:opacity-50"
+                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-extrabold text-xs py-3 rounded-xl transition-all shadow-md disabled:opacity-50 cursor-pointer"
                           >
                             {quickLoading ? 'Sending OTP…' : 'Login'}
                           </button>
@@ -330,19 +417,19 @@ export default function Header() {
                             value={quickOtp}
                             onChange={(e) => setQuickOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                             placeholder="Enter 6-digit OTP"
-                            className="w-full text-center tracking-widest px-3 py-2.5 text-sm font-extrabold text-plum-900 border border-plum-900/15 rounded-xl focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all"
+                            className="w-full text-center tracking-widest px-3 py-2.5 text-sm font-extrabold text-plum-900 border border-plum-900/15 rounded-xl focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30 transition-all"
                             required
                             autoFocus
                           />
 
                           {quickError && (
-                            <p className="text-[11px] text-rose-500 font-semibold text-center">{quickError}</p>
+                            <p className="text-[11px] text-peach-600 font-semibold text-center">{quickError}</p>
                           )}
 
                           <button
                             type="submit"
                             disabled={quickLoading || quickOtp.length !== 6}
-                            className="w-full bg-coral-500 hover:bg-coral-600 text-white font-extrabold text-xs py-3 rounded-xl transition-all shadow-md shadow-coral-500/20 disabled:opacity-50"
+                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-extrabold text-xs py-3 rounded-xl transition-all shadow-md disabled:opacity-50 cursor-pointer"
                           >
                             {quickLoading ? 'Verifying…' : 'Verify & Login'}
                           </button>
@@ -350,7 +437,7 @@ export default function Header() {
                           <button
                             type="button"
                             onClick={() => setQuickStep('phone')}
-                            className="w-full text-center text-[11px] font-bold text-plum-900/60 hover:text-coral-500 transition-colors pt-1"
+                            className="w-full text-center text-[11px] font-bold text-plum-900/60 hover:text-peach-600 transition-colors pt-1 cursor-pointer"
                           >
                             ← Change Mobile Number
                           </button>
@@ -364,7 +451,7 @@ export default function Header() {
                           <Link
                             href="/login"
                             onClick={() => setAccountDropdownOpen(false)}
-                            className="font-bold text-coral-500 hover:underline"
+                            className="font-bold text-peach-600 hover:underline"
                           >
                             Create account
                           </Link>
@@ -378,7 +465,7 @@ export default function Header() {
               {/* Wishlist Icon */}
               <Link
                 href="/wishlist"
-                className="flex items-center justify-center w-9 h-9 rounded-full text-plum-900 hover:text-coral-500 hover:bg-plum-900/5 transition-colors"
+                className="flex items-center justify-center w-9 h-9 rounded-full text-plum-900 hover:text-peach-600 hover:bg-plum-900/5 transition-colors"
                 aria-label="Wishlist"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -389,27 +476,27 @@ export default function Header() {
               {/* Cart Button (Icon + Counter + "Cart" text) */}
               <Link
                 href="/cart"
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-plum-900 hover:text-coral-500 hover:bg-plum-900/5 transition-all group"
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-all group"
                 aria-label={`Cart${hydrated && cartCount > 0 ? ` (${cartCount} items)` : ''}`}
               >
                 <div className="relative flex items-center justify-center">
-                  <svg className="w-6 h-6 text-plum-900 group-hover:text-coral-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <svg className="w-6 h-6 text-plum-900 group-hover:text-teal-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
                   </svg>
                   {hydrated && cartCount > 0 && (
-                    <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-coral-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center leading-none shadow-xs">
+                    <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-peach-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center leading-none shadow-xs">
                       {cartCount > 9 ? '9+' : cartCount}
                     </span>
                   )}
                 </div>
-                <span className="text-sm font-medium text-plum-900 group-hover:text-coral-500 transition-colors hidden sm:inline">
+                <span className="text-sm font-medium text-plum-900 group-hover:text-teal-600 transition-colors hidden sm:inline">
                   Cart
                 </span>
               </Link>
 
               {/* Mobile Menu Button */}
               <button
-                className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-coral-500 hover:bg-plum-900/5 transition-colors"
+                className="lg:hidden flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-colors"
                 onClick={() => setMobileNavOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={mobileNavOpen}
@@ -422,165 +509,13 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Bottom Horizontal Navigation Row */}
+        {/* Bottom Horizontal Navigation Row (Commented out — navigation is now integrated into primary header row)
         <div className="bg-white">
           <div className="container-main">
-            <nav className="hidden lg:flex items-center justify-center gap-8 py-2.5" aria-label="Main navigation">
-              {NAV_LINKS.map((link) => {
-                const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
-
-                if (link.hasDropdown) {
-                  return (
-                    <div
-                      key={link.href}
-                      className="relative"
-                      onMouseEnter={() => setProductsDropdownOpen(true)}
-                      onMouseLeave={() => setProductsDropdownOpen(false)}
-                    >
-                      <Link
-                        href={link.href}
-                        onClick={() => setProductsDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
-                          isActive || productsDropdownOpen ? 'text-coral-500' : 'text-plum-900/90'
-                        }`}
-                      >
-                        <span>{link.label}</span>
-                        <svg
-                          className={`w-3.5 h-3.5 text-plum-900/50 transition-transform duration-200 ${
-                            productsDropdownOpen ? 'rotate-180 text-coral-500' : ''
-                          }`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
-                      </Link>
-
-                      {/* Dropdown Menu Panel */}
-                      <div
-                        className={`absolute top-full left-0 w-[280px] bg-white border border-plum-900/10 rounded-2xl shadow-xl p-3 transition-all duration-200 z-50 transform origin-top-left ${
-                          productsDropdownOpen
-                            ? 'opacity-100 visible translate-y-1'
-                            : 'opacity-0 invisible -translate-y-2 pointer-events-none'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between pb-2.5 mb-1.5 border-b border-plum-900/5 px-2">
-                          <span className="text-[11px] font-bold uppercase tracking-widest text-plum-900/50">Our Fresh Dog Meals</span>
-                          <Link
-                            href="/shop"
-                            onClick={() => setProductsDropdownOpen(false)}
-                            className="text-xs font-bold text-coral-500 hover:text-plum-900 transition-colors flex items-center gap-1"
-                          >
-                            View All <span>→</span>
-                          </Link>
-                        </div>
-
-                        <div className="space-y-0.5">
-                          {PRODUCTS_NAV.map((product) => (
-                            <Link
-                              key={product.slug}
-                              href={`/shop/${product.slug}`}
-                              onClick={() => setProductsDropdownOpen(false)}
-                              className="block px-3 py-2 rounded-xl hover:bg-[#faf6ed] transition-colors group/item"
-                            >
-                              <span className="text-xs sm:text-sm font-medium text-plum-900 group-hover/item:text-coral-500 transition-colors truncate block">
-                                {product.name}
-                              </span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-
-                if (link.hasContactDropdown) {
-                  return (
-                    <div
-                      key={link.href}
-                      className="relative"
-                      onMouseEnter={() => setContactDropdownOpen(true)}
-                      onMouseLeave={() => setContactDropdownOpen(false)}
-                    >
-                      <Link
-                        href={link.href}
-                        onClick={() => setContactDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
-                          isActive || contactDropdownOpen ? 'text-coral-500' : 'text-plum-900/90'
-                        }`}
-                      >
-                        <span>{link.label}</span>
-                        <svg
-                          className={`w-3.5 h-3.5 text-plum-900/50 transition-transform duration-200 ${
-                            contactDropdownOpen ? 'rotate-180 text-coral-500' : ''
-                          }`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                        </svg>
-                      </Link>
-
-                      {/* Contact Dropdown Popover */}
-                      <div
-                        className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-44 bg-white border border-plum-900/10 rounded-2xl shadow-xl p-2 transition-all duration-200 z-50 transform origin-top ${
-                          contactDropdownOpen
-                            ? 'opacity-100 visible translate-y-0'
-                            : 'opacity-0 invisible -translate-y-2 pointer-events-none'
-                        }`}
-                      >
-                        {/* Pointer Triangle Arrow */}
-                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white rotate-45 border-t border-l border-plum-900/10" />
-
-                        <div className="relative z-10 space-y-0.5">
-                          <a
-                            href="tel:+919876543210"
-                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
-                            onClick={() => setContactDropdownOpen(false)}
-                          >
-                            <span>Call Us</span>
-                          </a>
-                          <a
-                            href="mailto:hello@furbowl.in"
-                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
-                            onClick={() => setContactDropdownOpen(false)}
-                          >
-                            <span>Email Us</span>
-                          </a>
-                          <a
-                            href="https://wa.me/919876543210"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium text-plum-900 hover:bg-[#faf6ed] hover:text-coral-500 rounded-xl transition-colors"
-                            onClick={() => setContactDropdownOpen(false)}
-                          >
-                            <span>WhatsApp Us</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`text-xs sm:text-sm font-semibold transition-colors hover:text-coral-500 ${
-                      isActive ? 'text-coral-500' : 'text-plum-900/90'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </nav>
+            ...
           </div>
         </div>
+        */}
       </header>
 
       <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />

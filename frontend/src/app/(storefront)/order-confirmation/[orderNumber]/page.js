@@ -13,7 +13,7 @@ export default function OrderConfirmationPage({ params }) {
           </svg>
         </div>
 
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">Order Confirmed! 🐾</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-3">Order Confirmed!</h1>
         <p className="text-gray-600 mb-2">Thank you for your order.</p>
         <p className="text-gray-500 text-sm mb-8">
           Order number: <span className="font-semibold text-gray-900">#{orderNumber}</span>

@@ -6,44 +6,75 @@ import Link from 'next/link';
 export const metadata = {
   title: 'Shop Fresh Dog Food',
   description:
-    'Shop all FurBowl fresh dog food — Chicken Rice, Paneer Medley, Egg Superfood, Lamb & Lentils, Chicken Broth. Made with real, human-grade ingredients.',
+    'Shop all FurBowl fresh dog food — Chicken Harvest, Chicken Homestyle, Golden Egg & Quinoa, Paneer & Greens, Lamb Lentil Harvest, Golden Chicken Broth. Made with real, human-grade ingredients.',
 };
 
 const PLACEHOLDER_PRODUCTS = [
   {
-    id: '1', name: 'Chicken Rice with Vegetables', slug: 'chicken-rice-with-vegetables',
-    shortDescription: 'Complete meal with real chicken, rice & amla.',
-    isVeg: false, isFeatured: true, foodType: 'WET',
-    images: [{ url: '/images/products/only-chicken-rice-front.jpg', altText: 'Chicken Rice with Vegetables' }],
+    id: '1',
+    name: 'Chicken Harvest',
+    slug: 'chicken-harvest',
+    shortDescription: 'Wholesome nutrition with real chicken, pumpkin & garden veggies.',
+    isVeg: false,
+    isFeatured: true,
+    foodType: 'WET',
+    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken Harvest' }],
     variants: [{ mrp: 99, sellingPrice: 89 }],
   },
   {
-    id: '2', name: 'Chicken Broth', slug: 'chicken-broth',
-    shortDescription: 'Warm bone broth for hydration & digestion.',
-    isVeg: false, isFeatured: true, foodType: 'BROTH',
-    images: [{ url: '/images/products/only-chicken-broth-front.jpg', altText: 'Chicken Broth' }],
-    variants: [{ mrp: 129, sellingPrice: 109 }],
+    id: '2',
+    name: 'Chicken Homestyle',
+    slug: 'chicken-homestyle',
+    shortDescription: 'Homestyle slow-cooked chicken with rice, peas & pumpkin.',
+    isVeg: false,
+    isFeatured: true,
+    foodType: 'WET',
+    images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Homestyle' }],
+    variants: [{ mrp: 99, sellingPrice: 89 }],
   },
   {
-    id: '3', name: 'Paneer Medley', slug: 'paneer-medley',
-    shortDescription: 'Vegetarian meal with paneer, quinoa & superfoods.',
-    isVeg: true, isFeatured: true, foodType: 'WET',
-    images: [{ url: '/images/products/only-paneer-medley-front.jpg', altText: 'Paneer Medley' }],
+    id: '3',
+    name: 'Golden Egg & Quinoa',
+    slug: 'golden-egg-quinoa',
+    shortDescription: 'Farm-fresh eggs with superfood quinoa & pumpkin for active pups.',
+    isVeg: true,
+    isFeatured: true,
+    foodType: 'WET',
+    images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Golden Egg & Quinoa' }],
     variants: [{ mrp: 109, sellingPrice: 99 }],
   },
   {
-    id: '4', name: 'Lamb & Lentils with Vegetables', slug: 'lamb-lentils-with-vegetables',
-    shortDescription: 'Premium lamb with lentils & rosemary.',
-    isVeg: false, isFeatured: true, foodType: 'WET',
-    images: [{ url: '/images/products/only-lamb-lentils-front.jpg', altText: 'Lamb & Lentils' }],
+    id: '4',
+    name: 'Paneer & Greens',
+    slug: 'paneer-greens',
+    shortDescription: 'Fresh paneer cubes with spinach, carrots & green beans.',
+    isVeg: true,
+    isFeatured: true,
+    foodType: 'WET',
+    images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Greens' }],
+    variants: [{ mrp: 109, sellingPrice: 99 }],
+  },
+  {
+    id: '5',
+    name: 'Lamb Lentil Harvest',
+    slug: 'lamb-lentil-harvest',
+    shortDescription: 'Hearty slow-cooked lamb with red lentils, sweet potato & broccoli.',
+    isVeg: false,
+    isFeatured: true,
+    foodType: 'WET',
+    images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb Lentil Harvest' }],
     variants: [{ mrp: 119, sellingPrice: 109 }],
   },
   {
-    id: '5', name: 'Egg Superfood', slug: 'egg-superfood',
-    shortDescription: 'Highest-protein meal with turmeric & ashwagandha.',
-    isVeg: true, isFeatured: true, foodType: 'WET',
-    images: [{ url: '/images/products/only-egg-superfood-front.jpg', altText: 'Egg Superfood' }],
-    variants: [{ mrp: 109, sellingPrice: 99 }],
+    id: '6',
+    name: 'Golden Chicken Broth',
+    slug: 'golden-chicken-broth',
+    shortDescription: 'Warm bone broth for hydration, digestion & joint care.',
+    isVeg: false,
+    isFeatured: true,
+    foodType: 'BROTH',
+    images: [{ url: '/images/products/golden-chicken-broth-front.jpg', altText: 'Golden Chicken Broth' }],
+    variants: [{ mrp: 129, sellingPrice: 109 }],
   },
 ];
 
@@ -144,7 +175,7 @@ export default async function ShopPage({ searchParams }) {
   const { products, pagination } = await getProducts(params);
 
   return (
-    <div className="section-padding bg-[#faf6ed]">
+    <div className="section-padding bg-white">
       <div className="container-main">
         {/* Clean Minimal Header */}
         <div className="mb-6 pt-2">

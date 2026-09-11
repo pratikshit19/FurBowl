@@ -47,27 +47,26 @@ async function main() {
   });
   console.log('✅ Categories created: Meals, Broth');
 
-  // ─── Products ───────────────────────────────────────────────────────────
+  // ─── Products (6 Core Packaging Lineup) ───────────────────────────────────
 
-  // 1. Chicken Rice with Vegetables
-  const chickenRice = await prisma.product.upsert({
-    where: { slug: 'chicken-rice-with-vegetables' },
+  // 1. Chicken Harvest
+  const chickenHarvest = await prisma.product.upsert({
+    where: { slug: 'chicken-harvest' },
     update: {},
     create: {
       categoryId: meals.id,
-      name: 'Chicken Rice with Vegetables',
-      slug: 'chicken-rice-with-vegetables',
-      shortDescription: 'Complete fresh meal with real chicken, rice, and garden vegetables. Enriched with amla & flax seed.',
-      description: 'A wholesome, ready-to-eat meal crafted with real chicken as the primary ingredient, combined with nutritious rice, pumpkin, sweet potato, carrot, and green peas. Enriched with the goodness of amla and flax seed for immunity and digestion support. Made with human-grade ingredients — no artificial colors, flavors, or preservatives.',
+      name: 'Chicken Harvest',
+      slug: 'chicken-harvest',
+      shortDescription: 'Wholesome nutrition with real chicken, pumpkin & garden veggies.',
+      description: 'A vibrant, complete meal made with high-protein fresh chicken, pumpkin, sweet potatoes, and farm-fresh carrots. Packed with wholesome nutrition and zero artificial preservatives to keep your dog energized and thriving.',
       keyBenefits: [
         'Real chicken as #1 ingredient',
-        'High protein for muscle health',
-        'Amla & flax seed for immunity',
-        'Easy to digest',
-        'No added preservatives',
-        'Human-grade ingredients',
+        'Complete & balanced nutrition',
+        'Pumpkin for healthy digestion',
+        '100% human-grade ingredients',
+        'Zero artificial preservatives',
       ],
-      ingredients: 'Chicken, Rice, Pumpkin, Sweet Potato, Carrot, Green Peas, Amla, Flax Seed, Fish Oil, Minerals & Vitamins.',
+      ingredients: 'Fresh Chicken, Pumpkin, Sweet Potato, Carrots, Peas, Brown Rice, Flaxseed Oil, Essential Vitamins & Chelated Minerals.',
       nutritionalInfo: {
         energy: '110 kcal/100g',
         crudeProtein: '10%',
@@ -88,24 +87,24 @@ async function main() {
         { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
         { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
       ],
-      dietChangeGuide: 'Introduce Furbowl gradually over 7 days to help your pet adjust to the new food. Day 1-2: 25%, Day 3-4: 50%, Day 5-6: 75%, Day 7: 100%',
+      dietChangeGuide: 'Introduce FurBowl gradually over 7 days to help your pet adjust to the new food.',
       suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
       lifeStages: ['puppy', 'adult'],
       foodType: 'WET',
       isVeg: false,
       isFeatured: true,
       sortOrder: 1,
-      metaTitle: 'Chicken Rice with Vegetables | Fresh Dog Food | FurBowl',
-      metaDescription: 'Ready-to-eat chicken rice with vegetables for dogs. Made with real chicken, amla & flax seed. No preservatives. Shop FurBowl fresh dog food.',
+      metaTitle: 'Chicken Harvest | Fresh Dog Food | FurBowl',
+      metaDescription: 'Wholesome Chicken Harvest fresh dog food. Real chicken, pumpkin, sweet potato & carrots. Shop FurBowl.',
     },
   });
 
   await prisma.productVariant.upsert({
-    where: { sku: 'FB-CRV-100G' },
+    where: { sku: 'FB-CH-100G' },
     update: {},
     create: {
-      productId: chickenRice.id,
-      sku: 'FB-CRV-100G',
+      productId: chickenHarvest.id,
+      sku: 'FB-CH-100G',
       name: '100g',
       weightValue: 100,
       weightUnit: 'g',
@@ -118,155 +117,48 @@ async function main() {
   });
 
   await prisma.productImage.upsert({
-    where: { id: 'img-crv-1' },
+    where: { id: 'img-ch-1' },
     update: {},
     create: {
-      id: 'img-crv-1',
-      productId: chickenRice.id,
-      url: '/images/products/chicken-rice-front.jpg',
-      altText: 'FurBowl Chicken Rice with Vegetables - Front',
+      id: 'img-ch-1',
+      productId: chickenHarvest.id,
+      url: '/images/products/chicken-harvest-front.jpg',
+      altText: 'FurBowl Chicken Harvest - Front',
       sortOrder: 1,
       isPrimary: true,
     },
   });
 
-  await prisma.productImage.upsert({
-    where: { id: 'img-crv-2' },
-    update: {},
-    create: {
-      id: 'img-crv-2',
-      productId: chickenRice.id,
-      url: '/images/products/chicken-rice-back.jpg',
-      altText: 'FurBowl Chicken Rice with Vegetables - Back with nutritional info',
-      sortOrder: 2,
-      isPrimary: false,
-    },
-  });
-
-  // 2. Chicken Broth
-  const chickenBroth = await prisma.product.upsert({
-    where: { slug: 'chicken-broth' },
-    update: {},
-    create: {
-      categoryId: broth.id,
-      name: 'Chicken Broth',
-      slug: 'chicken-broth',
-      shortDescription: 'Warm, nourishing bone broth made with real chicken bones and apple cider vinegar. Easy to digest.',
-      description: 'A warm, nourishing bone broth made from real chicken bones, chicken neck, and chicken feet, simmered with apple cider vinegar to extract maximum nutrition. This hydrating supplement supports digestion, joint health, and overall well-being. Can be served warm or at room temperature.',
-      keyBenefits: [
-        'Real bone broth — not powder-based',
-        'Supports digestion',
-        'Hydrating & nourishing',
-        'Joint health support',
-        'No added preservatives',
-        'Easy to digest',
-      ],
-      ingredients: 'Chicken Bones, Chicken Neck, Chicken Feet, Apple Cider Vinegar, Water.',
-      nutritionalInfo: {
-        crudeProtein: '<1.0%',
-        crudeFat: '<0.5%',
-        crudeFiber: '<0.5%',
-        moisture: '>98.0%',
-        ash: '<2.0%',
-      },
-      formulation: {
-        protein: { min: 1, unit: '%' },
-        fat: { min: 0.5, unit: '%' },
-        fiber: { max: 0.5, unit: '%' },
-        moisture: { max: 98, unit: '%' },
-        ash: { max: 2, unit: '%' },
-      },
-      feedingGuide: [
-        { weight: 'Up to 5 kg', daily: '50 – 100 ml' },
-        { weight: '5 – 15 kg', daily: '100 – 200 ml' },
-        { weight: '15 – 30 kg', daily: '200 – 300 ml' },
-        { weight: '30 kg & above', daily: '300+ ml' },
-      ],
-      suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
-      lifeStages: ['puppy', 'adult'],
-      foodType: 'BROTH',
-      isVeg: false,
-      isFeatured: true,
-      sortOrder: 2,
-      metaTitle: 'Chicken Broth for Dogs | Bone Broth Supplement | FurBowl',
-      metaDescription: 'Real chicken bone broth for dogs. Warm, nourishing, and easy to digest. Supports hydration and joint health. Shop FurBowl.',
-    },
-  });
-
-  await prisma.productVariant.upsert({
-    where: { sku: 'FB-CB-200ML' },
-    update: {},
-    create: {
-      productId: chickenBroth.id,
-      sku: 'FB-CB-200ML',
-      name: '200ml',
-      weightValue: 200,
-      weightUnit: 'ml',
-      mrp: 129,
-      sellingPrice: 109,
-      discountPercent: 15.5,
-      stockQuantity: 80,
-      sortOrder: 1,
-    },
-  });
-
-  await prisma.productImage.upsert({
-    where: { id: 'img-cb-1' },
-    update: {},
-    create: {
-      id: 'img-cb-1',
-      productId: chickenBroth.id,
-      url: '/images/products/chicken-broth-front.jpg',
-      altText: 'FurBowl Chicken Broth - Front',
-      sortOrder: 1,
-      isPrimary: true,
-    },
-  });
-
-  await prisma.productImage.upsert({
-    where: { id: 'img-cb-2' },
-    update: {},
-    create: {
-      id: 'img-cb-2',
-      productId: chickenBroth.id,
-      url: '/images/products/chicken-broth-back.jpg',
-      altText: 'FurBowl Chicken Broth - Back with nutritional info',
-      sortOrder: 2,
-      isPrimary: false,
-    },
-  });
-
-  // 3. Paneer Medley
-  const paneerMedley = await prisma.product.upsert({
-    where: { slug: 'paneer-medley' },
+  // 2. Chicken Homestyle
+  const chickenHomestyle = await prisma.product.upsert({
+    where: { slug: 'chicken-homestyle' },
     update: {},
     create: {
       categoryId: meals.id,
-      name: 'Paneer Medley',
-      slug: 'paneer-medley',
-      shortDescription: 'Vegetarian fresh meal with paneer, quinoa, and superfoods. Enriched with chia seed & flax seed.',
-      description: 'A delicious vegetarian meal featuring paneer as the primary protein source, combined with quinoa, rice, and a medley of vegetables including carrot, green peas, pumpkin, and spinach. Enriched with yellow dal, chia seed, and flax seed for complete nutrition. Perfect for dogs with poultry sensitivities.',
+      name: 'Chicken Homestyle',
+      slug: 'chicken-homestyle',
+      shortDescription: 'Homestyle slow-cooked chicken with rice, peas & pumpkin.',
+      description: 'Inspired by comforting home-cooked meals, Chicken Homestyle combines tender shredded chicken with soft-steamed brown rice, tender green peas, and golden pumpkin. Gentle on the stomach and loved by picky eaters.',
       keyBenefits: [
-        '100% vegetarian',
-        'Paneer as primary protein',
-        'Quinoa & chia seed superfoods',
-        'High protein for muscle health',
-        'Easy to digest',
-        'No added preservatives',
+        'Gentle on sensitive tummies',
+        'Lean, bioavailable chicken protein',
+        'High fiber for digestive regularity',
+        'Human-grade ingredients',
+        'Zero fillers or preservatives',
       ],
-      ingredients: 'Paneer, Rice, Quinoa, Carrot, Green Peas, Pumpkin, Spinach, Yellow Dal, Chia Seed, Flax Seed & Minerals.',
+      ingredients: 'Chicken, Steamed Brown Rice, Green Peas, Pumpkin, Carrots, Cold-Pressed Coconut Oil, Mineral & Vitamin Blend.',
       nutritionalInfo: {
-        energy: '120 kcal/100g',
-        crudeProtein: '12%',
-        crudeFat: '6%',
-        crudeFiber: '1.5%',
-        moisture: '72%',
+        energy: '108 kcal/100g',
+        crudeProtein: '9.5%',
+        crudeFat: '4.8%',
+        crudeFiber: '1.8%',
+        moisture: '77%',
       },
       formulation: {
-        protein: { min: 12, unit: '%' },
-        fat: { min: 6, unit: '%' },
-        fiber: { max: 1.5, unit: '%' },
-        moisture: { max: 72, unit: '%' },
+        protein: { min: 9.5, unit: '%' },
+        fat: { min: 4.8, unit: '%' },
+        fiber: { max: 1.8, unit: '%' },
+        moisture: { max: 77, unit: '%' },
         ash: { max: 2, unit: '%' },
       },
       feedingGuide: [
@@ -275,24 +167,104 @@ async function main() {
         { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
         { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
       ],
-      dietChangeGuide: 'Introduce Furbowl gradually over 7 days to help your pet adjust to the new food. Day 1-2: 25%, Day 3-4: 50%, Day 5-6: 75%, Day 7: 100%',
+      dietChangeGuide: 'Introduce FurBowl gradually over 7 days.',
+      suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
+      lifeStages: ['puppy', 'adult'],
+      foodType: 'WET',
+      isVeg: false,
+      isFeatured: true,
+      sortOrder: 2,
+      metaTitle: 'Chicken Homestyle | Fresh Dog Food | FurBowl',
+      metaDescription: 'Comforting Chicken Homestyle fresh dog food with rice, peas and pumpkin. 100% human grade. Shop FurBowl.',
+    },
+  });
+
+  await prisma.productVariant.upsert({
+    where: { sku: 'FB-CHS-100G' },
+    update: {},
+    create: {
+      productId: chickenHomestyle.id,
+      sku: 'FB-CHS-100G',
+      name: '100g',
+      weightValue: 100,
+      weightUnit: 'g',
+      mrp: 99,
+      sellingPrice: 89,
+      discountPercent: 10.1,
+      stockQuantity: 100,
+      sortOrder: 1,
+    },
+  });
+
+  await prisma.productImage.upsert({
+    where: { id: 'img-chs-1' },
+    update: {},
+    create: {
+      id: 'img-chs-1',
+      productId: chickenHomestyle.id,
+      url: '/images/products/chicken-homestyle-front.jpg',
+      altText: 'FurBowl Chicken Homestyle - Front',
+      sortOrder: 1,
+      isPrimary: true,
+    },
+  });
+
+  // 3. Golden Egg & Quinoa
+  const goldenEggQuinoa = await prisma.product.upsert({
+    where: { slug: 'golden-egg-quinoa' },
+    update: {},
+    create: {
+      categoryId: meals.id,
+      name: 'Golden Egg & Quinoa',
+      slug: 'golden-egg-quinoa',
+      shortDescription: 'Farm-fresh eggs with superfood quinoa & pumpkin for active pups.',
+      description: 'A protein-rich vegetarian power bowl combining farm-fresh whole eggs with ancient quinoa, fiber-dense pumpkin, and crisp zucchini. An optimal amino acid profile that builds lean muscle and supports sustained play.',
+      keyBenefits: [
+        'Complete amino acid profile from farm eggs',
+        'Antioxidant-rich quinoa superfood',
+        'Supports active energy & stamina',
+        'Omega-3 fatty acids for coat shine',
+        '100% human-grade ingredients',
+      ],
+      ingredients: 'Whole Farm-Fresh Eggs, Ancient Quinoa, Pumpkin, Zucchini, Chia Seeds, Spinach, Flaxseed, Calcium & Trace Minerals.',
+      nutritionalInfo: {
+        energy: '115 kcal/100g',
+        crudeProtein: '11%',
+        crudeFat: '6%',
+        crudeFiber: '2%',
+        moisture: '75%',
+      },
+      formulation: {
+        protein: { min: 11, unit: '%' },
+        fat: { min: 6, unit: '%' },
+        fiber: { max: 2, unit: '%' },
+        moisture: { max: 75, unit: '%' },
+        ash: { max: 2, unit: '%' },
+      },
+      feedingGuide: [
+        { weight: 'Up to 5 kg', daily: '1/2 – 1 pack' },
+        { weight: '5 – 15 kg', daily: '1 – 1.5 packs' },
+        { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
+        { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
+      ],
+      dietChangeGuide: 'Introduce FurBowl gradually over 7 days.',
       suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
       lifeStages: ['puppy', 'adult'],
       foodType: 'WET',
       isVeg: true,
       isFeatured: true,
       sortOrder: 3,
-      metaTitle: 'Paneer Medley | Vegetarian Dog Food | FurBowl',
-      metaDescription: 'Vegetarian fresh dog food with paneer, quinoa & superfoods. High protein, easy to digest. No preservatives. Shop FurBowl.',
+      metaTitle: 'Golden Egg & Quinoa | Vegetarian Dog Food | FurBowl',
+      metaDescription: 'High-protein egg & quinoa fresh dog food with pumpkin & zucchini. 100% human-grade. Shop FurBowl.',
     },
   });
 
   await prisma.productVariant.upsert({
-    where: { sku: 'FB-PM-100G' },
+    where: { sku: 'FB-GEQ-100G' },
     update: {},
     create: {
-      productId: paneerMedley.id,
-      sku: 'FB-PM-100G',
+      productId: goldenEggQuinoa.id,
+      sku: 'FB-GEQ-100G',
       name: '100g',
       weightValue: 100,
       weightUnit: 'g',
@@ -305,61 +277,47 @@ async function main() {
   });
 
   await prisma.productImage.upsert({
-    where: { id: 'img-pm-1' },
+    where: { id: 'img-geq-1' },
     update: {},
     create: {
-      id: 'img-pm-1',
-      productId: paneerMedley.id,
-      url: '/images/products/paneer-medley-front.jpg',
-      altText: 'FurBowl Paneer Medley - Front',
+      id: 'img-geq-1',
+      productId: goldenEggQuinoa.id,
+      url: '/images/products/golden-egg-quinoa-front.jpg',
+      altText: 'FurBowl Golden Egg & Quinoa - Front',
       sortOrder: 1,
       isPrimary: true,
     },
   });
 
-  await prisma.productImage.upsert({
-    where: { id: 'img-pm-2' },
-    update: {},
-    create: {
-      id: 'img-pm-2',
-      productId: paneerMedley.id,
-      url: '/images/products/paneer-medley-back.jpg',
-      altText: 'FurBowl Paneer Medley - Back with nutritional info',
-      sortOrder: 2,
-      isPrimary: false,
-    },
-  });
-
-  // 4. Lamb & Lentils with Vegetables
-  const lambLentils = await prisma.product.upsert({
-    where: { slug: 'lamb-lentils-with-vegetables' },
+  // 4. Paneer & Greens
+  const paneerGreens = await prisma.product.upsert({
+    where: { slug: 'paneer-greens' },
     update: {},
     create: {
       categoryId: meals.id,
-      name: 'Lamb & Lentils with Vegetables',
-      slug: 'lamb-lentils-with-vegetables',
-      shortDescription: 'Premium fresh meal with boneless lamb, lentils, and superfoods. Rich in antioxidants & essential nutrients.',
-      description: 'A premium, protein-rich meal featuring boneless lamb as the primary ingredient, paired with masoor lentils for sustained energy. Enriched with pumpkin, carrot, sweet potato, peas, lamb liver, flax seeds, fish oil, rosemary, and essential minerals & vitamins. Rich in antioxidants and essential nutrients for overall health.',
+      name: 'Paneer & Greens',
+      slug: 'paneer-greens',
+      shortDescription: 'Fresh paneer cubes with spinach, carrots & green beans.',
+      description: 'A delicious vegetarian recipe featuring premium paneer cubes rich in calcium and clean protein, gently tossed with tender spinach, garden green beans, and sweet carrots. Crafted for optimal gut health and glowing coats.',
       keyBenefits: [
-        'Real boneless lamb as #1 ingredient',
-        'Lentils for sustained energy',
-        'Rich in antioxidants',
-        'Rosemary for natural freshness',
-        'Lamb liver for organ nutrition',
-        'No added preservatives',
+        'Fresh paneer rich in natural calcium',
+        'Antioxidant greens (spinach & beans)',
+        'Supports gut health & smooth digestion',
+        'Ideal for meat-sensitive dogs',
+        'Zero preservatives or artificial colors',
       ],
-      ingredients: 'Lamb (Boneless), Lentils (Masoor), Pumpkin, Carrot, Sweet Potato, Peas, Lamb Liver, Flax Seeds, Fish Oil, Minerals & Vitamins, Rosemary.',
+      ingredients: 'Fresh Paneer (Cottage Cheese), Baby Spinach, Green Beans, Carrots, Brown Rice, Turmeric, Cold-Pressed Flaxseed Oil, Vitamins & Minerals.',
       nutritionalInfo: {
-        energy: '125 kcal/100g',
-        crudeProtein: '11%',
-        crudeFat: '6%',
-        crudeFiber: '1.5%',
+        energy: '112 kcal/100g',
+        crudeProtein: '9%',
+        crudeFat: '6.5%',
+        crudeFiber: '2.2%',
         moisture: '76%',
       },
       formulation: {
-        protein: { min: 11, unit: '%' },
-        fat: { min: 6, unit: '%' },
-        fiber: { max: 1.5, unit: '%' },
+        protein: { min: 9, unit: '%' },
+        fat: { min: 6.5, unit: '%' },
+        fiber: { max: 2.2, unit: '%' },
         moisture: { max: 76, unit: '%' },
         ash: { max: 2, unit: '%' },
       },
@@ -369,24 +327,104 @@ async function main() {
         { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
         { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
       ],
-      dietChangeGuide: 'Introduce Furbowl gradually over 7 days to help your pet adjust to the new food. Day 1-2: 25%, Day 3-4: 50%, Day 5-6: 75%, Day 7: 100%',
+      dietChangeGuide: 'Introduce FurBowl gradually over 7 days.',
       suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
       lifeStages: ['puppy', 'adult'],
       foodType: 'WET',
-      isVeg: false,
+      isVeg: true,
       isFeatured: true,
       sortOrder: 4,
-      metaTitle: 'Lamb & Lentils with Vegetables | Fresh Dog Food | FurBowl',
-      metaDescription: 'Premium lamb & lentils fresh dog food with superfoods & herbs. High protein, rich in antioxidants. No preservatives. Shop FurBowl.',
+      metaTitle: 'Paneer & Greens | Vegetarian Dog Food | FurBowl',
+      metaDescription: 'Vegetarian fresh dog food with paneer, spinach, carrots & green beans. Calcium-rich. Shop FurBowl.',
     },
   });
 
   await prisma.productVariant.upsert({
-    where: { sku: 'FB-LLV-100G' },
+    where: { sku: 'FB-PG-100G' },
     update: {},
     create: {
-      productId: lambLentils.id,
-      sku: 'FB-LLV-100G',
+      productId: paneerGreens.id,
+      sku: 'FB-PG-100G',
+      name: '100g',
+      weightValue: 100,
+      weightUnit: 'g',
+      mrp: 109,
+      sellingPrice: 99,
+      discountPercent: 9.2,
+      stockQuantity: 90,
+      sortOrder: 1,
+    },
+  });
+
+  await prisma.productImage.upsert({
+    where: { id: 'img-pg-1' },
+    update: {},
+    create: {
+      id: 'img-pg-1',
+      productId: paneerGreens.id,
+      url: '/images/products/paneer-greens-front.jpg',
+      altText: 'FurBowl Paneer & Greens - Front',
+      sortOrder: 1,
+      isPrimary: true,
+    },
+  });
+
+  // 5. Lamb Lentil Harvest
+  const lambLentilHarvest = await prisma.product.upsert({
+    where: { slug: 'lamb-lentil-harvest' },
+    update: {},
+    create: {
+      categoryId: meals.id,
+      name: 'Lamb Lentil Harvest',
+      slug: 'lamb-lentil-harvest',
+      shortDescription: 'Hearty slow-cooked lamb with red lentils, sweet potato & broccoli.',
+      description: 'A nutrient-dense gourmet feast featuring succulent, slow-cooked lamb paired with hearty lentils, vitamin-rich sweet potatoes, and fresh broccoli. Packed with bioavailable iron, zinc, and B-vitamins to build strength and fuel vitality.',
+      keyBenefits: [
+        'Rich red meat protein from tender lamb',
+        'Iron and B-vitamins for stamina',
+        'Dietary fiber from hearty lentils',
+        'Supports joint mobility & strength',
+        'No artificial additives or preservatives',
+      ],
+      ingredients: 'Fresh Lamb, Red Lentils, Sweet Potato, Broccoli, Green Peas, Sunflower Oil, Rosemary Extract, Essential Vitamins & Chelated Minerals.',
+      nutritionalInfo: {
+        energy: '122 kcal/100g',
+        crudeProtein: '12%',
+        crudeFat: '7%',
+        crudeFiber: '1.6%',
+        moisture: '74%',
+      },
+      formulation: {
+        protein: { min: 12, unit: '%' },
+        fat: { min: 7, unit: '%' },
+        fiber: { max: 1.6, unit: '%' },
+        moisture: { max: 74, unit: '%' },
+        ash: { max: 2, unit: '%' },
+      },
+      feedingGuide: [
+        { weight: 'Up to 5 kg', daily: '1/2 – 1 pack' },
+        { weight: '5 – 15 kg', daily: '1 – 1.5 packs' },
+        { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
+        { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
+      ],
+      dietChangeGuide: 'Introduce FurBowl gradually over 7 days.',
+      suitableFor: 'Adult & Senior Dogs – All Breeds',
+      lifeStages: ['puppy', 'adult'],
+      foodType: 'WET',
+      isVeg: false,
+      isFeatured: true,
+      sortOrder: 5,
+      metaTitle: 'Lamb Lentil Harvest | Premium Dog Food | FurBowl',
+      metaDescription: 'Hearty slow-cooked lamb with red lentils, sweet potato & broccoli. High iron and protein. Shop FurBowl.',
+    },
+  });
+
+  await prisma.productVariant.upsert({
+    where: { sku: 'FB-LLH-100G' },
+    update: {},
+    create: {
+      productId: lambLentilHarvest.id,
+      sku: 'FB-LLH-100G',
       name: '100g',
       weightValue: 100,
       weightUnit: 'g',
@@ -399,126 +437,99 @@ async function main() {
   });
 
   await prisma.productImage.upsert({
-    where: { id: 'img-llv-1' },
+    where: { id: 'img-llh-1' },
     update: {},
     create: {
-      id: 'img-llv-1',
-      productId: lambLentils.id,
-      url: '/images/products/lamb-lentils-front.jpg',
-      altText: 'FurBowl Lamb & Lentils with Vegetables - Front',
+      id: 'img-llh-1',
+      productId: lambLentilHarvest.id,
+      url: '/images/products/lamb-lentil-harvest-front.jpg',
+      altText: 'FurBowl Lamb Lentil Harvest - Front',
       sortOrder: 1,
       isPrimary: true,
     },
   });
 
-  await prisma.productImage.upsert({
-    where: { id: 'img-llv-2' },
+  // 6. Golden Chicken Broth
+  const goldenChickenBroth = await prisma.product.upsert({
+    where: { slug: 'golden-chicken-broth' },
     update: {},
     create: {
-      id: 'img-llv-2',
-      productId: lambLentils.id,
-      url: '/images/products/lamb-lentils-back.jpg',
-      altText: 'FurBowl Lamb & Lentils with Vegetables - Back with nutritional info',
-      sortOrder: 2,
-      isPrimary: false,
-    },
-  });
-
-  // 5. Egg Superfood
-  const eggSuperfood = await prisma.product.upsert({
-    where: { slug: 'egg-superfood' },
-    update: {},
-    create: {
-      categoryId: meals.id,
-      name: 'Egg Superfood',
-      slug: 'egg-superfood',
-      shortDescription: 'Highest-protein vegetarian meal with egg, quinoa, turmeric & ashwagandha. Superfood-powered nutrition.',
-      description: 'Our highest-protein fresh meal, featuring egg as the primary ingredient combined with quinoa, carrot, spinach, sweet potato, and pumpkin. Supercharged with turmeric and ashwagandha for anti-inflammatory benefits and overall vitality. Flax seed adds omega-3 fatty acids for skin & coat health.',
+      categoryId: broth.id,
+      name: 'Golden Chicken Broth',
+      slug: 'golden-chicken-broth',
+      shortDescription: 'Warm bone broth for hydration, digestion & joint care.',
+      description: 'Slow-simmered for over 12 hours with chicken bones, sweet carrots, fresh herbs, and a touch of turmeric. Collagen-rich broth that promotes flexible joints, soothes sensitive stomachs, and turns everyday meals into an irresistible treat.',
       keyBenefits: [
-        'Highest protein (16%) in range',
-        'Turmeric & ashwagandha superfoods',
-        'Quinoa for complete amino acids',
-        'Anti-inflammatory benefits',
-        'Omega-3 from flax seed',
-        'No added preservatives',
+        'Rich in natural collagen & gelatin',
+        'Supports joint flexibility & gut lining',
+        'Boosts daily hydration naturally',
+        'Tempting aroma for picky eaters',
+        '100% natural, no preservatives',
       ],
-      ingredients: 'Egg, Quinoa, Carrot, Spinach, Sweet Potato, Pumpkin, Flax Seed, Turmeric, Ashwagandha & Minerals.',
+      ingredients: 'Slow-Simmered Chicken Bone Broth, Fresh Carrots, Turmeric, Parsley, Apple Cider Vinegar.',
       nutritionalInfo: {
-        energy: '130 kcal/100g',
-        crudeProtein: '16%',
-        crudeFat: '6%',
-        crudeFiber: '1.5%',
-        moisture: '72%',
+        energy: '35 kcal/100g',
+        crudeProtein: '4.5%',
+        crudeFat: '1.2%',
+        crudeFiber: '0.2%',
+        moisture: '92%',
       },
       formulation: {
-        protein: { min: 16, unit: '%' },
-        fat: { min: 6, unit: '%' },
-        fiber: { max: 1.5, unit: '%' },
-        moisture: { max: 72, unit: '%' },
-        ash: { max: 2, unit: '%' },
+        protein: { min: 4.5, unit: '%' },
+        fat: { min: 1.2, unit: '%' },
+        fiber: { max: 0.2, unit: '%' },
+        moisture: { max: 92, unit: '%' },
+        ash: { max: 1.5, unit: '%' },
       },
       feedingGuide: [
-        { weight: 'Up to 5 kg', daily: '1/2 – 1 pack' },
-        { weight: '5 – 15 kg', daily: '1 – 1.5 packs' },
-        { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
-        { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
+        { weight: 'Up to 5 kg', daily: '50 – 100 ml as topper' },
+        { weight: '5 – 15 kg', daily: '100 – 150 ml as topper' },
+        { weight: '15 – 30 kg', daily: '150 – 200 ml as topper' },
+        { weight: '30 kg & above', daily: '200 – 300 ml as topper' },
       ],
-      dietChangeGuide: 'Introduce Furbowl gradually over 7 days to help your pet adjust to the new food. Day 1-2: 25%, Day 3-4: 50%, Day 5-6: 75%, Day 7: 100%',
-      suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
+      dietChangeGuide: 'Can be poured over dry food or served warm alone.',
+      suitableFor: 'All Dogs & Puppies – Especially Picky Eaters & Seniors',
       lifeStages: ['puppy', 'adult'],
-      foodType: 'WET',
-      isVeg: true,
+      foodType: 'BROTH',
+      isVeg: false,
       isFeatured: true,
-      sortOrder: 5,
-      metaTitle: 'Egg Superfood | High-Protein Dog Food | FurBowl',
-      metaDescription: 'Egg superfood fresh dog food with quinoa, turmeric & ashwagandha. 16% protein, anti-inflammatory superfoods. No preservatives. Shop FurBowl.',
+      sortOrder: 6,
+      metaTitle: 'Golden Chicken Broth | Bone Broth Supplement | FurBowl',
+      metaDescription: 'Slow-simmered chicken bone broth for dogs with turmeric and carrots. Supports joint care & hydration. Shop FurBowl.',
     },
   });
 
   await prisma.productVariant.upsert({
-    where: { sku: 'FB-ES-100G' },
+    where: { sku: 'FB-GCB-100G' },
     update: {},
     create: {
-      productId: eggSuperfood.id,
-      sku: 'FB-ES-100G',
+      productId: goldenChickenBroth.id,
+      sku: 'FB-GCB-100G',
       name: '100g',
       weightValue: 100,
       weightUnit: 'g',
-      mrp: 109,
-      sellingPrice: 99,
-      discountPercent: 9.2,
-      stockQuantity: 85,
+      mrp: 129,
+      sellingPrice: 109,
+      discountPercent: 15.5,
+      stockQuantity: 80,
       sortOrder: 1,
     },
   });
 
   await prisma.productImage.upsert({
-    where: { id: 'img-es-1' },
+    where: { id: 'img-gcb-1' },
     update: {},
     create: {
-      id: 'img-es-1',
-      productId: eggSuperfood.id,
-      url: '/images/products/egg-superfood-front.jpg',
-      altText: 'FurBowl Egg Superfood - Front',
+      id: 'img-gcb-1',
+      productId: goldenChickenBroth.id,
+      url: '/images/products/golden-chicken-broth-front.jpg',
+      altText: 'FurBowl Golden Chicken Broth - Front',
       sortOrder: 1,
       isPrimary: true,
     },
   });
 
-  await prisma.productImage.upsert({
-    where: { id: 'img-es-2' },
-    update: {},
-    create: {
-      id: 'img-es-2',
-      productId: eggSuperfood.id,
-      url: '/images/products/egg-superfood-back.jpg',
-      altText: 'FurBowl Egg Superfood - Back with nutritional info',
-      sortOrder: 2,
-      isPrimary: false,
-    },
-  });
-
-  console.log('✅ All 5 products created with variants and images');
+  console.log('✅ All 6 packaging lineup products created with variants and images');
 
   // ─── FAQs ───────────────────────────────────────────────────────────────
   const faqs = [

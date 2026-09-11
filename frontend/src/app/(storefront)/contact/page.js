@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { MapPin, Mail, Clock, CheckCircle2 } from 'lucide-react';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -21,12 +22,11 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="section-padding bg-gray-50/50">
-      <div className="container-main max-w-4xl mx-auto">
+    <div className="section-padding bg-butter-50 min-h-screen">
+      <div className="container-main max-w-4xl py-12">
         <div className="text-center mb-12">
-          <p className="text-turquoise-600 text-sm font-semibold uppercase tracking-wider mb-2">Get in Touch</p>
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">We'd Love to Hear From You</h1>
-          <p className="text-gray-500 max-w-md mx-auto">Have questions about our food, subscriptions, or orders? Drop us a message.</p>
+          <h1 className="text-3xl sm:text-4xl font-black text-plum-900 mb-2">Get in Touch</h1>
+          <p className="text-plum-900/60 font-medium">Have questions about our recipes, delivery, or custom diets? We’d love to hear from you.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -34,7 +34,7 @@ export default function ContactPage() {
           <div className="space-y-6">
             <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
               <div className="w-10 h-10 rounded-full bg-turquoise-50 text-turquoise-600 flex items-center justify-center mb-3">
-                📍
+                <MapPin className="w-5 h-5" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">Our Location</h3>
               <p className="text-sm text-gray-500">India (Shipping nationwide)</p>
@@ -42,7 +42,7 @@ export default function ContactPage() {
 
             <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
               <div className="w-10 h-10 rounded-full bg-turquoise-50 text-turquoise-600 flex items-center justify-center mb-3">
-                ✉️
+                <Mail className="w-5 h-5" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
               <p className="text-sm text-gray-500">hello@furbowl.in</p>
@@ -50,7 +50,7 @@ export default function ContactPage() {
 
             <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
               <div className="w-10 h-10 rounded-full bg-turquoise-50 text-turquoise-600 flex items-center justify-center mb-3">
-                ⏰
+                <Clock className="w-5 h-5" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">Support Hours</h3>
               <p className="text-sm text-gray-500">Mon - Sat: 10 AM - 6 PM IST</p>
@@ -61,10 +61,12 @@ export default function ContactPage() {
           <div className="md:col-span-2 bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
             {submitted ? (
               <div className="text-center py-12">
-                <div className="text-5xl mb-4">🎉</div>
+                <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle2 className="w-8 h-8" />
+                </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">Message Received!</h3>
                 <p className="text-gray-500 text-sm mb-6">Thank you for reaching out. Our team will respond within 24 hours.</p>
-                <button onClick={() => setSubmitted(false)} className="text-turquoise-600 font-semibold text-sm hover:underline">
+                <button onClick={() => setSubmitted(false)} className="text-turquoise-600 font-semibold text-sm hover:underline cursor-pointer">
                   Send another message
                 </button>
               </div>
