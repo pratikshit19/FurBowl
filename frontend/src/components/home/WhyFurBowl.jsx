@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 const PILLARS = [
   {
@@ -60,17 +61,20 @@ export default function WhyFurBowl() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {PILLARS.map((pillar) => (
-              <div
-                key={pillar.id}
-                className="bg-[#f0fafb] p-6 rounded-sm border border-[#15aec0]/20 hover:border-[#15aec0]/40 hover:shadow-md transition-all duration-300 group"
-              >
-                <div className="w-11 h-11 rounded-sm bg-[#cff0f3] text-[#15aec0] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
-                  {pillar.icon}
+            {PILLARS.map((pillar, idx) => (
+              <ScrollReveal key={pillar.id} delay={idx * 80} className="h-full">
+                <div
+                  className="bg-[#f0fafb] p-6 rounded-sm border border-[#15aec0]/20 hover:border-[#15aec0]/40 hover:shadow-md transition-all duration-300 group h-full flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="w-11 h-11 rounded-sm bg-[#cff0f3] text-[#15aec0] flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                      {pillar.icon}
+                    </div>
+                    <h3 className="font-bold text-plum-900 text-base mb-2">{pillar.title}</h3>
+                    <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed font-normal">{pillar.body}</p>
+                  </div>
                 </div>
-                <h3 className="font-bold text-plum-900 text-base mb-2">{pillar.title}</h3>
-                <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed font-normal">{pillar.body}</p>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ProductCard from '@/components/product/ProductCard';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 const PLACEHOLDER_PRODUCTS = [
   {
@@ -100,8 +101,10 @@ export default function FeaturedProducts({ products }) {
 
         {/* Product Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-5">
-          {displayProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {displayProducts.map((product, idx) => (
+            <ScrollReveal key={product.id} delay={(idx % 6) * 60} className="h-full">
+              <ProductCard product={product} />
+            </ScrollReveal>
           ))}
         </div>
 

@@ -71,7 +71,7 @@ export default function ProductCard({ product, priority = false }) {
   };
 
   return (
-    <div className="group relative flex flex-col justify-between bg-white rounded-sm overflow-hidden border border-plum-900/10 hover:border-coral-500/40 shadow-xs hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+    <div className="group relative flex flex-col justify-between bg-white rounded-sm overflow-hidden border border-plum-900/10 hover:border-coral-500/40 shadow-xs hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5 h-full">
       {/* Image & Badges Container */}
       <Link
         href={`/shop/${product.slug}`}

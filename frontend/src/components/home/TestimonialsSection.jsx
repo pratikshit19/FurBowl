@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 const TESTIMONIALS = [
   {
@@ -82,20 +83,23 @@ export default function TestimonialsSection() {
 
         {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {TESTIMONIALS.slice(0, 3).map((review) => (
-            <div
-              key={review.id}
-              className="bg-gray-50 border border-gray-100 rounded-xl p-6"
-            >
-              <StarRating rating={review.rating} />
-              <blockquote className="mt-4 text-gray-700 text-sm leading-relaxed">
-                "{review.text}"
-              </blockquote>
-              <div className="mt-5 pt-5 border-t border-gray-200">
-                <p className="font-semibold text-gray-900 text-sm">{review.name}</p>
-                <p className="text-xs text-gray-500 mt-0.5">{review.dog} · {review.location}</p>
+          {TESTIMONIALS.slice(0, 3).map((review, idx) => (
+            <ScrollReveal key={review.id} delay={idx * 80} className="h-full">
+              <div
+                className="bg-gray-50 border border-gray-100 rounded-xl p-6 h-full flex flex-col justify-between"
+              >
+                <div>
+                  <StarRating rating={review.rating} />
+                  <blockquote className="mt-4 text-gray-700 text-sm leading-relaxed">
+                    "{review.text}"
+                  </blockquote>
+                </div>
+                <div className="mt-5 pt-5 border-t border-gray-200">
+                  <p className="font-semibold text-gray-900 text-sm">{review.name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{review.dog} · {review.location}</p>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 

@@ -62,8 +62,8 @@ export const PRODUCTS_NAV = [
 export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Our Products', href: '/shop', hasDropdown: true },
-  { label: 'Ingredients', href: '/#ingredients' },
-  { label: 'Find Their Favourites', href: '/find-food' },
+  { label: 'Plans', href: '/plans' },
+  { label: 'FurBowl Finder', href: '/find-food' },
   { label: 'About', href: '/about' },
   { label: 'FAQs', href: '/faq' },
 ];

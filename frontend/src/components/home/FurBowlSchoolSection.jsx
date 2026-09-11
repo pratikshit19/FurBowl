@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { SCHOOL_ARTICLES } from '@/lib/constants';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 export default function FurBowlSchoolSection() {
   return (
@@ -33,48 +34,49 @@ export default function FurBowlSchoolSection() {
 
         {/* 3 Articles Grid (Matching Screen 11) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-          {SCHOOL_ARTICLES.map((article) => (
-            <article
-              key={article.id}
-              className="bg-white rounded-3xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group"
-            >
-              <div>
-                {/* Article Image */}
-                <div className="relative w-full aspect-[16/10] overflow-hidden bg-butter-100">
-                  <Image
-                    src={article.image}
-                    alt={article.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-[11px] font-bold text-coral-600 px-3 py-1 rounded-full shadow-xs">
-                    {article.category}
+          {SCHOOL_ARTICLES.map((article, idx) => (
+            <ScrollReveal key={article.id} delay={idx * 100} className="h-full">
+              <article
+                className="bg-white rounded-3xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group h-full"
+              >
+                <div>
+                  {/* Article Image */}
+                  <div className="relative w-full aspect-[16/10] overflow-hidden bg-butter-100">
+                    <Image
+                      src={article.image}
+                      alt={article.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-xs text-[11px] font-bold text-coral-600 px-3 py-1 rounded-full shadow-xs">
+                      {article.category}
+                    </div>
+                  </div>
+
+                  {/* Article Content */}
+                  <div className="p-6">
+                    <div className="text-[11px] font-medium text-plum-900/40 mb-2">
+                      {article.readTime} • FurBowl Vet Editorial
+                    </div>
+
+                    <h3 className="text-xl font-black text-plum-900 group-hover:text-coral-600 transition-colors leading-snug mb-3">
+                      {article.title}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed font-normal">
+                      {article.summary}
+                    </p>
                   </div>
                 </div>
 
-                {/* Article Content */}
-                <div className="p-6">
-                  <div className="text-[11px] font-medium text-plum-900/40 mb-2">
-                    {article.readTime} • FurBowl Vet Editorial
-                  </div>
-
-                  <h3 className="text-xl font-black text-plum-900 group-hover:text-coral-600 transition-colors leading-snug mb-3">
-                    {article.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed font-normal">
-                    {article.summary}
-                  </p>
+                {/* Read More Link */}
+                <div className="px-6 pb-6 pt-2">
+                  <span className="text-xs font-bold text-plum-900 group-hover:text-coral-600 transition-colors inline-flex items-center gap-1">
+                    Read Guide <span>→</span>
+                  </span>
                 </div>
-              </div>
-
-              {/* Read More Link */}
-              <div className="px-6 pb-6 pt-2">
-                <span className="text-xs font-bold text-plum-900 group-hover:text-coral-600 transition-colors inline-flex items-center gap-1">
-                  Read Guide <span>→</span>
-                </span>
-              </div>
-            </article>
+              </article>
+            </ScrollReveal>
           ))}
         </div>
 

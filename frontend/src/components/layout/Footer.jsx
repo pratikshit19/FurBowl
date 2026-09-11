@@ -125,7 +125,7 @@ export default function Footer() {
               <li><Link href="/why-furbowl" className="hover:text-white hover:underline transition-colors">FurBowl School</Link></li>
               <li><Link href="/#ingredients" className="hover:text-white hover:underline transition-colors">Ingredients</Link></li>
               <li><Link href="/why-furbowl" className="hover:text-white hover:underline transition-colors">Feeding Guide</Link></li>
-              <li><Link href="/find-food" className="hover:text-white hover:underline transition-colors">Taste Profile Finder</Link></li>
+              <li><Link href="/find-food" className="hover:text-white hover:underline transition-colors">FurBowl Finder</Link></li>
             </ul>
           </div>
 

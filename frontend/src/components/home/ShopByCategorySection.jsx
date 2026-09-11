@@ -31,7 +31,7 @@ const CATEGORIES = [
     btnBg: 'bg-teal-50 text-teal-800 hover:bg-teal-500 hover:text-white',
     borderHover: 'hover:border-teal-300',
     priceText: 'Flexible Plans',
-    link: '/shop?category=monthly-packs',
+    link: '/plans',
     image: '/images/home/furbowl-box-bundle.jpg',
     alt: 'FurBowl eco-friendly monthly delivery box with fresh pouches and carrots',
     icon: CalendarCheck,

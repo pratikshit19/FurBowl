@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 const FAQS = [
   {
@@ -98,16 +99,18 @@ export default function FAQSection({ faqs }) {
           </div>
 
           {/* Right — Accordion */}
-          <div className="bg-white rounded-2xl border border-gray-100 px-6">
-            {displayFaqs.map((faq) => (
-              <AccordionItem
-                key={faq.id}
-                faq={faq}
-                isOpen={openId === faq.id}
-                onToggle={() => setOpenId(openId === faq.id ? null : faq.id)}
-              />
-            ))}
-          </div>
+          <ScrollReveal delay={100} className="w-full">
+            <div className="bg-white rounded-2xl border border-gray-100 px-6">
+              {displayFaqs.map((faq) => (
+                <AccordionItem
+                  key={faq.id}
+                  faq={faq}
+                  isOpen={openId === faq.id}
+                  onToggle={() => setOpenId(openId === faq.id ? null : faq.id)}
+                />
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Tractor, CookingPot, Package, Heart, Sparkles } from 'lucide-react';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 const STEPS = [
   {
@@ -72,41 +73,42 @@ export default function TraceYourMealSection() {
           <div className="hidden lg:block absolute top-12 left-16 right-16 h-0.5 border-t-2 border-dashed border-plum-900/20 z-0" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 relative z-10">
-            {STEPS.map((item) => {
+            {STEPS.map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div
-                  key={item.step}
-                  className="bg-white rounded-3xl border border-plum-900/10 p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-1"
-                >
-                  <div>
-                    {/* Step circle indicator */}
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-10 h-10 rounded-full bg-plum-900 text-white font-black text-sm flex items-center justify-center shadow-sm group-hover:bg-coral-500 transition-colors">
-                        {item.step}
+                <ScrollReveal key={item.step} delay={idx * 80} className="h-full">
+                  <div
+                    className="bg-white rounded-3xl border border-plum-900/10 p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-1 h-full"
+                  >
+                    <div>
+                      {/* Step circle indicator */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-10 h-10 rounded-full bg-plum-900 text-white font-black text-sm flex items-center justify-center shadow-sm group-hover:bg-coral-500 transition-colors">
+                          {item.step}
+                        </div>
+                        <span className="text-[10px] font-extrabold uppercase tracking-wider text-coral-600 bg-coral-500/10 px-2.5 py-1 rounded-full">
+                          {item.tag}
+                        </span>
                       </div>
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-coral-600 bg-coral-500/10 px-2.5 py-1 rounded-full">
-                        {item.tag}
-                      </span>
+
+                      {/* Icon illustration container */}
+                      <div className="w-16 h-16 rounded-2xl bg-butter-100 flex items-center justify-center text-plum-900 mb-4 group-hover:scale-110 transition-transform">
+                        <Icon className="w-8 h-8 text-coral-600" />
+                      </div>
+
+                      <h3 className="text-lg font-black text-plum-900 mb-1 leading-snug">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs font-bold text-coral-600 mb-2">
+                        {item.subtitle}
+                      </p>
                     </div>
 
-                    {/* Icon illustration container */}
-                    <div className="w-16 h-16 rounded-2xl bg-butter-100 flex items-center justify-center text-plum-900 mb-4 group-hover:scale-110 transition-transform">
-                      <Icon className="w-8 h-8 text-coral-600" />
-                    </div>
-
-                    <h3 className="text-lg font-black text-plum-900 mb-1 leading-snug">
-                      {item.title}
-                    </h3>
-                    <p className="text-xs font-bold text-coral-600 mb-2">
-                      {item.subtitle}
+                    <p className="text-xs text-plum-900/60 leading-relaxed font-normal pt-3 border-t border-plum-900/5 mt-3">
+                      {item.desc}
                     </p>
                   </div>
-
-                  <p className="text-xs text-plum-900/60 leading-relaxed font-normal pt-3 border-t border-plum-900/5 mt-3">
-                    {item.desc}
-                  </p>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>

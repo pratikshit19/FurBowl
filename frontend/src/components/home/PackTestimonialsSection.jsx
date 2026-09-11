@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, Check, Star, ArrowRight } from 'lucide-react';
 import { PACK_STORIES } from '@/lib/constants';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 export default function PackTestimonialsSection() {
   return (
@@ -35,54 +36,55 @@ export default function PackTestimonialsSection() {
 
         {/* 4 Cards Grid (Matching Screen 9) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {PACK_STORIES.map((pup) => (
-            <div
-              key={pup.name}
-              className="bg-white rounded-3xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group"
-            >
-              <div>
-                {/* Dog Photo Container */}
-                <div className="relative w-full aspect-square overflow-hidden bg-butter-100">
-                  <Image
-                    src={pup.image}
-                    alt={`${pup.name} enjoying FurBowl`}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-xs text-[10px] font-bold text-coral-600 px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1.5">
-                    <Heart className="w-3 h-3 fill-coral-500 text-coral-500 shrink-0" />
-                    <span>{pup.badge}</span>
+          {PACK_STORIES.map((pup, idx) => (
+            <ScrollReveal key={pup.name} delay={idx * 80} className="h-full">
+              <div
+                className="bg-white rounded-3xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group h-full"
+              >
+                <div>
+                  {/* Dog Photo Container */}
+                  <div className="relative w-full aspect-square overflow-hidden bg-butter-100">
+                    <Image
+                      src={pup.image}
+                      alt={`${pup.name} enjoying FurBowl`}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-xs text-[10px] font-bold text-coral-600 px-2.5 py-1 rounded-full shadow-xs flex items-center gap-1.5">
+                      <Heart className="w-3 h-3 fill-coral-500 text-coral-500 shrink-0" />
+                      <span>{pup.badge}</span>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-5">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="text-lg font-black text-plum-900">{pup.name}</h3>
+                      <span className="text-[10px] text-plum-900/40">{pup.time}</span>
+                    </div>
+
+                    <p className="text-xs font-bold text-coral-600 mb-3">{pup.role}</p>
+
+                    <p className="text-xs text-plum-900/80 italic font-medium leading-relaxed">
+                      {pup.quote}
+                    </p>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="p-5">
-                  <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-lg font-black text-plum-900">{pup.name}</h3>
-                    <span className="text-[10px] text-plum-900/40">{pup.time}</span>
+                {/* Verified Owner Footer */}
+                <div className="px-5 py-3 bg-butter-50/50 border-t border-plum-900/5 flex items-center justify-between text-[11px] text-plum-900/60 font-medium">
+                  <span className="flex items-center gap-1.5 text-emerald-600 font-bold">
+                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                    <span>Verified Bowl Cleaned</span>
+                  </span>
+                  <div className="flex items-center gap-0.5 text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    ))}
                   </div>
-
-                  <p className="text-xs font-bold text-coral-600 mb-3">{pup.role}</p>
-
-                  <p className="text-xs text-plum-900/80 italic font-medium leading-relaxed">
-                    {pup.quote}
-                  </p>
                 </div>
               </div>
-
-              {/* Verified Owner Footer */}
-              <div className="px-5 py-3 bg-butter-50/50 border-t border-plum-900/5 flex items-center justify-between text-[11px] text-plum-900/60 font-medium">
-                <span className="flex items-center gap-1.5 text-emerald-600 font-bold">
-                  <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span>Verified Bowl Cleaned</span>
-                </span>
-                <div className="flex items-center gap-0.5 text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-              </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
 

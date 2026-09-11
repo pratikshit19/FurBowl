@@ -1,5 +1,6 @@
 import ProductCard from '@/components/product/ProductCard';
 import { PawPrint } from 'lucide-react';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 export default function ProductGrid({ products, loading }) {
   if (loading) {
@@ -35,7 +36,9 @@ export default function ProductGrid({ products, loading }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
       {products.map((product, i) => (
-        <ProductCard key={product.id} product={product} priority={i < 4} />
+        <ScrollReveal key={product.id} delay={(i % 4) * 70} className="h-full">
+          <ProductCard product={product} priority={i < 4} />
+        </ScrollReveal>
       ))}
     </div>
   );

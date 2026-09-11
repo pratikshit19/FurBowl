@@ -20,6 +20,7 @@ import {
   ArrowLeft 
 } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 const PROTEIN_OPTIONS = [
   { id: 'chicken', label: 'Chicken', icon: Drumstick, desc: 'Lean & digestible farm poultry' },
@@ -132,290 +133,294 @@ export default function FindFoodPage() {
 
         {/* Step 1 & 2 Card */}
         {step < 3 && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white rounded-3xl border-2 border-plum-900/10 p-6 sm:p-12 shadow-sm">
-            
-            {/* Left Column: Form Question */}
-            <div className="lg:col-span-7">
-              {step === 1 ? (
-                <div>
-                  <div className="mb-6">
-                    <label htmlFor="pupName" className="block text-xs font-bold uppercase tracking-wider text-plum-900/60 mb-1.5">
-                      Your dog’s name:
-                    </label>
-                    <input
-                      id="pupName"
-                      type="text"
-                      value={pupName}
-                      onChange={(e) => setPupName(e.target.value)}
-                      placeholder="e.g. Bruno"
-                      className="w-full max-w-xs px-4 py-2.5 rounded-xl border border-plum-900/20 text-plum-900 font-bold text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20"
-                    />
-                  </div>
+          <ScrollReveal delay={0}>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-white rounded-3xl border-2 border-plum-900/10 p-6 sm:p-12 shadow-sm">
+              
+              {/* Left Column: Form Question */}
+              <div className="lg:col-span-7">
+                {step === 1 ? (
+                  <div>
+                    <div className="mb-6">
+                      <label htmlFor="pupName" className="block text-xs font-bold uppercase tracking-wider text-plum-900/60 mb-1.5">
+                        Your dog’s name:
+                      </label>
+                      <input
+                        id="pupName"
+                        type="text"
+                        value={pupName}
+                        onChange={(e) => setPupName(e.target.value)}
+                        placeholder="e.g. Bruno"
+                        className="w-full max-w-xs px-4 py-2.5 rounded-xl border border-plum-900/20 text-plum-900 font-bold text-sm focus:outline-none focus:ring-2 focus:ring-coral-500/20"
+                      />
+                    </div>
 
-                  <h2 className="text-xl sm:text-2xl font-black text-plum-900 mb-2">
-                    Pick a protein {pupName ? `for ${pupName}` : ''}:
-                  </h2>
-                  <p className="text-xs sm:text-sm text-plum-900/60 mb-6 font-normal">
-                    Choose what usually gets their tail wagging fastest at dinner time.
-                  </p>
+                    <h2 className="text-xl sm:text-2xl font-black text-plum-900 mb-2">
+                      Pick a protein {pupName ? `for ${pupName}` : ''}:
+                    </h2>
+                    <p className="text-xs sm:text-sm text-plum-900/60 mb-6 font-normal">
+                      Choose what usually gets their tail wagging fastest at dinner time.
+                    </p>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-                    {PROTEIN_OPTIONS.map((item) => {
-                      const isSelected = selectedProtein === item.id;
-                      const Icon = item.icon;
-                      return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => setSelectedProtein(item.id)}
-                          className={`flex flex-col items-center text-center p-4 rounded-2xl border-2 transition-all cursor-pointer ${
-                            isSelected
-                              ? 'bg-butter-50/80 border-coral-500 shadow-md scale-105 ring-2 ring-coral-500/20'
-                              : 'bg-white border-plum-900/10 hover:border-plum-900/30'
-                          }`}
-                        >
-                          <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-2 transition-colors ${
-                            isSelected ? 'bg-coral-500 text-white' : 'bg-butter-200/60 text-plum-900'
-                          }`}>
-                            <Icon className="w-5 h-5" />
-                          </div>
-                          <span className="font-bold text-sm text-plum-900">{item.label}</span>
-                          <span className="text-[10px] text-plum-900/50 mt-1">{item.desc}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+                      {PROTEIN_OPTIONS.map((item) => {
+                        const isSelected = selectedProtein === item.id;
+                        const Icon = item.icon;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            onClick={() => setSelectedProtein(item.id)}
+                            className={`flex flex-col items-center text-center p-4 rounded-2xl border-2 transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-butter-50/80 border-coral-500 shadow-md scale-105 ring-2 ring-coral-500/20'
+                                : 'bg-white border-plum-900/10 hover:border-plum-900/30'
+                            }`}
+                          >
+                            <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-2 transition-colors ${
+                              isSelected ? 'bg-coral-500 text-white' : 'bg-butter-200/60 text-plum-900'
+                            }`}>
+                              <Icon className="w-5 h-5" />
+                            </div>
+                            <span className="font-bold text-sm text-plum-900">{item.label}</span>
+                            <span className="text-[10px] text-plum-900/50 mt-1">{item.desc}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setStep(2)}
-                    className="bg-plum-900 hover:bg-plum-800 text-white font-black text-sm px-8 py-3.5 rounded-full shadow hover:shadow-md transition-all inline-flex items-center gap-2"
-                  >
-                    <span>Next: Select Vibe</span>
-                    <ArrowRight className="w-4 h-4 shrink-0" />
-                  </button>
-                </div>
-              ) : (
-                <div>
-                  <h2 className="text-xl sm:text-2xl font-black text-plum-900 mb-2">
-                    What’s {pupName || 'their'} daily vibe?
-                  </h2>
-                  <p className="text-xs sm:text-sm text-plum-900/60 mb-6 font-normal">
-                    Personality and activity levels help us calculate daily calorie and digestion needs.
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-                    {VIBE_OPTIONS.map((vibe) => {
-                      const isSelected = selectedVibe === vibe.id;
-                      const Icon = vibe.icon;
-                      return (
-                        <button
-                          key={vibe.id}
-                          type="button"
-                          onClick={() => setSelectedVibe(vibe.id)}
-                          className={`flex items-center gap-3.5 p-4 rounded-2xl border-2 text-left transition-all cursor-pointer ${
-                            isSelected
-                              ? 'bg-butter-50/80 border-coral-500 shadow-md ring-2 ring-coral-500/20'
-                              : 'bg-white border-plum-900/10 hover:border-plum-900/30'
-                          }`}
-                        >
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                            isSelected ? 'bg-coral-500 text-white' : 'bg-butter-200/60 text-plum-900'
-                          }`}>
-                            <Icon className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <div className="font-bold text-sm text-plum-900">{vibe.label}</div>
-                            <div className="text-[11px] text-plum-900/50">{vibe.desc}</div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  <div className="flex items-center gap-3">
                     <button
                       type="button"
-                      onClick={() => setStep(1)}
-                      className="bg-white border border-plum-900/20 hover:bg-butter-100 text-plum-900 font-bold text-sm px-5 py-3.5 rounded-full transition-all inline-flex items-center gap-1.5"
+                      onClick={() => setStep(2)}
+                      className="bg-plum-900 hover:bg-plum-800 text-white font-black text-sm px-8 py-3.5 rounded-full shadow hover:shadow-md transition-all inline-flex items-center gap-2"
                     >
-                      <ArrowLeft className="w-4 h-4 shrink-0" />
-                      <span>Back</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setStep(3)}
-                      className="bg-coral-500 hover:bg-coral-600 text-white font-black text-sm px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2"
-                    >
-                      <span>Show Taste Profile</span>
-                      <Sparkles className="w-4 h-4 shrink-0" />
+                      <span>Next: Select Vibe</span>
+                      <ArrowRight className="w-4 h-4 shrink-0" />
                     </button>
                   </div>
-                </div>
-              )}
-            </div>
+                ) : (
+                  <div>
+                    <h2 className="text-xl sm:text-2xl font-black text-plum-900 mb-2">
+                      What’s {pupName || 'their'} daily vibe?
+                    </h2>
+                    <p className="text-xs sm:text-sm text-plum-900/60 mb-6 font-normal">
+                      Personality and activity levels help us calculate daily calorie and digestion needs.
+                    </p>
 
-            {/* Right Column: Joyous Dog with Zoomies annotation */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="relative w-64 sm:w-80 aspect-square">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-coral-500/10 to-butter-300/50 scale-105" />
-                <Image
-                  src="/images/home/quiz-border-collie.jpg"
-                  alt="Happy dog smiling in quiz"
-                  fill
-                  className="object-cover rounded-full p-2 relative z-10 shadow-lg"
-                />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                      {VIBE_OPTIONS.map((vibe) => {
+                        const isSelected = selectedVibe === vibe.id;
+                        const Icon = vibe.icon;
+                        return (
+                          <button
+                            key={vibe.id}
+                            type="button"
+                            onClick={() => setSelectedVibe(vibe.id)}
+                            className={`flex items-center gap-3.5 p-4 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                              isSelected
+                                ? 'bg-butter-50/80 border-coral-500 shadow-md ring-2 ring-coral-500/20'
+                                : 'bg-white border-plum-900/10 hover:border-plum-900/30'
+                            }`}
+                          >
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                              isSelected ? 'bg-coral-500 text-white' : 'bg-butter-200/60 text-plum-900'
+                            }`}>
+                              <Icon className="w-5 h-5" />
+                            </div>
+                            <div>
+                              <div className="font-bold text-sm text-plum-900">{vibe.label}</div>
+                              <div className="text-[11px] text-plum-900/50">{vibe.desc}</div>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
 
-                <div className="absolute -bottom-2 -left-2 sm:-left-4 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-2xl p-3 shadow-lg z-20 -rotate-3 hover:rotate-0 transition-transform">
-                  <p className="text-xs sm:text-sm font-extrabold text-plum-900 flex items-center gap-1.5">
-                    <span>Good food =</span>
-                    <span className="text-coral-500 font-black inline-flex items-center gap-1">
-                      Happy zoomies! <PawPrint className="w-3.5 h-3.5 inline" />
-                    </span>
-                  </p>
-                  <div className="text-[10px] text-plum-900/50 font-medium mt-0.5">
-                    100% human-grade real recipes
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setStep(1)}
+                        className="bg-white border border-plum-900/20 hover:bg-butter-100 text-plum-900 font-bold text-sm px-5 py-3.5 rounded-full transition-all inline-flex items-center gap-1.5"
+                      >
+                        <ArrowLeft className="w-4 h-4 shrink-0" />
+                        <span>Back</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStep(3)}
+                        className="bg-coral-500 hover:bg-coral-600 text-white font-black text-sm px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2"
+                      >
+                        <span>Show Taste Profile</span>
+                        <Sparkles className="w-4 h-4 shrink-0" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Right Column: Joyous Dog with Zoomies annotation */}
+              <div className="lg:col-span-5 flex justify-center">
+                <div className="relative w-64 sm:w-80 aspect-square">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-coral-500/10 to-butter-300/50 scale-105" />
+                  <Image
+                    src="/images/home/quiz-border-collie.jpg"
+                    alt="Happy dog smiling in quiz"
+                    fill
+                    className="object-cover rounded-full p-2 relative z-10 shadow-lg"
+                  />
+
+                  <div className="absolute -bottom-2 -left-2 sm:-left-4 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-2xl p-3 shadow-lg z-20 -rotate-3 hover:rotate-0 transition-transform">
+                    <p className="text-xs sm:text-sm font-extrabold text-plum-900 flex items-center gap-1.5">
+                      <span>Good food =</span>
+                      <span className="text-coral-500 font-black inline-flex items-center gap-1">
+                        Happy zoomies! <PawPrint className="w-3.5 h-3.5 inline" />
+                      </span>
+                    </p>
+                    <div className="text-[10px] text-plum-900/50 font-medium mt-0.5">
+                      100% human-grade real recipes
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-          </div>
+            </div>
+          </ScrollReveal>
         )}
 
         {/* Step 3: Full Taste Profile Result Matching Screen 3 */}
         {step === 3 && (
-          <div className="bg-white rounded-3xl border-2 border-plum-900/10 p-6 sm:p-12 shadow-sm">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              
-              {/* Left Profile Avatar Card */}
-              <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
-                <div className="relative w-32 h-32 mb-4">
-                  <Image
-                    src="/images/home/bruno-passport-dog.jpg"
-                    alt={pupName || 'Bruno'}
-                    fill
-                    className="object-cover rounded-full border-4 border-coral-500/20 shadow-md"
-                  />
-                  <div className="absolute -bottom-1 -right-1 bg-coral-500 text-white rounded-full p-1.5 shadow flex items-center justify-center">
-                    <PawPrint className="w-3.5 h-3.5 text-white" />
+          <ScrollReveal delay={0}>
+            <div className="bg-white rounded-3xl border-2 border-plum-900/10 p-6 sm:p-12 shadow-sm">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                
+                {/* Left Profile Avatar Card */}
+                <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left">
+                  <div className="relative w-32 h-32 mb-4">
+                    <Image
+                      src="/images/home/bruno-passport-dog.jpg"
+                      alt={pupName || 'Bruno'}
+                      fill
+                      className="object-cover rounded-full border-4 border-coral-500/20 shadow-md"
+                    />
+                    <div className="absolute -bottom-1 -right-1 bg-coral-500 text-white rounded-full p-1.5 shadow flex items-center justify-center">
+                      <PawPrint className="w-3.5 h-3.5 text-white" />
+                    </div>
                   </div>
+
+                  <span className="text-xs font-bold text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full mb-2">
+                    Taste Profile Result
+                  </span>
+
+                  <h2 className="text-2xl sm:text-3xl font-black text-plum-900 tracking-tight mb-2">
+                    {results.title}
+                  </h2>
+
+                  <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed mb-6">
+                    {results.desc}
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="text-xs font-bold text-plum-900/60 hover:text-plum-900 underline flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 shrink-0" />
+                    <span>Recalculate Taste Profile</span>
+                  </button>
                 </div>
 
-                <span className="text-xs font-bold text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full mb-2">
-                  Taste Profile Result
-                </span>
+                {/* Center Main Top Match Card */}
+                <div className="lg:col-span-5">
+                  {results.topMatch && (
+                    <div className="bg-butter-50/60 rounded-3xl border-2 border-coral-500/40 p-6 shadow-lg relative overflow-hidden group hover:border-coral-500 transition-all">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="bg-coral-500 text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
+                          <Star className="w-3 h-3 fill-white text-white shrink-0" />
+                          <span>Top Match</span>
+                        </span>
+                        <span className="text-sm font-black text-coral-600">₹{results.topMatch.price}</span>
+                      </div>
 
-                <h2 className="text-2xl sm:text-3xl font-black text-plum-900 tracking-tight mb-2">
-                  {results.title}
-                </h2>
+                      <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-3 shadow-inner">
+                        <Image
+                          src={results.topMatch.image}
+                          alt={results.topMatch.name}
+                          fill
+                          className="object-contain transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
 
-                <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed mb-6">
-                  {results.desc}
-                </p>
+                      <h3 className="text-2xl font-black text-plum-900 mb-1">{results.topMatch.name}</h3>
+                      <p className="text-xs text-plum-900/60 mb-4">{results.topMatch.tags}</p>
 
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="text-xs font-bold text-plum-900/60 hover:text-plum-900 underline flex items-center gap-1.5 cursor-pointer"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 shrink-0" />
-                  <span>Recalculate Taste Profile</span>
-                </button>
+                      <Link
+                        href={`/shop/${results.topMatch.slug}`}
+                        className="w-full bg-plum-900 hover:bg-plum-800 text-white font-black text-sm py-3.5 rounded-full text-center block transition-all shadow-sm inline-flex items-center justify-center gap-1"
+                      >
+                        <span>View Product &amp; Order</span>
+                        <ArrowRight className="w-4 h-4 shrink-0" />
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right Secondary Cards */}
+                <div className="lg:col-span-3 flex flex-col gap-4">
+                  <span className="text-[11px] font-bold text-plum-900/50 uppercase tracking-wider">
+                    Recommended Add-Ons
+                  </span>
+
+                  {results.secondMatch && (
+                    <div className="bg-white rounded-2xl border border-plum-900/10 p-3.5 flex items-center gap-3 hover:shadow-md transition-shadow">
+                      <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-butter-50">
+                        <Image
+                          src={results.secondMatch.image}
+                          alt={results.secondMatch.name}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[10px] font-bold text-coral-600 uppercase">Runner Up</div>
+                        <div className="text-xs font-black text-plum-900 truncate">{results.secondMatch.name}</div>
+                        <div className="text-[10px] text-plum-900/50">₹{results.secondMatch.price}</div>
+                      </div>
+                      <Link
+                        href={`/shop/${results.secondMatch.slug}`}
+                        className="text-xs font-bold text-coral-600 hover:text-coral-700 shrink-0"
+                      >
+                        →
+                      </Link>
+                    </div>
+                  )}
+
+                  {results.wildCard && (
+                    <div className="bg-white rounded-2xl border border-plum-900/10 p-3.5 flex items-center gap-3 hover:shadow-md transition-shadow">
+                      <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-butter-50">
+                        <Image
+                          src={results.wildCard.image}
+                          alt={results.wildCard.name}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[10px] font-bold text-plum-900/70 uppercase">Hydration Boost</div>
+                        <div className="text-xs font-black text-plum-900 truncate">{results.wildCard.name}</div>
+                        <div className="text-[10px] text-plum-900/50">₹{results.wildCard.price}</div>
+                      </div>
+                      <Link
+                        href={`/shop/${results.wildCard.slug}`}
+                        className="text-xs font-bold text-coral-600 hover:text-coral-700 shrink-0"
+                      >
+                        →
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
               </div>
-
-              {/* Center Main Top Match Card */}
-              <div className="lg:col-span-5">
-                {results.topMatch && (
-                  <div className="bg-butter-50/60 rounded-3xl border-2 border-coral-500/40 p-6 shadow-lg relative overflow-hidden group hover:border-coral-500 transition-all">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="bg-coral-500 text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider inline-flex items-center gap-1">
-                        <Star className="w-3 h-3 fill-white text-white shrink-0" />
-                        <span>Top Match</span>
-                      </span>
-                      <span className="text-sm font-black text-coral-600">₹{results.topMatch.price}</span>
-                    </div>
-
-                    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-4 bg-white flex items-center justify-center p-3 shadow-inner">
-                      <Image
-                        src={results.topMatch.image}
-                        alt={results.topMatch.name}
-                        fill
-                        className="object-contain transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-
-                    <h3 className="text-2xl font-black text-plum-900 mb-1">{results.topMatch.name}</h3>
-                    <p className="text-xs text-plum-900/60 mb-4">{results.topMatch.tags}</p>
-
-                    <Link
-                      href={`/shop/${results.topMatch.slug}`}
-                      className="w-full bg-plum-900 hover:bg-plum-800 text-white font-black text-sm py-3.5 rounded-full text-center block transition-all shadow-sm inline-flex items-center justify-center gap-1"
-                    >
-                      <span>View Product &amp; Order</span>
-                      <ArrowRight className="w-4 h-4 shrink-0" />
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              {/* Right Secondary Cards */}
-              <div className="lg:col-span-3 flex flex-col gap-4">
-                <span className="text-[11px] font-bold text-plum-900/50 uppercase tracking-wider">
-                  Recommended Add-Ons
-                </span>
-
-                {results.secondMatch && (
-                  <div className="bg-white rounded-2xl border border-plum-900/10 p-3.5 flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-butter-50">
-                      <Image
-                        src={results.secondMatch.image}
-                        alt={results.secondMatch.name}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[10px] font-bold text-coral-600 uppercase">Runner Up</div>
-                      <div className="text-xs font-black text-plum-900 truncate">{results.secondMatch.name}</div>
-                      <div className="text-[10px] text-plum-900/50">₹{results.secondMatch.price}</div>
-                    </div>
-                    <Link
-                      href={`/shop/${results.secondMatch.slug}`}
-                      className="text-xs font-bold text-coral-600 hover:text-coral-700 shrink-0"
-                    >
-                      →
-                    </Link>
-                  </div>
-                )}
-
-                {results.wildCard && (
-                  <div className="bg-white rounded-2xl border border-plum-900/10 p-3.5 flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div className="relative w-16 h-16 shrink-0 rounded-xl overflow-hidden bg-butter-50">
-                      <Image
-                        src={results.wildCard.image}
-                        alt={results.wildCard.name}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-[10px] font-bold text-plum-900/70 uppercase">Hydration Boost</div>
-                      <div className="text-xs font-black text-plum-900 truncate">{results.wildCard.name}</div>
-                      <div className="text-[10px] text-plum-900/50">₹{results.wildCard.price}</div>
-                    </div>
-                    <Link
-                      href={`/shop/${results.wildCard.slug}`}
-                      className="text-xs font-bold text-coral-600 hover:text-coral-700 shrink-0"
-                    >
-                      →
-                    </Link>
-                  </div>
-                )}
-              </div>
-
             </div>
-          </div>
+          </ScrollReveal>
         )}
 
       </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import ScrollReveal from '@/components/common/ScrollReveal';
 
 export default function AboutSection() {
   return (
@@ -8,7 +9,7 @@ export default function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
           {/* Left — Visual Photo + Quote */}
-          <div className="order-2 lg:order-1">
+          <ScrollReveal delay={0} className="order-2 lg:order-1">
             <div className="relative">
               {/* Photo Showcase */}
               <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg border border-gray-100">
@@ -41,40 +42,42 @@ export default function AboutSection() {
                 ))}
               </div>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Right — Text */}
-          <div className="order-1 lg:order-2">
-            <span className="text-turquoise-600 text-xs font-bold uppercase tracking-widest bg-turquoise-50 px-3 py-1 rounded-full inline-block mb-3">
-              About FurBowl
-            </span>
-            <h2 id="about-heading" className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
-              Made with Love.<br />For the One Who Loves You Unconditionally.
-            </h2>
-            <div className="space-y-4 text-gray-600 leading-relaxed text-base">
-              <p>
-                FurBowl was born from a simple belief: dogs deserve better than processed food filled with mystery ingredients. We set out to create fresh, whole-food meals that dogs genuinely love — and that owners can feel good about serving.
-              </p>
-              <p>
-                Every recipe we create starts with a single question: would we eat it? If the answer isn't a confident yes, it doesn't go in the bowl. Our ingredients are sourced fresh, our meals are cooked carefully, and the result is food your dog can truly thrive on.
-              </p>
-            </div>
+          <ScrollReveal delay={100} className="order-1 lg:order-2">
+            <div>
+              <span className="text-turquoise-600 text-xs font-bold uppercase tracking-widest bg-turquoise-50 px-3 py-1 rounded-full inline-block mb-3">
+                About FurBowl
+              </span>
+              <h2 id="about-heading" className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
+                Made with Love.<br />For the One Who Loves You Unconditionally.
+              </h2>
+              <div className="space-y-4 text-gray-600 leading-relaxed text-base">
+                <p>
+                  FurBowl was born from a simple belief: dogs deserve better than processed food filled with mystery ingredients. We set out to create fresh, whole-food meals that dogs genuinely love — and that owners can feel good about serving.
+                </p>
+                <p>
+                  Every recipe we create starts with a single question: would we eat it? If the answer isn't a confident yes, it doesn't go in the bowl. Our ingredients are sourced fresh, our meals are cooked carefully, and the result is food your dog can truly thrive on.
+                </p>
+              </div>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/about"
-                className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-turquoise-700 transition-colors shadow-sm"
-              >
-                Our Full Story
-              </Link>
-              <Link
-                href="/why-furbowl"
-                className="inline-flex items-center gap-2 border border-plum-900/20 text-plum-900 px-7 py-3.5 rounded-md text-sm font-medium hover:border-plum-900/40 hover:bg-plum-900/5 transition-colors"
-              >
-                Why FurBowl
-              </Link>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link
+                  href="/about"
+                  className="inline-flex items-center gap-2 bg-turquoise-600 text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-turquoise-700 transition-colors shadow-sm"
+                >
+                  Our Full Story
+                </Link>
+                <Link
+                  href="/why-furbowl"
+                  className="inline-flex items-center gap-2 border border-plum-900/20 text-plum-900 px-7 py-3.5 rounded-md text-sm font-medium hover:border-plum-900/40 hover:bg-plum-900/5 transition-colors"
+                >
+                  Why FurBowl
+                </Link>
+              </div>
             </div>
-          </div>
+          </ScrollReveal>
 
         </div>
       </div>
