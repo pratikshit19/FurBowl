@@ -80,10 +80,10 @@ export default function MobileNav({ isOpen, onClose }) {
           <Image
             src="/images/LOGO2.png"
             alt="FurBowl"
-            width={120}
-            height={40}
+            width={140}
+            height={55}
             unoptimized
-            className="h-9 w-auto object-contain"
+            className="h-11 sm:h-12 w-auto object-contain"
           />
           <button
             onClick={onClose}

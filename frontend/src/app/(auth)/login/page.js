@@ -355,12 +355,87 @@ function EmailStep({ onSuccess }) {
   );
 }
 
+function NameStep({ user, token, onComplete }) {
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) {
+      onComplete(user, token);
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name: name.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok && data.user) {
+        onComplete(data.user, token);
+        return;
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+    onComplete({ ...user, name: name.trim() }, token);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h1 className="text-2xl font-extrabold text-plum-900 mb-2">What is your name?</h1>
+      <p className="text-plum-900/60 text-sm mb-6">
+        Let us know what to call you so we can personalize your FurBowl experience
+      </p>
+
+      <div className="mb-5">
+        <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-2">
+          Your Full Name
+        </label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="e.g. Pratikshit"
+          className="w-full border border-plum-900/15 rounded-xl px-4 py-3 text-sm text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all"
+          autoFocus
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        disabled={loading || !name.trim()}
+        className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 transition-all shadow-md shadow-coral-500/20 cursor-pointer"
+      >
+        {loading ? 'Saving…' : 'Continue to Dashboard'}
+      </button>
+
+      <button
+        type="button"
+        onClick={() => onComplete(user, token)}
+        className="w-full text-center text-xs font-bold text-plum-900/50 hover:text-plum-900 mt-4 transition-colors cursor-pointer"
+      >
+        Skip for now
+      </button>
+    </form>
+  );
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const { setUser } = useAuthStore();
   const [method, setMethod] = useState('phone'); // 'phone' | 'email'
-  const [step, setStep] = useState('phone'); // 'phone' | 'otp'
+  const [step, setStep] = useState('phone'); // 'phone' | 'otp' | 'name'
   const [phone, setPhone] = useState('');
+  const [tempAuth, setTempAuth] = useState(null);
 
   const handleOtpSent = (phoneNum) => {
     setPhone(phoneNum);
@@ -368,6 +443,16 @@ export default function LoginPage() {
   };
 
   const handleSuccess = (user, token) => {
+    if (!user.name) {
+      setTempAuth({ user, token });
+      setStep('name');
+    } else {
+      setUser(user, token);
+      router.push('/account');
+    }
+  };
+
+  const handleNameComplete = (user, token) => {
     setUser(user, token);
     router.push('/account');
   };
@@ -404,7 +489,13 @@ export default function LoginPage() {
         </div>
       )}
 
-      {method === 'email' ? (
+      {step === 'name' && tempAuth ? (
+        <NameStep
+          user={tempAuth.user}
+          token={tempAuth.token}
+          onComplete={handleNameComplete}
+        />
+      ) : method === 'email' ? (
         <EmailStep onSuccess={handleSuccess} />
       ) : step === 'phone' ? (
         <PhoneStep onOtpSent={handleOtpSent} />

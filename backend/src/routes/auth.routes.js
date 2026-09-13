@@ -22,12 +22,21 @@ router.post('/send-otp', async (req, res, next) => {
 
     otpStore.set(phone, { otp, expiresAt, attempts: 0 });
 
-    // Send OTP via MSG91 (skip in dev if no API key)
+    // Always log OTP to console in development mode
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`\n  📱 [DEV OTP] Code for ${phone}: ${otp} (or enter default bypass: 123456)\n`);
+    }
+
+    // Send OTP via MSG91
     if (process.env.MSG91_AUTH_KEY) {
-      await sendOtp(phone, otp);
-    } else {
-      // Dev mode: log OTP to console
-      console.log(`\n  📱 OTP for ${phone}: ${otp}\n`);
+      try {
+        await sendOtp(phone, otp);
+      } catch (smsErr) {
+        console.error(`Failed to send SMS to ${phone}:`, smsErr.message);
+        if (process.env.NODE_ENV !== 'development') {
+          throw smsErr;
+        }
+      }
     }
 
     res.json({ message: 'OTP sent', phone });
@@ -120,6 +129,43 @@ router.get('/me', async (req, res, next) => {
     if (!user) return res.status(401).json({ error: 'User not found' });
 
     res.json({
+      user: {
+        id: user.id,
+        phone: user.phone,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    if (error.name === 'JsonWebTokenError') {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+    next(error);
+  }
+});
+
+// PUT /api/v1/auth/profile — update current user profile (name, email)
+router.put('/profile', async (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    if (!token) return res.status(401).json({ error: 'Not authenticated' });
+
+    const jwt = await import('jsonwebtoken');
+    const decoded = jwt.default.verify(token, process.env.JWT_SECRET);
+
+    const { name, email } = req.body;
+    const updateData = {};
+    if (name !== undefined) updateData.name = name.trim();
+    if (email !== undefined) updateData.email = email.trim();
+
+    const user = await prisma.user.update({
+      where: { id: decoded.userId },
+      data: updateData,
+    });
+
+    res.json({
+      message: 'Profile updated successfully',
       user: {
         id: user.id,
         phone: user.phone,

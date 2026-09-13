@@ -21,7 +21,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^7.10.0",
+    "@prisma/client": "^6.4.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.11.0",
     "cookie-parser": "^1.4.7",
@@ -39,6 +39,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
-    "prisma": "^7.10.0"
+    "prisma": "^6.4.1"
   }
 }

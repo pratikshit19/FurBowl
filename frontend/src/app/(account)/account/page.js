@@ -4,46 +4,114 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { PawPrint, Heart, Package, Home, Target, BookOpen, ArrowRight } from 'lucide-react';
+import { PawPrint, Heart, Package, Home, Target, BookOpen, ArrowRight, User } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
 
 export default function AccountPage() {
   const router = useRouter();
   const { user, logout } = useAuthStore();
-  const [activeTab, setActiveTab] = useState('journey');
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState('');
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     useAuthStore.persist.rehydrate();
   }, []);
 
+  useEffect(() => {
+    if (user?.name) setName(user.name);
+  }, [user]);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    setSaving(true);
+    try {
+      const token = useAuthStore.getState().token;
+      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+      const res = await fetch(`${API_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name: name.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        useAuthStore.getState().updateUser({ name: data.user.name });
+        setEditing(false);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-butter-50/40 py-10 sm:py-16">
       <div className="container-main max-w-5xl">
         
-        {/* Header (Matching Screen 12) */}
+        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full inline-block mb-2">
+            <span className="text-xs font-bold uppercase tracking-widest text-teal-600 bg-teal-500/10 px-3 py-1 rounded-full inline-block mb-2">
               The FurBowl Pack Member
             </span>
             <h1 className="text-3xl sm:text-4xl font-black text-plum-900 tracking-tight">
-              Welcome to the pack!
+              Welcome, {user?.name || 'Pack Member'}!
             </h1>
             <p className="text-sm text-plum-900/60 font-normal mt-1">
-              Here’s {user?.dogName || 'Bruno'}’s food journey. Track meal favourites, nutrition milestones, and deliveries.
+              Here is {user?.name ? `${user.name}’s` : 'your'} FurBowl dashboard. Track meal favourites, nutrition milestones, and deliveries.
             </p>
           </div>
 
-          <button
-            onClick={() => {
-              logout();
-              router.push('/');
-            }}
-            className="text-xs text-rose-600 hover:text-rose-700 font-bold px-4 py-2 border border-rose-200 rounded-full bg-white shadow-2xs self-start sm:self-auto cursor-pointer"
-          >
-            Log Out
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setEditing((prev) => !prev)}
+              className="text-xs text-teal-600 hover:text-teal-700 font-bold px-4 py-2 border border-teal-200 rounded-full bg-white shadow-2xs cursor-pointer transition-colors"
+            >
+              {editing ? 'Cancel' : 'Edit Profile'}
+            </button>
+            <button
+              onClick={() => {
+                logout();
+                router.push('/');
+              }}
+              className="text-xs text-peach-700 hover:text-peach-800 font-bold px-4 py-2 border border-peach-200 rounded-full bg-white shadow-2xs cursor-pointer transition-colors"
+            >
+              Log Out
+            </button>
+          </div>
         </div>
+
+        {/* Profile Edit Panel */}
+        {editing && (
+          <form onSubmit={handleSave} className="bg-white rounded-3xl border-2 border-teal-500/20 p-6 shadow-sm mb-8 space-y-4">
+            <h3 className="text-base font-extrabold text-plum-900">Edit Your Profile</h3>
+            <div className="max-w-md space-y-3">
+              <div>
+                <label className="block text-xs font-bold text-plum-900/70 mb-1">Your Name</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter your name"
+                  className="w-full border border-plum-900/15 rounded-xl px-4 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-teal-500"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={saving || !name.trim()}
+                className="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs px-6 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer disabled:opacity-50"
+              >
+                {saving ? 'Saving…' : 'Save Profile'}
+              </button>
+            </div>
+          </form>
+        )}
 
         {/* Pup Profile Main Card (Matching Screen 12) */}
         <div className="bg-white rounded-3xl border-2 border-plum-900/10 p-6 sm:p-8 shadow-sm mb-8">
@@ -77,6 +145,10 @@ export default function AccountPage() {
                   <p className="flex items-center gap-1.5">
                     <Package className="w-3.5 h-3.5 text-amber-600 shrink-0 inline" />
                     <span>Last order: <span className="font-bold text-plum-900">Delivered Fresh (Sep 2026)</span></span>
+                  </p>
+                  <p className="flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-teal-600 shrink-0 inline" />
+                    <span>Name: <span className="font-bold text-plum-900">{user?.name || 'Customer'}</span></span>
                   </p>
                   <p className="flex items-center gap-1.5">
                     <Home className="w-3.5 h-3.5 text-teal-600 shrink-0 inline" />

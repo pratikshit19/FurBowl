@@ -14,21 +14,21 @@ import {
 
 const DEFAULT_BANNERS = [
   {
-    id: 'creative-2',
-    image: '/images/creative-2.png',
-    alt: 'FurBowl — More Than Just Food. Power Their Play. Active, happy, thriving pets.',
+    id: 'good-food-better-tails',
+    image: '/images/banner-good-food-hd.jpg',
+    alt: 'FurBowl — Good Food. Better Tails. Made with real, human grade ingredients.',
     link: '/shop',
   },
   {
-    id: 'creative-3',
-    image: '/images/creative-3.png',
-    alt: 'FurBowl — Start Their Human-Grade Journey Today. Introductory Bundle ₹499 for all 5.',
+    id: 'pure-ingredients-powerful-health',
+    image: '/images/banner-pure-ingredients-hd.jpg',
+    alt: 'FurBowl — Pure Ingredients. Powerful Health. Human grade nutrition for every stage of life.',
     link: '/shop',
   },
   {
-    id: 'creative-4',
-    image: '/images/creative-4.png',
-    alt: 'FurBowl — A Complete, Nutritious, and Varied Diet. Five unique chef-crafted recipes.',
+    id: 'real-ingredients-real-nutrition',
+    image: '/images/banner-real-nutrition-hd.jpg',
+    alt: 'FurBowl — Real Ingredients. Real Nutrition. 100% human grade ingredients for a healthier, happier dog.',
     link: '/shop',
   },
 ];
@@ -113,7 +113,7 @@ export default function HeroCarousel() {
                 className="block w-full relative group focus:outline-none"
                 tabIndex={i === current ? 0 : -1}
               >
-                <div className="relative w-full aspect-[16/9] sm:aspect-[1.84/1] max-h-[720px] overflow-hidden bg-butter-100/40">
+                <div className="relative w-full aspect-[16/9] sm:aspect-[1.75/1] max-h-[560px] overflow-hidden bg-butter-100/40">
                   <Image
                     src={banner.image}
                     alt={banner.alt}
@@ -134,7 +134,7 @@ export default function HeroCarousel() {
             <button
               type="button"
               onClick={prev}
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-furbowl-cyan"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
               aria-label="Previous slide"
             >
               <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-plum-900" />
@@ -142,7 +142,7 @@ export default function HeroCarousel() {
             <button
               type="button"
               onClick={next}
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-furbowl-cyan"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
               aria-label="Next slide"
             >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-plum-900" />
@@ -155,9 +155,9 @@ export default function HeroCarousel() {
                   key={idx}
                   type="button"
                   onClick={() => setCurrent(idx)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
                     idx === current
-                      ? 'w-7 bg-furbowl-cyan shadow-sm'
+                      ? 'w-7 bg-[#15aec0] shadow-sm'
                       : 'w-2.5 bg-white/70 hover:bg-white'
                   }`}
                   aria-label={`Go to slide ${idx + 1}`}

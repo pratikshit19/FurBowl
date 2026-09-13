@@ -31,6 +31,12 @@ export default function Header() {
   const [quickLoading, setQuickLoading] = useState(false);
   const [quickError, setQuickError] = useState('');
 
+  // Name editing inside popover
+  const [editingName, setEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState('');
+  const [nameSaving, setNameSaving] = useState(false);
+  const [nameError, setNameError] = useState('');
+
   // Rehydrate stores on mount
   useEffect(() => {
     useCartStore.persist.rehydrate();
@@ -131,6 +137,33 @@ export default function Header() {
     }
   };
 
+  const handleSaveName = async (e) => {
+    e.preventDefault();
+    if (!nameInput.trim()) return;
+    setNameSaving(true);
+    setNameError('');
+    try {
+      const token = useAuthStore.getState().token;
+      const res = await fetch(`${API_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name: nameInput.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to update name');
+      useAuthStore.getState().updateUser({ name: data.user.name });
+      setEditingName(false);
+      setNameInput('');
+    } catch (err) {
+      setNameError(err.message);
+    } finally {
+      setNameSaving(false);
+    }
+  };
+
   return (
     <>
       <header
@@ -172,15 +205,15 @@ export default function Header() {
             </button>
 
             {/* Center: FurBowl Logo */}
-            <Link href="/" className="flex items-center justify-center" aria-label={`${SITE_NAME} - Home`}>
+            <Link href="/" className="flex items-center justify-center py-1" aria-label={`${SITE_NAME} - Home`}>
               <Image
                 src="/images/LOGO2.png"
                 alt={SITE_NAME}
-                width={140}
-                height={50}
+                width={180}
+                height={70}
                 priority
                 unoptimized
-                className="h-10 sm:h-11 w-auto object-contain"
+                className="h-12 sm:h-14 w-auto object-contain"
               />
             </Link>
 
@@ -216,20 +249,20 @@ export default function Header() {
           <div className="hidden lg:flex items-center justify-between gap-4 md:gap-8">
             
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0 flex items-center" aria-label={`${SITE_NAME} - Home`}>
+            <Link href="/" className="flex-shrink-0 flex items-center py-1" aria-label={`${SITE_NAME} - Home`}>
               <Image
                 src="/images/LOGO2.png"
                 alt={SITE_NAME}
-                width={200}
-                height={160}
+                width={240}
+                height={190}
                 priority
                 unoptimized
-                className="h-12 sm:h-14 lg:h-16 w-auto object-contain"
+                className="h-16 sm:h-18 lg:h-20 xl:h-22 w-auto object-contain"
               />
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-6 xl:gap-8" aria-label="Main navigation">
+            <nav className="hidden lg:flex items-center gap-6 xl:gap-8 2xl:gap-10" aria-label="Main navigation">
               {NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
 
@@ -244,7 +277,7 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setProductsDropdownOpen(false)}
-                        className={`inline-flex items-center gap-1.5 text-[16.5px] font-bold transition-colors hover:text-peach-600 ${
+                        className={`inline-flex items-center gap-1.5 text-[17.5px] xl:text-[18.5px] font-semibold transition-colors hover:text-peach-600 ${
                           isActive || productsDropdownOpen ? 'text-peach-600' : 'text-plum-900'
                         }`}
                       >
@@ -256,7 +289,7 @@ export default function Header() {
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
-                          strokeWidth={2.2}
+                          strokeWidth={2}
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                         </svg>
@@ -271,7 +304,7 @@ export default function Header() {
                         }`}
                       >
                         <div className="flex items-center justify-between pb-2.5 mb-1.5 border-b border-plum-900/5 px-2">
-                          <span className="text-xs font-bold uppercase tracking-widest text-plum-900/50">Our Fresh Dog Meals</span>
+                          <span className="text-xs font-semibold uppercase tracking-widest text-plum-900/50">Our Fresh Dog Meals</span>
                           <Link
                             href="/shop"
                             onClick={() => setProductsDropdownOpen(false)}
@@ -289,7 +322,7 @@ export default function Header() {
                               onClick={() => setProductsDropdownOpen(false)}
                               className="block px-3 py-2 rounded-xl hover:bg-teal-50 transition-colors group/item"
                             >
-                              <span className="text-sm sm:text-[15px] font-medium text-plum-900 group-hover/item:text-teal-600 transition-colors truncate block">
+                              <span className="text-[15px] font-semibold text-plum-900 group-hover/item:text-teal-600 transition-colors truncate block">
                                 {product.name}
                               </span>
                             </Link>
@@ -304,7 +337,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`text-[16.5px] font-bold transition-colors hover:text-peach-600 ${
+                    className={`text-[17.5px] xl:text-[18.5px] font-semibold transition-colors hover:text-peach-600 ${
                       isActive ? 'text-peach-600' : 'text-plum-900'
                     }`}
                   >
@@ -362,7 +395,7 @@ export default function Header() {
                   <span className="text-[12px] font-medium text-plum-900/60 leading-none">
                     {hydrated && isAuthenticated ? 'Welcome' : 'Login / Signup'}
                   </span>
-                  <span className="text-[15.5px] font-bold text-plum-900 group-hover:text-peach-600 transition-colors flex items-center gap-1 mt-0.5">
+                  <span className="text-[17.5px] font-semibold text-plum-900 group-hover:text-peach-600 transition-colors flex items-center gap-1 mt-0.5">
                     {hydrated && isAuthenticated ? user?.name?.split(' ')[0] || 'My Account' : 'My account'}
                     <svg
                       className={`w-4 h-4 text-plum-900/40 group-hover:text-peach-600 transition-transform duration-200 ${
@@ -393,14 +426,57 @@ export default function Header() {
                     /* Logged-In Menu */
                     <div className="relative z-10 space-y-3">
                       <div className="flex items-center gap-3 pb-3 border-b border-plum-900/10">
-                        <div className="w-10 h-10 rounded-full bg-cream-200 text-plum-900 font-extrabold flex items-center justify-center text-sm shadow-xs">
+                        <div className="w-10 h-10 rounded-full bg-cream-200 text-plum-900 font-extrabold flex items-center justify-center text-sm shadow-xs shrink-0">
                           {user?.name?.[0]?.toUpperCase() || 'U'}
                         </div>
-                        <div>
-                          <p className="text-xs font-bold text-plum-900">{user?.name || 'Customer'}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="text-xs font-bold text-plum-900 truncate">
+                              {user?.name || 'Customer'}
+                            </p>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setNameInput(user?.name || '');
+                                setEditingName((prev) => !prev);
+                              }}
+                              className="text-[10px] text-teal-600 hover:text-teal-700 font-bold underline cursor-pointer"
+                            >
+                              {user?.name ? 'Edit' : 'Set Name'}
+                            </button>
+                          </div>
                           <p className="text-[11px] text-plum-900/60">{user?.phone || user?.email}</p>
                         </div>
                       </div>
+
+                      {/* Inline Name Setting / Editing Form */}
+                      {(editingName || !user?.name) && (
+                        <form onSubmit={handleSaveName} className="p-3 bg-cream-100/80 rounded-2xl border border-plum-900/10 space-y-2">
+                          <p className="text-[11px] font-bold text-plum-900">
+                            {user?.name ? 'Change display name:' : 'What is your name?'}
+                          </p>
+                          <div className="flex gap-2">
+                            <input
+                              type="text"
+                              value={nameInput}
+                              onChange={(e) => setNameInput(e.target.value)}
+                              placeholder="Enter your name"
+                              className="flex-1 bg-white border border-plum-900/15 rounded-xl px-3 py-1.5 text-xs text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none focus:border-teal-500"
+                              autoFocus
+                            />
+                            <button
+                              type="submit"
+                              disabled={nameSaving || !nameInput.trim()}
+                              className="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl transition-all disabled:opacity-50 cursor-pointer shadow-xs"
+                            >
+                              {nameSaving ? 'Saving…' : 'Save'}
+                            </button>
+                          </div>
+                          {nameError && (
+                            <p className="text-[10px] text-peach-600 font-semibold">{nameError}</p>
+                          )}
+                        </form>
+                      )}
 
                       <div className="space-y-1 pt-1">
                         <Link
@@ -522,10 +598,10 @@ export default function Header() {
               {/* Wishlist Icon */}
               <Link
                 href="/wishlist"
-                className="flex items-center justify-center w-9 h-9 rounded-full text-plum-900 hover:text-peach-600 hover:bg-plum-900/5 transition-colors"
+                className="flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-peach-600 hover:bg-plum-900/5 transition-colors"
                 aria-label="Wishlist"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-6 h-6 stroke-[2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                 </svg>
               </Link>
@@ -533,20 +609,20 @@ export default function Header() {
               {/* Cart Button (Icon + Counter + "Cart" text) */}
               <Link
                 href="/cart"
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-all group"
+                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-all group"
                 aria-label={`Cart${hydrated && cartCount > 0 ? ` (${cartCount} items)` : ''}`}
               >
                 <div className="relative flex items-center justify-center">
-                  <svg className="w-6 h-6 text-plum-900 group-hover:text-teal-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                  <svg className="w-7 h-7 text-plum-900 group-hover:text-teal-600 transition-colors stroke-[2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
                   </svg>
                   {hydrated && cartCount > 0 && (
-                    <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-peach-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center leading-none shadow-xs">
+                    <span className="absolute -top-1.5 -right-2 min-w-[18px] h-4.5 px-1 bg-peach-500 text-white text-[10px] font-black rounded-full flex items-center justify-center leading-none shadow-xs">
                       {cartCount > 9 ? '9+' : cartCount}
                     </span>
                   )}
                 </div>
-                <span className="text-[15.5px] font-bold text-plum-900 group-hover:text-teal-600 transition-colors hidden sm:inline">
+                <span className="text-[17.5px] font-semibold text-plum-900 group-hover:text-teal-600 transition-colors hidden sm:inline">
                   Cart
                 </span>
               </Link>
