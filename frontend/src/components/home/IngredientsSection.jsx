@@ -1,215 +1,279 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Drumstick, Carrot, Wheat, Leaf, Check, ArrowRight } from 'lucide-react';
-import ScrollReveal from '@/components/common/ScrollReveal';
+import { ArrowRight } from 'lucide-react';
 
-const INGREDIENT_GROUPS = [
+/* ─── Top 5 Core Ingredients From FurBowl Recipes ─────────────────────────── */
+const TOP_5_INGREDIENTS = [
   {
-    id: 'protein',
-    title: 'Real Meats & Protein',
-    subtitle: 'High-protein whole meats cooked gently to preserve essential amino acids, moisture, and natural flavor.',
-    items: ['Fresh Chicken Breast', 'Slow-Cooked Lamb', 'Farm-Fresh Paneer', 'Free-Range Eggs'],
-    badge: 'Builds Lean Muscle',
-    badgeColor: 'border-teal-200 text-teal-800 bg-teal-50/90',
-    iconBg: 'bg-teal-50 text-teal-600',
-    checkColor: 'text-teal-600',
-    image: '/images/home/ingredient-protein.jpg',
-    alt: 'Fresh high-protein meats and farm eggs',
-    icon: Drumstick,
+    id: 'chicken',
+    name: 'Whole Farm Chicken',
+    badge: 'Lean Muscle & Organs',
+    color: '#ff7a59',
+    glowColor: 'rgba(255, 122, 89, 0.35)',
+    image: '/images/ingredients/chicken-3d.jpg',
+    desktopPos: 'left-[2%] top-[8%]',
+    textAlign: 'text-center sm:text-left',
+    svgPath: 'M 160 170 C 220 200, 240 240, 310 290',
+    pulseEnd: { x: 310, y: 290 },
   },
   {
-    id: 'veggies',
-    title: 'Farm-Fresh Vegetables',
-    subtitle: 'Nutrient-dense garden vegetables loaded with dietary fiber, natural antioxidants, and vital beta-carotene.',
-    items: ['Orange Carrots', 'Fiber-Rich Pumpkin', 'Tender Spinach', 'Crisp Green Beans'],
-    badge: 'Supports Digestion',
-    badgeColor: 'border-peach-200 text-peach-800 bg-peach-50/90',
-    iconBg: 'bg-peach-50 text-peach-600',
-    checkColor: 'text-peach-600',
-    image: '/images/home/ingredient-veggies.jpg',
-    alt: 'Fresh carrots, pumpkin, spinach and green beans',
-    icon: Carrot,
+    id: 'carrot',
+    name: 'Crisp Garden Carrots',
+    badge: 'Beta-Carotene & Vision',
+    color: '#f97316',
+    glowColor: 'rgba(249, 115, 22, 0.35)',
+    image: '/images/ingredients/carrot-3d.jpg',
+    desktopPos: 'left-1/2 -translate-x-1/2 top-0',
+    textAlign: 'text-center',
+    svgPath: 'M 400 160 C 385 180, 415 205, 400 225',
+    pulseEnd: { x: 400, y: 225 },
   },
   {
-    id: 'grains',
-    title: 'Wholesome Grains & Carbs',
-    subtitle: 'Easily digestible whole grains and tubers providing sustained all-day stamina and gentle digestion for sensitive stomachs.',
-    items: ['Organic Brown Rice', 'Rolled Oats', 'Sweet Potato', 'Superfood Quinoa'],
-    badge: 'All-Day Stamina',
-    badgeColor: 'border-teal-200 text-teal-800 bg-teal-50/90',
-    iconBg: 'bg-teal-50 text-teal-600',
-    checkColor: 'text-teal-600',
-    image: '/images/home/ingredient-grains.jpg',
-    alt: 'Wholesome brown rice, oats, and sweet potatoes',
-    icon: Wheat,
+    id: 'peas',
+    name: 'Sweet Garden Peas',
+    badge: 'Plant Energy & Zinc',
+    color: '#15aec0',
+    glowColor: 'rgba(21, 174, 192, 0.35)',
+    image: '/images/ingredients/peas-3d.jpg',
+    desktopPos: 'right-[2%] top-[8%]',
+    textAlign: 'text-center sm:text-right',
+    svgPath: 'M 640 170 C 580 200, 560 240, 490 290',
+    pulseEnd: { x: 490, y: 290 },
   },
   {
-    id: 'superfoods',
-    title: 'Natural Superfoods & Oils',
-    subtitle: 'Cold-pressed healthy fatty acids and Ayurvedic botanicals for a shiny glossy coat and resilient joint cartilage.',
-    items: ['Cold-Pressed Flaxseed Oil', 'Virgin Coconut Oil', 'Turmeric Root', 'Chia Seeds'],
-    badge: 'Glossy Coat & Joints',
-    badgeColor: 'border-peach-200 text-peach-800 bg-peach-50/90',
-    iconBg: 'bg-peach-50 text-peach-600',
-    checkColor: 'text-peach-600',
-    image: '/images/home/ingredient-superfoods.jpg',
-    alt: 'Cold-pressed oils, turmeric and superfood seeds',
-    icon: Leaf,
+    id: 'lamb',
+    name: 'Lean Pasture Lamb',
+    badge: 'Iron & Muscle Repair',
+    color: '#db4d2c',
+    glowColor: 'rgba(219, 77, 44, 0.35)',
+    image: '/images/ingredients/lamb-3d.jpg',
+    desktopPos: 'right-[6%] bottom-[2%]',
+    textAlign: 'text-center sm:text-right',
+    svgPath: 'M 630 530 C 570 500, 550 450, 490 410',
+    pulseEnd: { x: 490, y: 410 },
+  },
+  {
+    id: 'pumpkin',
+    name: 'Golden Sun Pumpkin',
+    badge: 'Gentle Prebiotic Fiber',
+    color: '#ea580c',
+    glowColor: 'rgba(234, 88, 12, 0.35)',
+    image: '/images/ingredients/pumpkin-3d.jpg',
+    desktopPos: 'left-[6%] bottom-[2%]',
+    textAlign: 'text-center sm:text-left',
+    svgPath: 'M 170 530 C 230 500, 250 450, 310 410',
+    pulseEnd: { x: 310, y: 410 },
   },
 ];
 
 export default function IngredientsSection() {
+  const [hoveredIdx, setHoveredIdx] = useState(1); // default carrot active
+
+  const active = TOP_5_INGREDIENTS[hoveredIdx] || TOP_5_INGREDIENTS[1];
+
   return (
-    <section id="ingredients-section" className="py-16 sm:py-24 bg-[#faf6ed] border-b border-plum-900/5">
-      <div className="container-main">
-        {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <p className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-peach-600 mb-3">
-            Pure Transparency
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
-            Our Real Ingredients
+    <section id="ingredients-section" className="py-16 sm:py-24 bg-[#faf6ed] border-b border-plum-900/5 relative overflow-hidden">
+      
+      {/* Background Subtle Warm Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="container-main max-w-6xl relative z-10">
+        
+        {/* ─── Ingredient-Focused Phrase & Minimal Header ──────────────────── */}
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[64px] font-black text-plum-900 tracking-tight leading-[1.05]">
+            Food So Real, You Could Eat It Yourself.
           </h2>
-          <p className="text-plum-900/70 text-sm sm:text-base leading-relaxed mt-2.5 font-normal">
-            We list every single ingredient because your dog deserves total transparency. Real food you can see, smell, and trust.
+          <p className="text-sm sm:text-base lg:text-lg text-plum-900/75 font-normal mt-3 max-w-2xl mx-auto">
+            Real whole meats and crisp farm vegetables — crafted with fresh ingredients that even you can eat.
           </p>
         </div>
 
-        {/* 4 Ingredient Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {INGREDIENT_GROUPS.map((group, idx) => {
-            const Icon = group.icon;
+        {/* ═══ DESKTOP ORBITAL CANVAS (No enclosing box) ════════════════════ */}
+        <div className="hidden lg:block relative w-full h-[720px] xl:h-[760px] max-w-5xl mx-auto">
+          
+          {/* Curved Connector Lines (SVG) */}
+          <svg
+            viewBox="0 0 800 650"
+            className="absolute inset-0 w-full h-full pointer-events-none z-0"
+          >
+            {TOP_5_INGREDIENTS.map((ing, idx) => {
+              const isCurrent = idx === hoveredIdx;
+              return (
+                <g key={`path-${ing.id}`}>
+                  {/* Dashed connector line */}
+                  <path
+                    d={ing.svgPath}
+                    fill="none"
+                    stroke={isCurrent ? ing.color : '#8f818b'}
+                    strokeWidth={isCurrent ? '3.5' : '2'}
+                    strokeDasharray={isCurrent ? 'none' : '5 6'}
+                    strokeOpacity={isCurrent ? '0.95' : '0.35'}
+                    strokeLinecap="round"
+                    className="transition-all duration-300"
+                  />
+                  {/* Anchor dot at bowl edge */}
+                  <circle
+                    cx={ing.pulseEnd.x}
+                    cy={ing.pulseEnd.y}
+                    r={isCurrent ? '5.5' : '3.5'}
+                    fill={isCurrent ? ing.color : '#8f818b'}
+                    fillOpacity={isCurrent ? '1' : '0.5'}
+                    className="transition-all duration-300"
+                  />
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* Centerpiece 3D Bowl */}
+          <div className="absolute top-[53%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center">
+            
+            {/* Dynamic Halo Glow matching hovered ingredient */}
+            <div
+              className="absolute inset-0 rounded-full filter blur-2xl transition-all duration-500 -z-10 scale-110"
+              style={{ backgroundColor: active.glowColor }}
+            />
+
+            {/* The 3D Ceramic Bowl Image */}
+            <div className="relative w-60 h-60 xl:w-68 xl:h-68 rounded-full overflow-hidden shadow-2xl border-4 border-white transition-transform duration-500 ease-out hover:scale-105">
+              <Image
+                src="/images/ingredients/fresh-bowl-3d.jpg"
+                alt="Freshly cooked dog food bowl with real ingredients"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* 5 Orbiting 3D Ingredient Nodes (Enlarged) */}
+          {TOP_5_INGREDIENTS.map((ing, idx) => {
+            const isCurrent = idx === hoveredIdx;
             return (
-              <ScrollReveal key={group.id} delay={idx * 80} className="h-full">
+              <div
+                key={ing.id}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                className={`absolute ${ing.desktopPos} z-20 group flex flex-col items-center cursor-pointer transition-all duration-300 ${
+                  isCurrent ? 'scale-110' : 'hover:scale-105 opacity-90 hover:opacity-100'
+                }`}
+                style={{ maxWidth: '210px' }}
+              >
+                {/* 3D Ingredient Orb — Significantly Enlarged */}
                 <div
-                  className="bg-white rounded-2xl border border-plum-900/10 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1 h-full"
+                  className={`relative w-28 h-28 sm:w-32 sm:h-32 xl:w-36 xl:h-36 rounded-full p-1.5 bg-white transition-all duration-300 ${
+                    isCurrent
+                      ? 'shadow-2xl ring-4 ring-offset-2'
+                      : 'shadow-lg border border-plum-900/10 hover:shadow-2xl'
+                  }`}
+                  style={{
+                    borderColor: isCurrent ? ing.color : 'transparent',
+                    ringColor: ing.color,
+                    boxShadow: isCurrent ? `0 16px 36px -6px ${ing.glowColor}` : '0 10px 24px -4px rgba(42, 24, 36, 0.08)',
+                  }}
                 >
-                  {/* Image Window */}
-                  <div className="relative w-full h-44 bg-cream-100 overflow-hidden">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-cream-50">
                     <Image
-                      src={group.image}
-                      alt={group.alt}
+                      src={ing.image}
+                      alt={ing.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                    
-                    {/* Badge */}
-                    <span className={`absolute bottom-2.5 left-3 text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-xs border ${group.badgeColor}`}>
-                      {group.badge}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-5 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className={`w-7 h-7 rounded-lg ${group.iconBg} flex items-center justify-center shrink-0`}>
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <h3 className="font-bold text-plum-900 text-base sm:text-lg transition-colors">
-                          {group.title}
-                        </h3>
-                      </div>
-                      <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed font-normal mb-5">
-                        {group.subtitle}
-                      </p>
-                    </div>
-
-                    {/* Key Ingredients List */}
-                    <div className="pt-3.5 border-t border-plum-900/5">
-                      <p className="text-[10px] font-bold text-plum-900/40 uppercase tracking-wider mb-2">
-                        Key Fresh Foods
-                      </p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {group.items.map((item) => (
-                          <span
-                            key={item}
-                            className="inline-flex items-center gap-1 text-[11px] font-medium bg-[#fdfbf7] text-plum-900/80 px-2.5 py-1 rounded-md border border-plum-900/5"
-                          >
-                            <Check className={`w-3 h-3 ${group.checkColor} shrink-0`} />
-                            <span>{item}</span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
                   </div>
                 </div>
-              </ScrollReveal>
+
+                {/* Minimalist Title & Badge below */}
+                <div className={`mt-2.5 ${ing.textAlign}`}>
+                  <h4 className={`text-sm xl:text-base font-black transition-colors ${
+                    isCurrent ? 'text-plum-900' : 'text-plum-900/80'
+                  }`}>
+                    {ing.name}
+                  </h4>
+                  <span
+                    className="text-[10px] xl:text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full inline-block mt-1"
+                    style={{
+                      backgroundColor: isCurrent ? `${ing.color}20` : '#f4efdf',
+                      color: isCurrent ? ing.color : '#57585a',
+                    }}
+                  >
+                    {ing.badge}
+                  </span>
+                </div>
+              </div>
             );
           })}
         </div>
 
-        {/* Real Kitchen Transparency Feature Banner */}
-        <ScrollReveal delay={120}>
-          <div className="bg-white rounded-3xl border border-plum-900/10 overflow-hidden shadow-md grid grid-cols-1 lg:grid-cols-12 items-center">
-            {/* Left: Fresh ingredients flatlay photography */}
-            <div className="lg:col-span-5 relative h-64 sm:h-72 lg:h-full min-h-[280px] bg-cream-100">
-              <Image
-                src="/images/home/ingredients-flatlay.png"
-                alt="Fresh human-grade raw ingredients flatlay: chicken breast, pumpkin, carrots, spinach, turmeric, and chia seeds"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 40vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent pointer-events-none" />
-              <span className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-xs text-plum-900 text-xs font-black px-3 py-1 rounded-full shadow-md border border-plum-900/10">
-                Real Whole Ingredients Only
-              </span>
-            </div>
-
-            {/* Right: Message with Dog Avatar and CTA */}
-            <div className="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between">
-              <div className="flex items-start gap-4 mb-4">
-                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden shrink-0 border-2 border-teal-500 shadow-sm">
-                  <Image
-                    src="/images/home/quiz-border-collie.jpg"
-                    alt="Happy border collie pup"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-teal-600 block mb-0.5">
-                    100% Kitchen Transparency
-                  </span>
-                  <h4 className="text-xl sm:text-2xl font-black text-plum-900 leading-tight">
-                    Food so fresh you could eat it yourself.
-                  </h4>
-                </div>
-              </div>
-
-              <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed mb-6 font-normal">
-                No rendered meat meal, no mystery by-products, and zero chemical additives. We source fresh chicken, tender lamb, farm paneer, and garden vegetables directly from human food supply chains.
-              </p>
-
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-plum-900/5">
-                <div className="flex items-center gap-3 text-xs font-bold text-plum-900/70">
-                  <span className="inline-flex items-center gap-1">
-                    <Check className="w-4 h-4 text-teal-600" />
-                    <span>Zero Rendered Meals</span>
-                  </span>
-                  <span className="text-plum-900/20">•</span>
-                  <span className="inline-flex items-center gap-1">
-                    <Check className="w-4 h-4 text-peach-600" />
-                    <span>Zero Artificial Dyes</span>
-                  </span>
-                </div>
-                <Link
-                  href="/shop"
-                  className="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all shadow-md hover:shadow-lg inline-flex items-center gap-2"
-                >
-                  <span>View Full Menu</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
+        {/* ═══ MOBILE / TABLET VIEW (< 1024px) ══════════════════════════════ */}
+        <div className="lg:hidden flex flex-col items-center">
+          
+          {/* Center 3D Bowl */}
+          <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-2xl border-4 border-white mb-8">
+            <Image
+              src="/images/ingredients/fresh-bowl-3d.jpg"
+              alt="Freshly cooked dog food bowl"
+              fill
+              className="object-cover"
+            />
           </div>
-        </ScrollReveal>
+
+          {/* Clean 5-Item 3D Ingredients Grid (Enlarged) */}
+          <div className="w-full flex flex-wrap justify-center gap-3 sm:gap-5 max-w-xl mx-auto">
+            {TOP_5_INGREDIENTS.map((ing, idx) => {
+              const isCurrent = idx === hoveredIdx;
+              return (
+                <button
+                  key={ing.id}
+                  type="button"
+                  onClick={() => setHoveredIdx(idx)}
+                  className={`p-3.5 rounded-3xl flex flex-col items-center text-center transition-all cursor-pointer w-[150px] sm:w-[170px] ${
+                    isCurrent
+                      ? 'bg-white shadow-lg ring-2 ring-plum-900 scale-102'
+                      : 'bg-white/80 hover:bg-white border border-plum-900/10 shadow-xs'
+                  }`}
+                >
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden mb-2.5 p-1 bg-cream-50">
+                    <Image
+                      src={ing.image}
+                      alt={ing.name}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <h4 className="text-xs sm:text-sm font-black text-plum-900 leading-tight">
+                    {ing.name}
+                  </h4>
+                  <span
+                    className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full inline-block mt-1"
+                    style={{
+                      backgroundColor: `${ing.color}20`,
+                      color: ing.color,
+                    }}
+                  >
+                    {ing.badge}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Minimal Bottom CTA Button */}
+        <div className="text-center mt-10">
+          <Link
+            href="/shop"
+            className="inline-flex items-center gap-2 bg-plum-900 hover:bg-plum-800 text-white font-black text-xs sm:text-sm px-7 py-3 rounded-full shadow-md hover:shadow-lg transition-all"
+          >
+            <span>Explore Our Fresh Recipes</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+
       </div>
+
     </section>
   );
 }

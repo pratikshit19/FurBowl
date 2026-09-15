@@ -217,7 +217,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                 {/* 6 Slices — each slice is 60°, centered so slice 0 starts at -30° from top */}
                 {OFFERS.map((offer, i) => {
                   const isTeal = i % 2 === 0;
-                  const cx = 200, cy = 200, r = 195;
+                  const cx = 200, cy = 200, r = 200;
 
                   // Mid-angle of this slice in degrees, measured from the top (12 o'clock = 0°)
                   const midDeg = i * 60; // degrees from top, clockwise
@@ -255,9 +255,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                       <path
                         d={`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z`}
                         fill={isTeal ? '#15aec0' : '#ff7a59'}
-                        stroke="#ffffff"
-                        strokeWidth="3"
-                        strokeLinejoin="round"
+                        stroke="none"
                       />
                       {lines.length === 1 ? (
                         <text
@@ -290,6 +288,25 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                         </text>
                       )}
                     </g>
+                  );
+                })}
+
+                {/* Dividing spoke lines between slices — only radial dividers, zero outer rim line */}
+                {OFFERS.map((_, i) => {
+                  const startDeg = i * 60 - 30;
+                  const startRad = ((startDeg - 90) * Math.PI) / 180;
+                  const x = 200 + 200 * Math.cos(startRad);
+                  const y = 200 + 200 * Math.sin(startRad);
+                  return (
+                    <line
+                      key={`spoke-${i}`}
+                      x1="200"
+                      y1="200"
+                      x2={x}
+                      y2={y}
+                      stroke="#ffffff"
+                      strokeWidth="3"
+                    />
                   );
                 })}
               </svg>

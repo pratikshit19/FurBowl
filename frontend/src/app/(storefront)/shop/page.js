@@ -1,7 +1,5 @@
-import { Suspense } from 'react';
-import ProductGrid from '@/components/product/ProductGrid';
-import ProductFilters from '@/components/product/ProductFilters';
 import Link from 'next/link';
+import ShopCatalogVisual from '@/components/product/ShopCatalogVisual';
 
 export const metadata = {
   title: 'Shop Fresh Dog Food',
@@ -10,71 +8,128 @@ export const metadata = {
 };
 
 const PLACEHOLDER_PRODUCTS = [
+  // ─── 5 Official Core Meals ───
   {
-    id: '1',
-    name: 'Chicken Harvest',
-    slug: 'chicken-harvest',
-    shortDescription: 'Wholesome nutrition with real chicken, pumpkin & garden veggies.',
+    id: 'chicken-vegetables',
+    name: 'Chicken & Vegetables Wet Dog Food',
+    slug: 'chicken-vegetables',
+    shortDescription: 'Whole chicken, liver, gizzard, pumpkin, carrot, peas & sweet potato.',
     isVeg: false,
     isFeatured: true,
     foodType: 'WET',
-    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken Harvest' }],
-    variants: [{ mrp: 99, sellingPrice: 89 }],
+    category: { slug: 'meals' },
+    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables Wet Dog Food' }],
+    variants: [{ mrp: 219, sellingPrice: 199, size: '100g Pouch' }],
   },
   {
-    id: '2',
-    name: 'Chicken Homestyle',
-    slug: 'chicken-homestyle',
-    shortDescription: 'Homestyle slow-cooked chicken with rice, peas & pumpkin.',
+    id: 'chicken-rice-vegetables',
+    name: 'Chicken Rice & Vegetables Wet Dog Food',
+    slug: 'chicken-rice-vegetables',
+    shortDescription: 'Slow-cooked whole chicken, chicken liver, heart, rice & garden veggies.',
     isVeg: false,
     isFeatured: true,
     foodType: 'WET',
-    images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Homestyle' }],
-    variants: [{ mrp: 99, sellingPrice: 89 }],
+    category: { slug: 'meals' },
+    images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Rice & Vegetables Wet Dog Food' }],
+    variants: [{ mrp: 219, sellingPrice: 199, size: '100g Pouch' }],
   },
   {
-    id: '3',
-    name: 'Golden Egg & Quinoa',
-    slug: 'golden-egg-quinoa',
-    shortDescription: 'Farm-fresh eggs with superfood quinoa & pumpkin for active pups.',
+    id: 'egg-superfood',
+    name: 'Egg Superfood Wet Dog Food with Quinoa & Vegetables',
+    slug: 'egg-superfood',
+    shortDescription: 'Farm eggs, organic quinoa, sweet potato, spinach, peas & zucchini.',
     isVeg: true,
     isFeatured: true,
     foodType: 'WET',
-    images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Golden Egg & Quinoa' }],
-    variants: [{ mrp: 109, sellingPrice: 99 }],
+    category: { slug: 'meals' },
+    images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Egg Superfood Wet Dog Food' }],
+    variants: [{ mrp: 209, sellingPrice: 189, size: '100g Pouch' }],
   },
   {
-    id: '4',
-    name: 'Paneer & Greens',
-    slug: 'paneer-greens',
-    shortDescription: 'Fresh paneer cubes with spinach, carrots & green beans.',
+    id: 'paneer-vegetables',
+    name: 'Paneer & Vegetables Wet Dog Food',
+    slug: 'paneer-vegetables',
+    shortDescription: 'Fresh paneer, rice, pumpkin, carrot, green peas, spinach & chia seeds.',
     isVeg: true,
     isFeatured: true,
     foodType: 'WET',
-    images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Greens' }],
-    variants: [{ mrp: 109, sellingPrice: 99 }],
+    category: { slug: 'meals' },
+    images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Vegetables Wet Dog Food' }],
+    variants: [{ mrp: 209, sellingPrice: 189, size: '100g Pouch' }],
   },
   {
-    id: '5',
-    name: 'Lamb Lentil Harvest',
-    slug: 'lamb-lentil-harvest',
-    shortDescription: 'Hearty slow-cooked lamb with red lentils, sweet potato & broccoli.',
+    id: 'lamb-lentils',
+    name: 'Lamb & Lentils Wet Dog Food with Vegetables',
+    slug: 'lamb-lentils',
+    shortDescription: 'Lean lamb, lamb liver, red lentils, sweet potato, green beans & broccoli.',
     isVeg: false,
     isFeatured: true,
     foodType: 'WET',
-    images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb Lentil Harvest' }],
-    variants: [{ mrp: 119, sellingPrice: 109 }],
+    category: { slug: 'meals' },
+    images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils Wet Dog Food' }],
+    variants: [{ mrp: 249, sellingPrice: 229, size: '100g Pouch' }],
   },
+
+  // ─── Official Curated Trial Packs ───
   {
-    id: '6',
-    name: 'Golden Chicken Broth',
-    slug: 'golden-chicken-broth',
-    shortDescription: 'Warm bone broth for hydration, digestion & joint care.',
+    id: 'all-recipes-trial-pack',
+    name: 'All Recipes Wet Dog Food Trial Pack – 5 x 100g',
+    slug: 'all-recipes-trial-pack',
+    shortDescription: '1 of each recipe (Chicken, Lamb, Egg & Paneer). ⭐ Best discovery pack.',
     isVeg: false,
     isFeatured: true,
-    foodType: 'BROTH',
-    images: [{ url: '/images/products/golden-chicken-broth-front.jpg', altText: 'Golden Chicken Broth' }],
-    variants: [{ mrp: 129, sellingPrice: 109 }],
+    foodType: 'TRIAL_PACK',
+    category: { slug: 'trial-packs' },
+    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'All Recipes Trial Pack' }],
+    variants: [{ mrp: 599, sellingPrice: 499, size: '5 x 100g' }],
+  },
+  {
+    id: 'chicken-lovers-trial-pack',
+    name: 'Chicken Wet Dog Food Trial Pack – 4 x 100g',
+    slug: 'chicken-lovers-trial-pack',
+    shortDescription: '2x Chicken Veg + 2x Chicken Rice. For dogs who love poultry.',
+    isVeg: false,
+    isFeatured: true,
+    foodType: 'TRIAL_PACK',
+    category: { slug: 'trial-packs' },
+    images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Lovers Trial Pack' }],
+    variants: [{ mrp: 479, sellingPrice: 399, size: '4 x 100g' }],
+  },
+  {
+    id: 'meat-lovers-trial-pack',
+    name: 'Chicken & Lamb Wet Dog Food Trial Pack – 4 x 100g',
+    slug: 'meat-lovers-trial-pack',
+    shortDescription: '1x Chicken Veg + 1x Chicken Rice + 2x Lamb & Lentils. Protein-focused.',
+    isVeg: false,
+    isFeatured: true,
+    foodType: 'TRIAL_PACK',
+    category: { slug: 'trial-packs' },
+    images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Chicken & Lamb Trial Pack' }],
+    variants: [{ mrp: 519, sellingPrice: 429, size: '4 x 100g' }],
+  },
+  {
+    id: 'chicken-egg-trial-pack',
+    name: 'Chicken & Egg Wet Dog Food Trial Pack – 4 x 100g',
+    slug: 'chicken-egg-trial-pack',
+    shortDescription: '1x Chicken Veg + 1x Chicken Rice + 2x Egg SuperFood. Familiar + variety.',
+    isVeg: false,
+    isFeatured: false,
+    foodType: 'TRIAL_PACK',
+    category: { slug: 'trial-packs' },
+    images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Chicken & Egg Trial Pack' }],
+    variants: [{ mrp: 479, sellingPrice: 399, size: '4 x 100g' }],
+  },
+  {
+    id: 'meat-veggie-variety-pack',
+    name: 'Meat & Veggie Wet Dog Food Trial Pack – 6 x 100g',
+    slug: 'meat-veggie-variety-pack',
+    shortDescription: '2x Chicken Veg + 1x Chicken Rice + 1x Lamb + 1x Egg + 1x Paneer.',
+    isVeg: false,
+    isFeatured: false,
+    foodType: 'TRIAL_PACK',
+    category: { slug: 'trial-packs' },
+    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Meat & Veggie Trial Pack' }],
+    variants: [{ mrp: 699, sellingPrice: 579, size: '6 x 100g' }],
   },
 ];
 
@@ -86,7 +141,11 @@ function applyFiltersAndSort(items, searchParams) {
     const cat = searchParams.category.toLowerCase();
     if (cat === 'meals') {
       filtered = filtered.filter(
-        (p) => p.foodType === 'WET' || p.category?.slug === 'meals' || !p.slug.includes('broth')
+        (p) => p.foodType === 'WET' || p.category?.slug === 'meals'
+      );
+    } else if (cat === 'trial-packs') {
+      filtered = filtered.filter(
+        (p) => p.foodType === 'TRIAL_PACK' || p.category?.slug === 'trial-packs' || p.slug.includes('pack')
       );
     } else if (cat === 'broth') {
       filtered = filtered.filter(
@@ -172,65 +231,45 @@ async function getProducts(searchParams) {
 
 export default async function ShopPage({ searchParams }) {
   const params = await searchParams;
-  const { products, pagination } = await getProducts(params);
+  
+  // Determine initial active tab from query parameters
+  let initialTab = 'meals';
+  if (params?.category === 'trial-packs' || params?.tab === 'trial-packs') {
+    initialTab = 'trial-packs';
+  } else if (params?.category === 'custom-box' || params?.tab === 'value-bundles' || params?.category === 'monthly-packs') {
+    initialTab = 'multi-packs';
+  }
 
   return (
-    <div className="section-padding bg-white">
+    <div className="py-8 sm:py-12 bg-white">
       <div className="container-main">
-        {/* Clean Minimal Header */}
-        <div className="mb-6 pt-2">
-          <nav className="text-xs font-medium text-plum-900/50 uppercase tracking-widest mb-3" aria-label="Breadcrumb">
+        {/* Header & Breadcrumb */}
+        <div className="mb-8 pt-2">
+          <nav className="text-xs font-bold text-plum-900/50 uppercase tracking-widest mb-3" aria-label="Breadcrumb">
             <ol className="flex items-center gap-2">
-              <li><Link href="/" className="hover:text-coral-500 transition-colors">Home</Link></li>
+              <li><Link href="/" className="hover:text-teal-600 transition-colors">Home</Link></li>
               <li aria-hidden="true"><span>/</span></li>
-              <li className="text-plum-900 font-semibold" aria-current="page">Shop</li>
+              <li className="text-plum-900 font-extrabold" aria-current="page">All Products</li>
             </ol>
           </nav>
 
-          <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-plum-900/5 pb-4">
+          <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-plum-900/10 pb-5">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-plum-900 tracking-tight mb-1">
-                All Products
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight mb-2">
+                All Products &amp; Fresh Meals
               </h1>
-              <p className="text-xs sm:text-sm text-plum-900/60 font-normal">
-                Fresh, ready-to-eat dog food made with 100% human-grade ingredients.
+              <p className="text-sm sm:text-base text-plum-900/65 font-normal">
+                100% human-grade, chef-crafted recipes gently cooked &amp; vacuum-sealed for fresh daily feeding.
               </p>
             </div>
-            <span className="text-xs font-medium text-plum-900/60 bg-white border border-plum-900/5 px-3.5 py-1.5 rounded-full shadow-sm">
-              {products.length} {products.length === 1 ? 'product' : 'products'}
+            <span className="text-xs font-black text-teal-700 bg-teal-50 border border-teal-200 px-3.5 py-1.5 rounded-full shadow-xs">
+              100% Human-Grade
             </span>
           </div>
         </div>
 
-        {/* Filters */}
-        <Suspense>
-          <ProductFilters />
-        </Suspense>
-
-        {/* Grid */}
-        <div className="mt-8">
-          <ProductGrid products={products} />
-        </div>
-
-        {/* Pagination */}
-        {pagination && pagination.totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-12">
-            {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
-              <Link
-                key={page}
-                href={`/shop?${new URLSearchParams({ ...params, page }).toString()}`}
-                className={`w-10 h-10 flex items-center justify-center rounded-xl text-sm font-extrabold transition-colors ${
-                  page === pagination.page
-                    ? 'bg-coral-500 text-white shadow-md'
-                    : 'text-plum-900 bg-white border border-plum-900/10 hover:bg-plum-900/5'
-                }`}
-                aria-current={page === pagination.page ? 'page' : undefined}
-              >
-                {page}
-              </Link>
-            ))}
-          </div>
-        )}
+        {/* Visual Catalog (Fresh Meals, Curated Trial Packs & Multi-Pack Bundles) */}
+        <ShopCatalogVisual initialTab={initialTab} />
       </div>
     </div>
   );

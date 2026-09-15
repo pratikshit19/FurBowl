@@ -229,35 +229,48 @@ export default function ComparisonSection() {
           </div>
         </div>
 
-        {/* ─── Stat Cards (Original 4 cards, larger typography) ─── */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto">
-          {(showFurbowl ? FURBOWL_STATS : KIBBLE_STATS).map((card, idx) => (
-            <div
-              key={`${showFurbowl ? 'fb' : 'kb'}-${idx}`}
-              className={`rounded-2xl p-5 sm:p-7 text-center border shadow-xs transition-all duration-500 ${
-                showFurbowl
-                  ? 'bg-white border-teal-500/20'
-                  : 'bg-white border-peach-500/20'
-              }`}
-              style={{
-                opacity: labelsIn ? 1 : 0,
-                transform: labelsIn ? 'translateY(0)' : 'translateY(12px)',
-                transitionDelay: `${idx * 80}ms`,
-              }}
-            >
-              <div className={`text-3xl sm:text-4xl lg:text-5xl font-black leading-none mb-2 transition-colors duration-500 ${
-                showFurbowl ? 'text-teal-600' : 'text-peach-600'
-              }`}>
-                {card.stat}
+        {/* ─── Stat Cards ─── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-5 max-w-5xl mx-auto">
+          {(showFurbowl ? FURBOWL_STATS : KIBBLE_STATS).map((card, idx) => {
+            const isLongStat = card.stat.length >= 6;
+            const isMediumStat = card.stat.length >= 5;
+
+            return (
+              <div
+                key={`${showFurbowl ? 'fb' : 'kb'}-${idx}`}
+                className={`rounded-2xl p-4 sm:p-5 lg:p-6 text-center border shadow-xs transition-all duration-500 min-w-0 flex flex-col justify-center ${
+                  showFurbowl
+                    ? 'bg-white border-teal-500/20'
+                    : 'bg-white border-peach-500/20'
+                }`}
+                style={{
+                  opacity: labelsIn ? 1 : 0,
+                  transform: labelsIn ? 'translateY(0)' : 'translateY(12px)',
+                  transitionDelay: `${idx * 80}ms`,
+                }}
+              >
+                <div
+                  className={`font-black leading-tight mb-2 transition-colors duration-500 truncate ${
+                    isLongStat
+                      ? 'text-xl sm:text-2xl lg:text-[1.75rem] tracking-tight'
+                      : isMediumStat
+                      ? 'text-2xl sm:text-3xl lg:text-4xl tracking-tight'
+                      : 'text-3xl sm:text-4xl lg:text-5xl'
+                  } ${
+                    showFurbowl ? 'text-teal-600' : 'text-peach-600'
+                  }`}
+                >
+                  {card.stat}
+                </div>
+                <div className="text-xs sm:text-sm font-black text-plum-900 uppercase tracking-wider mb-1.5">
+                  {card.label}
+                </div>
+                <p className="text-xs sm:text-[13px] text-plum-900/60 font-medium leading-relaxed">
+                  {card.sub}
+                </p>
               </div>
-              <div className="text-xs sm:text-sm font-black text-plum-900 uppercase tracking-wider mb-1.5">
-                {card.label}
-              </div>
-              <p className="text-xs sm:text-sm text-plum-900/60 font-medium leading-relaxed">
-                {card.sub}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
       </div>
