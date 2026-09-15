@@ -11,24 +11,29 @@ import {
   Scale,
   Heart,
 } from 'lucide-react';
+import SpinWheelSlide from './SpinWheelSlide';
 
 const DEFAULT_BANNERS = [
   {
-    id: 'good-food-better-tails',
-    image: '/images/banner-good-food-hd.jpg',
-    alt: 'FurBowl — Good Food. Better Tails. Made with real, human grade ingredients.',
+    id: 'carousel-1',
+    image: '/images/carousel_1.png',
+    alt: 'FurBowl — 100% Natural, 0% Compromise. Shop fresh dog food now.',
     link: '/shop',
   },
   {
-    id: 'pure-ingredients-powerful-health',
-    image: '/images/banner-pure-ingredients-hd.jpg',
-    alt: 'FurBowl — Pure Ingredients. Powerful Health. Human grade nutrition for every stage of life.',
+    id: 'spin-discount-wheel',
+    type: 'wheel',
+  },
+  {
+    id: 'carousel-2',
+    image: '/images/carousel_2.png',
+    alt: 'FurBowl — Can\'t Pick Just One? Let them try them all. Try the trial pack.',
     link: '/shop',
   },
   {
-    id: 'real-ingredients-real-nutrition',
-    image: '/images/banner-real-nutrition-hd.jpg',
-    alt: 'FurBowl — Real Ingredients. Real Nutrition. 100% human grade ingredients for a healthier, happier dog.',
+    id: 'carousel-3',
+    image: '/images/carousel_3_169.png',
+    alt: 'FurBowl — A Meal for Every Mood. Discover their next favourite.',
     link: '/shop',
   },
 ];
@@ -36,6 +41,7 @@ const DEFAULT_BANNERS = [
 export default function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [isWheelSpinning, setIsWheelSpinning] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const banners = DEFAULT_BANNERS;
@@ -49,10 +55,11 @@ export default function HeroCarousel() {
   }, [banners.length]);
 
   useEffect(() => {
-    if (paused) return;
-    const id = setInterval(next, 5000);
+    // Pause auto-rotation when hovered, when wheel is spinning, or when currently on wheel slide
+    if (paused || isWheelSpinning || banners[current]?.type === 'wheel') return;
+    const id = setInterval(next, 5500);
     return () => clearInterval(id);
-  }, [next, paused]);
+  }, [next, paused, isWheelSpinning, current]);
 
   const minSwipeDistance = 50;
 
@@ -86,6 +93,7 @@ export default function HeroCarousel() {
       {/* Interactive Carousel Section */}
       <section
         className="relative overflow-hidden bg-butter-50/50 w-full select-none"
+        style={{ aspectRatio: '16/9' }}
         aria-label="Featured promotions carousel"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -95,38 +103,36 @@ export default function HeroCarousel() {
         onKeyDown={handleKeyDown}
         tabIndex={0}
       >
-        {/* Slides Track */}
-        <div
-          className="flex transition-transform duration-700 ease-in-out"
-          style={{ transform: `translateX(-${current * 100}%)` }}
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {banners.map((banner, i) => (
-            <div
-              key={banner.id}
-              className="w-full flex-shrink-0"
-              aria-hidden={i !== current}
-            >
+        {/* Slides — each absolutely positioned, slide in/out via translateX */}
+        {banners.map((banner, i) => (
+          <div
+            key={banner.id}
+            className="absolute inset-0 transition-transform duration-700 ease-in-out"
+            style={{ transform: `translateX(${(i - current) * 100}%)` }}
+            aria-hidden={i !== current}
+          >
+            {banner.type === 'wheel' ? (
+              <SpinWheelSlide
+                onSpinStateChange={(spinning) => setIsWheelSpinning(spinning)}
+              />
+            ) : (
               <Link
                 href={banner.link}
-                className="block w-full relative group focus:outline-none"
+                className="block w-full h-full group focus:outline-none"
                 tabIndex={i === current ? 0 : -1}
               >
-                <div className="relative w-full aspect-[16/9] sm:aspect-[1.75/1] max-h-[560px] overflow-hidden bg-butter-100/40">
-                  <Image
-                    src={banner.image}
-                    alt={banner.alt}
-                    fill
-                    priority={i === 0}
-                    className="object-cover object-center w-full h-full transition-transform duration-700 group-hover:scale-[1.01]"
-                    sizes="100vw"
-                  />
-                </div>
+                <Image
+                  src={banner.image}
+                  alt={banner.alt}
+                  fill
+                  priority={i === 0}
+                  className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.01]"
+                  sizes="100vw"
+                />
               </Link>
-            </div>
-          ))}
-        </div>
+            )}
+          </div>
+        ))}
 
         {/* Carousel Navigation Arrows */}
         {banners.length > 1 && (

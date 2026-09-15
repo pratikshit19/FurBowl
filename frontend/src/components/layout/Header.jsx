@@ -126,7 +126,14 @@ export default function Header() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Invalid OTP');
       useAuthStore.getState().setUser(data.user, data.token);
-      setAccountDropdownOpen(false);
+
+      if (data.isNewUser || !data.user.name) {
+        setAccountDropdownOpen(true);
+        setEditingName(true);
+        setNameInput('');
+      } else {
+        setAccountDropdownOpen(false);
+      }
       setQuickStep('phone');
       setQuickPhone('');
       setQuickOtp('');
@@ -453,16 +460,17 @@ export default function Header() {
                       {(editingName || !user?.name) && (
                         <form onSubmit={handleSaveName} className="p-3 bg-cream-100/80 rounded-2xl border border-plum-900/10 space-y-2">
                           <p className="text-[11px] font-bold text-plum-900">
-                            {user?.name ? 'Change display name:' : 'What is your name?'}
+                            {user?.name ? 'Change username:' : 'Choose your preferred username:'}
                           </p>
                           <div className="flex gap-2">
                             <input
                               type="text"
                               value={nameInput}
                               onChange={(e) => setNameInput(e.target.value)}
-                              placeholder="Enter your name"
+                              placeholder="e.g. pratikshit"
                               className="flex-1 bg-white border border-plum-900/15 rounded-xl px-3 py-1.5 text-xs text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none focus:border-teal-500"
                               autoFocus
+                              required
                             />
                             <button
                               type="submit"

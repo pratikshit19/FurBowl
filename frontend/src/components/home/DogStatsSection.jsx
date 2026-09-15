@@ -1,8 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { Activity, ShieldCheck, Ban, Flame, ArrowRight } from 'lucide-react';
+import { Activity, ShieldCheck, Ban, Flame } from 'lucide-react';
 import ScrollReveal from '@/components/common/ScrollReveal';
 
 const STATS = [
@@ -60,40 +59,7 @@ const STATS = [
   },
 ];
 
-const TIMELINE = [
-  {
-    day: 'Day 1',
-    badgeColor: 'bg-teal-500 text-white',
-    title: 'Clean Bowls & Licked Spoons',
-    desc: 'Pure aromatic excitement at mealtime with real whole steam-cooked meat.',
-    image: '/images/home/pack/max.jpg',
-    alt: 'Excited feeding puppy Max',
-  },
-  {
-    day: 'Day 7',
-    badgeColor: 'bg-peach-500 text-white',
-    title: 'Firmer Stools & Less Gas',
-    desc: '90%+ natural bio-digestibility means smaller clean pickups and zero bloating.',
-    image: '/images/home/pack/charlie.jpg',
-    alt: 'Happy healthy dog Charlie',
-  },
-  {
-    day: 'Day 14',
-    badgeColor: 'bg-teal-500 text-white',
-    title: 'Softer Fur & Fresh Breath',
-    desc: 'Omega oils nourish skin from within, giving a gleaming soft coat.',
-    image: '/images/home/pack/simba.jpg',
-    alt: 'Shiny coat golden dog Simba',
-  },
-  {
-    day: 'Day 30+',
-    badgeColor: 'bg-peach-500 text-white',
-    title: 'Playful Zoomies & Vitality',
-    desc: 'Boundless puppy energy, optimal weight, and bright happy eyes.',
-    image: '/images/home/hero-golden-dog.jpg',
-    alt: 'Happy Golden Retriever with zoomies energy',
-  },
-];
+
 
 export default function DogStatsSection() {
   return (
@@ -126,7 +92,7 @@ export default function DogStatsSection() {
         </div>
 
         {/* 4 Big Stat Cards with Dog Photos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {STATS.map((stat, idx) => {
             const Icon = stat.icon;
             return (
@@ -170,67 +136,6 @@ export default function DogStatsSection() {
               </ScrollReveal>
             );
           })}
-        </div>
-
-        {/* The 30-Day Fresh Food Transformation Roadmap with Dog Photos */}
-        <div className="bg-white/85 backdrop-blur-xs rounded-3xl border border-plum-900/10 p-6 sm:p-10 shadow-xs">
-          <div className="text-center max-w-xl mx-auto mb-10">
-            <span className="text-xs font-bold text-peach-600 uppercase tracking-widest block mb-1">
-              What To Expect
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-black text-plum-900">
-              The 30-Day Pup Transformation
-            </h3>
-            <p className="text-xs sm:text-sm text-plum-900/70 mt-1">
-              Real results from Indian pet parents who switched from commercial kibble to fresh cooked meals.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TIMELINE.map((step, idx) => (
-              <ScrollReveal key={idx} delay={idx * 80} className="h-full">
-                <div
-                  className="bg-white rounded-2xl border border-plum-900/10 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col justify-between group hover:-translate-y-1 h-full"
-                >
-                  {/* Milestone Dog Photo */}
-                  <div className="relative w-full h-40 bg-cream-100 overflow-hidden">
-                    <Image
-                      src={step.image}
-                      alt={step.alt}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                    <span className={`absolute bottom-2.5 left-3 px-2.5 py-0.5 rounded-full ${step.badgeColor} text-[10px] font-black uppercase shadow-xs`}>
-                      {step.day}
-                    </span>
-                  </div>
-
-                  <div className="p-4 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h4 className="text-sm font-bold text-plum-900 mb-1">
-                        {step.title}
-                      </h4>
-                      <p className="text-xs text-plum-900/65 leading-relaxed font-normal">
-                        {step.desc}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 bg-peach-500 hover:bg-peach-600 text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5"
-            >
-              <span>Start Their Fresh Journey Today</span>
-              <ArrowRight className="w-4 h-4 shrink-0" />
-            </Link>
-          </div>
         </div>
       </div>
     </section>

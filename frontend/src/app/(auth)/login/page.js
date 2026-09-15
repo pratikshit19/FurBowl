@@ -123,7 +123,7 @@ function OtpStep({ phone, onSuccess, onBack }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Invalid OTP');
-      onSuccess(data.user, data.token);
+      onSuccess(data.user, data.token, data.isNewUser || !data.user.name);
     } catch (e) {
       setError(e.message);
       setOtp(['', '', '', '', '', '']);
@@ -202,7 +202,6 @@ function OtpStep({ phone, onSuccess, onBack }) {
 
 function EmailStep({ onSuccess }) {
   const [mode, setMode] = useState('signup'); // 'signup' | 'login'
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -218,19 +217,13 @@ function EmailStep({ onSuccess }) {
       setError('Password must be at least 6 characters');
       return;
     }
-    if (mode === 'signup' && !name.trim()) {
-      setError('Please enter your full name');
-      return;
-    }
 
     setLoading(true);
     setError('');
 
     try {
       const endpoint = mode === 'signup' ? '/auth/register' : '/auth/login';
-      const body = mode === 'signup'
-        ? { name: name.trim(), email: email.trim(), password }
-        : { email: email.trim(), password };
+      const body = { email: email.trim(), password };
 
       const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
@@ -241,16 +234,16 @@ function EmailStep({ onSuccess }) {
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || `${mode === 'signup' ? 'Registration' : 'Login'} failed`);
-      onSuccess(data.user, data.token);
+      onSuccess(data.user, data.token, mode === 'signup' || data.isNewUser || !data.user.name);
     } catch (e) {
-      // Fallback for seamless demo/offline flow
+      // Fallback for demo/offline
       if (e.message.includes('fetch') || e.message.includes('Failed') || e.message.includes('HTTP')) {
         const fallbackUser = {
           id: 'usr_' + Date.now(),
-          name: name.trim() || email.split('@')[0],
           email: email.trim(),
+          name: null,
         };
-        onSuccess(fallbackUser, 'demo-token-' + Date.now());
+        onSuccess(fallbackUser, 'demo-token-' + Date.now(), mode === 'signup');
       } else {
         setError(e.message);
       }
@@ -296,22 +289,6 @@ function EmailStep({ onSuccess }) {
         </button>
       </div>
 
-      {mode === 'signup' && (
-        <div className="mb-4">
-          <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">
-            Full Name
-          </label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Priya Sharma"
-            className="w-full border border-plum-900/15 rounded-xl px-4 py-3 text-sm text-plum-900 font-medium focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all"
-            required={mode === 'signup'}
-          />
-        </div>
-      )}
-
       <div className="mb-4">
         <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">
           Email Address
@@ -355,17 +332,24 @@ function EmailStep({ onSuccess }) {
   );
 }
 
-function NameStep({ user, token, onComplete }) {
-  const [name, setName] = useState('');
+function UsernameStep({ user, token, onComplete }) {
+  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name.trim()) {
-      onComplete(user, token);
+    const cleanUsername = username.trim();
+    if (!cleanUsername) {
+      setError('Please enter a username');
+      return;
+    }
+    if (cleanUsername.length < 2) {
+      setError('Username must be at least 2 characters');
       return;
     }
     setLoading(true);
+    setError('');
     try {
       const res = await fetch(`${API_URL}/auth/profile`, {
         method: 'PUT',
@@ -373,57 +357,48 @@ function NameStep({ user, token, onComplete }) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ name: name.trim() }),
+        body: JSON.stringify({ name: cleanUsername }),
       });
       const data = await res.json();
-      if (res.ok && data.user) {
-        onComplete(data.user, token);
-        return;
-      }
+      if (!res.ok) throw new Error(data.error || 'Failed to update username');
+      onComplete(data.user, token);
     } catch (err) {
-      console.error(err);
-    } finally {
+      setError(err.message || 'Failed to save username');
       setLoading(false);
     }
-    onComplete({ ...user, name: name.trim() }, token);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1 className="text-2xl font-extrabold text-plum-900 mb-2">What is your name?</h1>
+      <h1 className="text-2xl font-extrabold text-plum-900 mb-2">
+        Choose your preferred username
+      </h1>
       <p className="text-plum-900/60 text-sm mb-6">
-        Let us know what to call you so we can personalize your FurBowl experience
+        This will be your display name and identity across FurBowl.
       </p>
 
       <div className="mb-5">
         <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-2">
-          Your Full Name
+          Preferred Username
         </label>
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Pratikshit"
-          className="w-full border border-plum-900/15 rounded-xl px-4 py-3 text-sm text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="e.g. pratikshit"
+          className="w-full border border-plum-900/15 rounded-xl px-4 py-3 text-sm text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30 transition-all"
           autoFocus
           required
         />
+        {error && <p className="text-xs text-peach-600 font-semibold mt-1.5">{error}</p>}
       </div>
 
       <button
         type="submit"
-        disabled={loading || !name.trim()}
-        className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 transition-all shadow-md shadow-coral-500/20 cursor-pointer"
+        disabled={loading || !username.trim()}
+        className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3.5 rounded-xl font-bold text-sm active:scale-[0.98] disabled:opacity-50 transition-all shadow-md shadow-teal-500/20 cursor-pointer"
       >
-        {loading ? 'Saving…' : 'Continue to Dashboard'}
-      </button>
-
-      <button
-        type="button"
-        onClick={() => onComplete(user, token)}
-        className="w-full text-center text-xs font-bold text-plum-900/50 hover:text-plum-900 mt-4 transition-colors cursor-pointer"
-      >
-        Skip for now
+        {loading ? 'Saving…' : 'Confirm Username'}
       </button>
     </form>
   );
@@ -433,7 +408,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { setUser } = useAuthStore();
   const [method, setMethod] = useState('phone'); // 'phone' | 'email'
-  const [step, setStep] = useState('phone'); // 'phone' | 'otp' | 'name'
+  const [step, setStep] = useState('phone'); // 'phone' | 'otp' | 'username'
   const [phone, setPhone] = useState('');
   const [tempAuth, setTempAuth] = useState(null);
 
@@ -442,17 +417,17 @@ export default function LoginPage() {
     setStep('otp');
   };
 
-  const handleSuccess = (user, token) => {
-    if (!user.name) {
+  const handleSuccess = (user, token, isNewAccount = false) => {
+    if (isNewAccount || !user?.name) {
       setTempAuth({ user, token });
-      setStep('name');
+      setStep('username');
     } else {
       setUser(user, token);
       router.push('/account');
     }
   };
 
-  const handleNameComplete = (user, token) => {
+  const handleUsernameComplete = (user, token) => {
     setUser(user, token);
     router.push('/account');
   };
@@ -467,7 +442,7 @@ export default function LoginPage() {
             onClick={() => setMethod('phone')}
             className={`flex-1 py-2.5 text-xs font-extrabold border-b-2 transition-all flex items-center justify-center gap-2 ${
               method === 'phone'
-                ? 'border-coral-500 text-coral-500'
+                ? 'border-teal-500 text-teal-600'
                 : 'border-transparent text-plum-900/50 hover:text-plum-900'
             }`}
           >
@@ -479,21 +454,21 @@ export default function LoginPage() {
             onClick={() => setMethod('email')}
             className={`flex-1 py-2.5 text-xs font-extrabold border-b-2 transition-all flex items-center justify-center gap-2 ${
               method === 'email'
-                ? 'border-coral-500 text-coral-500'
+                ? 'border-teal-500 text-teal-600'
                 : 'border-transparent text-plum-900/50 hover:text-plum-900'
             }`}
           >
             <Mail className="w-3.5 h-3.5" />
-            <span>Email / Create Account</span>
+            <span>Email &amp; Password</span>
           </button>
         </div>
       )}
 
-      {step === 'name' && tempAuth ? (
-        <NameStep
+      {step === 'username' && tempAuth ? (
+        <UsernameStep
           user={tempAuth.user}
           token={tempAuth.token}
-          onComplete={handleNameComplete}
+          onComplete={handleUsernameComplete}
         />
       ) : method === 'email' ? (
         <EmailStep onSuccess={handleSuccess} />

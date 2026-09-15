@@ -7,9 +7,21 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1
 async function apiFetch(endpoint, options = {}) {
   const url = `${API_URL}${endpoint}`;
 
+  let authToken = options.token;
+  if (!authToken && typeof window !== 'undefined') {
+    try {
+      const raw = localStorage.getItem('furbowl-auth');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        authToken = parsed?.state?.token;
+      }
+    } catch (_) {}
+  }
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       ...options.headers,
     },
     credentials: 'include', // Send cookies for auth
@@ -65,6 +77,7 @@ export const api = {
   updateCartItem: (id, data) => apiFetch(`/cart/items/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
   removeCartItem: (id) => apiFetch(`/cart/items/${id}`, { method: 'DELETE' }),
   clearCart: () => apiFetch('/cart', { method: 'DELETE' }),
+  syncCart: (items) => apiFetch('/cart/sync', { method: 'POST', body: JSON.stringify({ items }) }),
   applyCoupon: (code) => apiFetch('/cart/apply-coupon', { method: 'POST', body: JSON.stringify({ code }) }),
   removeCoupon: () => apiFetch('/cart/coupon', { method: 'DELETE' }),
 
@@ -75,6 +88,7 @@ export const api = {
   login: (data) => apiFetch('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
   logout: () => apiFetch('/auth/logout', { method: 'POST' }),
   getMe: () => apiFetch('/auth/me'),
+  updateProfile: (data) => apiFetch('/auth/profile', { method: 'PUT', body: JSON.stringify(data) }),
 
   // Orders
   createOrder: (data) => apiFetch('/orders', { method: 'POST', body: JSON.stringify(data) }),

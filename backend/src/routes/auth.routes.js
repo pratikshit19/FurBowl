@@ -80,6 +80,7 @@ router.post('/verify-otp', async (req, res, next) => {
 
     // Find or create user
     let user = await prisma.user.findUnique({ where: { phone } });
+    const isNewUser = !user || !user.name;
     if (!user) {
       user = await prisma.user.create({
         data: { phone, phoneVerified: true },
@@ -105,6 +106,103 @@ router.post('/verify-otp', async (req, res, next) => {
         role: user.role,
       },
       token: accessToken,
+      isNewUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/v1/auth/register — Email & Password signup
+router.post('/register', async (req, res, next) => {
+  try {
+    const { email, password, name } = req.body;
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({ error: 'Valid email address is required' });
+    }
+    if (!password || password.length < 6) {
+      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+    if (existing) {
+      return res.status(400).json({ error: 'An account with this email already exists' });
+    }
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
+      data: {
+        email: normalizedEmail,
+        passwordHash,
+        name: name ? name.trim() : null,
+        emailVerified: true,
+      },
+    });
+
+    const { accessToken, refreshToken } = generateTokens(user);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.status(201).json({
+      user: {
+        id: user.id,
+        phone: user.phone,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+      token: accessToken,
+      isNewUser: !user.name,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/v1/auth/login — Email & Password login
+router.post('/login', async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+    if (!user || !user.passwordHash) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    const { accessToken, refreshToken } = generateTokens(user);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
+      user: {
+        id: user.id,
+        phone: user.phone,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+      token: accessToken,
+      isNewUser: !user.name,
     });
   } catch (error) {
     next(error);
