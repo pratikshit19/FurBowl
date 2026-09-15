@@ -258,7 +258,13 @@ const MOCK_PRODUCTS = {
     isVeg: false,
     foodType: 'TRIAL_PACK',
     category: { name: 'Trial Packs', slug: 'trial-packs' },
-    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'All Recipes Wet Dog Food Trial Pack' }],
+    images: [
+      { url: '/images/products/bundles/furbowl-bundle-all-three.jpg', altText: 'All Recipes Wet Dog Food Trial Pack' },
+      { url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables' },
+      { url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils' },
+      { url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Egg Superfood' },
+      { url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Vegetables' },
+    ],
     variants: [{ id: 'v-tp-5', name: '5 x 100g Pack', mrp: 599, sellingPrice: 499, stockQuantity: 100 }],
   },
   'chicken-lovers-trial-pack': {
@@ -281,7 +287,11 @@ const MOCK_PRODUCTS = {
     isVeg: false,
     foodType: 'TRIAL_PACK',
     category: { name: 'Trial Packs', slug: 'trial-packs' },
-    images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Wet Dog Food Trial Pack' }],
+    images: [
+      { url: '/images/products/bundles/furbowl-bundle-chicken.jpg', altText: 'Chicken Wet Dog Food Trial Pack' },
+      { url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables' },
+      { url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Rice & Vegetables' },
+    ],
     variants: [{ id: 'v-tp-4c', name: '4 x 100g Pack', mrp: 479, sellingPrice: 399, stockQuantity: 100 }],
   },
   'meat-lovers-trial-pack': {
@@ -304,7 +314,11 @@ const MOCK_PRODUCTS = {
     isVeg: false,
     foodType: 'TRIAL_PACK',
     category: { name: 'Trial Packs', slug: 'trial-packs' },
-    images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Chicken & Lamb Wet Dog Food Trial Pack' }],
+    images: [
+      { url: '/images/products/bundles/furbowl-bundle-lamb.jpg', altText: 'Chicken & Lamb Wet Dog Food Trial Pack' },
+      { url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils' },
+      { url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables' },
+    ],
     variants: [{ id: 'v-tp-4cl', name: '4 x 100g Pack', mrp: 519, sellingPrice: 429, stockQuantity: 100 }],
   },
   'chicken-egg-trial-pack': {
@@ -327,7 +341,11 @@ const MOCK_PRODUCTS = {
     isVeg: false,
     foodType: 'TRIAL_PACK',
     category: { name: 'Trial Packs', slug: 'trial-packs' },
-    images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Chicken & Egg Wet Dog Food Trial Pack' }],
+    images: [
+      { url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Chicken & Egg Wet Dog Food Trial Pack' },
+      { url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables' },
+      { url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Rice & Vegetables' },
+    ],
     variants: [{ id: 'v-tp-4ce', name: '4 x 100g Pack', mrp: 479, sellingPrice: 399, stockQuantity: 100 }],
   },
   'meat-veggie-variety-pack': {
@@ -350,9 +368,70 @@ const MOCK_PRODUCTS = {
     isVeg: false,
     foodType: 'TRIAL_PACK',
     category: { name: 'Trial Packs', slug: 'trial-packs' },
-    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Meat & Veggie Wet Dog Food Trial Pack' }],
+    images: [
+      { url: '/images/products/bundles/furbowl-bundle-all-three.jpg', altText: 'Meat & Veggie Wet Dog Food Trial Pack' },
+      { url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables' },
+      { url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils' },
+      { url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Vegetables' },
+    ],
     variants: [{ id: 'v-tp-6mv', name: '6 x 100g Pack', mrp: 699, sellingPrice: 579, stockQuantity: 100 }],
   },
+  'all-recipes-7-pack': {
+    id: 'all-recipes-7-pack',
+    name: 'All Recipes Dog Food 7-Day Pack – 7 x 100g',
+    slug: 'all-recipes-7-pack',
+    shortDescription: '1-Week Fresh Feeding Plan with Chicken, Lamb, Egg & Paneer recipes.',
+    description: 'A complete 7-day fresh food rotation designed to provide daily variety, balanced nutrition, and easy transition to fresh feeding. Includes 2x Chicken & Vegetables, 2x Chicken Rice, 1x Lamb & Lentils, 1x Egg Superfood, and 1x Paneer & Vegetables.',
+    keyBenefits: ['Complete 7-day weekly feeding plan', 'Balanced rotation across 4 unique protein sources', '100% human-grade whole food ingredients', 'Vacuum-sealed freshness for daily convenience', 'Zero artificial colors, fillers or preservatives'],
+    ingredients: 'Whole Chicken, Chicken Liver, Lamb, Farm Eggs, Fresh Paneer, Pumpkin, Carrots, Sweet Potato, Quinoa, Peas, Cold-Pressed Oils, Essential Vitamins & Minerals.',
+    nutritionalInfo: { energy: '110–122 kcal/100g', crudeProtein: '9.8% – 12%', crudeFat: '4.8% – 7%', crudeFiber: '1.5%', moisture: '76%' },
+    feedingGuide: [
+      { weight: 'Up to 5 kg', daily: '1/2 – 1 pack' },
+      { weight: '5 – 15 kg', daily: '1 – 1.5 packs' },
+      { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
+      { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
+    ],
+    dietChangeGuide: 'Feed 1 pouch daily to complete a wholesome weekly rotation.',
+    suitableFor: 'Puppy & Adult Dogs – All Breeds',
+    isVeg: false,
+    foodType: 'MULTI_PACK',
+    category: { name: 'Multi-Packs', slug: 'multi-packs' },
+    images: [
+      { url: '/images/products/bundles/furbowl-bundle-all-three.jpg', altText: 'All Recipes Dog Food 7-Day Pack' },
+      { url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables' },
+      { url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils' },
+    ],
+    variants: [{ id: 'v-mp-7', name: '7 x 100g Pack', mrp: 875, sellingPrice: 699, stockQuantity: 100 }],
+  },
+  'all-recipes-monthly-pack': {
+    id: 'all-recipes-monthly-pack',
+    name: 'All Recipes Dog Food Monthly Pack – 30 x 100g',
+    slug: 'all-recipes-monthly-pack',
+    shortDescription: 'Monthly full-diet subscription box with all 5 recipes (30 x 100g).',
+    description: 'Our highest value monthly fresh meal box containing 30 daily vacuum-sealed pouches. Crafted with all 5 FurBowl recipes for complete nutritional variety throughout the month.',
+    keyBenefits: ['30 daily fresh pouches for a full month of feeding', 'Highest savings bundle (25% OFF)', 'Rotational diet across poultry, meat, egg and vegetarian superfoods', 'Delivered in cold insulated packaging', 'Cancel or pause anytime with peace of mind'],
+    ingredients: 'Whole Chicken, Chicken Liver, Lamb, Farm Eggs, Fresh Paneer, Pumpkin, Carrots, Sweet Potato, Brown Rice, Quinoa, Spinach, Green Peas, Essential Vitamins & Chelated Minerals.',
+    nutritionalInfo: { energy: '110–122 kcal/100g', crudeProtein: '9.5% – 12%', crudeFat: '4.8% – 7%', crudeFiber: '1.5%', moisture: '76%' },
+    feedingGuide: [
+      { weight: 'Up to 5 kg', daily: '1/2 – 1 pack' },
+      { weight: '5 – 15 kg', daily: '1 – 1.5 packs' },
+      { weight: '15 – 30 kg', daily: '1.5 – 2 packs' },
+      { weight: '30 kg & above', daily: '2.5 – 3.5 packs' },
+    ],
+    dietChangeGuide: 'Feed 1 pouch daily for standard adult dogs.',
+    suitableFor: 'Puppy & Adult Dogs – All Breeds',
+    isVeg: false,
+    foodType: 'MULTI_PACK',
+    category: { name: 'Multi-Packs', slug: 'multi-packs' },
+    images: [
+      { url: '/images/products/bundles/furbowl-bundle-all-three.jpg', altText: 'All Recipes Dog Food Monthly Pack' },
+      { url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables' },
+      { url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils' },
+      { url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Vegetables' },
+    ],
+    variants: [{ id: 'v-mp-30', name: '30 x 100g Pack', mrp: 3599, sellingPrice: 2699, stockQuantity: 100 }],
+  },
+};
 
 async function getProduct(slug) {
   try {
@@ -365,9 +444,9 @@ async function getProduct(slug) {
     const data = await res.json();
     return data;
   } catch {
-    const fallback = MOCK_PRODUCTS[slug] || MOCK_PRODUCTS['chicken-harvest'];
+    const fallback = MOCK_PRODUCTS[slug] || MOCK_PRODUCTS['all-recipes-trial-pack'] || MOCK_PRODUCTS['chicken-vegetables'];
     const related = Object.values(MOCK_PRODUCTS).filter((p) => p.slug !== slug);
-    return { product: fallback, relatedProducts: related };
+    return { product: fallback, relatedProducts: related.slice(0, 4) };
   }
 }
 

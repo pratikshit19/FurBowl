@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { 
   Check, 
-  Sparkles, 
   CalendarCheck, 
   Truck, 
   RefreshCw, 
@@ -183,8 +182,7 @@ export default function PlansPage() {
       {/* 1. Header Banner */}
       <section className="bg-[#ffe3db] border-b border-plum-900/5 py-14 sm:py-20">
         <div className="container-main text-center max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-xs font-extrabold uppercase tracking-widest mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-xs font-extrabold uppercase tracking-widest mb-3">
             <span>Monthly Fresh Feeding</span>
           </div>
 

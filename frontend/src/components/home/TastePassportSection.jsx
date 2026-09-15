@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PawPrint, Sparkles, Award, Lock, Check, ArrowRight } from 'lucide-react';
+import { PawPrint, Award, Lock, Check, ArrowRight } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
 import ScrollReveal from '@/components/common/ScrollReveal';
 
@@ -57,7 +57,6 @@ export default function TastePassportSection() {
                   <span className="text-[11px] font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">
                     Official Pup Passport
                   </span>
-                  <Sparkles className="w-5 h-5 text-white/80" />
                 </div>
 
                 <h3 className="text-2xl font-black mb-1">Bruno’s Adventures</h3>

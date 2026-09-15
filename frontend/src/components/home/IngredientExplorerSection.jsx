@@ -8,7 +8,7 @@ import {
   Sprout, 
   Carrot, 
   Leaf, 
-  Sparkles, 
+  Heart, 
   Wheat, 
   Check, 
   ArrowRight 
@@ -20,7 +20,7 @@ const INGREDIENT_ICONS = {
   pumpkin: Sprout,
   carrot: Carrot,
   peas: Leaf,
-  'sweet-potato': Sparkles,
+  'sweet-potato': Heart,
   flaxseed: Wheat,
 };
 
@@ -35,7 +35,7 @@ export default function IngredientExplorerSection() {
     setActiveId(INGREDIENTS_EXPLORER[nextIndex].id);
   };
 
-  const ActiveIcon = INGREDIENT_ICONS[currentIngredient.id] || Sparkles;
+  const ActiveIcon = INGREDIENT_ICONS[currentIngredient.id] || Leaf;
 
   return (
     <section id="ingredients" className="py-16 sm:py-24 bg-white border-b border-plum-900/5">
@@ -58,7 +58,7 @@ export default function IngredientExplorerSection() {
         <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-8 sm:mb-10 no-scrollbar">
           {INGREDIENTS_EXPLORER.map((item) => {
             const isActive = item.id === activeId;
-            const ItemIcon = INGREDIENT_ICONS[item.id] || Sparkles;
+            const ItemIcon = INGREDIENT_ICONS[item.id] || Leaf;
             return (
               <button
                 key={item.id}

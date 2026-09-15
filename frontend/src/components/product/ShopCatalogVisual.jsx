@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ShoppingBag, Check, Sparkles, Package, Star, ShieldCheck, Filter } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Check, Package, Star, ShieldCheck, Filter } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
 import { TRIAL_PACKS, MULTI_PACK_SIZES } from '@/lib/furbowl-data';
 import useCartStore from '@/store/cartStore';
@@ -25,73 +25,38 @@ const POUCH_IMAGE_MAP = {
 const RECIPE_VISUALS = {
   'chicken-vegetables': {
     name: 'Chicken & Vegetables',
+    subtitle: 'Whole chicken, liver, pumpkin & peas',
     isVeg: false,
-    ingredients: [
-      { label: 'Chicken', icon: '🍗' },
-      { label: 'Carrot', icon: '🥕' },
-      { label: 'Pumpkin', icon: '🎃' },
-      { label: 'Peas', icon: '🫛' },
-    ],
-    bgLight: 'from-[#fff5f0] to-[#fef8f4]',
-    border: 'border-orange-200/70',
-    badge: 'Best Seller',
-    badgeBg: 'bg-peach-500 text-white',
+    badge: 'BEST SELLER',
+    isSuperSaver: true,
   },
   'chicken-rice-vegetables': {
     name: 'Chicken Rice & Veggies',
+    subtitle: 'Slow-cooked chicken, rice & sweet potato',
     isVeg: false,
-    ingredients: [
-      { label: 'Chicken', icon: '🍗' },
-      { label: 'Rice', icon: '🍚' },
-      { label: 'Carrot', icon: '🥕' },
-      { label: 'Sweet Potato', icon: '🍠' },
-    ],
-    bgLight: 'from-[#fbf7ee] to-[#fcf9f2]',
-    border: 'border-amber-200/70',
-    badge: 'Gentle Belly',
-    badgeBg: 'bg-teal-600 text-white',
+    badge: 'GENTLE BELLY',
+    isSuperSaver: false,
   },
   'egg-superfood': {
     name: 'Egg Superfood & Quinoa',
+    subtitle: 'Farm eggs, organic quinoa & spinach',
     isVeg: true,
-    ingredients: [
-      { label: 'Farm Eggs', icon: '🥚' },
-      { label: 'Quinoa', icon: '🌾' },
-      { label: 'Spinach', icon: '🥬' },
-      { label: 'Pumpkin', icon: '🎃' },
-    ],
-    bgLight: 'from-[#f0faf8] to-[#f5fbf9]',
-    border: 'border-emerald-200/70',
-    badge: 'Superfood',
-    badgeBg: 'bg-emerald-600 text-white',
+    badge: 'SUPERFOOD',
+    isSuperSaver: false,
   },
   'paneer-vegetables': {
     name: 'Paneer & Vegetables',
+    subtitle: 'Fresh paneer, brown rice & chia seeds',
     isVeg: true,
-    ingredients: [
-      { label: 'Fresh Paneer', icon: '🧀' },
-      { label: 'Brown Rice', icon: '🍚' },
-      { label: 'Spinach', icon: '🥬' },
-      { label: 'Chia', icon: '🌱' },
-    ],
-    bgLight: 'from-[#f4faf2] to-[#fafdf9]',
-    border: 'border-green-200/70',
-    badge: '100% Veg',
-    badgeBg: 'bg-green-600 text-white',
+    badge: '100% VEG',
+    isSuperSaver: false,
   },
   'lamb-lentils': {
     name: 'Lamb & Lentils',
+    subtitle: 'Lean lamb, red lentils & broccoli',
     isVeg: false,
-    ingredients: [
-      { label: 'Lean Lamb', icon: '🥩' },
-      { label: 'Red Lentils', icon: '🫘' },
-      { label: 'Broccoli', icon: '🥦' },
-      { label: 'Sweet Potato', icon: '🍠' },
-    ],
-    bgLight: 'from-[#fff3f2] to-[#fdf7f6]',
-    border: 'border-rose-200/70',
-    badge: 'High Protein',
-    badgeBg: 'bg-rose-500 text-white',
+    badge: 'HIGH PROTEIN',
+    isSuperSaver: true,
   },
 };
 
@@ -248,134 +213,124 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
       </div>
 
       {/* ═════════════════════════════════════════════════════════════════ */}
-      {/* TAB 1: FRESH MEALS (PURELY VISUAL 5 RECIPES)                      */}
+      {/* TAB 1: FRESH MEALS (5 RECIPES)                                    */}
       {/* ═════════════════════════════════════════════════════════════════ */}
       {activeTab === 'meals' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
           {filteredMeals.map((recipe) => {
             const visual = RECIPE_VISUALS[recipe.id] || {
               name: recipe.name,
-              isVeg: false,
-              ingredients: [],
-              bgLight: 'from-amber-50/40 to-white',
-              border: 'border-plum-900/10',
-              badge: recipe.badge,
-              badgeBg: 'bg-plum-900 text-white',
+              subtitle: '100% Human-Grade • Fresh Daily Meal',
+              isVeg: recipe.slug.includes('paneer') || recipe.slug.includes('egg'),
+              badge: recipe.badge || 'FRESH',
+              isSuperSaver: false,
             };
 
             return (
               <div
                 key={recipe.id}
-                className={`group relative rounded-3xl p-4 sm:p-5 border-2 ${visual.border} bg-gradient-to-b ${visual.bgLight} transition-all duration-300 flex flex-col justify-between hover:-translate-y-2 hover:shadow-xl hover:border-plum-900/20`}
+                className="rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
-                {/* Top Pill Bar: Veg/Non-Veg Icon & Category Badge */}
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="flex items-center gap-1.5">
-                    {visual.isVeg ? (
-                      <span
-                        className="w-4 h-4 border-1.5 border-green-600 flex items-center justify-center rounded-xs bg-white shadow-2xs"
-                        title="100% Vegetarian"
-                      >
-                        <span className="w-2 h-2 rounded-full bg-green-600"></span>
-                      </span>
-                    ) : (
-                      <span
-                        className="w-4 h-4 border-1.5 border-amber-800 flex items-center justify-center rounded-xs bg-white shadow-2xs"
-                        title="Non-Vegetarian"
-                      >
-                        <span className="w-2 h-2 rounded-full bg-amber-800"></span>
-                      </span>
-                    )}
-                    <span className="text-[11px] font-bold text-plum-900/60">
-                      100g
-                    </span>
-                  </div>
-
-                  <span
-                    className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-2xs ${visual.badgeBg}`}
-                  >
-                    {visual.badge}
-                  </span>
-                </div>
-
-                {/* HERO POUCH IMAGE */}
+                {/* ─── Clickable Card Area (Pouch + Details) ─── */}
                 <Link
                   href={`/shop/${recipe.slug}`}
-                  className="relative block w-full aspect-[4/5] my-2 focus:outline-none"
+                  className="flex-1 flex flex-col justify-between focus:outline-none group/link"
                 >
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden flex items-center justify-center p-3 bg-white/70 backdrop-blur-xs border border-white/80 group-hover:bg-white transition-all shadow-inner">
-                    <Image
-                      src={recipe.image}
-                      alt={visual.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                      className="object-contain p-2 drop-shadow-[0_12px_20px_rgba(42,26,46,0.12)] group-hover:drop-shadow-[0_18px_26px_rgba(42,26,46,0.18)] group-hover:scale-108 transition-all duration-300"
-                    />
-                  </div>
-                </Link>
-
-                {/* Recipe Name */}
-                <div className="mt-2 mb-3">
-                  <Link href={`/shop/${recipe.slug}`} className="focus:outline-none block">
-                    <h3 className="text-base sm:text-lg font-black text-plum-900 hover:text-teal-600 transition-colors leading-tight line-clamp-1">
-                      {visual.name}
-                    </h3>
-                  </Link>
-
-                  {/* Visual Ingredient Micro-Pills */}
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {visual.ingredients.map((ing, i) => (
-                      <span
-                        key={i}
-                        className="inline-flex items-center gap-1 text-[10px] font-bold text-plum-900/75 bg-white/80 border border-plum-900/5 px-2 py-0.5 rounded-full shadow-2xs"
-                      >
-                        <span>{ing.icon}</span>
-                        <span>{ing.label}</span>
+                  {/* ─── Upper Image Area ─── */}
+                  <div className="relative w-full h-[225px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
+                    
+                    {/* Top-Left Badge — FurBowl Peach */}
+                    <div className="absolute top-2.5 left-2.5 z-20">
+                      <span className="text-[11px] font-black tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                        {visual.badge}
                       </span>
-                    ))}
-                  </div>
-                </div>
+                    </div>
 
-                {/* Bottom Pricing & One-Click Add Button */}
-                <div className="pt-3 border-t border-plum-900/10 flex items-center justify-between mt-auto">
-                  <div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-lg font-black text-plum-900">₹{recipe.price}</span>
-                      <span className="text-[11px] text-plum-900/40 line-through">₹{recipe.price + 20}</span>
+                    {/* Top-Right SUPER SAVER Ribbon Badge — Amber Gold */}
+                    {visual.isSuperSaver && (
+                      <div className="absolute top-0 right-3 z-20">
+                        <div className="relative bg-amber-500 text-white text-[8.5px] font-black uppercase tracking-wider px-2 pt-1.5 pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                          <span>SUPER</span>
+                          <span className="mt-0.5">•SAVER•</span>
+                          {/* Ribbon notch cut-out */}
+                          <div
+                            className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-amber-500"
+                            style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Stand-Up Retort Pouch / Product Mockup */}
+                    <div className="relative w-full h-full p-2.5 flex items-center justify-center">
+                      <Image
+                        src={recipe.image}
+                        alt={visual.name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                        className="object-contain transition-transform duration-300 group-hover:scale-103"
+                      />
+                    </div>
+
+                    {/* Bottom Center Pack Pill */}
+                    <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                      <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3 py-0.5 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1.5">
+                        {visual.isVeg ? (
+                          <span className="w-2 h-2 rounded-full bg-green-600" title="100% Vegetarian"></span>
+                        ) : (
+                          <span className="w-2 h-2 rounded-full bg-amber-800" title="Non-Vegetarian"></span>
+                        )}
+                        <span>100g Single Pouch</span>
+                      </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1.5">
-                    <button
-                      type="button"
-                      onClick={(e) => handleQuickAddMeal(e, recipe)}
-                      className={`px-3.5 py-1.5 rounded-full text-xs font-black transition-all flex items-center gap-1.5 shadow-sm cursor-pointer ${
-                        addedSlug === recipe.slug
-                          ? 'bg-peach-500 text-white scale-95'
-                          : 'bg-teal-500 hover:bg-teal-600 text-white hover:scale-105 active:scale-95'
-                      }`}
-                    >
-                      {addedSlug === recipe.slug ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>Added</span>
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingBag className="w-3.5 h-3.5" />
-                          <span>Add</span>
-                        </>
-                      )}
-                    </button>
+                  {/* ─── Lower Details Area ─── */}
+                  <div className="p-3.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                    <div>
+                      {/* Title */}
+                      <h3 className="font-bold text-[14.5px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
+                        {visual.name}
+                      </h3>
 
-                    <Link
-                      href={`/shop/${recipe.slug}`}
-                      className="w-7 h-7 rounded-full bg-white flex items-center justify-center text-plum-900/70 shadow-2xs hover:bg-plum-900 hover:text-white transition-all border border-plum-900/10"
-                      aria-label={`View ${visual.name}`}
-                    >
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                      {/* Subtitle */}
+                      <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                        {visual.subtitle}
+                      </p>
+
+                      {/* Price */}
+                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                        <span className="text-base sm:text-lg font-black text-plum-900">
+                          ₹{recipe.price.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-xs text-plum-900/40 line-through">
+                          ₹{(recipe.price + 20).toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                    </div>
                   </div>
+                </Link>
+
+                {/* Add to Cart Button Footer — FurBowl Teal */}
+                <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-0 bg-white">
+                  <button
+                    type="button"
+                    onClick={(e) => handleQuickAddMeal(e, recipe)}
+                    className={`w-full py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
+                      addedSlug === recipe.slug
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
+                    }`}
+                  >
+                    {addedSlug === recipe.slug ? (
+                      <>
+                        <Check className="w-4 h-4 stroke-[3]" />
+                        <span>Added to Cart</span>
+                      </>
+                    ) : (
+                      <span>Add to Cart</span>
+                    )}
+                  </button>
                 </div>
               </div>
             );
@@ -384,112 +339,115 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
       )}
 
       {/* ═════════════════════════════════════════════════════════════════ */}
-      {/* TAB 2: CURATED TRIAL PACKS (OVERLAPPING VISUAL POUCHES)            */}
+      {/* TAB 2: CURATED TRIAL PACKS                                         */}
       {/* ═════════════════════════════════════════════════════════════════ */}
       {activeTab === 'trial-packs' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {TRIAL_PACKS.map((pack) => {
             const pouches = getPackPouches(pack);
 
             return (
               <div
                 key={pack.id}
-                className={`group relative rounded-3xl p-5 sm:p-6 border-2 transition-all duration-300 flex flex-col justify-between hover:-translate-y-2 hover:shadow-xl bg-white ${
-                  pack.flagship
-                    ? 'border-teal-500 ring-2 ring-teal-500/20 bg-gradient-to-b from-teal-50/30 to-white'
-                    : 'border-plum-900/10 hover:border-teal-400/60'
-                }`}
+                className="rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
-                {/* Top Header & Discount */}
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span
-                    className={`text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full shadow-2xs ${
-                      pack.flagship
-                        ? 'bg-teal-600 text-white'
-                        : 'bg-peach-500 text-white'
-                    }`}
-                  >
-                    {pack.badge}
-                  </span>
-                  <span className="text-xs font-black text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200">
-                    {pack.discount}
-                  </span>
-                </div>
-
-                {/* VISUAL POUCH FAN / STACK SHOWCASE */}
-                <div className="relative w-full h-44 sm:h-48 my-2 rounded-2xl bg-[#faf6ed] border border-plum-900/5 overflow-hidden flex items-center justify-center p-2 shadow-inner">
-                  {/* Floating Pouch Count Pill */}
-                  <span className="absolute top-2.5 left-2.5 z-20 text-[10px] font-black uppercase tracking-wider bg-white/95 text-plum-900 px-2.5 py-1 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1">
-                    <Package className="w-3 h-3 text-teal-600" />
-                    <span>{pack.packCount} Fresh Pouches ({pack.totalWeight})</span>
-                  </span>
-
-                  {/* Overlapping Visual Pouches */}
-                  <div className="flex items-center justify-center -space-x-8 sm:-space-x-10 group-hover:-space-x-6 transition-all duration-300 pt-4">
-                    {pouches.map((pouch, pIdx) => (
-                      <div
-                        key={pIdx}
-                        className="relative w-24 h-32 sm:w-28 sm:h-36 shrink-0 transition-transform duration-300 drop-shadow-[0_8px_14px_rgba(42,26,46,0.14)] group-hover:scale-105"
-                        style={{
-                          transform: `rotate(${(pIdx - (pouches.length - 1) / 2) * 5}deg)`,
-                          zIndex: pIdx + 1,
-                        }}
-                      >
-                        <Image
-                          src={pouch.img}
-                          alt={pouch.name}
-                          fill
-                          sizes="120px"
-                          className="object-contain"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Pack Title & Clean Summary */}
-                <div className="my-3">
-                  <h3 className="text-lg sm:text-xl font-black text-plum-900 leading-snug">
-                    {pack.title}
-                  </h3>
-                  <div className="flex items-center gap-2 mt-1.5">
-                    <span className="text-xs font-extrabold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-md border border-teal-200/50">
-                      {pack.tagline}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Bottom Pricing & One-Click Add */}
-                <div className="pt-4 border-t border-plum-900/10 flex items-center justify-between mt-auto">
-                  <div>
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl font-black text-plum-900">₹{pack.price}</span>
-                      <span className="text-xs text-plum-900/40 line-through">₹{pack.originalPrice}</span>
+                {/* ─── Clickable Card Area ─── */}
+                <Link
+                  href={`/shop/${pack.slug}`}
+                  className="flex-1 flex flex-col justify-between focus:outline-none group/link"
+                >
+                  {/* Upper Image Area */}
+                  <div className="relative w-full h-[225px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
+                    {/* Top-Left Discount Badge */}
+                    <div className="absolute top-2.5 left-2.5 z-20">
+                      <span className="text-[11px] font-black tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                        {pack.discount}
+                      </span>
                     </div>
-                    <span className="text-[10px] text-plum-900/60 font-bold block">
-                      ₹{Math.round(pack.price / pack.packCount)} / meal
-                    </span>
+
+                    {/* Top-Right SUPER SAVER Ribbon Badge */}
+                    {pack.flagship && (
+                      <div className="absolute top-0 right-3 z-20">
+                        <div className="relative bg-amber-500 text-white text-[8.5px] font-black uppercase tracking-wider px-2 pt-1.5 pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                          <span>SUPER</span>
+                          <span className="mt-0.5">•SAVER•</span>
+                          <div
+                            className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-amber-500"
+                            style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Overlapping Visual Pouches */}
+                    <div className="flex items-center justify-center -space-x-8 sm:-space-x-10 group-hover:-space-x-6 transition-all duration-300 pt-2">
+                      {pouches.map((pouch, pIdx) => (
+                        <div
+                          key={pIdx}
+                          className="relative w-24 h-32 sm:w-28 sm:h-36 shrink-0 transition-transform duration-300 drop-shadow-[0_8px_14px_rgba(42,26,46,0.14)] group-hover:scale-105"
+                          style={{
+                            transform: `rotate(${(pIdx - (pouches.length - 1) / 2) * 5}deg)`,
+                            zIndex: pIdx + 1,
+                          }}
+                        >
+                          <Image
+                            src={pouch.img}
+                            alt={pouch.name}
+                            fill
+                            sizes="120px"
+                            className="object-contain"
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Bottom Center Pack Pill */}
+                    <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                      <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
+                        Pack of {pack.packCount} • {pack.totalWeight}
+                      </span>
+                    </div>
                   </div>
 
+                  {/* Lower Details Area */}
+                  <div className="p-3.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                    <div>
+                      <h3 className="font-bold text-[15px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
+                        {pack.title}
+                      </h3>
+                      <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                        {pack.tagline}
+                      </p>
+                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                        <span className="text-base sm:text-lg font-black text-plum-900">
+                          ₹{pack.price.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-xs text-plum-900/40 line-through">
+                          ₹{pack.originalPrice.toLocaleString('en-IN')}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Add to Cart Button Footer */}
+                <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={(e) => handleQuickAddPack(e, pack)}
-                    className={`px-5 py-2.5 rounded-full text-xs font-black transition-all flex items-center gap-2 shadow-md cursor-pointer ${
+                    className={`w-full py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
                       addedSlug === pack.slug
-                        ? 'bg-peach-500 text-white scale-95'
-                        : 'bg-plum-900 hover:bg-plum-800 text-white hover:scale-105 active:scale-95'
+                        ? 'bg-emerald-600 text-white'
+                        : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
                     }`}
                   >
                     {addedSlug === pack.slug ? (
                       <>
-                        <Check className="w-4 h-4" />
+                        <Check className="w-4 h-4 stroke-[3]" />
                         <span>Added to Cart</span>
                       </>
                     ) : (
-                      <>
-                        <ShoppingBag className="w-4 h-4" />
-                        <span>Get Trial Pack</span>
-                      </>
+                      <span>Add to Cart</span>
                     )}
                   </button>
                 </div>
@@ -519,54 +477,80 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
             return (
               <div
                 key={pack.count}
-                className={`group p-5 rounded-3xl border-2 transition-all duration-300 flex flex-col justify-between bg-white hover:-translate-y-2 hover:shadow-xl ${
-                  pack.isFlagship
-                    ? 'border-teal-500 shadow-md ring-2 ring-teal-500/20 bg-gradient-to-b from-teal-50/20 to-white'
-                    : 'border-plum-900/10 hover:border-teal-400'
-                }`}
+                className="rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
-                <div>
-                  {/* Top Badges */}
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="w-10 h-10 rounded-2xl bg-plum-900 text-white font-black text-sm flex items-center justify-center shadow-xs">
-                      {pack.count}x
-                    </span>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-teal-700 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
-                      {savings}
-                    </span>
+                <div className="flex-1 flex flex-col justify-between">
+                  {/* Upper Image Area */}
+                  <div className="relative w-full h-[225px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
+                    {/* Top-Left Discount Badge */}
+                    <div className="absolute top-2.5 left-2.5 z-20">
+                      <span className="text-[11px] font-black tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                        {savings}
+                      </span>
+                    </div>
+
+                    {/* Top-Right Ribbon if Flagship */}
+                    {pack.isFlagship && (
+                      <div className="absolute top-0 right-3 z-20">
+                        <div className="relative bg-amber-500 text-white text-[8.5px] font-black uppercase tracking-wider px-2 pt-1.5 pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                          <span>SUPER</span>
+                          <span className="mt-0.5">•SAVER•</span>
+                          <div
+                            className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-amber-500"
+                            style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Lineup Image */}
+                    <div className="relative w-full h-full p-2.5 flex items-center justify-center">
+                      <Image
+                        src="/images/products/bundles/furbowl-bundle-all-three.jpg"
+                        alt={`${pack.count} Pack FurBowl Meals`}
+                        fill
+                        sizes="240px"
+                        className="object-contain transition-transform duration-300 group-hover:scale-103"
+                      />
+                    </div>
+
+                    {/* Bottom Center Pack Pill */}
+                    <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                      <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
+                        Pack of {pack.count}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Visual Lineup Thumbnail */}
-                  <div className="relative w-full aspect-[16/10] my-2 rounded-2xl overflow-hidden bg-[#faf6ed] border border-plum-900/5 flex items-center justify-center p-2">
-                    <Image
-                      src="/images/products/furbowl-6-products-lineup.jpg"
-                      alt={`${pack.count} Pack FurBowl Meals`}
-                      fill
-                      sizes="240px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-plum-900/40 via-transparent to-transparent"></div>
-                    <span className="absolute bottom-2 left-2 z-10 text-[10px] font-black uppercase tracking-wider text-white bg-plum-900/80 px-2 py-0.5 rounded-md backdrop-blur-xs">
-                      {pack.count} Pouches
-                    </span>
+                  {/* Lower Details Area */}
+                  <div className="p-3.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                    <div>
+                      <h3 className="font-bold text-[15px] text-plum-900 group-hover:text-teal-600 transition-colors leading-snug line-clamp-1">
+                        {pack.title}
+                      </h3>
+                      <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                        {pack.popularFor}
+                      </p>
+                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                        <span className="text-base sm:text-lg font-black text-plum-900">
+                          {savings}
+                        </span>
+                        <span className="text-xs text-plum-900/50 font-bold">
+                          • {pack.count} x 100g Meals
+                        </span>
+                      </div>
+                    </div>
                   </div>
-
-                  <h4 className="font-black text-plum-900 text-base sm:text-lg mb-1 leading-tight mt-2">
-                    {pack.title}
-                  </h4>
-                  <span className="text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-md inline-block mt-1">
-                    {pack.popularFor}
-                  </span>
                 </div>
 
-                {/* CTA Button */}
-                <div className="mt-5 pt-3 border-t border-plum-900/5">
+                {/* Action Button Footer */}
+                <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={() => setActiveTab('trial-packs')}
-                    className="w-full py-2.5 rounded-full text-xs font-black text-center bg-plum-900 hover:bg-plum-800 text-white block transition-all shadow-sm hover:shadow-md cursor-pointer"
+                    className="w-full py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
                   >
-                    View Flavours &bull; {savings}
+                    <span>View Flavours &bull; {savings}</span>
                   </button>
                 </div>
               </div>

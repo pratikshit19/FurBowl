@@ -1,6 +1,6 @@
 'use client';
 
-import { Tractor, CookingPot, Package, Heart, Sparkles } from 'lucide-react';
+import { Tractor, CookingPot, Package, Heart } from 'lucide-react';
 import ScrollReveal from '@/components/common/ScrollReveal';
 
 const STEPS = [
@@ -60,8 +60,8 @@ export default function TraceYourMealSection() {
           <div className="bg-white border border-plum-900/10 rounded-2xl px-4 py-2.5 shadow-sm -rotate-2 self-start sm:self-auto">
             <p className="text-xs sm:text-sm font-black text-plum-900 flex items-center gap-1.5">
               <span>Real food.</span>
-              <span className="text-coral-500 inline-flex items-center gap-1">
-                Real journeys. <Sparkles className="w-3.5 h-3.5 inline" />
+              <span className="text-coral-500">
+                Real journeys.
               </span>
             </p>
           </div>

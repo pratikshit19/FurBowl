@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useCartStore from '@/store/cartStore';
 import Link from 'next/link';
-import { Utensils, ShieldCheck, Scale, Sparkles, Snowflake, Calendar, Check } from 'lucide-react';
+import { Utensils, ShieldCheck, Scale, Snowflake, Calendar, Check } from 'lucide-react';
 import ProductGallery from '@/components/product/ProductGallery';
 import { formatPrice, SUBSCRIPTION_DISCOUNT_PERCENT } from '@/lib/constants';
 
@@ -333,7 +333,7 @@ export default function ProductDetail({ product }) {
                   <div>
                     <p className="text-plum-900/80 leading-relaxed mb-4 text-base">{product.ingredients}</p>
                     <p className="text-xs text-plum-900/70 font-medium bg-[#f0fafb] p-3 rounded-sm border border-plum-900/10 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-teal-600 shrink-0" />
+                      <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0" />
                       <span>All ingredients are 100% human-grade. No artificial additives, fillers, or preservatives.</span>
                     </p>
                   </div>

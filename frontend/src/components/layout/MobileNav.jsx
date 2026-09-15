@@ -12,7 +12,6 @@ import {
   ChevronDown,
   User,
   Phone,
-  Sparkles,
 } from 'lucide-react';
 
 export default function MobileNav({ isOpen, onClose }) {
@@ -166,7 +165,6 @@ export default function MobileNav({ isOpen, onClose }) {
             >
               <span className="flex items-center gap-2">
                 <span>FurBowl Finder</span>
-                <Sparkles className="w-4 h-4 text-teal-600" />
               </span>
               <ChevronRight className="w-5 h-5 text-plum-900/30" />
             </Link>

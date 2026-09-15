@@ -13,7 +13,6 @@ import {
   Crown, 
   Sofa, 
   PawPrint, 
-  Sparkles, 
   RotateCcw, 
   Star, 
   ArrowRight, 
@@ -250,7 +249,7 @@ export default function FindFoodPage() {
                         className="bg-coral-500 hover:bg-coral-600 text-white font-black text-sm px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2"
                       >
                         <span>Show Taste Profile</span>
-                        <Sparkles className="w-4 h-4 shrink-0" />
+                        <ArrowRight className="w-4 h-4 shrink-0" />
                       </button>
                     </div>
                   </div>

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { PawPrint, ArrowDown, Sparkles, Utensils, ShieldCheck, Scale, Heart } from 'lucide-react';
+import { PawPrint, ArrowDown, Utensils, ShieldCheck, Scale, Heart } from 'lucide-react';
 
 export default function HeroMockup() {
   const scrollToMenu = (e) => {
@@ -78,8 +78,8 @@ export default function HeroMockup() {
               <div className="absolute -top-3 -right-3 sm:-right-6 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-2xl p-3 shadow-lg z-20 rotate-6 transform hover:rotate-0 transition-transform">
                 <p className="text-xs sm:text-sm font-extrabold text-plum-900 flex items-center gap-1">
                   <span>Good food =</span>
-                  <span className="text-coral-500 inline-flex items-center gap-1">
-                    Happier dogs. <Sparkles className="w-3.5 h-3.5 text-coral-500 shrink-0 inline" />
+                  <span className="text-coral-500">
+                    Happier dogs.
                   </span>
                 </p>
                 <div className="text-[10px] text-plum-900/50 text-right mt-0.5 font-medium">
@@ -103,8 +103,7 @@ export default function HeroMockup() {
                 className="object-contain object-center transition-transform duration-500 group-hover:scale-[1.02]"
               />
             </div>
-            <div className="flex items-center justify-center gap-1.5 mt-2 text-xs sm:text-sm text-plum-900/60 font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-coral-500 shrink-0" />
+            <div className="flex items-center justify-center text-xs sm:text-sm text-plum-900/60 font-medium mt-2">
               <span>6 Chef-Crafted Recipes • 100g Single-Serve Ready-To-Eat Pouches</span>
             </div>
           </div>

@@ -15,8 +15,8 @@ const STATS = [
     image: '/images/home/pack/luna.jpg',
     dogName: 'Luna, 2 yrs',
     accentColor: 'text-teal-600',
-    borderColor: 'border-teal-200',
-    bgLight: 'bg-white/85 backdrop-blur-xs',
+    borderColor: 'border-teal-200/80',
+    bgLight: 'bg-white shadow-xs hover:shadow-lg',
   },
   {
     id: 'human-grade',
@@ -28,8 +28,8 @@ const STATS = [
     image: '/images/home/fresh-pumpkin.jpg',
     dogName: 'Fresh Real Food',
     accentColor: 'text-peach-600',
-    borderColor: 'border-peach-200',
-    bgLight: 'bg-white/85 backdrop-blur-xs',
+    borderColor: 'border-peach-200/80',
+    bgLight: 'bg-white shadow-xs hover:shadow-lg',
   },
   {
     id: 'fillers',
@@ -41,8 +41,8 @@ const STATS = [
     image: '/images/home/pack/oreo.jpg',
     dogName: 'Oreo, 3 yrs',
     accentColor: 'text-teal-600',
-    borderColor: 'border-teal-200',
-    bgLight: 'bg-white/85 backdrop-blur-xs',
+    borderColor: 'border-teal-200/80',
+    bgLight: 'bg-white shadow-xs hover:shadow-lg',
   },
   {
     id: 'simmer',
@@ -54,16 +54,14 @@ const STATS = [
     image: '/images/home/bruno-passport-dog.jpg',
     dogName: 'Bruno, 4 yrs',
     accentColor: 'text-peach-600',
-    borderColor: 'border-peach-200',
-    bgLight: 'bg-white/85 backdrop-blur-xs',
+    borderColor: 'border-peach-200/80',
+    bgLight: 'bg-white shadow-xs hover:shadow-lg',
   },
 ];
 
-
-
 export default function DogStatsSection() {
   return (
-    <section id="dog-stats-section" className="py-16 sm:py-24 relative overflow-hidden bg-[#ff7a59]/22 border-b border-plum-900/5">
+    <section id="dog-stats-section" className="py-16 sm:py-24 relative overflow-hidden bg-white border-b border-plum-900/5">
       {/* Low-opacity large dog shifted up in the top-middle behind the stats */}
       <div className="absolute inset-0 flex items-start justify-center pt-6 sm:pt-12 pointer-events-none select-none z-0 overflow-hidden">
         <div className="relative w-[500px] h-[500px] sm:w-[650px] sm:h-[650px] lg:w-[800px] lg:h-[800px] opacity-20 mix-blend-multiply [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_75%)]">
