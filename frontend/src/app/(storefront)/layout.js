@@ -2,6 +2,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BottomNav from '@/components/layout/BottomNav';
 import WhatsAppWidget from '@/components/common/WhatsAppWidget';
+import CartDrawer from '@/components/cart/CartDrawer';
 
 export default function StorefrontLayout({ children }) {
   return (
@@ -13,6 +14,7 @@ export default function StorefrontLayout({ children }) {
       <Footer />
       <BottomNav />
       <WhatsAppWidget />
+      <CartDrawer />
     </>
   );
 }

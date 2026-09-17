@@ -132,6 +132,7 @@ export const api = {
 
   // Contact
   submitContact: (data) => apiFetch('/contact', { method: 'POST', body: JSON.stringify(data) }),
+  subscribeNewsletter: (email) => apiFetch('/contact/newsletter', { method: 'POST', body: JSON.stringify({ email, consent: true }) }),
 
   // Content
   getBanners: () => apiFetch('/banners'),

@@ -5,16 +5,27 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { PawPrint, CheckCircle2, Heart, ArrowUp } from 'lucide-react';
 import { SITE_NAME } from '@/lib/constants';
+import api from '@/lib/api';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email.trim()) {
+    if (!email.trim()) return;
+    setSubmitting(true);
+    setError('');
+    try {
+      await api.subscribeNewsletter(email.trim());
       setSubmitted(true);
       setEmail('');
+    } catch (err) {
+      setError(err.message || 'We could not subscribe you right now.');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -64,7 +75,7 @@ export default function Footer() {
               ) : (
                 <form
                   onSubmit={handleSubmit}
-                  className="bg-white rounded-full p-1.5 sm:p-2 flex items-center shadow-md max-w-md mx-auto lg:mx-0 border border-white/40"
+                  className="bg-white rounded p-1.5 sm:p-2 flex items-center shadow-md max-w-md mx-auto lg:mx-0 border border-white/40"
                 >
                   <input
                     type="email"
@@ -76,12 +87,14 @@ export default function Footer() {
                   />
                   <button
                     type="submit"
-                    className="bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all shrink-0 cursor-pointer shadow-sm"
+                    disabled={submitting}
+                    className="bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-5 sm:px-6 py-2.5 sm:py-3 rounded transition-all shrink-0 cursor-pointer shadow-sm"
                   >
-                    Join the pack
+                    {submitting ? 'Joining…' : 'Join the pack'}
                   </button>
                 </form>
               )}
+              {!submitted && <p className="mt-2 text-xs text-white/85" aria-live="polite">{error || 'By joining, you agree to receive FurBowl updates. Unsubscribe anytime.'}</p>}
             </div>
 
             {/* Right: Golden Retriever Pup Portrait */}
@@ -229,7 +242,7 @@ export default function Footer() {
             <Link href="/terms-conditions" className="hover:text-white hover:underline transition-colors">Terms</Link>
             <button
               onClick={scrollToTop}
-              className="hover:text-white transition-colors flex items-center gap-1.5 font-bold text-white bg-white/20 hover:bg-white hover:text-[#15aec0] px-3 py-1 rounded-full cursor-pointer ml-2"
+              className="hover:text-white transition-colors flex items-center gap-1.5 font-bold text-white bg-white/20 hover:bg-white hover:text-[#15aec0] px-3 py-1 rounded cursor-pointer ml-2"
               aria-label="Back to top"
             >
               <span>Top</span>

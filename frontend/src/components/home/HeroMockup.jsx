@@ -45,7 +45,7 @@ export default function HeroMockup() {
               <a
                 href="#menu-section"
                 onClick={scrollToMenu}
-                className="bg-plum-900 hover:bg-plum-800 text-white font-bold text-sm sm:text-base px-7 py-3.5 rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all inline-flex items-center gap-2"
+                className="bg-plum-900 hover:bg-plum-800 text-white font-bold text-sm sm:text-base px-7 py-3.5 rounded shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all inline-flex items-center gap-2"
               >
                 <span>Explore the Menu</span>
                 <ArrowDown className="w-4 h-4 shrink-0" />
@@ -53,7 +53,7 @@ export default function HeroMockup() {
 
               <Link
                 href="/shop"
-                className="bg-white hover:bg-butter-50 text-plum-900 border-2 border-plum-900/20 hover:border-plum-900/40 font-bold text-sm sm:text-base px-7 py-3.5 rounded-full transition-all"
+                className="bg-white hover:bg-butter-50 text-plum-900 border-2 border-plum-900/20 hover:border-plum-900/40 font-bold text-sm sm:text-base px-7 py-3.5 rounded transition-all"
               >
                 Shop Now
               </Link>
@@ -75,7 +75,7 @@ export default function HeroMockup() {
               />
 
               {/* Hand-drawn style floating sticker */}
-              <div className="absolute -top-3 -right-3 sm:-right-6 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-2xl p-3 shadow-lg z-20 rotate-6 transform hover:rotate-0 transition-transform">
+              <div className="absolute -top-3 -right-3 sm:-right-6 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-lg p-3 shadow-lg z-20 rotate-6 transform hover:rotate-0 transition-transform">
                 <p className="text-xs sm:text-sm font-extrabold text-plum-900 flex items-center gap-1">
                   <span>Good food =</span>
                   <span className="text-coral-500">
@@ -93,7 +93,7 @@ export default function HeroMockup() {
 
         {/* 6-Product Lineup Visual Showcase */}
         <div className="relative mx-auto max-w-5xl mt-6 sm:mt-10 mb-8 sm:mb-12">
-          <div className="relative rounded-3xl overflow-hidden bg-white/80 backdrop-blur-sm border border-plum-900/10 shadow-xl p-3 sm:p-5 group">
+          <div className="relative rounded-xl overflow-hidden bg-white/80 backdrop-blur-sm border border-plum-900/10 shadow-xl p-3 sm:p-5 group">
             <div className="relative w-full aspect-[16/7] sm:aspect-[21/9]">
               <Image
                 src="/images/products/furbowl-6-products-lineup.jpg"
@@ -110,7 +110,7 @@ export default function HeroMockup() {
         </div>
 
         {/* Value / Trust Bar (4 items with outline icons) */}
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl border border-plum-900/10 shadow-sm p-4 sm:p-6">
+        <div className="max-w-4xl mx-auto bg-white rounded-lg border border-plum-900/10 shadow-sm p-4 sm:p-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 divide-y md:divide-y-0 md:divide-x divide-plum-900/10">
             
             {/* 1. Human Grade */}

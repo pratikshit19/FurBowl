@@ -218,7 +218,7 @@ export default function PlansPage() {
             {MONTHLY_PLANS.map((plan, idx) => (
               <ScrollReveal key={plan.id} delay={idx * 90} className="h-full">
                 <div
-                  className={`bg-white rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 relative h-full ${plan.cardBorder}`}
+                  className={`bg-white rounded-xl p-5 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 relative h-full ${plan.cardBorder}`}
                 >
                   {/* Top: Badges & Title */}
                   <div>
@@ -234,12 +234,12 @@ export default function PlansPage() {
                     <h2 className="text-2xl font-black text-plum-900 leading-tight mb-1">
                       {plan.name}
                     </h2>
-                    <p className="text-xs text-plum-900/65 font-normal leading-relaxed mb-4">
+                    <p className="text-xs text-plum-900/65 font-normal leading-relaxed mb-3.5">
                       {plan.subtitle}
                     </p>
 
                     {/* Image Window */}
-                    <div className="relative w-full h-44 rounded-2xl overflow-hidden bg-cream-100 mb-5 border border-plum-900/5">
+                    <div className="relative w-full h-44 rounded-lg overflow-hidden bg-cream-100 mb-4 border border-plum-900/5">
                       <Image
                         src={plan.image}
                         alt={plan.name}
@@ -252,7 +252,7 @@ export default function PlansPage() {
                     </div>
 
                     {/* Price Block */}
-                    <div className="p-4 rounded-2xl bg-[#ffe3db] border border-plum-900/5 mb-6">
+                    <div className="p-3.5 rounded-lg bg-[#ffe3db] border border-plum-900/5 mb-4">
                       <div className="flex items-baseline gap-2">
                         <span className="text-3xl font-black text-plum-900">
                           ₹{plan.price}
@@ -264,13 +264,13 @@ export default function PlansPage() {
                           / month
                         </span>
                       </div>
-                      <div className="text-[11px] font-bold text-plum-900/60 mt-1">
+                      <div className="text-[11px] font-bold text-plum-900/60 mt-0.5">
                         {plan.perMeal} • {plan.servingNote}
                       </div>
                     </div>
 
                     {/* Feature Checkpoints */}
-                    <div className="space-y-3 mb-6">
+                    <div className="space-y-2.5 mb-4">
                       <p className="text-[10px] font-extrabold uppercase tracking-wider text-plum-900/50">
                         What&apos;s Included:
                       </p>
@@ -286,11 +286,11 @@ export default function PlansPage() {
                   </div>
 
                   {/* Bottom Action Button */}
-                  <div className="pt-4 border-t border-plum-900/5">
+                  <div className="pt-2.5 border-t border-plum-900/5">
                     <button
                       type="button"
                       onClick={() => handleSubscribe(plan)}
-                      className={`w-full py-3.5 px-6 rounded-full font-bold text-sm transition-all flex items-center justify-center gap-2 ${plan.buttonStyle}`}
+                      className={`w-full py-3 px-6 rounded font-bold text-sm transition-all flex items-center justify-center gap-2 ${plan.buttonStyle}`}
                     >
                       {addedPlanId === plan.id ? (
                         <>
@@ -304,7 +304,7 @@ export default function PlansPage() {
                         </>
                       )}
                     </button>
-                    <p className="text-[10px] text-plum-900/40 text-center mt-2">
+                    <p className="text-[10px] text-plum-900/40 text-center mt-1.5">
                       Auto-renews monthly • Cancel anytime with 1 click
                     </p>
                   </div>
@@ -335,7 +335,7 @@ export default function PlansPage() {
               const Icon = perk.icon;
               return (
                 <ScrollReveal key={perk.title} delay={idx * 70} className="h-full">
-                  <div className="bg-white rounded-2xl p-6 border border-plum-900/10 shadow-xs h-full flex flex-col justify-between">
+                  <div className="bg-white rounded-lg p-5 border border-plum-900/10 shadow-xs h-full flex flex-col justify-between">
                     <div>
                       <div className={`w-12 h-12 rounded-xl ${perk.bg} ${perk.color} flex items-center justify-center mb-4`}>
                         <Icon className="w-6 h-6" />
@@ -367,7 +367,7 @@ export default function PlansPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <ScrollReveal delay={0}>
-              <div className="p-6 rounded-2xl bg-[#fdfbf7] border border-plum-900/5">
+              <div className="p-5 rounded-lg bg-[#fdfbf7] border border-plum-900/5">
                 <div className="w-10 h-10 rounded-full bg-teal-500 text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
                   1
                 </div>
@@ -377,7 +377,7 @@ export default function PlansPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={90}>
-              <div className="p-6 rounded-2xl bg-[#fdfbf7] border border-plum-900/5">
+              <div className="p-5 rounded-lg bg-[#fdfbf7] border border-plum-900/5">
                 <div className="w-10 h-10 rounded-full bg-peach-500 text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
                   2
                 </div>
@@ -387,7 +387,7 @@ export default function PlansPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={180}>
-              <div className="p-6 rounded-2xl bg-[#fdfbf7] border border-plum-900/5">
+              <div className="p-5 rounded-lg bg-[#fdfbf7] border border-plum-900/5">
                 <div className="w-10 h-10 rounded-full bg-teal-500 text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
                   3
                 </div>
@@ -414,7 +414,7 @@ export default function PlansPage() {
           <div className="space-y-4">
             {PLAN_FAQS.map((faq, idx) => (
               <ScrollReveal key={idx} delay={idx * 60}>
-                <div className="bg-white rounded-2xl p-5 border border-plum-900/10 shadow-xs">
+                <div className="bg-white rounded-lg p-5 border border-plum-900/10 shadow-xs">
                   <h3 className="text-sm sm:text-base font-bold text-plum-900 mb-1.5 flex items-start gap-2">
                     <HelpCircle className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
                     <span>{faq.q}</span>

@@ -84,29 +84,13 @@ export default function ProductDetail({ product }) {
 
           {/* Product Info */}
           <div>
-            {/* Category + Veg indicator */}
+            {/* Category badge */}
             <div className="flex items-center gap-3 mb-3 flex-wrap">
               {product.category && (
                 <span className="text-[11px] font-bold text-plum-900 bg-butter-300/40 border border-butter-300/60 px-3 py-1 rounded-full uppercase tracking-wider">
                   {product.category.name}
                 </span>
               )}
-              <div
-                className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold border ${
-                  product.isVeg
-                    ? 'bg-emerald-50 text-emerald-800 border-emerald-200/60'
-                    : 'bg-rose-50 text-rose-800 border-rose-200/60'
-                }`}
-              >
-                <div
-                  className={`w-3 h-3 rounded-xs border flex items-center justify-center ${
-                    product.isVeg ? 'border-emerald-600' : 'border-rose-600'
-                  }`}
-                >
-                  <div className={`w-1.5 h-1.5 rounded-full ${product.isVeg ? 'bg-emerald-600' : 'bg-rose-600'}`} />
-                </div>
-                <span>{product.isVeg ? 'Vegetarian' : 'Non-veg'}</span>
-              </div>
             </div>
 
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-plum-900 mb-3 leading-tight tracking-tight">
@@ -127,7 +111,7 @@ export default function ProductDetail({ product }) {
                     <button
                       key={v.id}
                       onClick={() => setSelectedVariantId(v.id)}
-                      className={`px-4 py-2 rounded-xl border text-sm font-semibold transition-all ${
+                      className={`px-4 py-2 rounded border text-sm font-semibold transition-all ${
                         selectedVariantId === v.id
                           ? 'border-coral-500 bg-coral-50 text-coral-600 shadow-sm ring-1 ring-coral-500/30'
                           : 'border-plum-900/10 text-plum-900/80 bg-white hover:border-plum-900/20'
@@ -170,7 +154,7 @@ export default function ProductDetail({ product }) {
             )}
 
             {/* One-time / Subscribe toggle */}
-            <div className="mb-6 bg-white rounded-2xl p-4 md:p-5 border border-plum-900/5 shadow-sm space-y-3">
+            <div className="mb-4 bg-white rounded-xl p-4 md:p-5 border border-plum-900/5 shadow-sm space-y-3">
               <p className="text-xs font-bold text-plum-900/50 uppercase tracking-wider">Purchase type</p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <button
@@ -265,7 +249,7 @@ export default function ProductDetail({ product }) {
             </p>
 
             {/* 3 Trust Badges Matching Screen 5 */}
-            <div className="grid grid-cols-3 gap-2 py-3 mb-6 border-y border-plum-900/10 bg-butter-50/50 rounded-2xl px-3">
+            <div className="grid grid-cols-3 gap-2 py-3 mb-6 border-y border-plum-900/10 bg-butter-50/50 rounded-lg px-3">
               <div className="flex flex-col items-center text-center p-1">
                 <Utensils className="w-5 h-5 text-plum-900 mb-1" />
                 <span className="text-[11px] font-bold text-plum-900 leading-tight">Human Grade</span>

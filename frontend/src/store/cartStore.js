@@ -64,7 +64,14 @@ const useCartStore = create((set, get) => ({
   currentUserId: null,
   items: [],
   coupon: null,
+  orderNote: '',
   isInitialized: false,
+  isDrawerOpen: false,
+
+  openDrawer: () => set({ isDrawerOpen: true }),
+  closeDrawer: () => set({ isDrawerOpen: false }),
+  toggleDrawer: () => set((state) => ({ isDrawerOpen: !state.isDrawerOpen })),
+  setOrderNote: (orderNote) => set({ orderNote }),
 
   /**
    * Set user scope: switches cart to the target user (or guest).
@@ -197,7 +204,7 @@ const useCartStore = create((set, get) => ({
       ];
     }
 
-    set({ items: updatedItems });
+    set({ items: updatedItems, isDrawerOpen: true });
     saveCartToStorage(state.currentUserId, { items: updatedItems, coupon: state.coupon });
 
     // Sync to backend if logged in
@@ -291,6 +298,14 @@ const useCartStore = create((set, get) => ({
     const discount = get().getDiscount();
     const shipping = get().getShipping();
     return Math.max(0, subtotal - discount + shipping);
+  },
+  getTotalSavings: () => {
+    const itemSavings = get().items.reduce((sum, i) => {
+      const mrp = Number(i.mrp) || i.price;
+      return sum + Math.max(0, mrp - i.price) * i.quantity;
+    }, 0);
+    const couponDiscount = Number(get().getDiscount()) || 0;
+    return itemSavings + couponDiscount;
   },
 }));
 

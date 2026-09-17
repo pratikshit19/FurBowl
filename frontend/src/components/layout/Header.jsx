@@ -39,8 +39,14 @@ export default function Header() {
 
   // Rehydrate stores on mount
   useEffect(() => {
-    useCartStore.persist.rehydrate();
-    useAuthStore.persist.rehydrate();
+    if (useCartStore.persist?.rehydrate) {
+      useCartStore.persist.rehydrate();
+    } else if (typeof window !== 'undefined') {
+      useCartStore.getState().setUserScope(useAuthStore.getState().user?.id || null);
+    }
+    if (useAuthStore.persist?.rehydrate) {
+      useAuthStore.persist.rehydrate();
+    }
     setHydrated(true);
   }, []);
 
@@ -201,7 +207,7 @@ export default function Header() {
             {/* Left: Hamburger Menu Button (opens bottom drawer) */}
             <button
               type="button"
-              className="flex items-center justify-center w-10 h-10 -ml-1.5 rounded-xl text-plum-900 hover:text-peach-600 active:scale-95 transition-all"
+              className="flex items-center justify-center w-10 h-10 -ml-1.5 rounded-full text-plum-900 hover:text-peach-600 active:scale-95 transition-all"
               onClick={() => setMobileNavOpen(true)}
               aria-label="Open menu"
               aria-expanded={mobileNavOpen}
@@ -235,9 +241,10 @@ export default function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
               </Link>
-              <Link
-                href="/cart"
-                className="flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-teal-600 relative active:scale-95 transition-all"
+              <button
+                type="button"
+                onClick={() => useCartStore.getState().openDrawer()}
+                className="flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-teal-600 relative active:scale-95 transition-all cursor-pointer"
                 aria-label={`Cart${hydrated && cartCount > 0 ? ` (${cartCount} items)` : ''}`}
               >
                 <svg className="w-6 h-6 stroke-[1.8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -248,7 +255,7 @@ export default function Header() {
                     {cartCount > 9 ? '9+' : cartCount}
                   </span>
                 )}
-              </Link>
+              </button>
             </div>
           </div>
 
@@ -304,7 +311,7 @@ export default function Header() {
 
                       {/* Dropdown Menu Panel */}
                       <div
-                        className={`absolute top-full left-0 w-[280px] bg-white border border-plum-900/10 rounded-2xl shadow-xl p-3 transition-all duration-200 z-50 transform origin-top-left ${
+                        className={`absolute top-full left-0 w-[280px] bg-white border border-plum-900/10 rounded-lg shadow-xl p-3 transition-all duration-200 z-50 transform origin-top-left ${
                           productsDropdownOpen
                             ? 'opacity-100 visible translate-y-1'
                             : 'opacity-0 invisible -translate-y-2 pointer-events-none'
@@ -327,7 +334,7 @@ export default function Header() {
                               key={product.slug}
                               href={`/shop/${product.slug}`}
                               onClick={() => setProductsDropdownOpen(false)}
-                              className="block px-3 py-2 rounded-xl hover:bg-teal-50 transition-colors group/item"
+                              className="block px-3 py-2 rounded-md hover:bg-teal-50 transition-colors group/item"
                             >
                               <span className="text-[15px] font-semibold text-plum-900 group-hover/item:text-teal-600 transition-colors truncate block">
                                 {product.name}
@@ -420,7 +427,7 @@ export default function Header() {
 
                 {/* Dropdown Modal Panel */}
                 <div
-                  className={`absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 top-full mt-3 w-80 bg-white border border-plum-900/10 rounded-3xl shadow-2xl p-6 transition-all duration-200 z-50 ${
+                  className={`absolute right-0 sm:right-auto sm:left-1/2 sm:-translate-x-1/2 top-full mt-3 w-80 bg-white border border-plum-900/10 rounded-lg shadow-2xl p-6 transition-all duration-200 z-50 ${
                     accountDropdownOpen
                       ? 'opacity-100 visible translate-y-0'
                       : 'opacity-0 invisible -translate-y-2 pointer-events-none'
@@ -458,7 +465,7 @@ export default function Header() {
 
                       {/* Inline Name Setting / Editing Form */}
                       {(editingName || !user?.name) && (
-                        <form onSubmit={handleSaveName} className="p-3 bg-cream-100/80 rounded-2xl border border-plum-900/10 space-y-2">
+                        <form onSubmit={handleSaveName} className="p-3 bg-cream-100/80 rounded-md border border-plum-900/10 space-y-2">
                           <p className="text-[11px] font-bold text-plum-900">
                             {user?.name ? 'Change username:' : 'Choose your preferred username:'}
                           </p>
@@ -468,14 +475,14 @@ export default function Header() {
                               value={nameInput}
                               onChange={(e) => setNameInput(e.target.value)}
                               placeholder="e.g. pratikshit"
-                              className="flex-1 bg-white border border-plum-900/15 rounded-xl px-3 py-1.5 text-xs text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none focus:border-teal-500"
+                              className="flex-1 bg-white border border-plum-900/15 rounded-md px-3 py-1.5 text-xs text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none focus:border-teal-500"
                               autoFocus
                               required
                             />
                             <button
                               type="submit"
                               disabled={nameSaving || !nameInput.trim()}
-                              className="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl transition-all disabled:opacity-50 cursor-pointer shadow-xs"
+                              className="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs px-3 py-1.5 rounded transition-all disabled:opacity-50 cursor-pointer shadow-xs"
                             >
                               {nameSaving ? 'Saving…' : 'Save'}
                             </button>
@@ -490,7 +497,7 @@ export default function Header() {
                         <Link
                           href="/account"
                           onClick={() => setAccountDropdownOpen(false)}
-                          className="flex items-center justify-between px-3 py-2 text-xs font-bold text-plum-900 hover:bg-teal-50 rounded-xl transition-colors"
+                          className="flex items-center justify-between px-3 py-2 text-xs font-bold text-plum-900 hover:bg-teal-50 rounded transition-colors"
                         >
                           <span>My Dashboard</span>
                           <span>→</span>
@@ -500,7 +507,7 @@ export default function Header() {
                             logout();
                             setAccountDropdownOpen(false);
                           }}
-                          className="w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-peach-700 hover:bg-peach-50 rounded-xl transition-colors cursor-pointer"
+                          className="w-full flex items-center justify-between px-3 py-2 text-xs font-bold text-peach-700 hover:bg-peach-50 rounded transition-colors cursor-pointer"
                         >
                           <span>Logout</span>
                           <span>↳</span>
@@ -521,7 +528,7 @@ export default function Header() {
 
                       {quickStep === 'phone' ? (
                         <form onSubmit={handleQuickSendOtp} className="space-y-3">
-                          <div className="flex rounded-xl border border-plum-900/15 focus-within:border-teal-500 focus-within:ring-1 focus-within:ring-teal-500/30 transition-all bg-white overflow-hidden">
+                          <div className="flex rounded-md border border-plum-900/15 focus-within:border-teal-500 focus-within:ring-1 focus-within:ring-teal-500/30 transition-all bg-white overflow-hidden">
                             <div className="flex items-center bg-plum-900/5 px-3 text-xs text-plum-900/70 font-bold border-r border-plum-900/10">
                               +91
                             </div>
@@ -544,7 +551,7 @@ export default function Header() {
                           <button
                             type="submit"
                             disabled={quickLoading || quickPhone.length !== 10}
-                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-extrabold text-xs py-3 rounded-xl transition-all shadow-md disabled:opacity-50 cursor-pointer"
+                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-extrabold text-xs py-3 rounded transition-all shadow-md disabled:opacity-50 cursor-pointer"
                           >
                             {quickLoading ? 'Sending OTP…' : 'Login'}
                           </button>
@@ -558,7 +565,7 @@ export default function Header() {
                             value={quickOtp}
                             onChange={(e) => setQuickOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
                             placeholder="Enter 6-digit OTP"
-                            className="w-full text-center tracking-widest px-3 py-2.5 text-sm font-extrabold text-plum-900 border border-plum-900/15 rounded-xl focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30 transition-all"
+                            className="w-full text-center tracking-widest px-3 py-2.5 text-sm font-extrabold text-plum-900 border border-plum-900/15 rounded focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500/30 transition-all"
                             required
                             autoFocus
                           />
@@ -570,7 +577,7 @@ export default function Header() {
                           <button
                             type="submit"
                             disabled={quickLoading || quickOtp.length !== 6}
-                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-extrabold text-xs py-3 rounded-xl transition-all shadow-md disabled:opacity-50 cursor-pointer"
+                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-extrabold text-xs py-3 rounded transition-all shadow-md disabled:opacity-50 cursor-pointer"
                           >
                             {quickLoading ? 'Verifying…' : 'Verify & Login'}
                           </button>
@@ -615,9 +622,10 @@ export default function Header() {
               </Link>
 
               {/* Cart Button (Icon + Counter + "Cart" text) */}
-              <Link
-                href="/cart"
-                className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-all group"
+              <button
+                type="button"
+                onClick={() => useCartStore.getState().openDrawer()}
+                className="flex items-center gap-2.5 px-3 py-2 rounded text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-all group cursor-pointer"
                 aria-label={`Cart${hydrated && cartCount > 0 ? ` (${cartCount} items)` : ''}`}
               >
                 <div className="relative flex items-center justify-center">
@@ -633,7 +641,7 @@ export default function Header() {
                 <span className="text-[17.5px] font-semibold text-plum-900 group-hover:text-teal-600 transition-colors hidden sm:inline">
                   Cart
                 </span>
-              </Link>
+              </button>
             </div>
           </div>
         </div>

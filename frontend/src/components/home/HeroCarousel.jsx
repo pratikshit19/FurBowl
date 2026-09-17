@@ -16,7 +16,7 @@ import SpinWheelSlide from './SpinWheelSlide';
 const DEFAULT_BANNERS = [
   {
     id: 'carousel-1',
-    image: '/images/carousel_1.png',
+    image: '/images/carousel_1_3to1.png',
     alt: 'FurBowl — 100% Natural, 0% Compromise. Shop fresh dog food now.',
     link: '/shop',
   },
@@ -26,13 +26,13 @@ const DEFAULT_BANNERS = [
   },
   {
     id: 'carousel-2',
-    image: '/images/carousel_2.png',
+    image: '/images/carousel_2_3to1.png',
     alt: 'FurBowl — Can\'t Pick Just One? Let them try them all. Try the trial pack.',
     link: '/shop',
   },
   {
     id: 'carousel-3',
-    image: '/images/carousel_3_169.png',
+    image: '/images/carousel_3_3to1.png',
     alt: 'FurBowl — A Meal for Every Mood. Discover their next favourite.',
     link: '/shop',
   },
@@ -90,10 +90,10 @@ export default function HeroCarousel() {
 
   return (
     <div className="w-full">
-      {/* Interactive Carousel Section */}
+      {/* Interactive Carousel Section — 3:1 Aspect Ratio Banner */}
       <section
         className="relative overflow-hidden bg-butter-50/50 w-full select-none"
-        style={{ aspectRatio: '16/9' }}
+        style={{ aspectRatio: '3/1', minHeight: '220px' }}
         aria-label="Featured promotions carousel"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}

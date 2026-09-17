@@ -90,7 +90,7 @@ export default function ShopByCategorySection() {
             <ScrollReveal key={cat.id} delay={idx * 70} className="h-full">
               <Link
                 href={cat.link}
-                className="rounded-xl sm:rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group focus:outline-none h-full"
+                className="rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group focus:outline-none h-full"
               >
                 {/* ─── Upper Image Area ─── */}
                 <div className="relative w-full h-[175px] sm:h-[245px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
@@ -137,7 +137,7 @@ export default function ShopByCategorySection() {
                 </div>
 
                 {/* ─── Lower Details Area ─── */}
-                <div className="p-2.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                <div className="p-2.5 sm:px-4 sm:pt-3 sm:pb-3 flex flex-col justify-between flex-1 bg-white">
                   <div>
                     {/* Title */}
                     <h3 className="font-bold text-xs sm:text-[14.5px] text-plum-900 group-hover:text-teal-600 transition-colors leading-snug line-clamp-1">
@@ -150,7 +150,7 @@ export default function ShopByCategorySection() {
                     </p>
 
                     {/* Price */}
-                    <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1.5 sm:mt-2.5 mb-2 sm:mb-3.5">
+                    <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-1.5 sm:mb-2">
                       <span className="text-xs sm:text-base font-black text-plum-900">
                         From ₹{cat.price.toLocaleString('en-IN')}
                       </span>
@@ -161,7 +161,7 @@ export default function ShopByCategorySection() {
                   </div>
 
                   {/* Action Button — FurBowl Teal */}
-                  <div className="w-full py-1.5 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm flex items-center justify-center gap-1 sm:gap-1.5 transition-all group-hover:bg-[#0f8e9d]">
+                  <div className="w-full py-1.5 sm:py-2.5 rounded text-xs sm:text-sm font-bold bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm flex items-center justify-center gap-1 sm:gap-1.5 transition-all group-hover:bg-[#0f8e9d]">
                     <span className="line-clamp-1">{cat.btnText}</span>
                     <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-0.5 transition-transform shrink-0" />
                   </div>

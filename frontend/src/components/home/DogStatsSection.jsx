@@ -96,7 +96,7 @@ export default function DogStatsSection() {
             return (
               <ScrollReveal key={stat.id} delay={idx * 80} className="h-full">
                 <div
-                  className={`rounded-3xl p-6 sm:p-7 border ${stat.borderColor} ${stat.bgLight} transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden relative group h-full`}
+                  className={`rounded-xl p-6 sm:p-7 border ${stat.borderColor} ${stat.bgLight} transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden relative group h-full`}
                 >
                   <div>
                     {/* Top: Stat Number + Dog Avatar */}
@@ -104,7 +104,7 @@ export default function DogStatsSection() {
                       <span className={`text-4xl sm:text-5xl font-black tracking-tight ${stat.accentColor}`}>
                         {stat.number}
                       </span>
-                      <div className="relative w-12 h-12 rounded-2xl overflow-hidden border-2 border-white shadow-sm shrink-0">
+                      <div className="relative w-12 h-12 rounded-lg overflow-hidden border-2 border-white shadow-sm shrink-0">
                         <Image
                           src={stat.image}
                           alt={stat.dogName}

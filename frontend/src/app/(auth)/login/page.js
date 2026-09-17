@@ -46,7 +46,7 @@ function PhoneStep({ onOtpSent }) {
         <label htmlFor="phone-input" className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-2">
           Mobile Number
         </label>
-        <div className="flex rounded-xl border border-plum-900/15 focus-within:border-coral-500 focus-within:ring-1 focus-within:ring-coral-500/30 transition-all bg-white overflow-hidden">
+        <div className="flex rounded-md border border-plum-900/15 focus-within:border-coral-500 focus-within:ring-1 focus-within:ring-coral-500/30 transition-all bg-white overflow-hidden">
           <div className="flex items-center bg-plum-900/5 px-3.5 text-sm text-plum-900/70 font-bold border-r border-plum-900/10">
             +91
           </div>
@@ -69,7 +69,7 @@ function PhoneStep({ onOtpSent }) {
       <button
         type="submit"
         disabled={loading || phone.length !== 10}
-        className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-coral-500/20"
+        className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-coral-500/20"
         id="send-otp-btn"
       >
         {loading ? 'Sending OTP…' : 'Send OTP'}
@@ -174,7 +174,7 @@ function OtpStep({ phone, onSuccess, onBack }) {
       <button
         onClick={handleVerify}
         disabled={loading || otpString.length !== 6}
-        className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-coral-500/20"
+        className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-coral-500/20"
         id="verify-otp-btn"
       >
         {loading ? 'Verifying…' : 'Verify OTP'}
@@ -322,7 +322,7 @@ function EmailStep({ onSuccess }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 transition-all shadow-md shadow-coral-500/20"
+        className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 transition-all shadow-md shadow-coral-500/20"
       >
         {loading
           ? mode === 'signup' ? 'Creating Account…' : 'Signing In…'
@@ -396,7 +396,7 @@ function UsernameStep({ user, token, onComplete }) {
       <button
         type="submit"
         disabled={loading || !username.trim()}
-        className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3.5 rounded-xl font-bold text-sm active:scale-[0.98] disabled:opacity-50 transition-all shadow-md shadow-teal-500/20 cursor-pointer"
+        className="w-full bg-teal-500 hover:bg-teal-600 text-white py-3.5 rounded font-bold text-sm active:scale-[0.98] disabled:opacity-50 transition-all shadow-md shadow-teal-500/20 cursor-pointer"
       >
         {loading ? 'Saving…' : 'Confirm Username'}
       </button>

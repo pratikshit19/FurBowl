@@ -3,13 +3,6 @@
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { useCallback } from 'react';
 
-const FOOD_TYPES = [
-  { label: 'All', value: '' },
-  { label: 'Wet Food', value: 'WET' },
-  { label: 'Broth', value: 'BROTH' },
-  { label: 'Dry Food', value: 'DRY' },
-];
-
 const SORT_OPTIONS = [
   { label: 'Recommended', value: 'sortOrder' },
   { label: 'Price: Low to High', value: 'price_asc' },
@@ -52,7 +45,6 @@ export default function ProductFilters() {
 
   const activeCategory = searchParams.get('category') || '';
   const activeSort = searchParams.get('sort') || 'sortOrder';
-  const activeIsVeg = searchParams.get('isVeg') || '';
 
   return (
     <div className="flex flex-wrap items-center gap-3 py-4 border-b border-plum-900/5 mb-4">
@@ -71,24 +63,6 @@ export default function ProductFilters() {
             {cat.label}
           </button>
         ))}
-      </div>
-
-      {/* Separator */}
-      <div className="h-5 w-px bg-plum-900/10 hidden sm:block" />
-
-      {/* Veg / Non-veg filter */}
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => updateFilter('isVeg', activeIsVeg === 'true' ? '' : 'true')}
-          className={`flex items-center gap-2 px-3.5 py-2 rounded-md text-xs font-semibold border transition-all shadow-sm active:scale-95 ${
-            activeIsVeg === 'true'
-              ? 'border-emerald-500/40 text-emerald-800 bg-emerald-50'
-              : 'border-plum-900/5 text-plum-900/80 bg-white hover:border-coral-500/20'
-          }`}
-        >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-          Veg Only
-        </button>
       </div>
 
       {/* Sort — pushed to end */}

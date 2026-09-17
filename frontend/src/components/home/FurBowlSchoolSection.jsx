@@ -26,7 +26,7 @@ export default function FurBowlSchoolSection() {
 
           <Link
             href="/why-furbowl"
-            className="self-start sm:self-auto bg-white border border-plum-900/20 hover:border-plum-900/40 text-plum-900 font-bold text-xs sm:text-sm px-6 py-3 rounded-full transition-all shadow-xs"
+            className="self-start sm:self-auto bg-white border border-plum-900/20 hover:border-plum-900/40 text-plum-900 font-bold text-xs sm:text-sm px-6 py-3 rounded transition-all shadow-xs"
           >
             View All Articles →
           </Link>
@@ -37,7 +37,7 @@ export default function FurBowlSchoolSection() {
           {SCHOOL_ARTICLES.map((article, idx) => (
             <ScrollReveal key={article.id} delay={idx * 100} className="h-full">
               <article
-                className="bg-white rounded-3xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group h-full"
+                className="bg-white rounded-xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group h-full"
               >
                 <div>
                   {/* Article Image */}

@@ -45,10 +45,10 @@ export default function TastePassportSection() {
 
         {/* Passport Layout (Matching Screen 8) */}
         <ScrollReveal delay={60}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-butter-50/60 rounded-3xl border border-plum-900/10 p-6 sm:p-10 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-butter-50/60 rounded-xl border border-plum-900/10 p-6 sm:p-10 shadow-sm">
             
             {/* Left: Teal Passport Card */}
-            <div className="lg:col-span-5 bg-gradient-to-br from-coral-500 to-coral-600 rounded-2xl p-6 sm:p-8 text-white shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[380px]">
+            <div className="lg:col-span-5 bg-gradient-to-br from-coral-500 to-coral-600 rounded-lg p-6 sm:p-8 text-white shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[380px]">
               {/* Background paw watermark */}
               <PawPrint className="absolute -right-8 -bottom-8 w-44 h-44 text-white/10 select-none pointer-events-none stroke-1" />
 
@@ -74,7 +74,7 @@ export default function TastePassportSection() {
               </div>
 
               {/* Passport Progress Bar */}
-              <div className="relative z-10 bg-white/15 backdrop-blur-xs rounded-xl p-4 border border-white/20">
+              <div className="relative z-10 bg-white/15 backdrop-blur-xs rounded-lg p-4 border border-white/20">
                 <div className="flex items-center justify-between text-xs font-bold mb-2">
                   <span>{unlockedCount} / 6 recipes unlocked</span>
                   <span>{progressPercent}%</span>
@@ -114,7 +114,7 @@ export default function TastePassportSection() {
                       key={recipe.id}
                       type="button"
                       onClick={() => toggleRecipe(recipe.id)}
-                      className={`flex flex-col items-center p-4 rounded-2xl border-2 transition-all cursor-pointer relative group text-center ${
+                      className={`flex flex-col items-center p-4 rounded-lg border-2 transition-all cursor-pointer relative group text-center ${
                         isUnlocked
                           ? 'bg-white border-coral-500/40 shadow-sm hover:scale-105 hover:border-coral-500'
                           : 'bg-white/40 border-dashed border-plum-900/15 opacity-70 hover:opacity-100 hover:border-plum-900/30'

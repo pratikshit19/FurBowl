@@ -1,13 +1,7 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 export const metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://furbowl.in'),
   title: {
     default: "FurBowl — Real Food. Pure Love. | Fresh Dog Food India",
     template: "%s | FurBowl",
@@ -32,10 +26,12 @@ export const metadata = {
     title: "FurBowl — Real Food. Pure Love.",
     description:
       "Fresh, ready-to-eat dog food made with real, human-grade ingredients.",
+    images: [{ url: '/images/carousel_1.png', width: 1200, height: 675, alt: 'FurBowl fresh dog food' }],
   },
   twitter: {
     card: "summary_large_image",
   },
+  alternates: { canonical: '/' },
   robots: {
     index: true,
     follow: true,
@@ -44,8 +40,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} h-full font-sans`} data-scroll-behavior="smooth">
-      <body className="min-h-full flex flex-col antialiased font-sans">{children}</body>
+    <html lang="en" className="h-full font-sans" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col antialiased font-sans" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

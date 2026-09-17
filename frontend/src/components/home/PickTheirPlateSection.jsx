@@ -89,7 +89,7 @@ export default function PickTheirPlateSection() {
           <div className="flex items-center gap-3 mb-4">
             <button
               onClick={() => setStep(1)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
                 step === 1 ? 'bg-plum-900 text-white shadow-sm' : 'bg-plum-900/5 text-plum-900/60'
               }`}
             >
@@ -99,7 +99,7 @@ export default function PickTheirPlateSection() {
             <span className="text-plum-900/20">—</span>
             <button
               onClick={() => setStep(2)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
                 step === 2 ? 'bg-plum-900 text-white shadow-sm' : 'bg-plum-900/5 text-plum-900/60'
               }`}
             >
@@ -109,7 +109,7 @@ export default function PickTheirPlateSection() {
             <span className="text-plum-900/20">—</span>
             <button
               onClick={() => setStep(3)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-bold transition-all ${
                 step === 3 ? 'bg-plum-900 text-white shadow-sm' : 'bg-plum-900/5 text-plum-900/60'
               }`}
             >
@@ -130,7 +130,7 @@ export default function PickTheirPlateSection() {
 
         {/* STEP 1 & 2: Taste-based interactive question */}
         {step < 3 && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-butter-50/50 rounded-3xl border border-plum-900/10 p-6 sm:p-10 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-butter-50/50 rounded-xl border border-plum-900/10 p-6 sm:p-10 shadow-sm">
             
             {/* Left Column: Interactive Selector */}
             <div className="lg:col-span-7">
@@ -153,13 +153,13 @@ export default function PickTheirPlateSection() {
                           key={item.id}
                           type="button"
                           onClick={() => setSelectedProtein(item.id)}
-                          className={`flex flex-col items-center text-center p-4 rounded-2xl border-2 transition-all cursor-pointer ${
+                          className={`flex flex-col items-center text-center p-4 rounded-lg border-2 transition-all cursor-pointer ${
                             isSelected
                               ? 'bg-white border-coral-500 shadow-md scale-105 ring-2 ring-coral-500/20'
                               : 'bg-white/80 border-plum-900/10 hover:border-plum-900/30'
                           }`}
                         >
-                          <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-2.5 transition-colors ${
+                          <div className={`w-11 h-11 rounded-md flex items-center justify-center mb-2.5 transition-colors ${
                             isSelected ? 'bg-coral-500 text-white' : 'bg-butter-200/60 text-plum-900'
                           }`}>
                             <Icon className="w-5 h-5" />
@@ -199,13 +199,13 @@ export default function PickTheirPlateSection() {
                           key={vibe.id}
                           type="button"
                           onClick={() => setSelectedVibe(vibe.id)}
-                          className={`flex items-center gap-3.5 p-4 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                          className={`flex items-center gap-3.5 p-4 rounded-lg border-2 text-left transition-all cursor-pointer ${
                             isSelected
                               ? 'bg-white border-coral-500 shadow-md ring-2 ring-coral-500/20'
                               : 'bg-white/80 border-plum-900/10 hover:border-plum-900/30'
                           }`}
                         >
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                          <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${
                             isSelected ? 'bg-coral-500 text-white' : 'bg-butter-200/60 text-plum-900'
                           }`}>
                             <Icon className="w-5 h-5" />
@@ -252,7 +252,7 @@ export default function PickTheirPlateSection() {
                   className="object-cover rounded-full p-2 relative z-10 shadow-lg"
                 />
 
-                <div className="absolute -bottom-2 -left-2 sm:-left-4 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-2xl p-3 shadow-lg z-20 -rotate-3 hover:rotate-0 transition-transform">
+                <div className="absolute -bottom-2 -left-2 sm:-left-4 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-lg p-3 shadow-lg z-20 -rotate-3 hover:rotate-0 transition-transform">
                   <p className="text-xs sm:text-sm font-extrabold text-plum-900 flex items-center gap-1.5">
                     <span>Good food =</span>
                     <span className="text-coral-500 font-black inline-flex items-center gap-1">
@@ -271,7 +271,7 @@ export default function PickTheirPlateSection() {
 
         {/* STEP 3: Taste Profile Result (Matching Screen 3) */}
         {step === 3 && (
-          <div className="bg-gradient-to-b from-butter-50 to-white rounded-3xl border border-plum-900/10 p-6 sm:p-10 shadow-sm">
+          <div className="bg-gradient-to-b from-butter-50 to-white rounded-xl border border-plum-900/10 p-6 sm:p-10 shadow-sm">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               
               {/* Left Profile Avatar Card */}
@@ -313,7 +313,7 @@ export default function PickTheirPlateSection() {
               {/* Center Main Top Match Card */}
               <div className="lg:col-span-5">
                 {matches.topMatch && (
-                  <div className="bg-white rounded-2xl border-2 border-coral-500/30 p-5 shadow-lg relative overflow-hidden group hover:border-coral-500 transition-all">
+                  <div className="bg-white rounded-lg border-2 border-coral-500/30 p-5 shadow-lg relative overflow-hidden group hover:border-coral-500 transition-all">
                     <div className="flex items-center justify-between mb-3">
                       <span className="bg-coral-500 text-white text-[11px] font-extrabold px-3 py-0.5 rounded-full tracking-wider uppercase inline-flex items-center gap-1">
                         <Star className="w-3 h-3 fill-white text-white shrink-0" />
@@ -322,7 +322,7 @@ export default function PickTheirPlateSection() {
                       <span className="text-xs font-bold text-coral-600">₹{matches.topMatch.price}</span>
                     </div>
 
-                    <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-4 bg-butter-50 flex items-center justify-center p-2">
+                    <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden mb-3.5 bg-butter-50 flex items-center justify-center p-2">
                       <Image
                         src={matches.topMatch.image}
                         alt={matches.topMatch.name}
@@ -332,11 +332,11 @@ export default function PickTheirPlateSection() {
                     </div>
 
                     <h4 className="text-xl font-black text-plum-900 mb-1">{matches.topMatch.name}</h4>
-                    <p className="text-xs text-plum-900/60 mb-3">{matches.topMatch.tags}</p>
+                    <p className="text-xs text-plum-900/60 mb-2">{matches.topMatch.tags}</p>
 
                     <Link
                       href={`/shop/${matches.topMatch.slug}`}
-                      className="w-full bg-plum-900 hover:bg-plum-800 text-white font-bold text-xs py-3 rounded-full text-center block transition-all shadow-sm"
+                      className="w-full bg-plum-900 hover:bg-plum-800 text-white font-bold text-xs py-3 rounded text-center block transition-all shadow-sm"
                     >
                       View Product →
                     </Link>
@@ -351,8 +351,8 @@ export default function PickTheirPlateSection() {
                 </span>
 
                 {matches.secondMatch && (
-                  <div className="bg-white rounded-xl border border-plum-900/10 p-3 flex items-center gap-3 hover:shadow-sm transition-shadow">
-                    <div className="relative w-14 h-14 shrink-0 rounded-lg overflow-hidden bg-butter-50">
+                  <div className="bg-white rounded-lg border border-plum-900/10 p-3 flex items-center gap-3 hover:shadow-sm transition-shadow">
+                    <div className="relative w-14 h-14 shrink-0 rounded-md overflow-hidden bg-butter-50">
                       <Image
                         src={matches.secondMatch.image}
                         alt={matches.secondMatch.name}

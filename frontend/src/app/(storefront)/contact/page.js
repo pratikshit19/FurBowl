@@ -2,20 +2,23 @@
 
 import { useState } from 'react';
 import { MapPin, Mail, Clock, CheckCircle2 } from 'lucide-react';
+import api from '@/lib/api';
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await new Promise((r) => setTimeout(r, 600));
+      setError('');
+      await api.submitContact(form);
       setSubmitted(true);
-    } catch {
-      alert('Failed to send message');
+    } catch (err) {
+      setError(err.message || 'We could not send your message. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -104,9 +107,10 @@ export default function ContactPage() {
                 </div>
 
                 <button type="submit" disabled={loading}
-                  className="w-full bg-coral-500 text-white py-3.5 rounded-xl font-bold text-sm hover:bg-coral-600 disabled:opacity-50 transition-all shadow-md shadow-coral-500/20">
+                  className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 disabled:opacity-50 transition-all shadow-md shadow-coral-500/20">
                   {loading ? 'Sending…' : 'Send Message'}
                 </button>
+                {error && <p role="alert" className="text-center text-sm font-medium text-red-600">{error}</p>}
               </form>
             )}
           </div>

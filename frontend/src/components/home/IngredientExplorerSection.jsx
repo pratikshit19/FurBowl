@@ -64,7 +64,7 @@ export default function IngredientExplorerSection() {
                 key={item.id}
                 type="button"
                 onClick={() => setActiveId(item.id)}
-                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer ${
+                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded text-xs sm:text-sm font-bold transition-all shrink-0 cursor-pointer ${
                   isActive
                     ? 'bg-plum-900 text-white shadow-md scale-105 ring-2 ring-plum-900/20'
                     : 'bg-butter-100/60 hover:bg-butter-200 text-plum-900 border border-plum-900/10'
@@ -78,12 +78,12 @@ export default function IngredientExplorerSection() {
         </div>
 
         {/* Feature Display Card (Matching Screen 6 Layout) */}
-        <div className="bg-gradient-to-br from-butter-50 via-white to-butter-100/50 rounded-3xl border-2 border-plum-900/10 p-6 sm:p-10 shadow-sm relative overflow-hidden">
+        <div className="bg-gradient-to-br from-butter-50 via-white to-butter-100/50 rounded-xl border-2 border-plum-900/10 p-6 sm:p-10 shadow-sm relative overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             
             {/* Left Column: Big Vibrant Ingredient Photo */}
             <div className="md:col-span-5 flex justify-center">
-              <div className="relative w-60 sm:w-72 aspect-square rounded-2xl overflow-hidden bg-white shadow-md border border-plum-900/10 p-3">
+              <div className="relative w-60 sm:w-72 aspect-square rounded-lg overflow-hidden bg-white shadow-md border border-plum-900/10 p-3">
                 <Image
                   src={currentIngredient.image}
                   alt={currentIngredient.name}
@@ -99,7 +99,7 @@ export default function IngredientExplorerSection() {
             {/* Right Column: Information & Deep Dive */}
             <div className="md:col-span-7">
               <div className="flex items-center gap-2.5 mb-2">
-                <div className="w-9 h-9 rounded-xl bg-coral-500/10 text-coral-600 flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-md bg-coral-500/10 text-coral-600 flex items-center justify-center shrink-0">
                   <ActiveIcon className="w-5 h-5" />
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-black text-plum-900 tracking-tight">
@@ -138,7 +138,7 @@ export default function IngredientExplorerSection() {
                 <button
                   type="button"
                   onClick={handleNext}
-                  className="bg-plum-900 hover:bg-plum-800 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded-full transition-all inline-flex items-center gap-2 shadow-sm cursor-pointer"
+                  className="bg-plum-900 hover:bg-plum-800 text-white font-bold text-xs sm:text-sm px-6 py-3 rounded transition-all inline-flex items-center gap-2 shadow-sm cursor-pointer"
                 >
                   <span>Next Ingredient</span>
                   <ArrowRight className="w-4 h-4 shrink-0" />

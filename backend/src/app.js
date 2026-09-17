@@ -10,6 +10,9 @@ import productRoutes from './routes/product.routes.js';
 import categoryRoutes from './routes/category.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import cartRoutes from './routes/cart.routes.js';
+import contactRoutes from './routes/contact.routes.js';
+import orderRoutes from './routes/orders.routes.js';
+import paymentRoutes from './routes/payments.routes.js';
 
 const app = express();
 
@@ -23,7 +26,12 @@ app.use(cors({
 }));
 
 // ─── Parsing Middleware ─────────────────────────────────────────────────────
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+  },
+}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -42,6 +50,9 @@ app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/cart', cartRoutes);
+app.use('/api/v1/contact', contactRoutes);
+app.use('/api/v1/orders', orderRoutes);
+app.use('/api/v1/payments', paymentRoutes);
 
 // ─── 404 Handler ────────────────────────────────────────────────────────────
 app.use((req, res) => {

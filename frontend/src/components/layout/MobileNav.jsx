@@ -117,7 +117,7 @@ export default function MobileNav({ isOpen, onClose }) {
                 <Link
                   href="/shop"
                   onClick={onClose}
-                  className="block py-2 px-3 rounded-xl text-xs font-black uppercase tracking-wider text-peach-600 bg-peach-50 hover:bg-peach-100 transition-colors"
+                  className="block py-2 px-3 rounded text-xs font-black uppercase tracking-wider text-peach-600 bg-peach-50 hover:bg-peach-100 transition-colors"
                 >
                   View All Products →
                 </Link>
@@ -126,7 +126,7 @@ export default function MobileNav({ isOpen, onClose }) {
                     key={product.slug}
                     href={`/shop/${product.slug}`}
                     onClick={onClose}
-                    className={`block py-2 px-3 rounded-xl text-sm font-semibold transition-colors ${
+                    className={`block py-2 px-3 rounded text-sm font-semibold transition-colors ${
                       pathname === `/shop/${product.slug}`
                         ? 'text-teal-600 bg-teal-50'
                         : 'text-plum-900/80 hover:text-teal-600 hover:bg-cream-100/60'
@@ -185,7 +185,7 @@ export default function MobileNav({ isOpen, onClose }) {
           {/* 5. FAQS */}
           <div className="py-1">
             <Link
-              href="/faqs"
+              href="/faq"
               onClick={onClose}
               className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
             >
@@ -221,7 +221,7 @@ export default function MobileNav({ isOpen, onClose }) {
               <Link
                 href="/account"
                 onClick={onClose}
-                className="inline-flex items-center gap-2 bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-xs transition-colors"
+                className="inline-flex items-center gap-2 bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded shadow-xs transition-colors"
               >
                 <User className="w-4 h-4" />
                 <span>{user?.name?.split(' ')[0] || 'My Account'}</span>
@@ -240,7 +240,7 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/login"
               onClick={onClose}
-              className="inline-flex items-center gap-2 bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-xl shadow-xs transition-colors"
+              className="inline-flex items-center gap-2 bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded shadow-xs transition-colors"
             >
               <User className="w-4 h-4" />
               <span>Login</span>

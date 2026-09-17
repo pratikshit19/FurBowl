@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import prisma from '../config/database.js';
 import { generateTokens, generateOtpCode } from '../utils/token.js';
 import { sendOtp } from '../utils/sms.js';
+import { rateLimit } from '../middleware/rate-limit.js';
 
 const router = Router();
 
@@ -10,7 +11,7 @@ const router = Router();
 const otpStore = new Map();
 
 // POST /api/v1/auth/send-otp
-router.post('/send-otp', async (req, res, next) => {
+router.post('/send-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 5, key: (req) => `${req.ip}:${req.body.phone || ''}` }), async (req, res, next) => {
   try {
     const { phone } = req.body;
     if (!phone || !/^\d{10}$/.test(phone)) {
@@ -46,7 +47,7 @@ router.post('/send-otp', async (req, res, next) => {
 });
 
 // POST /api/v1/auth/verify-otp
-router.post('/verify-otp', async (req, res, next) => {
+router.post('/verify-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 8, key: (req) => `${req.ip}:${req.body.phone || ''}` }), async (req, res, next) => {
   try {
     const { phone, otp } = req.body;
     if (!phone || !otp) {
@@ -166,7 +167,7 @@ router.post('/register', async (req, res, next) => {
 });
 
 // POST /api/v1/auth/login — Email & Password login
-router.post('/login', async (req, res, next) => {
+router.post('/login', rateLimit({ windowMs: 15 * 60 * 1000, max: 10 }), async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {

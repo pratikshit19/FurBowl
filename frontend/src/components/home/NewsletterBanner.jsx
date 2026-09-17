@@ -4,16 +4,26 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { CheckCircle2 } from 'lucide-react';
+import api from '@/lib/api';
 
 export default function NewsletterBanner() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email.trim()) {
+    if (!email.trim()) return;
+    setLoading(true); setError('');
+    try {
+      await api.subscribeNewsletter(email.trim());
       setSubmitted(true);
       setEmail('');
+    } catch (err) {
+      setError(err.message || 'We could not subscribe you right now.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,16 +63,18 @@ export default function NewsletterBanner() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email address..."
-                  className="flex-1 px-5 py-3.5 rounded-full text-plum-900 bg-white placeholder-plum-900/40 text-sm font-medium outline-none focus:ring-2 focus:ring-white/40 shadow-sm"
+                  className="flex-1 px-5 py-3.5 rounded text-plum-900 bg-white placeholder-plum-900/40 text-sm font-medium outline-none focus:ring-2 focus:ring-white/40 shadow-sm"
                 />
                 <button
                   type="submit"
-                  className="bg-plum-900 hover:bg-plum-800 text-white font-black text-sm px-7 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all shrink-0 cursor-pointer"
+                  disabled={loading}
+                  className="bg-plum-900 hover:bg-plum-800 text-white font-black text-sm px-7 py-3.5 rounded shadow-md hover:shadow-lg transition-all shrink-0 cursor-pointer"
                 >
-                  Join the pack
+                  {loading ? 'Joining…' : 'Join the pack'}
                 </button>
               </form>
             )}
+            {!submitted && <p aria-live="polite" className="mt-3 text-xs font-medium text-white/85">{error || 'Unsubscribe anytime. See our Privacy Policy for details.'}</p>}
           </div>
 
           {/* Right Column: Joyous Dog popping up */}

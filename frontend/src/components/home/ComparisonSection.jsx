@@ -238,7 +238,7 @@ export default function ComparisonSection() {
             return (
               <div
                 key={`${showFurbowl ? 'fb' : 'kb'}-${idx}`}
-                className={`rounded-2xl p-4 sm:p-5 lg:p-6 text-center border shadow-xs transition-all duration-500 min-w-0 flex flex-col justify-center ${
+                className={`rounded-lg p-4 sm:p-5 lg:p-6 text-center border shadow-xs transition-all duration-500 min-w-0 flex flex-col justify-center ${
                   showFurbowl
                     ? 'bg-white border-teal-500/20'
                     : 'bg-white border-peach-500/20'

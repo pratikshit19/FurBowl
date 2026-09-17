@@ -214,7 +214,7 @@ export default function MenuSection() {
             {BUNDLE_PRODUCTS.map((item) => (
               <div
                 key={item.id}
-                className="w-[270px] sm:w-[280px] lg:w-[290px] shrink-0 snap-start rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                className="w-[270px] sm:w-[280px] lg:w-[290px] shrink-0 snap-start rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
                 {/* ─── Clickable Card Area (Pouch + Details) ─── */}
                 <Link
@@ -266,7 +266,7 @@ export default function MenuSection() {
                   </div>
 
                   {/* ─── Lower Details Area ─── */}
-                  <div className="p-3.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
                     <div>
                       {/* Title */}
                       <h3 className="font-bold text-[14.5px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
@@ -279,7 +279,7 @@ export default function MenuSection() {
                       </p>
 
                       {/* Price */}
-                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
                         <span className="text-base sm:text-lg font-black text-plum-900">
                           ₹{item.price.toLocaleString('en-IN')}
                         </span>
@@ -292,11 +292,11 @@ export default function MenuSection() {
                 </Link>
 
                 {/* Add to Cart Button Footer — FurBowl Teal */}
-                <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-0 bg-white">
+                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={(e) => handleQuickAdd(e, item)}
-                    className={`w-full py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
+                    className={`w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
                       addedSlug === item.id
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'

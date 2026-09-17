@@ -100,7 +100,7 @@ export default function FAQSection({ faqs }) {
 
           {/* Right — Accordion */}
           <ScrollReveal delay={100} className="w-full">
-            <div className="bg-white rounded-2xl border border-gray-100 px-6">
+            <div className="bg-white rounded-xl border border-gray-100 px-6">
               {displayFaqs.map((faq) => (
                 <AccordionItem
                   key={faq.id}

@@ -9,9 +9,9 @@ import { TRIAL_PACKS, MULTI_PACK_SIZES } from '@/lib/furbowl-data';
 import useCartStore from '@/store/cartStore';
 
 const TABS = [
-  { id: 'meals', label: 'Fresh Meals', icon: '🍲', count: '5 Recipes' },
-  { id: 'trial-packs', label: 'Curated Trial Packs', icon: '🎁', count: '5 Packs' },
-  { id: 'multi-packs', label: 'Value Bundles', icon: '📦', count: 'Up to 25% Off' },
+  { id: 'meals', label: 'Fresh Meals', count: '5 Recipes' },
+  { id: 'trial-packs', label: 'Curated Trial Packs', count: '5 Packs' },
+  { id: 'multi-packs', label: 'Value Bundles', count: 'Up to 25% Off' },
 ];
 
 const POUCH_IMAGE_MAP = {
@@ -131,85 +131,42 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
     return list;
   };
 
-  const filteredMeals = MOCKUP_RECIPES.filter((r) => {
-    const isVeg = r.slug.includes('paneer') || r.slug.includes('egg');
-    if (dietFilter === 'VEG') return isVeg;
-    if (dietFilter === 'NON_VEG') return !isVeg;
-    return true;
-  });
+  const filteredMeals = MOCKUP_RECIPES;
 
   return (
     <div className="w-full">
       {/* Top Controls: Visual Tabs & Dietary Filter */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         {/* Visual Pill Tabs */}
-        <div className="inline-flex p-1.5 bg-[#faf6ed] rounded-2xl border border-plum-900/10 shadow-xs shrink-0 self-start md:self-auto">
-          {TABS.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={`text-xs sm:text-sm font-extrabold px-3.5 sm:px-5 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
-                activeTab === tab.id
-                  ? 'bg-plum-900 text-white shadow-md'
-                  : 'text-plum-900/70 hover:text-plum-900 hover:bg-plum-900/5'
-              }`}
-            >
-              <span>{tab.icon}</span>
-              <span>{tab.label}</span>
-              <span
-                className={`hidden sm:inline-block text-[10px] px-1.5 py-0.5 rounded-md font-black ${
-                  activeTab === tab.id
-                    ? 'bg-white/20 text-white'
-                    : 'bg-plum-900/10 text-plum-900/60'
+        <div className="inline-flex items-center p-1 bg-stone-100/80 rounded-xl border border-stone-200/80 shadow-2xs shrink-0 self-start md:self-auto">
+          {TABS.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`text-xs sm:text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-lg transition-all cursor-pointer flex items-center gap-2 ${
+                  isActive
+                    ? 'bg-white text-plum-900 shadow-xs border border-plum-900/10'
+                    : 'text-plum-900/60 hover:text-plum-900 hover:bg-white/50'
                 }`}
               >
-                {tab.count}
-              </span>
-            </button>
-          ))}
+                <span>{tab.label}</span>
+                <span
+                  className={`hidden sm:inline-block text-[11px] px-2 py-0.5 rounded-full font-medium transition-colors ${
+                    isActive
+                      ? 'bg-teal-50 text-teal-700 border border-teal-200/50'
+                      : 'bg-plum-900/[0.04] text-plum-900/50'
+                  }`}
+                >
+                  {tab.count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Dietary Filter (for Fresh Meals tab) */}
-        {activeTab === 'meals' && (
-          <div className="inline-flex items-center p-1 bg-white rounded-xl border border-plum-900/10 shadow-xs self-start md:self-auto">
-            <button
-              type="button"
-              onClick={() => setDietFilter('ALL')}
-              className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                dietFilter === 'ALL'
-                  ? 'bg-plum-900 text-white'
-                  : 'text-plum-900/70 hover:text-plum-900'
-              }`}
-            >
-              All (5)
-            </button>
-            <button
-              type="button"
-              onClick={() => setDietFilter('NON_VEG')}
-              className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                dietFilter === 'NON_VEG'
-                  ? 'bg-amber-800 text-white'
-                  : 'text-plum-900/70 hover:text-plum-900'
-              }`}
-            >
-              <span className="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
-              <span>Non-Veg (3)</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setDietFilter('VEG')}
-              className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
-                dietFilter === 'VEG'
-                  ? 'bg-green-700 text-white'
-                  : 'text-plum-900/70 hover:text-plum-900'
-              }`}
-            >
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500"></span>
-              <span>100% Veg (2)</span>
-            </button>
-          </div>
-        )}
       </div>
 
       {/* ═════════════════════════════════════════════════════════════════ */}
@@ -229,7 +186,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
             return (
               <div
                 key={recipe.id}
-                className="rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                className="rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
                 {/* ─── Clickable Card Area (Pouch + Details) ─── */}
                 <Link
@@ -275,18 +232,13 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     {/* Bottom Center Pack Pill */}
                     <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
                       <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3 py-0.5 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1.5">
-                        {visual.isVeg ? (
-                          <span className="w-2 h-2 rounded-full bg-green-600" title="100% Vegetarian"></span>
-                        ) : (
-                          <span className="w-2 h-2 rounded-full bg-amber-800" title="Non-Vegetarian"></span>
-                        )}
                         <span>100g Single Pouch</span>
                       </span>
                     </div>
                   </div>
 
                   {/* ─── Lower Details Area ─── */}
-                  <div className="p-3.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
                     <div>
                       {/* Title */}
                       <h3 className="font-bold text-[14.5px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
@@ -299,7 +251,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                       </p>
 
                       {/* Price */}
-                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
                         <span className="text-base sm:text-lg font-black text-plum-900">
                           ₹{recipe.price.toLocaleString('en-IN')}
                         </span>
@@ -312,11 +264,11 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 </Link>
 
                 {/* Add to Cart Button Footer — FurBowl Teal */}
-                <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-0 bg-white">
+                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={(e) => handleQuickAddMeal(e, recipe)}
-                    className={`w-full py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
+                    className={`w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
                       addedSlug === recipe.slug
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
@@ -349,7 +301,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
             return (
               <div
                 key={pack.id}
-                className="rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                className="rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
                 {/* ─── Clickable Card Area ─── */}
                 <Link
@@ -410,7 +362,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   </div>
 
                   {/* Lower Details Area */}
-                  <div className="p-3.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
                     <div>
                       <h3 className="font-bold text-[15px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
                         {pack.title}
@@ -418,7 +370,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                       <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
                         {pack.tagline}
                       </p>
-                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
                         <span className="text-base sm:text-lg font-black text-plum-900">
                           ₹{pack.price.toLocaleString('en-IN')}
                         </span>
@@ -431,11 +383,11 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 </Link>
 
                 {/* Add to Cart Button Footer */}
-                <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-0 bg-white">
+                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={(e) => handleQuickAddPack(e, pack)}
-                    className={`w-full py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
+                    className={`w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
                       addedSlug === pack.slug
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
@@ -477,7 +429,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
             return (
               <div
                 key={pack.count}
-                className="rounded-2xl bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                className="rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
                 <div className="flex-1 flex flex-col justify-between">
                   {/* Upper Image Area */}
@@ -523,7 +475,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   </div>
 
                   {/* Lower Details Area */}
-                  <div className="p-3.5 sm:p-4 flex flex-col justify-between flex-1 bg-white">
+                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
                     <div>
                       <h3 className="font-bold text-[15px] text-plum-900 group-hover:text-teal-600 transition-colors leading-snug line-clamp-1">
                         {pack.title}
@@ -531,7 +483,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                       <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
                         {pack.popularFor}
                       </p>
-                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
                         <span className="text-base sm:text-lg font-black text-plum-900">
                           {savings}
                         </span>
@@ -544,11 +496,11 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 </div>
 
                 {/* Action Button Footer */}
-                <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4 pt-0 bg-white">
+                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={() => setActiveTab('trial-packs')}
-                    className="w-full py-2.5 rounded-lg text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
+                    className="w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
                   >
                     <span>View Flavours &bull; {savings}</span>
                   </button>

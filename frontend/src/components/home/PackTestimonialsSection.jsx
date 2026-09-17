@@ -27,7 +27,7 @@ export default function PackTestimonialsSection() {
 
           <Link
             href="/why-furbowl"
-            className="self-start sm:self-auto bg-white border border-plum-900/20 hover:border-plum-900/40 text-plum-900 font-bold text-xs sm:text-sm px-6 py-3 rounded-full transition-all shadow-xs inline-flex items-center gap-1.5"
+            className="self-start sm:self-auto bg-white border border-plum-900/20 hover:border-plum-900/40 text-plum-900 font-bold text-xs sm:text-sm px-6 py-3 rounded transition-all shadow-xs inline-flex items-center gap-1.5"
           >
             <span>View All Stories</span>
             <ArrowRight className="w-3.5 h-3.5 shrink-0" />
@@ -39,7 +39,7 @@ export default function PackTestimonialsSection() {
           {PACK_STORIES.map((pup, idx) => (
             <ScrollReveal key={pup.name} delay={idx * 80} className="h-full">
               <div
-                className="bg-white rounded-3xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group h-full"
+                className="bg-white rounded-xl border border-plum-900/10 overflow-hidden shadow-sm hover:shadow-md transition-all hover:-translate-y-1 flex flex-col justify-between group h-full"
               >
                 <div>
                   {/* Dog Photo Container */}

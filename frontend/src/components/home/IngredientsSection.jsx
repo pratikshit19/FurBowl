@@ -249,7 +249,7 @@ export default function IngredientsSection() {
                   key={ing.id}
                   type="button"
                   onClick={() => setHoveredIdx(idx)}
-                  className={`p-3 rounded-2xl flex flex-col items-center text-center transition-all cursor-pointer w-[140px] sm:w-[160px] ${
+                  className={`p-3 rounded-lg flex flex-col items-center text-center transition-all cursor-pointer w-[140px] sm:w-[160px] ${
                     isCurrent
                       ? 'bg-white shadow-lg ring-2 ring-plum-900 scale-102'
                       : 'bg-white/80 hover:bg-white border border-plum-900/10 shadow-xs'
@@ -285,7 +285,7 @@ export default function IngredientsSection() {
         <div className="text-center mt-8 sm:mt-10">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 bg-plum-900 hover:bg-plum-800 text-white font-black text-xs sm:text-sm px-6 py-2.5 rounded-full shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer"
+            className="inline-flex items-center gap-2 bg-plum-900 hover:bg-plum-800 text-white font-black text-xs sm:text-sm px-6 py-2.5 rounded shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer"
           >
             <span>Explore Our Fresh Recipes</span>
             <ArrowRight className="w-4 h-4" />

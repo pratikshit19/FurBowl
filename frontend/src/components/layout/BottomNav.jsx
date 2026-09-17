@@ -50,7 +50,8 @@ export default function BottomNav() {
     },
     {
       label: 'Cart',
-      href: '/cart',
+      isAction: true,
+      onClick: () => useCartStore.getState().openDrawer(),
       icon: ShoppingCart,
       isCart: true,
       isActive: pathname === '/cart',
@@ -102,7 +103,7 @@ export default function BottomNav() {
               </div>
               <button
                 type="submit"
-                className="px-5 py-3 rounded-2xl bg-teal-500 text-white font-bold text-sm hover:bg-teal-600 transition-colors shrink-0"
+                className="px-5 py-3 rounded bg-teal-500 text-white font-bold text-sm hover:bg-teal-600 transition-colors shrink-0"
               >
                 Search
               </button>
@@ -119,7 +120,7 @@ export default function BottomNav() {
                       router.push(`/shop?q=${encodeURIComponent(tag)}`);
                       setSearchOpen(false);
                     }}
-                    className="px-3 py-1.5 rounded-full bg-cream-100 text-xs font-bold text-plum-900 hover:bg-peach-50 hover:text-peach-600 transition-colors"
+                    className="px-3 py-1.5 rounded bg-cream-100 text-xs font-bold text-plum-900 hover:bg-peach-50 hover:text-peach-600 transition-colors"
                   >
                     {tag}
                   </button>

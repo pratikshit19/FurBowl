@@ -78,7 +78,7 @@ export default function TraceYourMealSection() {
               return (
                 <ScrollReveal key={item.step} delay={idx * 80} className="h-full">
                   <div
-                    className="bg-white rounded-3xl border border-plum-900/10 p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-1 h-full"
+                    className="bg-white rounded-xl border border-plum-900/10 p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow group hover:-translate-y-1 h-full"
                   >
                     <div>
                       {/* Step circle indicator */}
@@ -92,7 +92,7 @@ export default function TraceYourMealSection() {
                       </div>
 
                       {/* Icon illustration container */}
-                      <div className="w-16 h-16 rounded-2xl bg-butter-100 flex items-center justify-center text-plum-900 mb-4 group-hover:scale-110 transition-transform">
+                      <div className="w-16 h-16 rounded-lg bg-butter-100 flex items-center justify-center text-plum-900 mb-4 group-hover:scale-110 transition-transform">
                         <Icon className="w-8 h-8 text-coral-600" />
                       </div>
 

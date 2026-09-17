@@ -70,7 +70,7 @@ export default function AccountPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setEditing((prev) => !prev)}
-              className="text-xs text-teal-600 hover:text-teal-700 font-bold px-4 py-2 border border-teal-200 rounded-full bg-white shadow-2xs cursor-pointer transition-colors"
+              className="text-xs text-teal-600 hover:text-teal-700 font-bold px-4 py-2 border border-teal-200 rounded bg-white shadow-2xs cursor-pointer transition-colors"
             >
               {editing ? 'Cancel' : 'Edit Profile'}
             </button>
@@ -79,7 +79,7 @@ export default function AccountPage() {
                 logout();
                 router.push('/');
               }}
-              className="text-xs text-peach-700 hover:text-peach-800 font-bold px-4 py-2 border border-peach-200 rounded-full bg-white shadow-2xs cursor-pointer transition-colors"
+              className="text-xs text-peach-700 hover:text-peach-800 font-bold px-4 py-2 border border-peach-200 rounded bg-white shadow-2xs cursor-pointer transition-colors"
             >
               Log Out
             </button>
@@ -105,7 +105,7 @@ export default function AccountPage() {
               <button
                 type="submit"
                 disabled={saving || !name.trim()}
-                className="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs px-6 py-2.5 rounded-xl transition-all shadow-xs cursor-pointer disabled:opacity-50"
+                className="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs px-6 py-2.5 rounded transition-all shadow-xs cursor-pointer disabled:opacity-50"
               >
                 {saving ? 'Saving…' : 'Save Profile'}
               </button>
@@ -201,7 +201,7 @@ export default function AccountPage() {
 
                 <Link
                   href="/shop/golden-egg-quinoa"
-                  className="bg-coral-500 hover:bg-coral-600 text-white font-bold text-xs px-5 py-2 rounded-full shadow-sm transition-all inline-flex items-center gap-1"
+                  className="bg-coral-500 hover:bg-coral-600 text-white font-bold text-xs px-5 py-2 rounded shadow-sm transition-all inline-flex items-center gap-1"
                 >
                   <span>Try Now</span>
                   <ArrowRight className="w-3.5 h-3.5 shrink-0" />
