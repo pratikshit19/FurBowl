@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Heart, ShoppingBag, Trash2, ArrowRight, Check } from 'lucide-react';
 import useWishlistStore from '@/store/wishlistStore';
+import useCartStore from '@/store/cartStore';
 import { formatPrice } from '@/lib/constants';
 
 export default function WishlistPage() {
