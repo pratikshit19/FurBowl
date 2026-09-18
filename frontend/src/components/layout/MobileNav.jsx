@@ -106,7 +106,7 @@ export default function MobileNav({ isOpen, onClose }) {
               onClick={() => setProductsOpen(!productsOpen)}
               className="w-full flex items-center justify-between py-4 text-left group"
             >
-              <span className="text-lg font-black tracking-tight text-plum-900 group-hover:text-peach-600 transition-colors uppercase">
+              <span className="text-lg font-bold tracking-tight text-plum-900 group-hover:text-peach-600 transition-colors uppercase">
                 Our Products
               </span>
               <div className="w-7 h-7 rounded-full bg-cream-100 flex items-center justify-center text-plum-900/60 group-hover:text-peach-600 transition-colors">
@@ -121,7 +121,7 @@ export default function MobileNav({ isOpen, onClose }) {
                 <Link
                   href="/shop"
                   onClick={onClose}
-                  className="block py-2 px-3 rounded text-xs font-black uppercase tracking-wider text-peach-600 bg-peach-50 hover:bg-peach-100 transition-colors"
+                  className="block py-2 px-3 rounded text-xs font-bold uppercase tracking-wider text-peach-600 bg-peach-50 hover:bg-peach-100 transition-colors"
                 >
                   View All Products →
                 </Link>
@@ -148,11 +148,11 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/plans"
               onClick={onClose}
-              className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
+              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
             >
               <span className="flex items-center gap-2">
                 <span>Plans</span>
-                <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-peach-50 text-peach-700 border border-peach-200">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-peach-50 text-peach-700 border border-peach-200">
                   Save 20%
                 </span>
               </span>
@@ -165,7 +165,7 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/find-food"
               onClick={onClose}
-              className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-teal-600 transition-colors uppercase"
+              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-teal-600 transition-colors uppercase"
             >
               <span className="flex items-center gap-2">
                 <span>FurBowl Finder</span>
@@ -179,7 +179,7 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/about"
               onClick={onClose}
-              className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
+              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
             >
               <span>About Us</span>
               <ChevronRight className="w-5 h-5 text-plum-900/30" />
@@ -191,7 +191,7 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/faq"
               onClick={onClose}
-              className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
+              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
             >
               <span>FAQs</span>
               <ChevronRight className="w-5 h-5 text-plum-900/30" />
@@ -203,7 +203,7 @@ export default function MobileNav({ isOpen, onClose }) {
             <Link
               href="/wishlist"
               onClick={onClose}
-              className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-coral-600 transition-colors uppercase"
+              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-coral-600 transition-colors uppercase"
             >
               <span className="flex items-center gap-2">
                 <Heart className={`w-5 h-5 ${wishlistCount > 0 ? 'text-coral-500 fill-coral-500' : 'text-plum-900/60'}`} />
@@ -220,7 +220,7 @@ export default function MobileNav({ isOpen, onClose }) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={onClose}
-              className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-teal-600 transition-colors uppercase"
+              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-teal-600 transition-colors uppercase"
             >
               <span className="flex items-center gap-2">
                 <span>Contact Us</span>

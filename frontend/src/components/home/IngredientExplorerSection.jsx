@@ -46,7 +46,7 @@ export default function IngredientExplorerSection() {
           <span className="text-xs font-bold uppercase tracking-widest text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full inline-block mb-3">
             Pure Transparency
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
             What’s in the bowl?
           </h2>
           <p className="text-sm sm:text-base text-plum-900/60 font-normal mt-2">
@@ -102,7 +102,7 @@ export default function IngredientExplorerSection() {
                 <div className="w-9 h-9 rounded-md bg-coral-500/10 text-coral-600 flex items-center justify-center shrink-0">
                   <ActiveIcon className="w-5 h-5" />
                 </div>
-                <h3 className="text-3xl sm:text-4xl font-black text-plum-900 tracking-tight">
+                <h3 className="text-3xl sm:text-4xl font-bold text-plum-900 tracking-tight">
                   {currentIngredient.name}
                 </h3>
               </div>

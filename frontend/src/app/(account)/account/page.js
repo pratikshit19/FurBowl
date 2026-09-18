@@ -59,7 +59,7 @@ export default function AccountPage() {
             <span className="text-xs font-bold uppercase tracking-widest text-teal-600 bg-teal-500/10 px-3 py-1 rounded-full inline-block mb-2">
               The FurBowl Pack Member
             </span>
-            <h1 className="text-3xl sm:text-4xl font-black text-plum-900 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl font-bold text-plum-900 tracking-tight">
               Welcome, {user?.name || 'Pack Member'}!
             </h1>
             <p className="text-sm text-plum-900/60 font-normal mt-1">
@@ -130,8 +130,8 @@ export default function AccountPage() {
 
               <div>
                 <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                  <h2 className="text-2xl font-black text-plum-900">{user?.dogName || 'Bruno'}</h2>
-                  <span className="inline-flex items-center gap-1 text-xs font-black bg-coral-500/10 text-coral-600 px-2.5 py-0.5 rounded-full">
+                  <h2 className="text-2xl font-bold text-plum-900">{user?.dogName || 'Bruno'}</h2>
+                  <span className="inline-flex items-center gap-1 text-xs font-bold bg-coral-500/10 text-coral-600 px-2.5 py-0.5 rounded-full">
                     <span>Food Explorer</span>
                     <PawPrint className="w-3 h-3" />
                   </span>
@@ -172,10 +172,10 @@ export default function AccountPage() {
             {/* Right: "What's next?" Card (Matching Screen 12) */}
             <div className="lg:col-span-5 bg-butter-50 rounded-2xl border border-plum-900/10 p-5 flex flex-col justify-between">
               <div>
-                <span className="text-[11px] font-black uppercase tracking-wider text-coral-600">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-coral-600">
                   What’s next?
                 </span>
-                <h3 className="text-base font-black text-plum-900 mt-1 mb-2">
+                <h3 className="text-base font-bold text-plum-900 mt-1 mb-2">
                   Bruno hasn’t tried Golden Egg &amp; Quinoa yet!
                 </h3>
                 <p className="text-xs text-plum-900/60 leading-relaxed mb-4">

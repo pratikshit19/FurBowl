@@ -99,7 +99,7 @@ export default function IngredientsSection() {
         
         {/* ─── Compact & Punchy Header ───────────────────────────────────── */}
         <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight leading-tight">
             Food So Real, You Could Eat It Yourself.
           </h2>
           <p className="text-xs sm:text-sm lg:text-base text-plum-900/70 font-normal mt-2 max-w-xl mx-auto">
@@ -207,13 +207,13 @@ export default function IngredientsSection() {
 
                 {/* Minimalist Title & Badge below */}
                 <div className={`mt-2 ${ing.textAlign}`}>
-                  <h4 className={`text-xs sm:text-sm font-black leading-snug transition-colors ${
+                  <h4 className={`text-xs sm:text-sm font-bold leading-snug transition-colors ${
                     isCurrent ? 'text-plum-900' : 'text-plum-900/80'
                   }`}>
                     {ing.name}
                   </h4>
                   <span
-                    className="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full inline-block mt-0.5"
+                    className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full inline-block mt-0.5"
                     style={{
                       backgroundColor: isCurrent ? `${ing.color}20` : '#f4efdf',
                       color: isCurrent ? ing.color : '#57585a',
@@ -263,11 +263,11 @@ export default function IngredientsSection() {
                       className="object-contain"
                     />
                   </div>
-                  <h4 className="text-xs font-black text-plum-900 leading-tight">
+                  <h4 className="text-xs font-bold text-plum-900 leading-tight">
                     {ing.name}
                   </h4>
                   <span
-                    className="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full inline-block mt-1"
+                    className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full inline-block mt-1"
                     style={{
                       backgroundColor: `${ing.color}20`,
                       color: ing.color,
@@ -285,7 +285,7 @@ export default function IngredientsSection() {
         <div className="text-center mt-8 sm:mt-10">
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 bg-plum-900 hover:bg-plum-800 text-white font-black text-xs sm:text-sm px-6 py-2.5 rounded shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer"
+            className="inline-flex items-center gap-2 bg-plum-900 hover:bg-plum-800 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer"
           >
             <span>Explore Our Fresh Recipes</span>
             <ArrowRight className="w-4 h-4" />

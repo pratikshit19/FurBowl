@@ -255,14 +255,14 @@ export default async function ShopPage({ searchParams }) {
 
           <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-plum-900/10 pb-5">
             <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight mb-2">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight mb-2">
                 All Products &amp; Fresh Meals
               </h1>
               <p className="text-sm sm:text-base text-plum-900/65 font-normal">
                 100% human-grade, chef-crafted recipes gently cooked &amp; vacuum-sealed for fresh daily feeding.
               </p>
             </div>
-            <span className="text-xs font-black text-teal-700 bg-teal-50 border border-teal-200 px-3.5 py-1.5 rounded-full shadow-xs">
+            <span className="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-3.5 py-1.5 rounded-full shadow-xs">
               100% Human-Grade
             </span>
           </div>

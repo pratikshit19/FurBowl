@@ -10,6 +10,12 @@ import {
   ShieldCheck,
   Scale,
   Heart,
+  Award,
+  CheckCircle2,
+  Leaf,
+  FlaskConical,
+  WheatOff,
+  Flame,
 } from 'lucide-react';
 import SpinWheelSlide from './SpinWheelSlide';
 
@@ -48,7 +54,16 @@ export default function HeroCarousel() {
   const [isWheelSpinning, setIsWheelSpinning] = useState(false);
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [trustFlipped, setTrustFlipped] = useState(false);
   const banners = DEFAULT_BANNERS;
+
+  // Auto-flip trust card every 3.6 seconds between the two guarantees
+  useEffect(() => {
+    const flipTimer = setInterval(() => {
+      setTrustFlipped((prev) => !prev);
+    }, 3600);
+    return () => clearInterval(flipTimer);
+  }, []);
 
   const next = useCallback(() => {
     setCurrent((c) => (c + 1) % banners.length);
@@ -180,75 +195,155 @@ export default function HeroCarousel() {
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-plum-900" />
             </button>
 
-            {/* Slide Indicator Pills */}
-            <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-plum-900/30 px-3.5 py-1.5 rounded-full backdrop-blur-md shadow-sm">
-              {banners.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setCurrent(idx)}
-                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${idx === current
-                    ? 'w-7 bg-[#15aec0] shadow-sm'
-                    : 'w-2.5 bg-white/70 hover:bg-white'
-                    }`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
           </>
         )}
       </section>
 
-      {/* Trust & Quality Anchor Bar */}
-      <div className="bg-[#faf6ed] border-b border-plum-900/10 py-3.5 sm:py-5 shadow-xs">
-        <div className="container-main">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 md:divide-x divide-plum-900/10">
-            {/* 1. Human Grade (Teal) */}
-            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-teal-100/70 text-teal-600 flex items-center justify-center shrink-0">
-                <Utensils className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600" />
+      {/* 3D Flipping Trust Anchor Section — Peach Section Background */}
+      <section className="relative z-10 w-full bg-peach-100/80 border-y border-peach-200/80 py-5 sm:py-7 px-3 sm:px-6 lg:px-8">
+        <div
+          className="max-w-7xl mx-auto cursor-pointer group"
+          style={{ perspective: '1200px' }}
+          onClick={() => setTrustFlipped((prev) => !prev)}
+          title="Click to flip"
+        >
+          <div
+            className="relative w-full transition-transform duration-700 ease-in-out"
+            style={{
+              transformStyle: 'preserve-3d',
+              transform: trustFlipped ? 'rotateX(180deg)' : 'rotateX(0deg)',
+            }}
+          >
+            {/* ─── SIDE 1 (FRONT): NO PRESERVATIVES / 0% FILLERS ─── */}
+            <div
+              className="relative overflow-hidden w-full bg-gradient-to-br from-[#f2fbfb] via-white to-[#fff6f2] rounded-xl sm:rounded-2xl border border-teal-500/25 shadow-md shadow-teal-500/5 p-4 sm:py-4.5 sm:px-6 flex flex-col items-center justify-center text-center select-none transition-all hover:shadow-lg hover:border-teal-500/40"
+              style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }}
+            >
+              {/* Decorative paw print watermarks in background */}
+              <div className="absolute -left-3 -bottom-3 text-teal-900/[0.05] pointer-events-none transform -rotate-12 select-none">
+                <svg className="w-20 h-20" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="8" cy="8" r="2" />
+                  <circle cx="16" cy="8" r="2" />
+                  <circle cx="4.5" cy="12" r="1.7" />
+                  <circle cx="19.5" cy="12" r="1.7" />
+                  <path d="M12 11.5c-3.2 0-5 2.2-5 4.8 0 2.2 1.6 3.7 5 3.7s5-1.5 5-3.7c0-2.6-1.8-4.8-5-4.8z" />
+                </svg>
               </div>
-              <div>
-                <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">Human Grade</h4>
-                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Real whole meats</p>
+              <div className="absolute -right-3 -top-3 text-peach-900/[0.05] pointer-events-none transform rotate-12 select-none">
+                <svg className="w-20 h-20" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="8" cy="8" r="2" />
+                  <circle cx="16" cy="8" r="2" />
+                  <circle cx="4.5" cy="12" r="1.7" />
+                  <circle cx="19.5" cy="12" r="1.7" />
+                  <path d="M12 11.5c-3.2 0-5 2.2-5 4.8 0 2.2 1.6 3.7 5 3.7s5-1.5 5-3.7c0-2.6-1.8-4.8-5-4.8z" />
+                </svg>
+              </div>
+
+              {/* Top Trust Category Badge */}
+              <div className="relative z-10 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-800 text-[10.5px] sm:text-xs font-bold uppercase tracking-wider mb-1.5 shadow-2xs">
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-600 stroke-[2.5]" />
+                <span>FurBowl Purity Standard</span>
+              </div>
+
+              {/* Headings */}
+              <div className="relative z-10">
+                <span className="font-serif font-bold text-lg sm:text-2xl text-plum-900 tracking-tight leading-tight uppercase block">
+                  NO PRESERVATIVES.
+                </span>
+                <span className="font-serif font-bold text-lg sm:text-2xl text-peach-600 tracking-tight leading-tight uppercase block mt-0.5">
+                  0% FILLERS.
+                </span>
+              </div>
+
+              {/* 4 Guarantee Chips */}
+              <div className="relative z-10 mt-2.5 pt-2 border-t border-teal-900/10 w-full flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-teal-500/20 text-[11px] sm:text-xs font-bold text-teal-900 shadow-2xs">
+                  <Leaf className="w-3 h-3 text-teal-600 shrink-0" />
+                  <span>Non-GMO</span>
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-teal-500/20 text-[11px] sm:text-xs font-bold text-teal-900 shadow-2xs">
+                  <FlaskConical className="w-3 h-3 text-teal-600 shrink-0" />
+                  <span>Lab Tested</span>
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-teal-500/20 text-[11px] sm:text-xs font-bold text-teal-900 shadow-2xs">
+                  <WheatOff className="w-3 h-3 text-teal-600 shrink-0" />
+                  <span>Grain Free</span>
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-teal-500/20 text-[11px] sm:text-xs font-bold text-teal-900 shadow-2xs">
+                  <Flame className="w-3 h-3 text-peach-600 shrink-0" />
+                  <span>Small Batches</span>
+                </span>
               </div>
             </div>
 
-            {/* 2. No Preservatives (Peach) */}
-            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-peach-100/70 text-peach-600 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-peach-600" />
+            {/* ─── SIDE 2 (BACK): HUMAN-GRADE INGREDIENTS / VET-FORMULATED ─── */}
+            <div
+              className="absolute inset-0 overflow-hidden w-full h-full bg-gradient-to-br from-[#fff6f2] via-white to-[#f2fbfb] rounded-xl sm:rounded-2xl border border-peach-500/25 shadow-md shadow-peach-500/5 p-4 sm:py-4.5 sm:px-6 flex flex-col items-center justify-center text-center select-none transition-all hover:shadow-lg hover:border-peach-500/40"
+              style={{
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
+                transform: 'rotateX(180deg)',
+              }}
+            >
+              {/* Decorative paw print watermarks in background */}
+              <div className="absolute -left-3 -bottom-3 text-peach-900/[0.05] pointer-events-none transform -rotate-12 select-none">
+                <svg className="w-20 h-20" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="8" cy="8" r="2" />
+                  <circle cx="16" cy="8" r="2" />
+                  <circle cx="4.5" cy="12" r="1.7" />
+                  <circle cx="19.5" cy="12" r="1.7" />
+                  <path d="M12 11.5c-3.2 0-5 2.2-5 4.8 0 2.2 1.6 3.7 5 3.7s5-1.5 5-3.7c0-2.6-1.8-4.8-5-4.8z" />
+                </svg>
               </div>
-              <div>
-                <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">No Preservatives</h4>
-                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Zero additives</p>
+              <div className="absolute -right-3 -top-3 text-teal-900/[0.05] pointer-events-none transform rotate-12 select-none">
+                <svg className="w-20 h-20" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="8" cy="8" r="2" />
+                  <circle cx="16" cy="8" r="2" />
+                  <circle cx="4.5" cy="12" r="1.7" />
+                  <circle cx="19.5" cy="12" r="1.7" />
+                  <path d="M12 11.5c-3.2 0-5 2.2-5 4.8 0 2.2 1.6 3.7 5 3.7s5-1.5 5-3.7c0-2.6-1.8-4.8-5-4.8z" />
+                </svg>
               </div>
-            </div>
 
-            {/* 3. Complete & Balanced (Teal) */}
-            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-teal-100/70 text-teal-600 flex items-center justify-center shrink-0">
-                <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600" />
+              {/* Top Trust Category Badge */}
+              <div className="relative z-10 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-peach-500/10 border border-peach-500/20 text-peach-800 text-[10.5px] sm:text-xs font-bold uppercase tracking-wider mb-1.5 shadow-2xs">
+                <Award className="w-3.5 h-3.5 text-peach-600 stroke-[2.5]" />
+                <span>Veterinary Certified</span>
               </div>
-              <div>
-                <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">Complete &amp; Balanced</h4>
-                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Vet approved recipes</p>
-              </div>
-            </div>
 
-            {/* 4. Made for Real Dogs (Peach) */}
-            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-peach-100/70 text-peach-600 flex items-center justify-center shrink-0">
-                <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-peach-600" />
+              {/* Headings */}
+              <div className="relative z-10">
+                <h4 className="font-serif font-bold text-lg sm:text-2xl text-teal-900 tracking-tight leading-tight uppercase">
+                  HUMAN-GRADE INGREDIENTS.
+                </h4>
+                <h4 className="font-serif font-bold text-lg sm:text-2xl text-plum-900 tracking-tight leading-tight uppercase mt-0.5">
+                  VET-FORMULATED &amp; BALANCED.
+                </h4>
               </div>
-              <div>
-                <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">Made for Real Dogs</h4>
-                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Happy tummies daily</p>
+
+              {/* 4 Guarantee Chips */}
+              <div className="relative z-10 mt-2.5 pt-2 border-t border-peach-900/10 w-full flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-peach-500/20 text-[11px] sm:text-xs font-bold text-plum-900 shadow-2xs">
+                  <Utensils className="w-3 h-3 text-peach-600 shrink-0" />
+                  <span>100% Real Whole Meat</span>
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-peach-500/20 text-[11px] sm:text-xs font-bold text-plum-900 shadow-2xs">
+                  <CheckCircle2 className="w-3 h-3 text-teal-600 shrink-0" />
+                  <span>AAFCO &amp; FEDIAF</span>
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-peach-500/20 text-[11px] sm:text-xs font-bold text-plum-900 shadow-2xs">
+                  <Leaf className="w-3 h-3 text-teal-600 shrink-0" />
+                  <span>Fresh Farm Veggies</span>
+                </span>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/90 border border-peach-500/20 text-[11px] sm:text-xs font-bold text-plum-900 shadow-2xs">
+                  <Flame className="w-3 h-3 text-peach-600 shrink-0" />
+                  <span>Fresh Daily Cook</span>
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

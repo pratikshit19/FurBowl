@@ -35,7 +35,7 @@ export default function TastePassportSection() {
           <span className="text-xs font-bold uppercase tracking-widest text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full inline-block mb-3">
             Gamified Nutrition
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
             Bruno’s Taste Passport
           </h2>
           <p className="text-sm sm:text-base text-plum-900/60 font-normal mt-2">
@@ -54,12 +54,12 @@ export default function TastePassportSection() {
 
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">
+                  <span className="text-[11px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full">
                     Official Pup Passport
                   </span>
                 </div>
 
-                <h3 className="text-2xl font-black mb-1">Bruno’s Adventures</h3>
+                <h3 className="text-2xl font-bold mb-1">Bruno’s Adventures</h3>
                 <p className="text-xs text-white/80 mb-6">Food Explorer Level 2</p>
 
                 {/* Bruno Avatar with Bandana */}

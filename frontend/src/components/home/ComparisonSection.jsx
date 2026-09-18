@@ -48,7 +48,7 @@ function StatCard({ card, showFurbowl, delay, labelsIn }) {
       }}
     >
       <div
-        className={`font-black leading-tight mb-2 transition-colors duration-500 truncate ${
+        className={`font-bold leading-tight mb-2 transition-colors duration-500 truncate ${
           isLongStat
             ? 'text-xl sm:text-2xl tracking-tight'
             : isMediumStat
@@ -58,7 +58,7 @@ function StatCard({ card, showFurbowl, delay, labelsIn }) {
       >
         {card.stat}
       </div>
-      <div className="text-xs sm:text-sm font-black text-plum-900 uppercase tracking-wider mb-1.5">
+      <div className="text-xs sm:text-sm font-bold text-plum-900 uppercase tracking-wider mb-1.5">
         {card.label}
       </div>
       <p className="text-xs sm:text-[13px] text-plum-900/60 font-medium leading-relaxed">
@@ -131,10 +131,10 @@ export default function ComparisonSection() {
             transform: entered ? 'translateY(0)' : 'translateY(24px)',
           }}
         >
-          <p className="text-sm sm:text-base font-black uppercase tracking-widest text-teal-600 mb-3">
+          <p className="text-sm sm:text-base font-bold uppercase tracking-widest text-teal-600 mb-3">
             THE BOWL TELLS THE STORY
           </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-plum-900 tracking-tight leading-tight">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-plum-900 tracking-tight leading-tight">
             See The Difference
           </h2>
         </div>
@@ -193,7 +193,7 @@ export default function ComparisonSection() {
                           transitionDelay: `${idx * 100}ms`,
                         }}
                       >
-                        <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-peach-500/30 text-peach-600 text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-peach-500/30 text-peach-600 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md whitespace-nowrap">
                           <X className="w-3.5 h-3.5 stroke-[3]" />
                           {label.text}
                         </span>
@@ -202,7 +202,7 @@ export default function ComparisonSection() {
                   </div>
 
                   <div className="mt-8 sm:mt-10 text-center">
-                    <h3 className="text-2xl sm:text-3xl font-black text-plum-900 uppercase tracking-tight">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-plum-900 uppercase tracking-tight">
                       Regular Dog Food
                     </h3>
                     <p className="text-base sm:text-lg text-plum-900/60 font-semibold mt-1">
@@ -241,7 +241,7 @@ export default function ComparisonSection() {
                           transitionDelay: `${idx * 100}ms`,
                         }}
                       >
-                        <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-teal-500/30 text-teal-600 text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 bg-white/95 backdrop-blur-sm border border-teal-500/30 text-teal-600 text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-md whitespace-nowrap">
                           <Check className="w-3.5 h-3.5 stroke-[3]" />
                           {label.text}
                         </span>
@@ -250,7 +250,7 @@ export default function ComparisonSection() {
                   </div>
 
                   <div className="mt-8 sm:mt-10 text-center">
-                    <h3 className="text-2xl sm:text-3xl font-black text-plum-900 uppercase tracking-tight">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-plum-900 uppercase tracking-tight">
                       FurBowl
                     </h3>
                     <p className="text-base sm:text-lg text-teal-600 font-bold mt-1">

@@ -49,7 +49,7 @@ export default function TraceYourMealSection() {
             <span className="text-xs font-bold uppercase tracking-widest text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full inline-block mb-3">
               Seed to Tail
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
               From farm to bowl!
             </h2>
             <p className="text-sm sm:text-base text-plum-900/60 font-normal mt-2 max-w-xl">
@@ -58,7 +58,7 @@ export default function TraceYourMealSection() {
           </div>
 
           <div className="bg-white border border-plum-900/10 rounded-2xl px-4 py-2.5 shadow-sm -rotate-2 self-start sm:self-auto">
-            <p className="text-xs sm:text-sm font-black text-plum-900 flex items-center gap-1.5">
+            <p className="text-xs sm:text-sm font-bold text-plum-900 flex items-center gap-1.5">
               <span>Real food.</span>
               <span className="text-coral-500">
                 Real journeys.
@@ -83,7 +83,7 @@ export default function TraceYourMealSection() {
                     <div>
                       {/* Step circle indicator */}
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 rounded-full bg-plum-900 text-white font-black text-sm flex items-center justify-center shadow-sm group-hover:bg-coral-500 transition-colors">
+                        <div className="w-10 h-10 rounded-full bg-plum-900 text-white font-bold text-sm flex items-center justify-center shadow-sm group-hover:bg-coral-500 transition-colors">
                           {item.step}
                         </div>
                         <span className="text-[10px] font-extrabold uppercase tracking-wider text-coral-600 bg-coral-500/10 px-2.5 py-1 rounded-full">
@@ -96,7 +96,7 @@ export default function TraceYourMealSection() {
                         <Icon className="w-8 h-8 text-coral-600" />
                       </div>
 
-                      <h3 className="text-lg font-black text-plum-900 mb-1 leading-snug">
+                      <h3 className="text-lg font-bold text-plum-900 mb-1 leading-snug">
                         {item.title}
                       </h3>
                       <p className="text-xs font-bold text-coral-600 mb-2">

@@ -79,7 +79,7 @@ export default function BottomNav() {
           <div className="relative z-10 bg-white rounded-t-3xl p-5 shadow-2xl border-t border-plum-900/10 max-h-[80vh] overflow-y-auto">
             <div className="w-12 h-1.5 bg-plum-900/20 rounded-full mx-auto mb-4" />
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-black text-plum-900">Search FurBowl</h3>
+              <h3 className="text-base font-bold text-plum-900">Search FurBowl</h3>
               <button
                 type="button"
                 onClick={() => setSearchOpen(false)}

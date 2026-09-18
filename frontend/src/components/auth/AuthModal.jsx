@@ -170,7 +170,7 @@ export default function AuthModal() {
         {/* ─── CASE 1: ALREADY LOGGED IN ────────────────────────────────────── */}
         {isAuthenticated ? (
           <div className="text-center pt-2">
-            <div className="w-16 h-16 rounded-full bg-peach-50 text-coral-600 mx-auto flex items-center justify-center text-xl font-black border-2 border-coral-200 mb-3 shadow-xs">
+            <div className="w-16 h-16 rounded-full bg-peach-50 text-coral-600 mx-auto flex items-center justify-center text-xl font-bold border-2 border-coral-200 mb-3 shadow-xs">
               {user?.name ? user.name[0].toUpperCase() : <User className="w-7 h-7" />}
             </div>
 

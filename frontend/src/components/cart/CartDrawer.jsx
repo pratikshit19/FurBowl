@@ -580,7 +580,7 @@ export default function CartDrawer() {
                 <Lock className="w-4 h-4" />
                 <span>CHECKOUT</span>
               </div>
-              <div className="flex items-center gap-2 font-black">
+              <div className="flex items-center gap-2 font-bold">
                 <span>{formatPrice(total)}</span>
                 <ArrowRight className="w-5 h-5 stroke-[2.5]" />
               </div>

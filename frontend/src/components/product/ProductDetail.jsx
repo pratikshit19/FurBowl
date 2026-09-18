@@ -436,7 +436,7 @@ export default function ProductDetail({ product }) {
                     {/* Visualized Ingredient Cards Grid */}
                     <div>
                       <div className="flex items-center justify-between mb-3.5 flex-wrap gap-2">
-                        <h3 className="text-xs sm:text-sm font-black uppercase tracking-wider text-plum-900">
+                        <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-plum-900">
                           Whole Food Ingredients
                         </h3>
                         <span className="text-[11px] font-bold text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200/60">

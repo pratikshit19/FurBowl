@@ -16,7 +16,7 @@ export default function FurBowlSchoolSection() {
             <span className="text-xs font-bold uppercase tracking-widest text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full inline-block mb-3">
               Pet Nutrition Simplified
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
               FurBowl School
             </h2>
             <p className="text-sm sm:text-base text-plum-900/60 font-normal mt-2 max-w-xl">
@@ -59,7 +59,7 @@ export default function FurBowlSchoolSection() {
                       {article.readTime} • FurBowl Vet Editorial
                     </div>
 
-                    <h3 className="text-xl font-black text-plum-900 group-hover:text-coral-600 transition-colors leading-snug mb-3">
+                    <h3 className="text-xl font-bold text-plum-900 group-hover:text-coral-600 transition-colors leading-snug mb-3">
                       {article.title}
                     </h3>
 

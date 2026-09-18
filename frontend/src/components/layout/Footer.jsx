@@ -55,14 +55,14 @@ export default function Footer() {
             {/* Left: Copy & Form */}
             <div className="lg:col-span-7 text-center lg:text-left">
               <span
-                className="text-[11px] font-black uppercase tracking-widest bg-white/20 backdrop-blur-xs px-3.5 py-1 rounded-full inline-block mb-3 border border-white/25 shadow-xs !text-white"
+                className="text-[11px] font-bold uppercase tracking-widest bg-white/20 backdrop-blur-xs px-3.5 py-1 rounded-full inline-block mb-3 border border-white/25 shadow-xs !text-white"
                 style={{ color: '#ffffff' }}
               >
                 The FurBowl Community
               </span>
 
               <h2
-                className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.1] mb-2 drop-shadow-sm !text-white"
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.1] mb-2 drop-shadow-sm !text-white"
                 style={{ color: '#ffffff' }}
               >
                 Good food. <br />
@@ -132,7 +132,7 @@ export default function Footer() {
             {/* Column 1: SHOP FOR DOGS */}
             <div className="col-span-1 md:col-span-3 space-y-3.5">
               <h3
-                className="text-xs sm:text-sm font-black uppercase tracking-wider !text-white"
+                className="text-xs sm:text-sm font-bold uppercase tracking-wider !text-white"
                 style={{ color: '#ffffff' }}
               >
                 Shop For Dogs
@@ -151,7 +151,7 @@ export default function Footer() {
             {/* Column 2: QUICK LINKS */}
             <div className="col-span-1 md:col-span-3 space-y-3.5">
               <h3
-                className="text-xs sm:text-sm font-black uppercase tracking-wider !text-white"
+                className="text-xs sm:text-sm font-bold uppercase tracking-wider !text-white"
                 style={{ color: '#ffffff' }}
               >
                 Quick Links
@@ -171,7 +171,7 @@ export default function Footer() {
             {/* Column 3: SUPPORT */}
             <div className="col-span-2 md:col-span-3 space-y-3.5">
               <h3
-                className="text-xs sm:text-sm font-black uppercase tracking-wider !text-white"
+                className="text-xs sm:text-sm font-bold uppercase tracking-wider !text-white"
                 style={{ color: '#ffffff' }}
               >
                 Support
@@ -200,7 +200,7 @@ export default function Footer() {
             {/* Column 4: FOLLOW US */}
             <div className="col-span-2 md:col-span-3 space-y-3.5">
               <h3
-                className="text-xs sm:text-sm font-black uppercase tracking-wider !text-white"
+                className="text-xs sm:text-sm font-bold uppercase tracking-wider !text-white"
                 style={{ color: '#ffffff' }}
               >
                 Follow Us

@@ -28,7 +28,7 @@ export default function ContactPage() {
     <div className="section-padding bg-butter-50 min-h-screen">
       <div className="container-main max-w-4xl py-12">
         <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-black text-plum-900 mb-2">Get in Touch</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-plum-900 mb-2">Get in Touch</h1>
           <p className="text-plum-900/60 font-medium">Have questions about our recipes, delivery, or custom diets? We’d love to hear from you.</p>
         </div>
 

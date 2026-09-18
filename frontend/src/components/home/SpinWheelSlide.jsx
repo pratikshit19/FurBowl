@@ -103,15 +103,15 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
           
           {/* Column 1 (Left 5 cols): Headline, Subhead & Action */}
           <div className="col-span-7 sm:col-span-6 md:col-span-5 lg:col-span-5 flex flex-col items-start justify-center z-20 min-w-0 pl-6 sm:pl-10 md:pl-12 lg:pl-14 pr-2">
-            <span className="inline-flex items-center px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full bg-teal-500/10 border border-teal-500/25 text-teal-800 text-[8px] sm:text-xs font-black uppercase tracking-wider mb-1 sm:mb-2">
+            <span className="inline-flex items-center px-2.5 sm:px-3.5 py-0.5 sm:py-1 rounded-full bg-teal-500/10 border border-teal-500/25 text-teal-800 text-[8px] sm:text-xs font-bold uppercase tracking-wider mb-1 sm:mb-2">
               <span>Instant Discount Wheel</span>
             </span>
 
-            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-black text-plum-900 leading-[0.95] tracking-tight uppercase">
+            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-plum-900 leading-[0.95] tracking-tight uppercase">
               SPIN TO SAVE!
             </h2>
 
-            <div className="text-sm sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-black text-teal-600 mt-0.5 sm:mt-1 uppercase tracking-tight">
+            <div className="text-sm sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-bold text-teal-600 mt-0.5 sm:mt-1 uppercase tracking-tight">
               UP TO 25% OFF
             </div>
 
@@ -123,7 +123,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
             {wonOffer ? (
               <div className="mt-3 bg-white/95 backdrop-blur-md rounded-lg p-2.5 sm:p-4 border-2 border-teal-500 shadow-xl shadow-teal-500/15 max-w-xs w-full animate-fade-in text-left">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-black text-teal-600 uppercase tracking-wider flex items-center gap-1">
+                  <span className="text-[10px] font-bold text-teal-600 uppercase tracking-wider flex items-center gap-1">
                     <Gift className="w-3 h-3 text-teal-500" />
                     DISCOUNT UNLOCKED!
                   </span>
@@ -137,13 +137,13 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                   </button>
                 </div>
 
-                <div className="text-lg sm:text-xl font-black text-plum-900 mb-1.5 leading-tight">
+                <div className="text-lg sm:text-xl font-bold text-plum-900 mb-1.5 leading-tight">
                   {wonOffer.label}
                 </div>
 
                 {/* Coupon Code Box */}
                 <div className="flex items-center justify-between bg-[#faf6ed] border border-plum-900/15 rounded-md px-3 py-1.5 mb-1.5">
-                  <span className="font-mono font-black text-sm sm:text-base text-teal-600 tracking-wider">
+                  <span className="font-mono font-bold text-sm sm:text-base text-teal-600 tracking-wider">
                     {wonOffer.code}
                   </span>
                   <button
@@ -161,7 +161,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                   <button
                     type="button"
                     onClick={handleApplyToCart}
-                    className="flex-1 flex items-center justify-center gap-1 py-2 px-2.5 rounded bg-teal-500 hover:bg-teal-600 text-white text-[11px] font-black tracking-wider uppercase transition-all shadow-md shadow-teal-500/20 active:scale-95 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-1 py-2 px-2.5 rounded bg-teal-500 hover:bg-teal-600 text-white text-[11px] font-bold tracking-wider uppercase transition-all shadow-md shadow-teal-500/20 active:scale-95 cursor-pointer"
                   >
                     {applied ? <Check className="w-3 h-3" /> : <Tag className="w-3 h-3" />}
                     <span>{applied ? 'Applied!' : 'Apply to Cart'}</span>
@@ -169,7 +169,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
 
                   <Link
                     href="/shop"
-                    className="flex items-center justify-center gap-1 py-2 px-3 rounded bg-peach-500 hover:bg-peach-600 text-white text-[11px] font-black tracking-wider uppercase transition-all shadow-md shadow-peach-500/20 active:scale-95 cursor-pointer"
+                    className="flex items-center justify-center gap-1 py-2 px-3 rounded bg-peach-500 hover:bg-peach-600 text-white text-[11px] font-bold tracking-wider uppercase transition-all shadow-md shadow-peach-500/20 active:scale-95 cursor-pointer"
                   >
                     <span>Shop</span>
                     <ArrowRight className="w-3 h-3" />
@@ -182,7 +182,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                   type="button"
                   onClick={spinWheel}
                   disabled={spinning}
-                  className="px-3 sm:px-8 py-2.5 sm:py-3.5 rounded bg-teal-500 hover:bg-teal-600 active:scale-95 text-white font-black text-[10px] sm:text-sm lg:text-base uppercase tracking-wider transition-all shadow-lg shadow-teal-500/25 disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5 sm:gap-2"
+                  className="px-3 sm:px-8 py-2.5 sm:py-3.5 rounded bg-teal-500 hover:bg-teal-600 active:scale-95 text-white font-bold text-[10px] sm:text-sm lg:text-base uppercase tracking-wider transition-all shadow-lg shadow-teal-500/25 disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer flex items-center gap-1.5 sm:gap-2"
                 >
                   {spinning ? (
                     <>
@@ -344,7 +344,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
               type="button"
               onClick={spinWheel}
               disabled={spinning}
-              className="keep-round absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-teal-500 hover:bg-teal-600 active:scale-95 text-white font-black text-[9px] sm:text-base border-2 sm:border-4 border-white shadow-xl shadow-teal-500/30 flex items-center justify-center cursor-pointer transition-transform"
+              className="keep-round absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full bg-teal-500 hover:bg-teal-600 active:scale-95 text-white font-bold text-[9px] sm:text-base border-2 sm:border-4 border-white shadow-xl shadow-teal-500/30 flex items-center justify-center cursor-pointer transition-transform"
               title="Click to Spin"
             >
               SPIN

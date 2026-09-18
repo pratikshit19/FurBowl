@@ -81,7 +81,7 @@ export default function DogStatsSection() {
           <p className="text-xs sm:text-sm font-extrabold uppercase tracking-widest text-teal-600 mb-3">
             Proven Canine Results
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
             Visible Health Stats for Dogs
           </h2>
           <p className="text-plum-900/70 text-sm sm:text-base leading-relaxed mt-2.5 font-normal">
@@ -101,7 +101,7 @@ export default function DogStatsSection() {
                   <div>
                     {/* Top: Stat Number + Dog Avatar */}
                     <div className="flex items-center justify-between mb-5">
-                      <span className={`text-4xl sm:text-5xl font-black tracking-tight ${stat.accentColor}`}>
+                      <span className={`text-4xl sm:text-5xl font-bold tracking-tight ${stat.accentColor}`}>
                         {stat.number}
                       </span>
                       <div className="relative w-12 h-12 rounded-lg overflow-hidden border-2 border-white shadow-sm shrink-0">
@@ -114,7 +114,7 @@ export default function DogStatsSection() {
                       </div>
                     </div>
 
-                    <h3 className="text-lg font-black text-plum-900 mb-2">
+                    <h3 className="text-lg font-bold text-plum-900 mb-2">
                       {stat.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-plum-900/70 leading-relaxed font-normal">

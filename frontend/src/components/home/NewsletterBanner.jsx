@@ -34,11 +34,11 @@ export default function NewsletterBanner() {
           
           {/* Left Column: Headline, form */}
           <div className="lg:col-span-8 text-center lg:text-left z-10">
-            <span className="text-[11px] font-black uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full inline-block mb-3">
+            <span className="text-[11px] font-bold uppercase tracking-widest bg-white/20 px-3 py-1 rounded-full inline-block mb-3">
               The FurBowl Community
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight mb-2">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-2">
               Good food. <br className="hidden sm:inline" />
               Happier dogs.
             </h2>
@@ -68,7 +68,7 @@ export default function NewsletterBanner() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-plum-900 hover:bg-plum-800 text-white font-black text-sm px-7 py-3.5 rounded shadow-md hover:shadow-lg transition-all shrink-0 cursor-pointer"
+                  className="bg-plum-900 hover:bg-plum-800 text-white font-bold text-sm px-7 py-3.5 rounded shadow-md hover:shadow-lg transition-all shrink-0 cursor-pointer"
                 >
                   {loading ? 'Joining…' : 'Join the pack'}
                 </button>

@@ -200,7 +200,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     
                     {/* Top-Left Badge — FurBowl Peach */}
                     <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 z-20">
-                      <span className="text-[9px] sm:text-[11px] font-black tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                      <span className="text-[9px] sm:text-[11px] font-bold tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
                         {visual.badge}
                       </span>
                     </div>
@@ -208,7 +208,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     {/* Top-Right SUPER SAVER Ribbon Badge — Amber Gold */}
                     {visual.isSuperSaver && (
                       <div className="absolute top-0 right-2 sm:right-3 z-20">
-                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-black uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-bold uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
                           <span>SUPER</span>
                           <span className="mt-0.5">•SAVER•</span>
                           {/* Ribbon notch cut-out */}
@@ -281,7 +281,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
 
                       {/* Price */}
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-black text-plum-900">
+                        <span className="text-sm sm:text-lg font-bold text-plum-900">
                           ₹{recipe.price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
@@ -341,7 +341,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   <div className="relative w-full h-[165px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
                     {/* Top-Left Discount Badge */}
                     <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 z-20">
-                      <span className="text-[9px] sm:text-[11px] font-black tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                      <span className="text-[9px] sm:text-[11px] font-bold tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
                         {pack.discount}
                       </span>
                     </div>
@@ -349,7 +349,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     {/* Top-Right SUPER SAVER Ribbon Badge */}
                     {pack.flagship && (
                       <div className="absolute top-0 right-2 sm:right-3 z-20">
-                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-black uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-bold uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
                           <span>SUPER</span>
                           <span className="mt-0.5">•SAVER•</span>
                           <div
@@ -427,7 +427,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                         {pack.tagline}
                       </p>
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-black text-plum-900">
+                        <span className="text-sm sm:text-lg font-bold text-plum-900">
                           ₹{pack.price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
@@ -492,7 +492,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   <div className="relative w-full h-[165px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
                     {/* Top-Left Discount Badge */}
                     <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 z-20">
-                      <span className="text-[9px] sm:text-[11px] font-black tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                      <span className="text-[9px] sm:text-[11px] font-bold tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
                         {savings}
                       </span>
                     </div>
@@ -500,7 +500,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     {/* Top-Right Ribbon if Flagship */}
                     {pack.isFlagship && (
                       <div className="absolute top-0 right-2 sm:right-3 z-20">
-                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-black uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-bold uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
                           <span>SUPER</span>
                           <span className="mt-0.5">•SAVER•</span>
                           <div
@@ -540,7 +540,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                         {pack.popularFor}
                       </p>
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-black text-plum-900">
+                        <span className="text-sm sm:text-lg font-bold text-plum-900">
                           {savings}
                         </span>
                         <span className="text-[10px] sm:text-xs text-plum-900/50 font-bold">

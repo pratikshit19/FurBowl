@@ -67,10 +67,10 @@ export default function ShopByCategorySection() {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div>
-            <div className="inline-flex items-center text-xs font-black uppercase tracking-widest text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200/60 mb-2">
+            <div className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200/60 mb-2">
               <span>Curated Feeding Journeys</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
               Shop by Category
             </h2>
           </div>
@@ -97,7 +97,7 @@ export default function ShopByCategorySection() {
                   
                   {/* Top-Left Discount Badge — FurBowl Peach */}
                   <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 z-20">
-                    <span className="text-[9.5px] sm:text-[11px] font-black tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                    <span className="text-[9.5px] sm:text-[11px] font-bold tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
                       {cat.discount}
                     </span>
                   </div>
@@ -105,7 +105,7 @@ export default function ShopByCategorySection() {
                   {/* Top-Right SUPER SAVER Ribbon Badge — Amber Gold */}
                   {cat.isSuperSaver && (
                     <div className="absolute top-0 right-2 sm:right-3 z-20">
-                      <div className="relative bg-amber-500 text-white text-[7.5px] sm:text-[8.5px] font-black uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                      <div className="relative bg-amber-500 text-white text-[7.5px] sm:text-[8.5px] font-bold uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
                         <span>SUPER</span>
                         <span className="mt-0.5">•SAVER•</span>
                         {/* Ribbon notch cut-out */}
@@ -151,7 +151,7 @@ export default function ShopByCategorySection() {
 
                     {/* Price */}
                     <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-1.5 sm:mb-2">
-                      <span className="text-xs sm:text-base font-black text-plum-900">
+                      <span className="text-xs sm:text-base font-bold text-plum-900">
                         From ₹{cat.price.toLocaleString('en-IN')}
                       </span>
                       <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">

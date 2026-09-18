@@ -107,7 +107,7 @@ export default function WishlistPage() {
               <Heart className="w-3.5 h-3.5 fill-coral-500 text-coral-500" />
               <span>Saved Favourites</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
               My Wishlist
             </h1>
             <p className="text-xs sm:text-sm text-plum-900/65 mt-1 font-medium">
@@ -152,7 +152,7 @@ export default function WishlistPage() {
             <div className="w-20 h-20 rounded-full bg-coral-50 text-coral-500 flex items-center justify-center mb-5 border border-coral-200/50 shadow-xs">
               <Heart className="w-9 h-9 stroke-[1.75]" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-plum-900 mb-2">Your wishlist is empty</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-plum-900 mb-2">Your wishlist is empty</h2>
             <p className="text-xs sm:text-sm text-plum-900/60 mb-8 max-w-xs leading-relaxed">
               Explore our fresh human-grade dog food recipes and tap the heart icon on any meal to save it here.
             </p>
@@ -188,7 +188,7 @@ export default function WishlistPage() {
                   {/* Veg / Diet Badge */}
                   <div className="absolute top-2 left-2 z-20">
                     <span
-                      className={`text-[9px] sm:text-[10.5px] font-black tracking-wider uppercase px-2 py-0.5 rounded-[3px] shadow-xs text-white ${
+                      className={`text-[9px] sm:text-[10.5px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-[3px] shadow-xs text-white ${
                         item.isVeg ? 'bg-emerald-600' : 'bg-peach-500'
                       }`}
                     >
@@ -244,7 +244,7 @@ export default function WishlistPage() {
 
                     {/* Price */}
                     <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-2 mb-1.5 sm:mb-2">
-                      <span className="text-sm sm:text-lg font-black text-plum-900">
+                      <span className="text-sm sm:text-lg font-bold text-plum-900">
                         {formatPrice(item.price)}
                       </span>
                       {item.originalPrice > item.price && (

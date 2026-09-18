@@ -186,7 +186,7 @@ export default function PlansPage() {
             <span>Monthly Fresh Feeding</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black text-plum-900 tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-5xl font-bold text-plum-900 tracking-tight mb-4">
             FurBowl Monthly Plans
           </h1>
 
@@ -223,7 +223,7 @@ export default function PlansPage() {
                   {/* Top: Badges & Title */}
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className={`text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full border shadow-2xs ${plan.badgeStyle}`}>
+                      <span className={`text-[11px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border shadow-2xs ${plan.badgeStyle}`}>
                         {plan.badge}
                       </span>
                       <span className="text-xs font-bold text-plum-900/50">
@@ -231,7 +231,7 @@ export default function PlansPage() {
                       </span>
                     </div>
 
-                    <h2 className="text-2xl font-black text-plum-900 leading-tight mb-1">
+                    <h2 className="text-2xl font-bold text-plum-900 leading-tight mb-1">
                       {plan.name}
                     </h2>
                     <p className="text-xs text-plum-900/65 font-normal leading-relaxed mb-3.5">
@@ -246,7 +246,7 @@ export default function PlansPage() {
                         fill
                         className="object-cover"
                       />
-                      <div className="absolute bottom-2.5 left-3 bg-white/95 backdrop-blur-xs text-plum-900 px-2.5 py-0.5 rounded-full text-[11px] font-black shadow-xs">
+                      <div className="absolute bottom-2.5 left-3 bg-white/95 backdrop-blur-xs text-plum-900 px-2.5 py-0.5 rounded-full text-[11px] font-bold shadow-xs">
                         {plan.mealsCount}
                       </div>
                     </div>
@@ -254,7 +254,7 @@ export default function PlansPage() {
                     {/* Price Block */}
                     <div className="p-3.5 rounded-lg bg-[#ffe3db] border border-plum-900/5 mb-4">
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-black text-plum-900">
+                        <span className="text-3xl font-bold text-plum-900">
                           ₹{plan.price}
                         </span>
                         <span className="text-xs text-plum-900/50 line-through font-semibold">
@@ -322,7 +322,7 @@ export default function PlansPage() {
             <span className="text-xs font-bold uppercase tracking-widest text-teal-600 block mb-1">
               Hassle-Free Feeding
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black text-plum-900 tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-bold text-plum-900 tracking-tight">
               Why Subscribe with FurBowl?
             </h2>
             <p className="text-xs sm:text-sm text-plum-900/70 mt-2">
@@ -361,14 +361,14 @@ export default function PlansPage() {
           <span className="text-xs font-bold uppercase tracking-widest text-peach-600 block mb-1">
             Easy Routine
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-plum-900 mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-plum-900 mb-10">
             How Your Monthly Box Works
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <ScrollReveal delay={0}>
               <div className="p-5 rounded-lg bg-[#fdfbf7] border border-plum-900/5">
-                <div className="w-10 h-10 rounded-full bg-teal-500 text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
+                <div className="w-10 h-10 rounded-full bg-teal-500 text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
                   1
                 </div>
                 <h3 className="text-base font-bold text-plum-900 mb-1">Select Your Plan</h3>
@@ -378,7 +378,7 @@ export default function PlansPage() {
 
             <ScrollReveal delay={90}>
               <div className="p-5 rounded-lg bg-[#fdfbf7] border border-plum-900/5">
-                <div className="w-10 h-10 rounded-full bg-peach-500 text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
+                <div className="w-10 h-10 rounded-full bg-peach-500 text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
                   2
                 </div>
                 <h3 className="text-base font-bold text-plum-900 mb-1">Delivered Cold</h3>
@@ -388,7 +388,7 @@ export default function PlansPage() {
 
             <ScrollReveal delay={180}>
               <div className="p-5 rounded-lg bg-[#fdfbf7] border border-plum-900/5">
-                <div className="w-10 h-10 rounded-full bg-teal-500 text-white font-black text-sm flex items-center justify-center mx-auto mb-3">
+                <div className="w-10 h-10 rounded-full bg-teal-500 text-white font-bold text-sm flex items-center justify-center mx-auto mb-3">
                   3
                 </div>
                 <h3 className="text-base font-bold text-plum-900 mb-1">Cut, Pour &amp; Smile</h3>
@@ -406,7 +406,7 @@ export default function PlansPage() {
             <span className="text-xs font-bold uppercase tracking-widest text-teal-600 block mb-1">
               Common Questions
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-plum-900">
+            <h2 className="text-2xl sm:text-3xl font-bold text-plum-900">
               Subscription FAQs
             </h2>
           </div>

@@ -17,7 +17,7 @@ export default function PackTestimonialsSection() {
             <span className="text-xs font-bold uppercase tracking-widest text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full inline-block mb-3">
               UGC & Testimonials
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
               Real pups. Real stories.
             </h2>
             <p className="text-sm sm:text-base text-plum-900/60 font-normal mt-2 max-w-xl">
@@ -59,7 +59,7 @@ export default function PackTestimonialsSection() {
                   {/* Content */}
                   <div className="p-5">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="text-lg font-black text-plum-900">{pup.name}</h3>
+                      <h3 className="text-lg font-bold text-plum-900">{pup.name}</h3>
                       <span className="text-[10px] text-plum-900/40">{pup.time}</span>
                     </div>
 

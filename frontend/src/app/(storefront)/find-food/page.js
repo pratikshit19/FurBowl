@@ -89,7 +89,7 @@ export default function FindFoodPage() {
           <span className="text-xs font-bold uppercase tracking-widest text-coral-600 bg-coral-500/10 px-3 py-1 rounded-full inline-block mb-3">
             Find Their Fresh Match
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-plum-900 tracking-tight mb-2">
+          <h1 className="text-3xl sm:text-5xl font-bold text-plum-900 tracking-tight mb-2">
             What does your pup love?
           </h1>
           <p className="text-sm sm:text-base text-plum-900/60 font-normal">
@@ -153,7 +153,7 @@ export default function FindFoodPage() {
                       />
                     </div>
 
-                    <h2 className="text-xl sm:text-2xl font-black text-plum-900 mb-2">
+                    <h2 className="text-xl sm:text-2xl font-bold text-plum-900 mb-2">
                       Pick a protein {pupName ? `for ${pupName}` : ''}:
                     </h2>
                     <p className="text-xs sm:text-sm text-plum-900/60 mb-6 font-normal">
@@ -190,7 +190,7 @@ export default function FindFoodPage() {
                     <button
                       type="button"
                       onClick={() => setStep(2)}
-                      className="bg-plum-900 hover:bg-plum-800 text-white font-black text-sm px-8 py-3.5 rounded shadow hover:shadow-md transition-all inline-flex items-center gap-2"
+                      className="bg-plum-900 hover:bg-plum-800 text-white font-bold text-sm px-8 py-3.5 rounded shadow hover:shadow-md transition-all inline-flex items-center gap-2"
                     >
                       <span>Next: Select Vibe</span>
                       <ArrowRight className="w-4 h-4 shrink-0" />
@@ -198,7 +198,7 @@ export default function FindFoodPage() {
                   </div>
                 ) : (
                   <div>
-                    <h2 className="text-xl sm:text-2xl font-black text-plum-900 mb-2">
+                    <h2 className="text-xl sm:text-2xl font-bold text-plum-900 mb-2">
                       What’s {pupName || 'their'} daily vibe?
                     </h2>
                     <p className="text-xs sm:text-sm text-plum-900/60 mb-6 font-normal">
@@ -246,7 +246,7 @@ export default function FindFoodPage() {
                       <button
                         type="button"
                         onClick={() => setStep(3)}
-                        className="bg-coral-500 hover:bg-coral-600 text-white font-black text-sm px-8 py-3.5 rounded shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2"
+                        className="bg-coral-500 hover:bg-coral-600 text-white font-bold text-sm px-8 py-3.5 rounded shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2"
                       >
                         <span>Show Taste Profile</span>
                         <ArrowRight className="w-4 h-4 shrink-0" />
@@ -270,7 +270,7 @@ export default function FindFoodPage() {
                   <div className="absolute -bottom-2 -left-2 sm:-left-4 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-lg p-3 shadow-lg z-20 -rotate-3 hover:rotate-0 transition-transform">
                     <p className="text-xs sm:text-sm font-extrabold text-plum-900 flex items-center gap-1.5">
                       <span>Good food =</span>
-                      <span className="text-coral-500 font-black inline-flex items-center gap-1">
+                      <span className="text-coral-500 font-bold inline-flex items-center gap-1">
                         Happy zoomies! <PawPrint className="w-3.5 h-3.5 inline" />
                       </span>
                     </p>
@@ -309,7 +309,7 @@ export default function FindFoodPage() {
                     Taste Profile Result
                   </span>
 
-                  <h2 className="text-2xl sm:text-3xl font-black text-plum-900 tracking-tight mb-2">
+                  <h2 className="text-2xl sm:text-3xl font-bold text-plum-900 tracking-tight mb-2">
                     {results.title}
                   </h2>
 
@@ -336,7 +336,7 @@ export default function FindFoodPage() {
                           <Star className="w-3 h-3 fill-white text-white shrink-0" />
                           <span>Top Match</span>
                         </span>
-                        <span className="text-sm font-black text-coral-600">₹{results.topMatch.price}</span>
+                        <span className="text-sm font-bold text-coral-600">₹{results.topMatch.price}</span>
                       </div>
 
                       <div className="relative w-full aspect-[4/3] rounded-md overflow-hidden mb-3 bg-white flex items-center justify-center p-3 shadow-inner">
@@ -348,12 +348,12 @@ export default function FindFoodPage() {
                         />
                       </div>
 
-                      <h3 className="text-2xl font-black text-plum-900 mb-1">{results.topMatch.name}</h3>
+                      <h3 className="text-2xl font-bold text-plum-900 mb-1">{results.topMatch.name}</h3>
                       <p className="text-xs text-plum-900/60 mb-2">{results.topMatch.tags}</p>
 
                       <Link
                         href={`/shop/${results.topMatch.slug}`}
-                        className="w-full bg-plum-900 hover:bg-plum-800 text-white font-black text-sm py-3 rounded text-center block transition-all shadow-sm inline-flex items-center justify-center gap-1"
+                        className="w-full bg-plum-900 hover:bg-plum-800 text-white font-bold text-sm py-3 rounded text-center block transition-all shadow-sm inline-flex items-center justify-center gap-1"
                       >
                         <span>View Product &amp; Order</span>
                         <ArrowRight className="w-4 h-4 shrink-0" />
@@ -380,7 +380,7 @@ export default function FindFoodPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-[10px] font-bold text-coral-600 uppercase">Top Match</div>
-                        <div className="text-xs font-black text-plum-900 truncate">{results.secondMatch.name}</div>
+                        <div className="text-xs font-bold text-plum-900 truncate">{results.secondMatch.name}</div>
                         <div className="text-[10px] text-plum-900/50">₹{results.secondMatch.price}</div>
                       </div>
                       <Link
@@ -404,7 +404,7 @@ export default function FindFoodPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-[10px] font-bold text-plum-900/70 uppercase">Hydration Boost</div>
-                        <div className="text-xs font-black text-plum-900 truncate">{results.wildCard.name}</div>
+                        <div className="text-xs font-bold text-plum-900 truncate">{results.wildCard.name}</div>
                         <div className="text-[10px] text-plum-900/50">₹{results.wildCard.price}</div>
                       </div>
                       <Link

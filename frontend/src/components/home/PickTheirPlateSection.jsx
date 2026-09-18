@@ -255,7 +255,7 @@ export default function PickTheirPlateSection() {
                 <div className="absolute -bottom-2 -left-2 sm:-left-4 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-lg p-3 shadow-lg z-20 -rotate-3 hover:rotate-0 transition-transform">
                   <p className="text-xs sm:text-sm font-extrabold text-plum-900 flex items-center gap-1.5">
                     <span>Good food =</span>
-                    <span className="text-coral-500 font-black inline-flex items-center gap-1">
+                    <span className="text-coral-500 font-bold inline-flex items-center gap-1">
                       Happy zoomies! <PawPrint className="w-3.5 h-3.5 inline" />
                     </span>
                   </p>
@@ -292,7 +292,7 @@ export default function PickTheirPlateSection() {
                   Taste Profile Result
                 </span>
 
-                <h3 className="text-2xl sm:text-3xl font-black text-plum-900 tracking-tight mb-2">
+                <h3 className="text-2xl sm:text-3xl font-bold text-plum-900 tracking-tight mb-2">
                   {matches.pupTitle}
                 </h3>
 
@@ -331,7 +331,7 @@ export default function PickTheirPlateSection() {
                       />
                     </div>
 
-                    <h4 className="text-xl font-black text-plum-900 mb-1">{matches.topMatch.name}</h4>
+                    <h4 className="text-xl font-bold text-plum-900 mb-1">{matches.topMatch.name}</h4>
                     <p className="text-xs text-plum-900/60 mb-2">{matches.topMatch.tags}</p>
 
                     <Link

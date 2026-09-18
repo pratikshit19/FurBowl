@@ -31,7 +31,7 @@ export default function HeroMockup() {
               <span>100% Real Fresh Dog Food</span>
             </span>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-plum-900 tracking-tight leading-[1.1] mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-plum-900 tracking-tight leading-[1.1] mb-4">
               What’s on <br className="hidden sm:inline" />
               the menu, <span className="text-coral-500 underline decoration-butter-300 decoration-wavy decoration-2">pup?</span>
             </h1>

@@ -17,7 +17,7 @@ export default function BuildTheirBoxSection() {
               Custom Weekly Meal Box
             </span>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-plum-900 tracking-tight leading-[1.15] mb-4">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight leading-[1.15] mb-4">
               Build their week.
             </h2>
 
@@ -47,7 +47,7 @@ export default function BuildTheirBoxSection() {
             <div>
               <Link
                 href="/shop"
-                className="bg-plum-900 hover:bg-plum-800 text-white font-black text-sm sm:text-base px-8 py-4 rounded shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2 hover:-translate-y-0.5"
+                className="bg-plum-900 hover:bg-plum-800 text-white font-bold text-sm sm:text-base px-8 py-4 rounded shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2 hover:-translate-y-0.5"
               >
                 <span>Start Building Your Box</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
@@ -72,7 +72,7 @@ export default function BuildTheirBoxSection() {
               <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-xs border border-plum-900/10 rounded-lg p-3 shadow-lg rotate-3 hover:rotate-0 transition-transform">
                 <div className="text-xs font-extrabold text-plum-900 flex items-center gap-1.5">
                   <span>Mix • Match •</span>
-                  <span className="text-coral-500 font-black inline-flex items-center gap-1">
+                  <span className="text-coral-500 font-bold inline-flex items-center gap-1">
                     <span>Repeat</span>
                     <RotateCcw className="w-3 h-3 inline" />
                   </span>
