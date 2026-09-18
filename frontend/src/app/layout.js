@@ -2,10 +2,18 @@ import "./globals.css";
 import AuthModal from "@/components/auth/AuthModal";
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://furbowl.in'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://furbowl.co.in'),
   title: {
     default: "FurBowl — Real Food. Pure Love. | Fresh Dog Food India",
     template: "%s | FurBowl",
+  },
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/images/LOGO2.png', type: 'image/png' },
+    ],
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
   },
   description:
     "Fresh, ready-to-eat dog food made with real, human-grade ingredients. No fillers, no preservatives — just honest nutrition for your dog. Shop FurBowl.",
