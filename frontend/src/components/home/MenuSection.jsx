@@ -190,7 +190,7 @@ export default function MenuSection() {
             type="button"
             onClick={() => scroll('left')}
             aria-label="Previous products"
-            className="absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white border border-plum-900/10 shadow-md hover:shadow-lg flex items-center justify-center text-plum-900 hover:text-peach-600 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="hidden sm:flex absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white border border-plum-900/10 shadow-md hover:shadow-lg items-center justify-center text-plum-900 hover:text-peach-600 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
             <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
           </button>
@@ -200,7 +200,7 @@ export default function MenuSection() {
             type="button"
             onClick={() => scroll('right')}
             aria-label="Next products"
-            className="absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white border border-plum-900/10 shadow-md hover:shadow-lg flex items-center justify-center text-plum-900 hover:text-peach-600 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="hidden sm:flex absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white border border-plum-900/10 shadow-md hover:shadow-lg items-center justify-center text-plum-900 hover:text-peach-600 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
             <ChevronRight className="w-5 h-5 stroke-[2.5]" />
           </button>

@@ -431,20 +431,78 @@ const MOCK_PRODUCTS = {
     ],
     variants: [{ id: 'v-mp-30', name: '30 x 100g Pack', mrp: 3599, sellingPrice: 2699, stockQuantity: 100 }],
   },
+  // ─── Bone Broth ───
+  'golden-chicken-broth': {
+    id: 'golden-chicken-broth',
+    name: 'Golden Chicken Broth',
+    slug: 'golden-chicken-broth',
+    shortDescription: 'Warm, nourishing bone broth for hydration, digestion & joint care.',
+    description: 'A slow-simmered golden bone broth crafted from free-range chicken bones, rich in natural collagen, glucosamine, and chondroitin. Perfect as a daily topper, hydration boost, or meal enhancer for picky eaters. 100% natural — no salt, no onion, no garlic.',
+    keyBenefits: ['Natural collagen for joint health & mobility', 'Glucosamine & chondroitin for cartilage support', 'Boosts hydration in dry-food fed dogs', 'Gentle on sensitive stomachs', 'Zero salt, onion, garlic or additives'],
+    ingredients: 'Free-Range Chicken Bones, Filtered Water, Apple Cider Vinegar (trace). Nothing else.',
+    nutritionalInfo: { energy: '12 kcal/100ml', crudeProtein: '1.8%', crudeFat: '0.3%', crudeFiber: '0%', moisture: '98%' },
+    feedingGuide: [
+      { weight: 'Up to 5 kg', daily: '30 – 50 ml/day' },
+      { weight: '5 – 15 kg', daily: '50 – 100 ml/day' },
+      { weight: '15 – 30 kg', daily: '100 – 150 ml/day' },
+      { weight: '30 kg & above', daily: '150 – 200 ml/day' },
+    ],
+    dietChangeGuide: 'Can be served warm or at room temperature. Pour over kibble or fresh food, or serve alone.',
+    suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
+    isVeg: false,
+    foodType: 'BROTH',
+    category: { name: 'Broth', slug: 'broth' },
+    images: [{ url: '/images/products/golden-chicken-broth-front.jpg', altText: 'Golden Chicken Broth' }],
+    variants: [{ id: 'v-gcb', name: '250ml Pouch', mrp: 149, sellingPrice: 129, stockQuantity: 100 }],
+  },
+  'slow-cooked-bone-broth': {
+    id: 'slow-cooked-bone-broth',
+    name: 'Slow-Cooked Bone Broth',
+    slug: 'slow-cooked-bone-broth',
+    shortDescription: 'Slow-simmered chicken bone broth for hydration, joints & gut health.',
+    description: 'A slow-simmered golden bone broth crafted from free-range chicken bones, rich in natural collagen, glucosamine, and chondroitin. Perfect as a daily topper, hydration boost, or meal enhancer.',
+    keyBenefits: ['Natural collagen for joint health', 'Boosts daily hydration', 'Gentle on sensitive stomachs', 'Zero salt, onion, garlic', '100% human-grade ingredients'],
+    ingredients: 'Free-Range Chicken Bones, Filtered Water, Apple Cider Vinegar (trace).',
+    nutritionalInfo: { energy: '12 kcal/100ml', crudeProtein: '1.8%', crudeFat: '0.3%', crudeFiber: '0%', moisture: '98%' },
+    feedingGuide: [
+      { weight: 'Up to 5 kg', daily: '30 – 50 ml/day' },
+      { weight: '5 – 15 kg', daily: '50 – 100 ml/day' },
+      { weight: '15 – 30 kg', daily: '100 – 150 ml/day' },
+      { weight: '30 kg & above', daily: '150 – 200 ml/day' },
+    ],
+    dietChangeGuide: 'Serve warm or at room temperature as a topper or standalone drink.',
+    suitableFor: 'Puppy & Adult Dogs – All Breeds & Sizes',
+    isVeg: false,
+    foodType: 'BROTH',
+    category: { name: 'Broth', slug: 'broth' },
+    images: [{ url: '/images/products/golden-chicken-broth-front.jpg', altText: 'Slow-Cooked Bone Broth' }],
+    variants: [{ id: 'v-scbb', name: '250ml Pouch', mrp: 149, sellingPrice: 129, stockQuantity: 100 }],
+  },
 };
 
 async function getProduct(slug) {
+  // Always check mock data first — this ensures all locally-defined products work offline
+  const mockFallback = MOCK_PRODUCTS[slug];
+
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/products/${slug}`,
       { next: { revalidate: 300 } }
     );
-    if (res.status === 404) return null;
+    if (res.status === 404) {
+      // API doesn't know this slug — use mock if available, otherwise 404
+      if (mockFallback) {
+        const related = Object.values(MOCK_PRODUCTS).filter((p) => p.slug !== slug);
+        return { product: mockFallback, relatedProducts: related.slice(0, 4) };
+      }
+      return null;
+    }
     if (!res.ok) throw new Error('API error');
     const data = await res.json();
     return data;
   } catch {
-    const fallback = MOCK_PRODUCTS[slug] || MOCK_PRODUCTS['all-recipes-trial-pack'] || MOCK_PRODUCTS['chicken-vegetables'];
+    // Network / parse error — fall back to mock
+    const fallback = mockFallback || MOCK_PRODUCTS['chicken-vegetables'];
     const related = Object.values(MOCK_PRODUCTS).filter((p) => p.slug !== slug);
     return { product: fallback, relatedProducts: related.slice(0, 4) };
   }

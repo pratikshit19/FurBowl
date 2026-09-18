@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import useAuthStore from '@/store/authStore';
+import useWishlistStore from '@/store/wishlistStore';
+import useAuthModalStore from '@/store/authModalStore';
 import { NAV_LINKS, PRODUCTS_NAV } from '@/lib/constants';
 import {
   X,
@@ -12,6 +14,7 @@ import {
   ChevronDown,
   User,
   Phone,
+  Heart,
 } from 'lucide-react';
 
 export default function MobileNav({ isOpen, onClose }) {
@@ -20,6 +23,7 @@ export default function MobileNav({ isOpen, onClose }) {
   const [productsOpen, setProductsOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
   const { user, isAuthenticated, logout } = useAuthStore();
+  const wishlistCount = useWishlistStore((s) => s.getItemCount());
 
   useEffect(() => {
     setHydrated(true);
@@ -194,6 +198,21 @@ export default function MobileNav({ isOpen, onClose }) {
             </Link>
           </div>
 
+          {/* 5.5. MY WISHLIST */}
+          <div className="py-1">
+            <Link
+              href="/wishlist"
+              onClick={onClose}
+              className="flex items-center justify-between py-4 text-lg font-black tracking-tight text-plum-900 hover:text-coral-600 transition-colors uppercase"
+            >
+              <span className="flex items-center gap-2">
+                <Heart className={`w-5 h-5 ${wishlistCount > 0 ? 'text-coral-500 fill-coral-500' : 'text-plum-900/60'}`} />
+                <span>My Wishlist</span>
+              </span>
+              <ChevronRight className="w-5 h-5 text-plum-900/30" />
+            </Link>
+          </div>
+
           {/* 6. CONTACT US */}
           <div className="py-1">
             <a
@@ -237,14 +256,17 @@ export default function MobileNav({ isOpen, onClose }) {
               </button>
             </div>
           ) : (
-            <Link
-              href="/login"
-              onClick={onClose}
-              className="inline-flex items-center gap-2 bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded shadow-xs transition-colors"
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                useAuthModalStore.getState().openAuthModal();
+              }}
+              className="inline-flex items-center gap-2 bg-peach-500 hover:bg-peach-600 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded shadow-xs transition-colors cursor-pointer"
             >
               <User className="w-4 h-4" />
               <span>Login</span>
-            </Link>
+            </button>
           )}
 
           {/* Social Icons matching the reference image layout */}

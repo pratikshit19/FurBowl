@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ShoppingBag, Check, Package, Star, ShieldCheck, Filter } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Check, Package, Star, ShieldCheck, Filter, Heart } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
 import { TRIAL_PACKS, MULTI_PACK_SIZES } from '@/lib/furbowl-data';
 import useCartStore from '@/store/cartStore';
+import useWishlistStore from '@/store/wishlistStore';
 
 const TABS = [
   { id: 'meals', label: 'Fresh Meals', count: '5 Recipes' },
@@ -65,6 +66,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
   const [dietFilter, setDietFilter] = useState('ALL'); // 'ALL' | 'VEG' | 'NON_VEG'
   const [addedSlug, setAddedSlug] = useState(null);
   const addItem = useCartStore((state) => state.addItem);
+  const { toggleItem: toggleWishlist, isWishlisted } = useWishlistStore();
 
   const handleQuickAddMeal = (e, recipe) => {
     e.preventDefault();
@@ -173,7 +175,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
       {/* TAB 1: FRESH MEALS (5 RECIPES)                                    */}
       {/* ═════════════════════════════════════════════════════════════════ */}
       {activeTab === 'meals' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5 sm:gap-5">
           {filteredMeals.map((recipe) => {
             const visual = RECIPE_VISUALS[recipe.id] || {
               name: recipe.name,
@@ -194,68 +196,95 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   className="flex-1 flex flex-col justify-between focus:outline-none group/link"
                 >
                   {/* ─── Upper Image Area ─── */}
-                  <div className="relative w-full h-[225px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
+                  <div className="relative w-full h-[165px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
                     
                     {/* Top-Left Badge — FurBowl Peach */}
-                    <div className="absolute top-2.5 left-2.5 z-20">
-                      <span className="text-[11px] font-black tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                    <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 z-20">
+                      <span className="text-[9px] sm:text-[11px] font-black tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
                         {visual.badge}
                       </span>
                     </div>
 
                     {/* Top-Right SUPER SAVER Ribbon Badge — Amber Gold */}
                     {visual.isSuperSaver && (
-                      <div className="absolute top-0 right-3 z-20">
-                        <div className="relative bg-amber-500 text-white text-[8.5px] font-black uppercase tracking-wider px-2 pt-1.5 pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                      <div className="absolute top-0 right-2 sm:right-3 z-20">
+                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-black uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
                           <span>SUPER</span>
                           <span className="mt-0.5">•SAVER•</span>
                           {/* Ribbon notch cut-out */}
                           <div
-                            className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-amber-500"
+                            className="absolute -bottom-1 sm:-bottom-1.5 left-0 right-0 h-1 sm:h-1.5 bg-amber-500"
                             style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
                           />
                         </div>
                       </div>
                     )}
 
+                    {/* Top-Right Wishlist Button */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleWishlist({
+                          id: recipe.id,
+                          name: visual.name,
+                          slug: recipe.slug,
+                          image: recipe.image,
+                          price: recipe.price,
+                          originalPrice: recipe.price + 20,
+                          size: recipe.weight,
+                        });
+                      }}
+                      aria-label={isWishlisted(recipe.id) ? "Remove from wishlist" : "Add to wishlist"}
+                      title={isWishlisted(recipe.id) ? "In your Wishlist" : "Add to Wishlist"}
+                      className={`absolute top-2 right-2 z-30 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all cursor-pointer active:scale-90 ${
+                        isWishlisted(recipe.id)
+                          ? 'bg-coral-50 text-coral-600 shadow-sm ring-1 ring-coral-400/40'
+                          : 'bg-white/85 backdrop-blur-xs text-plum-900/40 hover:text-coral-500 hover:bg-white shadow-2xs'
+                      }`}
+                    >
+                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${isWishlisted(recipe.id) ? 'fill-coral-500 text-coral-500 scale-110' : ''}`} />
+                    </button>
+
                     {/* Stand-Up Retort Pouch / Product Mockup */}
-                    <div className="relative w-full h-full p-2.5 flex items-center justify-center">
+                    <div className="relative w-full h-full p-2 sm:p-2.5 flex items-center justify-center">
                       <Image
                         src={recipe.image}
                         alt={visual.name}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                         className="object-contain transition-transform duration-300 group-hover:scale-103"
                       />
                     </div>
 
                     {/* Bottom Center Pack Pill */}
-                    <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
-                      <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3 py-0.5 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1.5">
+                    <div className="absolute bottom-2 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                      <span className="text-[9px] sm:text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-2 sm:px-3 py-0.5 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1">
                         <span>100g Single Pouch</span>
                       </span>
                     </div>
                   </div>
 
                   {/* ─── Lower Details Area ─── */}
-                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
+                  <div className="p-2 sm:px-4 sm:pt-3 sm:pb-1.5 flex flex-col justify-between flex-1 bg-white">
                     <div>
                       {/* Title */}
-                      <h3 className="font-bold text-[14.5px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
+                      <h3 className="font-bold text-xs sm:text-[14.5px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
                         {visual.name}
                       </h3>
 
                       {/* Subtitle */}
-                      <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                      <p className="text-[10px] sm:text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
                         {visual.subtitle}
                       </p>
 
                       {/* Price */}
-                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
-                        <span className="text-base sm:text-lg font-black text-plum-900">
+                      <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
+                        <span className="text-sm sm:text-lg font-black text-plum-900">
                           ₹{recipe.price.toLocaleString('en-IN')}
                         </span>
-                        <span className="text-xs text-plum-900/40 line-through">
+                        <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
                           ₹{(recipe.price + 20).toLocaleString('en-IN')}
                         </span>
                       </div>
@@ -264,11 +293,11 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 </Link>
 
                 {/* Add to Cart Button Footer — FurBowl Teal */}
-                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
+                <div className="px-2 pb-2 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={(e) => handleQuickAddMeal(e, recipe)}
-                    className={`w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
+                    className={`w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 ${
                       addedSlug === recipe.slug
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
@@ -276,8 +305,8 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   >
                     {addedSlug === recipe.slug ? (
                       <>
-                        <Check className="w-4 h-4 stroke-[3]" />
-                        <span>Added to Cart</span>
+                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        <span>Added</span>
                       </>
                     ) : (
                       <span>Add to Cart</span>
@@ -294,7 +323,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
       {/* TAB 2: CURATED TRIAL PACKS                                         */}
       {/* ═════════════════════════════════════════════════════════════════ */}
       {activeTab === 'trial-packs' && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6">
           {TRIAL_PACKS.map((pack) => {
             const pouches = getPackPouches(pack);
 
@@ -309,34 +338,61 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   className="flex-1 flex flex-col justify-between focus:outline-none group/link"
                 >
                   {/* Upper Image Area */}
-                  <div className="relative w-full h-[225px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
+                  <div className="relative w-full h-[165px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
                     {/* Top-Left Discount Badge */}
-                    <div className="absolute top-2.5 left-2.5 z-20">
-                      <span className="text-[11px] font-black tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                    <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 z-20">
+                      <span className="text-[9px] sm:text-[11px] font-black tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
                         {pack.discount}
                       </span>
                     </div>
 
                     {/* Top-Right SUPER SAVER Ribbon Badge */}
                     {pack.flagship && (
-                      <div className="absolute top-0 right-3 z-20">
-                        <div className="relative bg-amber-500 text-white text-[8.5px] font-black uppercase tracking-wider px-2 pt-1.5 pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                      <div className="absolute top-0 right-2 sm:right-3 z-20">
+                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-black uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
                           <span>SUPER</span>
                           <span className="mt-0.5">•SAVER•</span>
                           <div
-                            className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-amber-500"
+                            className="absolute -bottom-1 sm:-bottom-1.5 left-0 right-0 h-1 sm:h-1.5 bg-amber-500"
                             style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
                           />
                         </div>
                       </div>
                     )}
 
+                    {/* Top-Right Wishlist Button */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleWishlist({
+                          id: pack.id,
+                          name: pack.title,
+                          slug: pack.slug,
+                          image: pouches[0]?.img || '/images/products/chicken-harvest-front.jpg',
+                          price: pack.price,
+                          originalPrice: pack.originalPrice,
+                          size: `Pack of ${pack.packCount}`,
+                        });
+                      }}
+                      aria-label={isWishlisted(pack.id) ? "Remove from wishlist" : "Add to wishlist"}
+                      title={isWishlisted(pack.id) ? "In your Wishlist" : "Add to Wishlist"}
+                      className={`absolute top-2 right-2 z-30 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all cursor-pointer active:scale-90 ${
+                        isWishlisted(pack.id)
+                          ? 'bg-coral-50 text-coral-600 shadow-sm ring-1 ring-coral-400/40'
+                          : 'bg-white/85 backdrop-blur-xs text-plum-900/40 hover:text-coral-500 hover:bg-white shadow-2xs'
+                      }`}
+                    >
+                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${isWishlisted(pack.id) ? 'fill-coral-500 text-coral-500 scale-110' : ''}`} />
+                    </button>
+
                     {/* Overlapping Visual Pouches */}
-                    <div className="flex items-center justify-center -space-x-8 sm:-space-x-10 group-hover:-space-x-6 transition-all duration-300 pt-2">
+                    <div className="flex items-center justify-center -space-x-5 sm:-space-x-10 group-hover:-space-x-4 sm:group-hover:-space-x-6 transition-all duration-300 pt-2">
                       {pouches.map((pouch, pIdx) => (
                         <div
                           key={pIdx}
-                          className="relative w-24 h-32 sm:w-28 sm:h-36 shrink-0 transition-transform duration-300 drop-shadow-[0_8px_14px_rgba(42,26,46,0.14)] group-hover:scale-105"
+                          className="relative w-16 h-22 sm:w-28 sm:h-36 shrink-0 transition-transform duration-300 drop-shadow-[0_6px_10px_rgba(42,26,46,0.14)] group-hover:scale-105"
                           style={{
                             transform: `rotate(${(pIdx - (pouches.length - 1) / 2) * 5}deg)`,
                             zIndex: pIdx + 1,
@@ -354,27 +410,27 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     </div>
 
                     {/* Bottom Center Pack Pill */}
-                    <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
-                      <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
+                    <div className="absolute bottom-2 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                      <span className="text-[9px] sm:text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-2 sm:px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
                         Pack of {pack.packCount} • {pack.totalWeight}
                       </span>
                     </div>
                   </div>
 
                   {/* Lower Details Area */}
-                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
+                  <div className="p-2 sm:px-4 sm:pt-3 sm:pb-1.5 flex flex-col justify-between flex-1 bg-white">
                     <div>
-                      <h3 className="font-bold text-[15px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
+                      <h3 className="font-bold text-xs sm:text-[15px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
                         {pack.title}
                       </h3>
-                      <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                      <p className="text-[10px] sm:text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
                         {pack.tagline}
                       </p>
-                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
-                        <span className="text-base sm:text-lg font-black text-plum-900">
+                      <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
+                        <span className="text-sm sm:text-lg font-black text-plum-900">
                           ₹{pack.price.toLocaleString('en-IN')}
                         </span>
-                        <span className="text-xs text-plum-900/40 line-through">
+                        <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
                           ₹{pack.originalPrice.toLocaleString('en-IN')}
                         </span>
                       </div>
@@ -383,11 +439,11 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 </Link>
 
                 {/* Add to Cart Button Footer */}
-                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
+                <div className="px-2 pb-2 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={(e) => handleQuickAddPack(e, pack)}
-                    className={`w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
+                    className={`w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 ${
                       addedSlug === pack.slug
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
@@ -395,8 +451,8 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                   >
                     {addedSlug === pack.slug ? (
                       <>
-                        <Check className="w-4 h-4 stroke-[3]" />
-                        <span>Added to Cart</span>
+                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        <span>Added</span>
                       </>
                     ) : (
                       <span>Add to Cart</span>
@@ -413,7 +469,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
       {/* TAB 3: VALUE MULTI-PACK BUNDLES                                   */}
       {/* ═════════════════════════════════════════════════════════════════ */}
       {activeTab === 'multi-packs' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-5">
           {MULTI_PACK_SIZES.map((pack) => {
             const savings =
               pack.count >= 30
@@ -433,22 +489,22 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
               >
                 <div className="flex-1 flex flex-col justify-between">
                   {/* Upper Image Area */}
-                  <div className="relative w-full h-[225px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
+                  <div className="relative w-full h-[165px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
                     {/* Top-Left Discount Badge */}
-                    <div className="absolute top-2.5 left-2.5 z-20">
-                      <span className="text-[11px] font-black tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                    <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 z-20">
+                      <span className="text-[9px] sm:text-[11px] font-black tracking-wider text-white bg-peach-500 px-1.5 sm:px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
                         {savings}
                       </span>
                     </div>
 
                     {/* Top-Right Ribbon if Flagship */}
                     {pack.isFlagship && (
-                      <div className="absolute top-0 right-3 z-20">
-                        <div className="relative bg-amber-500 text-white text-[8.5px] font-black uppercase tracking-wider px-2 pt-1.5 pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                      <div className="absolute top-0 right-2 sm:right-3 z-20">
+                        <div className="relative bg-amber-500 text-white text-[7px] sm:text-[8.5px] font-black uppercase tracking-wider px-1.5 sm:px-2 pt-1 pb-1.5 sm:pt-1.5 sm:pb-2 shadow-xs text-center flex flex-col items-center leading-none">
                           <span>SUPER</span>
                           <span className="mt-0.5">•SAVER•</span>
                           <div
-                            className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-amber-500"
+                            className="absolute -bottom-1 sm:-bottom-1.5 left-0 right-0 h-1 sm:h-1.5 bg-amber-500"
                             style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
                           />
                         </div>
@@ -456,7 +512,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     )}
 
                     {/* Lineup Image */}
-                    <div className="relative w-full h-full p-2.5 flex items-center justify-center">
+                    <div className="relative w-full h-full p-2 sm:p-2.5 flex items-center justify-center">
                       <Image
                         src="/images/products/bundles/furbowl-bundle-all-three.jpg"
                         alt={`${pack.count} Pack FurBowl Meals`}
@@ -467,28 +523,28 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     </div>
 
                     {/* Bottom Center Pack Pill */}
-                    <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
-                      <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
+                    <div className="absolute bottom-2 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                      <span className="text-[9px] sm:text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-2 sm:px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
                         Pack of {pack.count}
                       </span>
                     </div>
                   </div>
 
                   {/* Lower Details Area */}
-                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
+                  <div className="p-2 sm:px-4 sm:pt-3 sm:pb-1.5 flex flex-col justify-between flex-1 bg-white">
                     <div>
-                      <h3 className="font-bold text-[15px] text-plum-900 group-hover:text-teal-600 transition-colors leading-snug line-clamp-1">
+                      <h3 className="font-bold text-xs sm:text-[15px] text-plum-900 group-hover:text-teal-600 transition-colors leading-snug line-clamp-1">
                         {pack.title}
                       </h3>
-                      <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                      <p className="text-[10px] sm:text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
                         {pack.popularFor}
                       </p>
-                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
-                        <span className="text-base sm:text-lg font-black text-plum-900">
+                      <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
+                        <span className="text-sm sm:text-lg font-black text-plum-900">
                           {savings}
                         </span>
-                        <span className="text-xs text-plum-900/50 font-bold">
-                          • {pack.count} x 100g Meals
+                        <span className="text-[10px] sm:text-xs text-plum-900/50 font-bold">
+                          • {pack.count} x 100g
                         </span>
                       </div>
                     </div>
@@ -496,13 +552,13 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 </div>
 
                 {/* Action Button Footer */}
-                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
+                <div className="px-2 pb-2 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={() => setActiveTab('trial-packs')}
-                    className="w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
+                    className="w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
                   >
-                    <span>View Flavours &bull; {savings}</span>
+                    <span>View Flavours</span>
                   </button>
                 </div>
               </div>

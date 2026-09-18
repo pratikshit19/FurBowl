@@ -15,27 +15,31 @@ import SpinWheelSlide from './SpinWheelSlide';
 
 const DEFAULT_BANNERS = [
   {
-    id: 'carousel-1',
-    image: '/images/carousel_1_3to1.png',
-    alt: 'FurBowl — 100% Natural, 0% Compromise. Shop fresh dog food now.',
-    link: '/shop',
-  },
-  {
-    id: 'spin-discount-wheel',
-    type: 'wheel',
-  },
-  {
     id: 'carousel-2',
     image: '/images/carousel_2_3to1.png',
+    imageMobile: '/images/carousel_2.png',
     alt: 'FurBowl — Can\'t Pick Just One? Let them try them all. Try the trial pack.',
     link: '/shop',
   },
   {
     id: 'carousel-3',
     image: '/images/carousel_3_3to1.png',
+    imageMobile: '/images/carousel_3.png',
     alt: 'FurBowl — A Meal for Every Mood. Discover their next favourite.',
     link: '/shop',
   },
+  {
+    id: 'carousel-1',
+    image: '/images/carousel_1_3to1.png',
+    imageMobile: '/images/carousel_1.png',
+    alt: 'FurBowl — 100% Natural, 0% Compromise. Shop fresh dog food now.',
+    link: '/shop',
+  },
+  {
+    id: 'spin-discount-wheel',
+    type: 'wheel',
+  }
+
 ];
 
 export default function HeroCarousel() {
@@ -55,11 +59,11 @@ export default function HeroCarousel() {
   }, [banners.length]);
 
   useEffect(() => {
-    // Pause auto-rotation when hovered, when wheel is spinning, or when currently on wheel slide
-    if (paused || isWheelSpinning || banners[current]?.type === 'wheel') return;
+    // Keep rotating continuously in a loop; only pause when hovered or when user is actively spinning the wheel
+    if (paused || isWheelSpinning) return;
     const id = setInterval(next, 5500);
     return () => clearInterval(id);
-  }, [next, paused, isWheelSpinning, current]);
+  }, [next, paused, isWheelSpinning]);
 
   const minSwipeDistance = 50;
 
@@ -90,10 +94,9 @@ export default function HeroCarousel() {
 
   return (
     <div className="w-full">
-      {/* Interactive Carousel Section — 3:1 Aspect Ratio Banner */}
+      {/* Interactive Carousel Section — 16:9 on mobile/small screens, 3:1 on desktop */}
       <section
-        className="relative overflow-hidden bg-butter-50/50 w-full select-none"
-        style={{ aspectRatio: '3/1', minHeight: '220px' }}
+        className="relative overflow-hidden bg-butter-50/50 w-full select-none aspect-[16/9] md:aspect-[3/1] focus:outline-none"
         aria-label="Featured promotions carousel"
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
@@ -101,13 +104,13 @@ export default function HeroCarousel() {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         onKeyDown={handleKeyDown}
-        tabIndex={0}
       >
         {/* Slides — each absolutely positioned, slide in/out via translateX */}
         {banners.map((banner, i) => (
           <div
             key={banner.id}
-            className="absolute inset-0 transition-transform duration-700 ease-in-out"
+            className={`absolute inset-0 transition-transform duration-700 ease-in-out ${i !== current ? 'pointer-events-none' : ''
+              }`}
             style={{ transform: `translateX(${(i - current) * 100}%)` }}
             aria-hidden={i !== current}
           >
@@ -118,17 +121,40 @@ export default function HeroCarousel() {
             ) : (
               <Link
                 href={banner.link}
-                className="block w-full h-full group focus:outline-none"
+                className="block w-full h-full group focus:outline-none relative"
                 tabIndex={i === current ? 0 : -1}
               >
-                <Image
-                  src={banner.image}
-                  alt={banner.alt}
-                  fill
-                  priority={i === 0}
-                  className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.01]"
-                  sizes="100vw"
-                />
+                {banner.imageMobile ? (
+                  <>
+                    {/* Small screens: 16:9 version */}
+                    <Image
+                      src={banner.imageMobile}
+                      alt={banner.alt}
+                      fill
+                      priority={i === 0}
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.01] block md:hidden"
+                      sizes="100vw"
+                    />
+                    {/* Desktop/larger screens: 3:1 version */}
+                    <Image
+                      src={banner.image}
+                      alt={banner.alt}
+                      fill
+                      priority={i === 0}
+                      className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.01] hidden md:block"
+                      sizes="100vw"
+                    />
+                  </>
+                ) : (
+                  <Image
+                    src={banner.image}
+                    alt={banner.alt}
+                    fill
+                    priority={i === 0}
+                    className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.01]"
+                    sizes="100vw"
+                  />
+                )}
               </Link>
             )}
           </div>
@@ -140,18 +166,18 @@ export default function HeroCarousel() {
             <button
               type="button"
               onClick={prev}
-              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-md hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-plum-900" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-plum-900" />
             </button>
             <button
               type="button"
               onClick={next}
-              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-lg hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-md hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
               aria-label="Next slide"
             >
-              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-plum-900" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-plum-900" />
             </button>
 
             {/* Slide Indicator Pills */}
@@ -161,11 +187,10 @@ export default function HeroCarousel() {
                   key={idx}
                   type="button"
                   onClick={() => setCurrent(idx)}
-                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    idx === current
-                      ? 'w-7 bg-[#15aec0] shadow-sm'
-                      : 'w-2.5 bg-white/70 hover:bg-white'
-                  }`}
+                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${idx === current
+                    ? 'w-7 bg-[#15aec0] shadow-sm'
+                    : 'w-2.5 bg-white/70 hover:bg-white'
+                    }`}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
               ))}
@@ -175,50 +200,50 @@ export default function HeroCarousel() {
       </section>
 
       {/* Trust & Quality Anchor Bar */}
-      <div className="bg-[#faf6ed] border-b border-plum-900/10 py-4 sm:py-5 shadow-xs">
+      <div className="bg-[#faf6ed] border-b border-plum-900/10 py-3.5 sm:py-5 shadow-xs">
         <div className="container-main">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 divide-y md:divide-y-0 md:divide-x divide-plum-900/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 md:divide-x divide-plum-900/10">
             {/* 1. Human Grade (Teal) */}
-            <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-4 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-teal-100/70 text-teal-600 flex items-center justify-center shrink-0">
-                <Utensils className="w-5 h-5 text-teal-600" />
+            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-teal-100/70 text-teal-600 flex items-center justify-center shrink-0">
+                <Utensils className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600" />
               </div>
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">Human Grade</h4>
-                <p className="text-[11px] text-plum-900/60 font-normal">Real whole meats</p>
+                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Real whole meats</p>
               </div>
             </div>
 
             {/* 2. No Preservatives (Peach) */}
-            <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-4 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-peach-100/70 text-peach-600 flex items-center justify-center shrink-0">
-                <ShieldCheck className="w-5 h-5 text-peach-600" />
+            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-peach-100/70 text-peach-600 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-peach-600" />
               </div>
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">No Preservatives</h4>
-                <p className="text-[11px] text-plum-900/60 font-normal">Zero additives</p>
+                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Zero additives</p>
               </div>
             </div>
 
             {/* 3. Complete & Balanced (Teal) */}
-            <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-4 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-teal-100/70 text-teal-600 flex items-center justify-center shrink-0">
-                <Scale className="w-5 h-5 text-teal-600" />
+            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-teal-100/70 text-teal-600 flex items-center justify-center shrink-0">
+                <Scale className="w-4 h-4 sm:w-5 sm:h-5 text-teal-600" />
               </div>
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">Complete &amp; Balanced</h4>
-                <p className="text-[11px] text-plum-900/60 font-normal">Vet approved recipes</p>
+                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Vet approved recipes</p>
               </div>
             </div>
 
             {/* 4. Made for Real Dogs (Peach) */}
-            <div className="flex items-center gap-3 pt-2 md:pt-0 md:px-4 justify-center md:justify-start">
-              <div className="w-10 h-10 rounded-full bg-peach-100/70 text-peach-600 flex items-center justify-center shrink-0">
-                <Heart className="w-5 h-5 text-peach-600" />
+            <div className="flex items-center gap-2.5 sm:gap-3 py-1 md:py-0 md:px-4 justify-start sm:justify-center md:justify-start">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-peach-100/70 text-peach-600 flex items-center justify-center shrink-0">
+                <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-peach-600" />
               </div>
               <div>
                 <h4 className="text-xs sm:text-sm font-bold text-plum-900 leading-tight">Made for Real Dogs</h4>
-                <p className="text-[11px] text-plum-900/60 font-normal">Happy tummies daily</p>
+                <p className="text-[10px] sm:text-[11px] text-plum-900/60 font-normal">Happy tummies daily</p>
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import "./globals.css";
+import AuthModal from "@/components/auth/AuthModal";
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://furbowl.in'),
@@ -41,7 +42,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full font-sans" data-scroll-behavior="smooth" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col antialiased font-sans" suppressHydrationWarning>{children}</body>
+      <body className="min-h-full flex flex-col antialiased font-sans" suppressHydrationWarning>
+        {children}
+        <AuthModal />
+      </body>
     </html>
   );
 }

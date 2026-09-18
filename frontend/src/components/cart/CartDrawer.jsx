@@ -29,37 +29,49 @@ const UPSELL_PRODUCTS = [
     id: 'upsell-bone-broth',
     name: 'Slow-Cooked Bone Broth',
     variantName: '250ml Pouch',
-    slug: 'chicken-rice-vegetables',
+    slug: 'golden-chicken-broth',
     price: 199,
     mrp: 249,
     isVeg: false,
-    imageUrl: '/images/products/broth.png',
-    fallbackImg: '/images/furbowl-golden-retriever-feast.jpg',
+    imageUrl: '/images/products/golden-chicken-broth-front.jpg',
+    fallbackImg: '/images/products/golden-chicken-broth-front.jpg',
     badge: 'Best Booster',
   },
   {
-    id: 'upsell-liver-treats',
-    name: 'Air-Dried Chicken Liver Bites',
-    variantName: '100g Pack',
+    id: 'upsell-chicken-harvest',
+    name: 'Chicken & Vegetables',
+    variantName: '100g Fresh Pouch',
     slug: 'chicken-vegetables',
-    price: 265,
-    mrp: 295,
+    price: 199,
+    mrp: 219,
     isVeg: false,
     imageUrl: '/images/products/chicken-harvest-front.jpg',
-    fallbackImg: '/images/dog1.jpg',
-    badge: '10% OFF',
+    fallbackImg: '/images/products/chicken-harvest-front.jpg',
+    badge: 'Best Seller',
   },
   {
-    id: 'upsell-veggie-superfood',
-    name: 'Paneer & Veggie Vitality Bowl',
-    variantName: '300g Fresh Pack',
+    id: 'upsell-paneer-greens',
+    name: 'Paneer & Vegetables',
+    variantName: '100g Fresh Pouch',
     slug: 'paneer-vegetables',
-    price: 289,
-    mrp: 320,
+    price: 189,
+    mrp: 209,
     isVeg: true,
-    imageUrl: '/images/products/paneer-medley-front.jpg',
-    fallbackImg: '/images/dog2.jpg',
+    imageUrl: '/images/products/paneer-greens-front.jpg',
+    fallbackImg: '/images/products/paneer-greens-front.jpg',
     badge: 'Pure Veg',
+  },
+  {
+    id: 'upsell-lamb-lentils',
+    name: 'Lamb & Lentils Harvest',
+    variantName: '100g Fresh Pouch',
+    slug: 'lamb-lentils',
+    price: 229,
+    mrp: 249,
+    isVeg: false,
+    imageUrl: '/images/products/lamb-lentil-harvest-front.jpg',
+    fallbackImg: '/images/products/lamb-lentil-harvest-front.jpg',
+    badge: 'High Iron',
   },
 ];
 
@@ -373,23 +385,23 @@ export default function CartDrawer() {
                   </h3>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
                   {UPSELL_PRODUCTS.map((upsell) => (
                     <div
                       key={upsell.id}
-                      className="bg-cream-50/80 rounded-lg p-2.5 border border-plum-900/10 flex flex-col justify-between hover:border-teal-600/30 transition-all shadow-2xs"
+                      className="bg-cream-50/80 rounded-lg p-2 sm:p-2.5 border border-plum-900/10 flex flex-col justify-between hover:border-teal-600/30 transition-all shadow-2xs"
                     >
                       <div>
-                        <div className="w-full h-20 rounded-md bg-white overflow-hidden relative mb-1.5 p-1 border border-plum-900/5">
+                        <div className="w-full h-20 sm:h-24 rounded-md bg-white overflow-hidden relative mb-1.5 p-1 border border-plum-900/5 flex items-center justify-center">
                           <Image
                             src={upsell.imageUrl || upsell.fallbackImg}
                             alt={upsell.name}
                             fill
                             className="object-contain p-1"
-                            sizes="120px"
+                            sizes="140px"
                           />
                           {upsell.badge && (
-                            <span className="absolute top-1 left-1 bg-coral-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-xs">
+                            <span className="absolute top-1 left-1 bg-coral-500 text-white text-[7.5px] sm:text-[8px] font-bold px-1.5 py-0.5 rounded-xs leading-none z-10 shadow-xs">
                               {upsell.badge}
                             </span>
                           )}
@@ -409,7 +421,7 @@ export default function CartDrawer() {
                         </div>
                         <button
                           onClick={() => handleAddUpsell(upsell)}
-                          className="w-full bg-teal-700 hover:bg-teal-800 text-white text-[11px] font-bold px-2.5 py-1.5 rounded transition-all shadow-xs cursor-pointer active:scale-95 flex items-center justify-center gap-0.5"
+                          className="w-full bg-teal-700 hover:bg-teal-800 text-white text-[11px] font-bold px-2 py-1.5 rounded transition-all shadow-xs cursor-pointer active:scale-95 flex items-center justify-center gap-0.5"
                           aria-label={`Add ${upsell.name} to cart`}
                         >
                           <Plus className="w-3 h-3 stroke-[2.5]" />

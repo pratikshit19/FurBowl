@@ -3,8 +3,10 @@
 import { useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Heart } from 'lucide-react';
 import { formatPrice } from '@/lib/constants';
 import useCartStore from '@/store/cartStore';
+import useWishlistStore from '@/store/wishlistStore';
 
 const emptySubscribe = () => () => {};
 
@@ -19,6 +21,8 @@ export default function ProductCard({ product, priority = false }) {
   const addItem = useCartStore((s) => s.addItem);
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
+  const { toggleItem, isWishlisted } = useWishlistStore();
+  const wishlisted = isWishlisted(product.id || product.slug);
 
   const primaryImage = product.images?.[0];
   const imageUrl = primaryImage?.url || '';
@@ -103,10 +107,29 @@ export default function ProductCard({ product, priority = false }) {
 
         {/* Broth / Special Badge */}
         {product.foodType === 'BROTH' && (
-          <div className="absolute top-3 right-3 bg-butter-300 text-plum-900 text-[10px] font-bold px-2 py-0.5 rounded-sm shadow-sm">
+          <div className="absolute top-3 right-10 bg-butter-300 text-plum-900 text-[10px] font-bold px-2 py-0.5 rounded-sm shadow-sm">
             Bone Broth
           </div>
         )}
+
+        {/* Wishlist Heart Button */}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleItem(product);
+          }}
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          title={wishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+          className={`absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer active:scale-90 ${
+            wishlisted
+              ? 'bg-coral-50 text-coral-600 shadow-sm ring-1 ring-coral-400/50'
+              : 'bg-white/85 backdrop-blur-xs text-plum-900/40 hover:text-coral-500 hover:bg-white shadow-2xs'
+          }`}
+        >
+          <Heart className={`w-4 h-4 transition-transform duration-200 ${wishlisted ? 'fill-coral-500 text-coral-500 scale-110' : ''}`} />
+        </button>
       </Link>
 
       {/* Info & Action Body */}

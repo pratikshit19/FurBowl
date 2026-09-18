@@ -66,8 +66,6 @@ function StarRating({ rating }) {
 export default function TestimonialsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const visibleCount = typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 3;
-
   return (
     <section className="section-padding bg-white" aria-labelledby="testimonials-heading">
       <div className="container-main">

@@ -122,11 +122,15 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  color: #25201d;
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: #25201d;
+  }
 }
 
 strong, b, th {
@@ -138,13 +142,21 @@ strong, b, th {
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* ─── Focus Styles ───────────────────────────────────────────────────────── */
 
 :focus-visible {
-  outline: 3px solid #15aec0;
-  outline-offset: 3px;
+  outline: 2px solid #15aec0;
+  outline-offset: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
 }
 
 /* ─── Selection ──────────────────────────────────────────────────────────── */

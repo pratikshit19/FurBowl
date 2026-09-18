@@ -79,13 +79,21 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#faf6ed] select-none">
-      {/* 1. Full-Bleed Studio Background (3:1 Ratio) with Dog Anchored on the Right */}
+      {/* 1. Full-Bleed Studio Background: 16:9 on small screen, 3:1 on desktop */}
+      <Image
+        src="/images/spin-wheel-banner-bg.jpg"
+        alt="FurBowl Discount Wheel"
+        fill
+        priority
+        className="object-cover object-right w-full h-full block md:hidden"
+        sizes="100vw"
+      />
       <Image
         src="/images/spin_wheel_banner_bg_3to1.jpg"
         alt="FurBowl Discount Wheel"
         fill
         priority
-        className="object-cover object-right w-full h-full"
+        className="object-cover object-right w-full h-full hidden md:block"
         sizes="100vw"
       />
 
@@ -223,17 +231,19 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
             <div
               className="w-full h-full rounded-full overflow-hidden cursor-pointer"
               onClick={spinWheel}
+              suppressHydrationWarning
               style={{
                 transform: `rotate(${rotation}deg)`,
                 transformOrigin: '50% 50%',
                 transition: spinning ? 'transform 4500ms cubic-bezier(0.17, 0.97, 0.25, 1)' : 'none',
               }}
             >
-              <svg viewBox="0 0 400 400" className="w-full h-full block">
+              <svg viewBox="0 0 400 400" className="w-full h-full block" suppressHydrationWarning>
                 {/* 6 Slices — each slice is 60°, centered so slice 0 starts at -30° from top */}
                 {OFFERS.map((offer, i) => {
                   const isTeal = i % 2 === 0;
                   const cx = 200, cy = 200, r = 200;
+                  const round = (val) => Math.round(val * 100) / 100;
 
                   // Mid-angle of this slice in degrees, measured from the top (12 o'clock = 0°)
                   const midDeg = i * 60; // degrees from top, clockwise
@@ -245,15 +255,15 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                   const startRad = ((startDeg - 90) * Math.PI) / 180;
                   const endRad = ((endDeg - 90) * Math.PI) / 180;
 
-                  const x1 = cx + r * Math.cos(startRad);
-                  const y1 = cy + r * Math.sin(startRad);
-                  const x2 = cx + r * Math.cos(endRad);
-                  const y2 = cy + r * Math.sin(endRad);
+                  const x1 = round(cx + r * Math.cos(startRad));
+                  const y1 = round(cy + r * Math.sin(startRad));
+                  const x2 = round(cx + r * Math.cos(endRad));
+                  const y2 = round(cy + r * Math.sin(endRad));
 
                   // Text position: 60% along the radius from center
                   const textR = r * 0.60;
-                  const textX = cx + textR * Math.cos(midRad);
-                  const textY = cy + textR * Math.sin(midRad);
+                  const textX = round(cx + textR * Math.cos(midRad));
+                  const textY = round(cy + textR * Math.sin(midRad));
 
                   // Text reads from outside rim inward:
                   // Top half (0-90°, 270-360°): rotate by midDeg so text points outward and is upright
@@ -272,6 +282,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                         d={`M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z`}
                         fill={isTeal ? '#15aec0' : '#ff7a59'}
                         stroke="none"
+                        suppressHydrationWarning
                       />
                       {lines.length === 1 ? (
                         <text

@@ -18,8 +18,21 @@ const app = express();
 
 // ─── Security Middleware ────────────────────────────────────────────────────
 app.use(helmet());
+const allowedOrigins = [
+  env.frontendUrl,
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'https://furbowl.co.in',
+  'https://www.furbowl.co.in',
+].filter(Boolean);
+
 app.use(cors({
-  origin: env.frontendUrl,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin) || origin.endsWith('.furbowl.co.in') || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
