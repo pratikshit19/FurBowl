@@ -8,7 +8,7 @@ export default function StorefrontLayout({ children }) {
   return (
     <>
       <Header />
-      <main id="main-content" className="flex-1 pb-16 lg:pb-0">
+      <main id="main-content" className="flex-1 pb-16 lg:pb-0 w-full min-w-0 overflow-x-clip">
         {children}
       </main>
       <Footer />

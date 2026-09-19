@@ -280,7 +280,7 @@ export default function MenuSection() {
 
                       {/* Price */}
                       <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
-                        <span className="text-base sm:text-lg font-bold text-plum-900">
+                        <span className="text-base sm:text-lg font-normal text-plum-900">
                           ₹{item.price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-xs text-plum-900/40 line-through">

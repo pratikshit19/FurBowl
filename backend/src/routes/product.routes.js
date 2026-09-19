@@ -212,4 +212,115 @@ router.get('/:slug', async (req, res, next) => {
   }
 });
 
+// GET /api/v1/products/:slug/reviews — Get reviews for a product
+router.get('/:slug/reviews', async (req, res, next) => {
+  try {
+    const product = await prisma.product.findFirst({
+      where: {
+        OR: [{ id: req.params.slug }, { slug: req.params.slug }],
+      },
+      select: { id: true },
+    });
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    const reviews = await prisma.review.findMany({
+      where: { productId: product.id, isVisible: true },
+      include: {
+        user: { select: { name: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const stats = await prisma.review.aggregate({
+      where: { productId: product.id, isVisible: true },
+      _avg: { rating: true },
+      _count: { rating: true },
+    });
+
+    res.json({
+      reviews,
+      averageRating: stats._avg.rating || 0,
+      reviewCount: stats._count.rating || 0,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/v1/products/:slug/reviews — Post a review for a product
+router.post('/:slug/reviews', async (req, res, next) => {
+  try {
+    const { rating, title, body, authorName, dogInfo } = req.body;
+    const numRating = parseInt(rating, 10);
+
+    if (!numRating || numRating < 1 || numRating > 5) {
+      return res.status(400).json({ error: 'Please select a valid rating between 1 and 5 stars.' });
+    }
+
+    const product = await prisma.product.findFirst({
+      where: {
+        OR: [{ id: req.params.slug }, { slug: req.params.slug }],
+      },
+      select: { id: true },
+    });
+
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
+
+    // Determine user (authenticated or fallback to default user)
+    let userId = req.userId;
+    if (!userId) {
+      const existingUser = await prisma.user.findFirst();
+      if (existingUser) {
+        userId = existingUser.id;
+      } else {
+        const newUser = await prisma.user.create({
+          data: {
+            email: 'guest@furbowl.com',
+            name: authorName || 'Pet Parent',
+            passwordHash: 'guest_account',
+          },
+        });
+        userId = newUser.id;
+      }
+    }
+
+    const review = await prisma.review.create({
+      data: {
+        productId: product.id,
+        userId,
+        rating: numRating,
+        title: title?.trim() || null,
+        body: body?.trim() || '',
+        isVerifiedPurchase: true,
+        isApproved: true,
+        isVisible: true,
+      },
+      include: {
+        user: { select: { name: true } },
+      },
+    });
+
+    res.status(201).json({
+      message: 'Review submitted successfully',
+      review: {
+        id: review.id,
+        rating: review.rating,
+        title: review.title,
+        body: review.body,
+        authorName: authorName || review.user?.name || 'Pet Parent',
+        dogInfo: dogInfo || null,
+        isVerifiedPurchase: true,
+        createdAt: review.createdAt,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

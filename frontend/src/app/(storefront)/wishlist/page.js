@@ -244,7 +244,7 @@ export default function WishlistPage() {
 
                     {/* Price */}
                     <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-2 mb-1.5 sm:mb-2">
-                      <span className="text-sm sm:text-lg font-bold text-plum-900">
+                      <span className="text-sm sm:text-lg font-normal text-plum-900">
                         {formatPrice(item.price)}
                       </span>
                       {item.originalPrice > item.price && (

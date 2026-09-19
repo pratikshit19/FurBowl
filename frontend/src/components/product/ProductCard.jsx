@@ -155,7 +155,7 @@ export default function ProductCard({ product, priority = false }) {
           <div>
             {primaryVariant ? (
               <div className="flex items-baseline gap-1.5">
-                <span className="text-lg font-extrabold text-plum-900 leading-none">
+                <span className="text-lg font-normal text-plum-900 leading-none">
                   {formatPrice(primaryVariant.sellingPrice)}
                 </span>
                 {hasDiscount && (

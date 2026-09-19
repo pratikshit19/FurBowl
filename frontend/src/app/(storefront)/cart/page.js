@@ -67,7 +67,7 @@ function CartItem({ item }) {
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m6-6H6" /></svg>
             </button>
           </div>
-          <span className="font-extrabold text-plum-900 text-base">{formatPrice(item.price * item.quantity)}</span>
+          <span className="font-normal text-plum-900 text-base">{formatPrice(item.price * item.quantity)}</span>
         </div>
       </div>
     </div>

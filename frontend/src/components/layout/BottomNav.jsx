@@ -19,6 +19,11 @@ export default function BottomNav() {
     setHydrated(true);
   }, []);
 
+  // Hide general bottom nav on product detail pages in favor of the dedicated sticky Add-to-Cart bar
+  if (pathname?.startsWith('/shop/') && pathname !== '/shop') {
+    return null;
+  }
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {

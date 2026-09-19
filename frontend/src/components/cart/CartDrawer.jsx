@@ -362,7 +362,7 @@ export default function CartDrawer() {
                         </div>
 
                         <div className="text-right">
-                          <span className="font-extrabold text-plum-900 text-sm block">
+                          <span className="font-normal text-plum-900 text-sm block">
                             {formatPrice(item.price * item.quantity)}
                           </span>
                           {item.mrp && Number(item.mrp) > item.price && (
@@ -412,7 +412,7 @@ export default function CartDrawer() {
 
                       <div className="mt-1.5 pt-1.5 border-t border-plum-900/5 flex flex-col gap-1.5">
                         <div>
-                          <span className="font-bold text-plum-900 text-xs leading-none">
+                          <span className="font-normal text-plum-900 text-xs leading-none">
                             {formatPrice(upsell.price)}
                           </span>
                           <span className="text-[9px] text-plum-900/40 line-through ml-1">

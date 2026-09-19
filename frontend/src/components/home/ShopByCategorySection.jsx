@@ -151,7 +151,7 @@ export default function ShopByCategorySection() {
 
                     {/* Price */}
                     <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-1.5 sm:mb-2">
-                      <span className="text-xs sm:text-base font-bold text-plum-900">
+                      <span className="text-xs sm:text-base font-normal text-plum-900">
                         From ₹{cat.price.toLocaleString('en-IN')}
                       </span>
                       <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">

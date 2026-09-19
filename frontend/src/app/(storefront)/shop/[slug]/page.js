@@ -9,6 +9,10 @@ const MOCK_PRODUCTS = {
     id: '1',
     name: 'Chicken Harvest',
     slug: 'chicken-harvest',
+    badge: 'Best Seller',
+    dogType: 'Active & Everyday Pups',
+    proteinType: 'Chicken (Single Source)',
+    highlightIngredients: 'Whole Chicken • Chicken Liver • Chicken Heart • Chicken Gizzard • Pumpkin • Carrot • Peas • Sweet Potato',
     shortDescription: 'Wholesome nutrition with real chicken, pumpkin & garden veggies.',
     description: 'A vibrant, complete meal made with high-protein fresh chicken, pumpkin, sweet potatoes, and farm-fresh carrots. Packed with wholesome nutrition and zero artificial preservatives to keep your dog energized and thriving.',
     keyBenefits: ['Real chicken as #1 ingredient', 'Complete & balanced nutrition', 'Pumpkin for healthy digestion', '100% human-grade ingredients', 'Zero artificial preservatives'],
@@ -26,12 +30,21 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken Harvest' }],
-    variants: [{ id: 'v1', name: '100g', mrp: 99, sellingPrice: 89, stockQuantity: 100 }],
+    variants: [
+      { id: 'v1-1', name: '1 Pouch (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
+      { id: 'v1-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
+      { id: 'v1-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
+      { id: 'v1-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+    ],
   },
   'chicken-homestyle': {
     id: '2',
     name: 'Chicken Homestyle',
     slug: 'chicken-homestyle',
+    badge: 'Classic Comfort',
+    dogType: 'Sensitive Stomach Pups',
+    proteinType: 'Chicken & Rice',
+    highlightIngredients: 'Whole Chicken • Chicken Liver • Chicken Heart • Rice • Pumpkin • Carrot • Peas • Sweet Potato',
     shortDescription: 'Homestyle slow-cooked chicken with rice, peas & pumpkin.',
     description: 'Inspired by comforting home-cooked meals, Chicken Homestyle combines tender shredded chicken with soft-steamed brown rice, tender green peas, and golden pumpkin. Gentle on the stomach and loved by picky eaters.',
     keyBenefits: ['Gentle on sensitive tummies', 'Lean, bioavailable chicken protein', 'High fiber for digestive regularity', 'Human-grade ingredients', 'Zero fillers or preservatives'],
@@ -49,12 +62,21 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Homestyle' }],
-    variants: [{ id: 'v2', name: '100g', mrp: 99, sellingPrice: 89, stockQuantity: 100 }],
+    variants: [
+      { id: 'v2-1', name: '1 Pouch (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
+      { id: 'v2-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
+      { id: 'v2-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
+      { id: 'v2-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+    ],
   },
   'golden-egg-quinoa': {
     id: '3',
     name: 'Golden Egg & Quinoa',
     slug: 'golden-egg-quinoa',
+    badge: 'Superfood',
+    dogType: 'High Energy & Active Pups',
+    proteinType: 'Farm Egg & Quinoa',
+    highlightIngredients: 'Egg • Quinoa • Sweet Potato • Pumpkin • Carrot • Spinach • Green Peas • Zucchini',
     shortDescription: 'Farm-fresh eggs with superfood quinoa & pumpkin for active pups.',
     description: 'A protein-rich vegetarian power bowl combining farm-fresh whole eggs with ancient quinoa, fiber-dense pumpkin, and crisp zucchini. An optimal amino acid profile that builds lean muscle and supports sustained play.',
     keyBenefits: ['Complete amino acid profile from farm eggs', 'Antioxidant-rich quinoa superfood', 'Supports active energy & stamina', 'Omega-3 fatty acids for coat shine', '100% human-grade ingredients'],
@@ -72,12 +94,21 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Golden Egg & Quinoa' }],
-    variants: [{ id: 'v3', name: '100g', mrp: 109, sellingPrice: 99, stockQuantity: 100 }],
+    variants: [
+      { id: 'v3-1', name: '1 Pouch (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
+      { id: 'v3-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
+      { id: 'v3-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
+      { id: 'v3-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+    ],
   },
   'paneer-greens': {
     id: '4',
     name: 'Paneer & Greens',
     slug: 'paneer-greens',
+    badge: '100% Veg',
+    dogType: 'Vegetarian Households',
+    proteinType: 'Fresh Paneer (100% Veg)',
+    highlightIngredients: 'Paneer • Rice • Pumpkin • Carrot • Green Peas • Spinach • Chia Seeds',
     shortDescription: 'Fresh paneer cubes with spinach, carrots & green beans.',
     description: 'A delicious vegetarian recipe featuring premium paneer cubes rich in calcium and clean protein, gently tossed with tender spinach, garden green beans, and sweet carrots. Crafted for optimal gut health and glowing coats.',
     keyBenefits: ['Fresh paneer rich in natural calcium', 'Antioxidant greens (spinach & beans)', 'Supports gut health & smooth digestion', 'Ideal for meat-sensitive dogs', 'Zero preservatives or artificial colors'],
@@ -95,12 +126,21 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Greens' }],
-    variants: [{ id: 'v4', name: '100g', mrp: 109, sellingPrice: 99, stockQuantity: 100 }],
+    variants: [
+      { id: 'v4-1', name: '1 Pouch (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
+      { id: 'v4-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
+      { id: 'v4-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
+      { id: 'v4-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+    ],
   },
   'lamb-lentil-harvest': {
     id: '5',
     name: 'Lamb Lentil Harvest',
     slug: 'lamb-lentil-harvest',
+    badge: 'High Protein',
+    dogType: 'Pickiest Eaters & Muscle Building',
+    proteinType: 'Pasture Lamb & Lentils',
+    highlightIngredients: 'Lean Lamb • Lamb Liver • Red Lentils • Sweet Potato • Carrot • Green Beans • Broccoli • Cauliflower',
     shortDescription: 'Hearty slow-cooked lamb with red lentils, sweet potato & broccoli.',
     description: 'A nutrient-dense gourmet feast featuring succulent, slow-cooked lamb paired with hearty lentils, vitamin-rich sweet potatoes, and fresh broccoli. Packed with bioavailable iron, zinc, and B-vitamins to build strength and fuel vitality.',
     keyBenefits: ['Rich red meat protein from tender lamb', 'Iron and B-vitamins for stamina', 'Dietary fiber from hearty lentils', 'Supports joint mobility & strength', 'No artificial additives or preservatives'],
@@ -118,7 +158,12 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb Lentil Harvest' }],
-    variants: [{ id: 'v5', name: '100g', mrp: 119, sellingPrice: 109, stockQuantity: 100 }],
+    variants: [
+      { id: 'v5-1', name: '1 Pouch (100g)', count: 1, mrp: 249, sellingPrice: 229, stockQuantity: 100 },
+      { id: 'v5-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1743, sellingPrice: 1449, stockQuantity: 100 },
+      { id: 'v5-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3735, sellingPrice: 2899, stockQuantity: 100 },
+      { id: 'v5-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 7470, sellingPrice: 5149, stockQuantity: 100 },
+    ],
   },
   // ─── 5 Official Recipes ───
   'chicken-vegetables': {
@@ -127,6 +172,10 @@ const MOCK_PRODUCTS = {
     slug: 'chicken-vegetables',
     shortDescription: 'A nutritious wet dog food made with whole chicken, chicken liver, heart and gizzard, combined with pumpkin, carrot, peas and sweet potato.',
     description: 'A nutritious wet dog food made with whole chicken, chicken liver, heart and gizzard, combined with pumpkin, carrot, peas and sweet potato for a wholesome everyday meal.',
+    badge: 'Best Seller',
+    dogType: 'Active & Everyday Pups',
+    proteinType: 'Chicken (Single Source)',
+    highlightIngredients: 'Whole Chicken • Chicken Liver • Chicken Heart • Chicken Gizzard • Pumpkin • Carrot • Peas • Sweet Potato',
     keyBenefits: ['Whole chicken as #1 ingredient', 'Rich in natural organ meats (liver, heart, gizzard)', 'Pumpkin & sweet potato for gentle digestion', '100% human-grade ingredients', 'Zero artificial preservatives'],
     ingredients: 'Whole Chicken, Chicken Liver, Chicken Heart, Chicken Gizzard, Pumpkin, Carrot, Peas, Sweet Potato, Cold-Pressed Flaxseed Oil, Essential Vitamins & Minerals.',
     nutritionalInfo: { energy: '112 kcal/100g', crudeProtein: '10.5%', crudeFat: '5.2%', crudeFiber: '1.4%', moisture: '77%' },
@@ -142,7 +191,12 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables Wet Dog Food' }],
-    variants: [{ id: 'v-cv', name: '100g Pouch', mrp: 219, sellingPrice: 199, stockQuantity: 100 }],
+    variants: [
+      { id: 'v-cv-1', name: '1 Pouch (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
+      { id: 'v-cv-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
+      { id: 'v-cv-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
+      { id: 'v-cv-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+    ],
   },
   'chicken-rice-vegetables': {
     id: 'chicken-rice-vegetables',
@@ -150,6 +204,10 @@ const MOCK_PRODUCTS = {
     slug: 'chicken-rice-vegetables',
     shortDescription: 'A wholesome chicken and rice wet dog food made with whole chicken, chicken liver and heart, along with pumpkin, carrot, peas and sweet potato.',
     description: 'A wholesome chicken and rice wet dog food made with whole chicken, chicken liver and heart, along with pumpkin, carrot, peas and sweet potato.',
+    badge: 'Classic Comfort',
+    dogType: 'Sensitive Stomach Pups',
+    proteinType: 'Chicken & Rice',
+    highlightIngredients: 'Whole Chicken • Chicken Liver • Chicken Heart • Rice • Pumpkin • Carrot • Peas • Sweet Potato',
     keyBenefits: ['Gentle on delicate stomachs', 'Wholesome rice for easily digestible energy', 'Chicken organ meats for vital nutrients', 'Carrot and pumpkin for gut motility', 'Zero fillers or chemical stabilizers'],
     ingredients: 'Whole Chicken, Chicken Liver, Chicken Heart, Rice, Pumpkin, Carrot, Peas, Sweet Potato, Cold-Pressed Flaxseed Oil, Essential Minerals.',
     nutritionalInfo: { energy: '110 kcal/100g', crudeProtein: '9.8%', crudeFat: '4.8%', crudeFiber: '1.5%', moisture: '78%' },
@@ -165,7 +223,12 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Rice & Vegetables Wet Dog Food' }],
-    variants: [{ id: 'v-crv', name: '100g Pouch', mrp: 219, sellingPrice: 199, stockQuantity: 100 }],
+    variants: [
+      { id: 'v-crv-1', name: '1 Pouch (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
+      { id: 'v-crv-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
+      { id: 'v-crv-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
+      { id: 'v-crv-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+    ],
   },
   'egg-superfood': {
     id: 'egg-superfood',
@@ -173,6 +236,10 @@ const MOCK_PRODUCTS = {
     slug: 'egg-superfood',
     shortDescription: 'A nutrient-packed egg wet dog food combining egg and quinoa with sweet potato, pumpkin, spinach, carrots, green peas and zucchini.',
     description: 'A nutrient-packed egg wet dog food combining egg and quinoa with sweet potato, pumpkin, spinach, carrots, green peas and zucchini for a delicious meal.',
+    badge: 'Superfood',
+    dogType: 'High Energy & Active Pups',
+    proteinType: 'Farm Egg & Quinoa',
+    highlightIngredients: 'Egg • Quinoa • Sweet Potato • Pumpkin • Carrot • Spinach • Green Peas • Zucchini',
     keyBenefits: ['Complete amino acid profile from farm eggs', 'Organic quinoa for sustained play stamina', 'Spinach, zucchini and pumpkin for antioxidants', 'Omega fatty acids for shiny coat', '100% human-grade ingredients'],
     ingredients: 'Egg, Quinoa, Sweet Potato, Pumpkin, Carrot, Spinach, Green Peas, Zucchini, Chia Seeds, Flaxseed Oil, Essential Vitamins.',
     nutritionalInfo: { energy: '115 kcal/100g', crudeProtein: '11%', crudeFat: '6%', crudeFiber: '2%', moisture: '75%' },
@@ -188,7 +255,12 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Egg Superfood Wet Dog Food' }],
-    variants: [{ id: 'v-es', name: '100g Pouch', mrp: 209, sellingPrice: 189, stockQuantity: 100 }],
+    variants: [
+      { id: 'v-es-1', name: '1 Pouch (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
+      { id: 'v-es-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
+      { id: 'v-es-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
+      { id: 'v-es-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+    ],
   },
   'paneer-vegetables': {
     id: 'paneer-vegetables',
@@ -196,6 +268,10 @@ const MOCK_PRODUCTS = {
     slug: 'paneer-vegetables',
     shortDescription: 'A wholesome vegetarian wet dog food made with paneer, rice and nutritious vegetables including pumpkin, carrot, green peas and spinach.',
     description: 'A wholesome vegetarian wet dog food made with paneer, rice and nutritious vegetables including pumpkin, carrot, green peas and spinach.',
+    badge: '100% Veg',
+    dogType: 'Vegetarian Households',
+    proteinType: 'Fresh Paneer (100% Veg)',
+    highlightIngredients: 'Paneer • Rice • Pumpkin • Carrot • Green Peas • Spinach • Chia Seeds',
     keyBenefits: ['Fresh paneer rich in natural calcium and protein', 'Chia seeds for digestive lubricity and Omega-3', 'Nutrient-dense spinach and carrots', 'Ideal for vegetarian households & sensitive pups', 'Zero artificial colors, flavors or preservatives'],
     ingredients: 'Paneer, Rice, Pumpkin, Carrot, Green Peas, Spinach, Chia Seeds, Cold-Pressed Coconut Oil, Mineral & Vitamin Blend.',
     nutritionalInfo: { energy: '114 kcal/100g', crudeProtein: '9.5%', crudeFat: '6.5%', crudeFiber: '2%', moisture: '76%' },
@@ -211,7 +287,12 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Vegetables Wet Dog Food' }],
-    variants: [{ id: 'v-pv', name: '100g Pouch', mrp: 209, sellingPrice: 189, stockQuantity: 100 }],
+    variants: [
+      { id: 'v-pv-1', name: '1 Pouch (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
+      { id: 'v-pv-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
+      { id: 'v-pv-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
+      { id: 'v-pv-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+    ],
   },
   'lamb-lentils': {
     id: 'lamb-lentils',
@@ -219,6 +300,10 @@ const MOCK_PRODUCTS = {
     slug: 'lamb-lentils',
     shortDescription: 'A hearty lamb wet dog food made with lean lamb meat and lamb liver, combined with red lentils, sweet potato and wholesome vegetables.',
     description: 'A hearty lamb wet dog food made with lean lamb meat and lamb liver, combined with red lentils, sweet potato and wholesome vegetables.',
+    badge: 'High Protein',
+    dogType: 'Pickiest Eaters & Muscle Building',
+    proteinType: 'Pasture Lamb & Lentils',
+    highlightIngredients: 'Lean Lamb • Lamb Liver • Red Lentils • Sweet Potato • Carrot • Green Beans • Broccoli • Cauliflower',
     keyBenefits: ['Lean pasture lamb & nutrient-rich lamb liver', 'Red lentils for gentle soluble fiber', 'Broccoli, cauliflower and green beans for antioxidants', 'Naturally hypoallergenic red meat source', 'Zero rendered meat meals'],
     ingredients: 'Lean Lamb, Lamb Liver, Red Lentils, Sweet Potato, Carrot, Green Beans, Broccoli, Cauliflower, Sunflower Oil, Chelated Minerals.',
     nutritionalInfo: { energy: '122 kcal/100g', crudeProtein: '12%', crudeFat: '7%', crudeFiber: '1.6%', moisture: '74%' },
@@ -234,7 +319,12 @@ const MOCK_PRODUCTS = {
     foodType: 'WET',
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils Wet Dog Food' }],
-    variants: [{ id: 'v-ll', name: '100g Pouch', mrp: 249, sellingPrice: 229, stockQuantity: 100 }],
+    variants: [
+      { id: 'v-ll-1', name: '1 Pouch (100g)', count: 1, mrp: 249, sellingPrice: 229, stockQuantity: 100 },
+      { id: 'v-ll-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1743, sellingPrice: 1449, stockQuantity: 100 },
+      { id: 'v-ll-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3735, sellingPrice: 2899, stockQuantity: 100 },
+      { id: 'v-ll-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 7470, sellingPrice: 5149, stockQuantity: 100 },
+    ],
   },
 
   // ─── Curated Trial Packs ───
@@ -244,6 +334,19 @@ const MOCK_PRODUCTS = {
     slug: 'all-recipes-trial-pack',
     shortDescription: '1 of each recipe (Chicken, Lamb, Egg & Paneer). ⭐ Best first-time discovery pack.',
     description: 'The ultimate tasting discovery pack for first-time FurBowl pups! Contains 1 pouch of all 5 chef-crafted recipes: Chicken & Vegetables, Chicken Rice & Vegetables, Egg Superfood with Quinoa, Paneer & Vegetables, and Lamb & Lentils.',
+    badge: '⭐ Best First Purchase',
+    tagline: '5 Flavours • 1 of Each Recipe',
+    packCount: 5,
+    totalWeight: '500g (5 x 100g Pouches)',
+    purpose: 'Best first-time discovery pack for pups to taste every single recipe.',
+    packIngredients: 'Chicken • Lamb • Egg • Paneer • Pumpkin • Carrot',
+    breakdown: [
+      { mealId: 'chicken-vegetables', name: 'Chicken & Vegetables', count: 1 },
+      { mealId: 'chicken-rice-vegetables', name: 'Chicken Rice with Vegetables', count: 1 },
+      { mealId: 'egg-superfood', name: 'Egg SuperFood', count: 1 },
+      { mealId: 'paneer-vegetables', name: 'Paneer Medley', count: 1 },
+      { mealId: 'lamb-lentils', name: 'Lamb & Lentils', count: 1 },
+    ],
     keyBenefits: ['1 of each recipe included (5 total pouches)', 'Find your dog’s favorite flavor effortlessly', '100% human-grade whole food ingredients', 'Vacuum-sealed freshness with cold delivery', '100% money-back taste guarantee'],
     ingredients: 'Chicken, Lamb, Egg, Paneer, Pumpkin, Carrot, Sweet Potato, Green Peas, Rice, Quinoa, Spinach, Broccoli, Lentils.',
     nutritionalInfo: { energy: '110–122 kcal/100g', crudeProtein: '9.5% – 12%', crudeFat: '4.8% – 7%', crudeFiber: '1.5%', moisture: '76%' },
@@ -273,6 +376,16 @@ const MOCK_PRODUCTS = {
     slug: 'chicken-lovers-trial-pack',
     shortDescription: '2x Chicken & Vegetables + 2x Chicken Rice with Vegetables. For poultry lovers.',
     description: 'Designed specifically for dogs who adore classic chicken flavours. Contains 2 pouches of Chicken & Vegetables and 2 pouches of Chicken Rice with Vegetables.',
+    badge: 'Chicken Lovers',
+    tagline: '2 Chicken Veg + 2 Chicken Rice',
+    packCount: 4,
+    totalWeight: '400g (4 x 100g Pouches)',
+    purpose: 'For dogs who prefer classic, irresistible poultry flavours.',
+    packIngredients: 'Whole Chicken • Chicken Liver • Pumpkin • Carrot • Green Peas',
+    breakdown: [
+      { mealId: 'chicken-vegetables', name: 'Chicken & Vegetables', count: 2 },
+      { mealId: 'chicken-rice-vegetables', name: 'Chicken Rice with Vegetables', count: 2 },
+    ],
     keyBenefits: ['2x Chicken & Veg + 2x Chicken Rice', 'Real chicken meat & organ meats', 'Packed with pumpkin, carrots and peas', 'High digestibility protein', 'Gentle on stomachs'],
     ingredients: 'Whole Chicken, Chicken Liver, Chicken Heart, Rice, Pumpkin, Carrot, Green Peas, Sweet Potato.',
     nutritionalInfo: { energy: '110 kcal/100g', crudeProtein: '10%', crudeFat: '5%', crudeFiber: '1.5%', moisture: '77%' },
@@ -300,6 +413,17 @@ const MOCK_PRODUCTS = {
     slug: 'meat-lovers-trial-pack',
     shortDescription: '1x Chicken & Veg + 1x Chicken Rice + 2x Lamb & Lentils. Protein-focused.',
     description: 'A protein-focused power pack pairing succulent chicken with rich pasture lamb and red lentils. Ideal for active dogs and muscle maintenance.',
+    badge: 'Meat-Focused',
+    tagline: '1 Chicken Veg + 1 Chicken Rice + 2 Lamb',
+    packCount: 4,
+    totalWeight: '400g (4 x 100g Pouches)',
+    purpose: 'Chicken + lamb combination; more protein-focused positioning.',
+    packIngredients: 'Chicken • Lamb • Liver • Pumpkin • Carrot • Red Lentils',
+    breakdown: [
+      { mealId: 'chicken-vegetables', name: 'Chicken & Vegetables', count: 1 },
+      { mealId: 'chicken-rice-vegetables', name: 'Chicken Rice with Vegetables', count: 1 },
+      { mealId: 'lamb-lentils', name: 'Lamb & Lentils', count: 2 },
+    ],
     keyBenefits: ['1x Chicken Veg, 1x Chicken Rice, 2x Lamb & Lentils', 'High protein red and white meat duo', 'Nutrient-rich liver for natural vitamins', 'Supports stamina and agility', 'Zero meal or byproducts'],
     ingredients: 'Chicken, Lamb, Liver, Pumpkin, Carrot, Red Lentils, Green Peas, Sweet Potato.',
     nutritionalInfo: { energy: '118 kcal/100g', crudeProtein: '11.5%', crudeFat: '6.2%', crudeFiber: '1.5%', moisture: '75%' },
@@ -327,6 +451,17 @@ const MOCK_PRODUCTS = {
     slug: 'chicken-egg-trial-pack',
     shortDescription: '1x Chicken & Veg + 1x Chicken Rice + 2x Egg SuperFood with Quinoa.',
     description: 'Combines comforting chicken recipes with farm-fresh egg and superfood quinoa for optimal coat health and muscle repair.',
+    badge: 'Familiar + Variety',
+    tagline: '1 Chicken Veg + 1 Chicken Rice + 2 Egg',
+    packCount: 4,
+    totalWeight: '400g (4 x 100g Pouches)',
+    purpose: 'Familiar chicken flavours with superfood egg for variety.',
+    packIngredients: 'Chicken • Egg • Pumpkin • Carrot • Green Peas • Quinoa',
+    breakdown: [
+      { mealId: 'chicken-vegetables', name: 'Chicken & Vegetables', count: 1 },
+      { mealId: 'chicken-rice-vegetables', name: 'Chicken Rice with Vegetables', count: 1 },
+      { mealId: 'egg-superfood', name: 'Egg SuperFood', count: 2 },
+    ],
     keyBenefits: ['1x Chicken Veg, 1x Chicken Rice, 2x Egg SuperFood', 'Egg choline and Omega fatty acids for fur shine', 'Quinoa complex carbohydrates for sustained energy', 'Gentle on stomachs', 'Zero preservatives'],
     ingredients: 'Chicken, Egg, Pumpkin, Carrot, Green Peas, Quinoa, Spinach, Sweet Potato.',
     nutritionalInfo: { energy: '112 kcal/100g', crudeProtein: '10.5%', crudeFat: '5.5%', crudeFiber: '1.8%', moisture: '76%' },
@@ -354,6 +489,19 @@ const MOCK_PRODUCTS = {
     slug: 'meat-veggie-variety-pack',
     shortDescription: '2x Chicken Veg + 1x Chicken Rice + 1x Lamb + 1x Egg + 1x Paneer.',
     description: 'Our most comprehensive tasting pack featuring 6 pouches. Includes an extra pouch of our bestselling Chicken & Vegetables alongside Lamb, Egg, Paneer, and Chicken Rice.',
+    badge: 'Ultimate Variety',
+    tagline: '2 Chicken Veg + 1 Chicken Rice + 1 Lamb + 1 Egg + 1 Paneer',
+    packCount: 6,
+    totalWeight: '600g (6 x 100g Pouches)',
+    purpose: 'Complete tasting selection with an extra serving of our #1 Chicken meal.',
+    packIngredients: 'Chicken • Lamb • Egg • Paneer • Pumpkin • Carrot',
+    breakdown: [
+      { mealId: 'chicken-vegetables', name: 'Chicken & Vegetables', count: 2 },
+      { mealId: 'chicken-rice-vegetables', name: 'Chicken Rice with Vegetables', count: 1 },
+      { mealId: 'lamb-lentils', name: 'Lamb & Lentils', count: 1 },
+      { mealId: 'egg-superfood', name: 'Egg SuperFood', count: 1 },
+      { mealId: 'paneer-vegetables', name: 'Paneer Medley', count: 1 },
+    ],
     keyBenefits: ['6 pouches total: 2x Chicken Veg + 1 of each other flavor', 'Complete variety across all poultry, meat & veg proteins', 'High bioavailability and 100% human-grade whole foods', 'Ideal for multifold taste exploration', 'Vacuum sealed freshness'],
     ingredients: 'Chicken, Lamb, Egg, Paneer, Pumpkin, Carrot, Sweet Potato, Peas, Rice, Quinoa, Spinach.',
     nutritionalInfo: { energy: '112–122 kcal/100g', crudeProtein: '9.5% – 12%', crudeFat: '5% – 7%', crudeFiber: '1.6%', moisture: '76%' },
@@ -382,6 +530,18 @@ const MOCK_PRODUCTS = {
     slug: 'all-recipes-7-pack',
     shortDescription: '1-Week Fresh Feeding Plan with Chicken, Lamb, Egg & Paneer recipes.',
     description: 'A complete 7-day fresh food rotation designed to provide daily variety, balanced nutrition, and easy transition to fresh feeding. Includes 2x Chicken & Vegetables, 2x Chicken Rice, 1x Lamb & Lentils, 1x Egg Superfood, and 1x Paneer & Vegetables.',
+    badge: '1-Week Plan',
+    tagline: '7 Fresh Pouches • 1-Week Rotational Plan',
+    packCount: 7,
+    totalWeight: '700g (7 x 100g Pouches)',
+    purpose: 'A complete weekly rotational diet for balanced vitality.',
+    breakdown: [
+      { mealId: 'chicken-vegetables', name: 'Chicken & Vegetables', count: 2 },
+      { mealId: 'chicken-rice-vegetables', name: 'Chicken Rice with Vegetables', count: 2 },
+      { mealId: 'lamb-lentils', name: 'Lamb & Lentils', count: 1 },
+      { mealId: 'egg-superfood', name: 'Egg SuperFood', count: 1 },
+      { mealId: 'paneer-vegetables', name: 'Paneer Medley', count: 1 },
+    ],
     keyBenefits: ['Complete 7-day weekly feeding plan', 'Balanced rotation across 4 unique protein sources', '100% human-grade whole food ingredients', 'Vacuum-sealed freshness for daily convenience', 'Zero artificial colors, fillers or preservatives'],
     ingredients: 'Whole Chicken, Chicken Liver, Lamb, Farm Eggs, Fresh Paneer, Pumpkin, Carrots, Sweet Potato, Quinoa, Peas, Cold-Pressed Oils, Essential Vitamins & Minerals.',
     nutritionalInfo: { energy: '110–122 kcal/100g', crudeProtein: '9.8% – 12%', crudeFat: '4.8% – 7%', crudeFiber: '1.5%', moisture: '76%' },
@@ -409,6 +569,18 @@ const MOCK_PRODUCTS = {
     slug: 'all-recipes-monthly-pack',
     shortDescription: 'Monthly full-diet subscription box with all 5 recipes (30 x 100g).',
     description: 'Our highest value monthly fresh meal box containing 30 daily vacuum-sealed pouches. Crafted with all 5 FurBowl recipes for complete nutritional variety throughout the month.',
+    badge: 'Monthly Best Value',
+    tagline: '30 Fresh Pouches • Full Month Nutrition Plan',
+    packCount: 30,
+    totalWeight: '3kg (30 x 100g Pouches)',
+    purpose: 'Complete month-long fresh feeding diet delivered with max savings.',
+    breakdown: [
+      { mealId: 'chicken-vegetables', name: 'Chicken & Vegetables', count: 10 },
+      { mealId: 'chicken-rice-vegetables', name: 'Chicken Rice with Vegetables', count: 6 },
+      { mealId: 'lamb-lentils', name: 'Lamb & Lentils', count: 6 },
+      { mealId: 'egg-superfood', name: 'Egg SuperFood', count: 4 },
+      { mealId: 'paneer-vegetables', name: 'Paneer Medley', count: 4 },
+    ],
     keyBenefits: ['30 daily fresh pouches for a full month of feeding', 'Highest savings bundle (25% OFF)', 'Rotational diet across poultry, meat, egg and vegetarian superfoods', 'Delivered in cold insulated packaging', 'Cancel or pause anytime with peace of mind'],
     ingredients: 'Whole Chicken, Chicken Liver, Lamb, Farm Eggs, Fresh Paneer, Pumpkin, Carrots, Sweet Potato, Brown Rice, Quinoa, Spinach, Green Peas, Essential Vitamins & Chelated Minerals.',
     nutritionalInfo: { energy: '110–122 kcal/100g', crudeProtein: '9.5% – 12%', crudeFat: '4.8% – 7%', crudeFiber: '1.5%', moisture: '76%' },
@@ -537,10 +709,10 @@ export default async function ProductPage({ params }) {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="bg-white border-b border-plum-900/10">
-        <div className="container-main py-3.5">
-          <nav className="text-xs md:text-sm text-plum-900/60" aria-label="Breadcrumb">
-            <ol className="flex items-center gap-2 flex-wrap">
+      <div className="bg-white border-b border-plum-900/10 w-full overflow-hidden">
+        <div className="container-main py-1.5 sm:py-2">
+          <nav className="text-[11px] sm:text-xs text-plum-900/60" aria-label="Breadcrumb">
+            <ol className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
               <li><Link href="/" className="hover:text-coral-500 transition-colors">Home</Link></li>
               <li aria-hidden="true" className="text-plum-900/30">/</li>
               <li><Link href="/shop" className="hover:text-coral-500 transition-colors">Shop</Link></li>
@@ -555,7 +727,7 @@ export default async function ProductPage({ params }) {
                 </>
               )}
               <li aria-hidden="true" className="text-plum-900/30">/</li>
-              <li className="text-plum-900 font-semibold truncate max-w-xs" aria-current="page">{product.name}</li>
+              <li className="text-plum-900 font-semibold truncate max-w-[140px] sm:max-w-xs" aria-current="page">{product.name}</li>
             </ol>
           </nav>
         </div>
@@ -566,9 +738,9 @@ export default async function ProductPage({ params }) {
 
       {/* Related Products */}
       {relatedProducts && relatedProducts.length > 0 && (
-        <section className="section-padding bg-[#f0fafb]/40 border-t border-plum-900/10" aria-labelledby="related-products-heading">
+        <section className="py-10 sm:py-16 bg-[#f0fafb]/40 border-t border-plum-900/10 w-full overflow-hidden" aria-labelledby="related-products-heading">
           <div className="container-main">
-            <h2 id="related-products-heading" className="text-2xl font-extrabold text-plum-900 tracking-tight mb-8">
+            <h2 id="related-products-heading" className="text-xl sm:text-2xl font-extrabold text-plum-900 tracking-tight mb-6 sm:mb-8">
               You Might Also Like
             </h2>
             <ProductGrid products={relatedProducts} />

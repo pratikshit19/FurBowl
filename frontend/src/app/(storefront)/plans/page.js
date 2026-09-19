@@ -254,7 +254,7 @@ export default function PlansPage() {
                     {/* Price Block */}
                     <div className="p-3.5 rounded-lg bg-[#ffe3db] border border-plum-900/5 mb-4">
                       <div className="flex items-baseline gap-2">
-                        <span className="text-3xl font-bold text-plum-900">
+                        <span className="text-3xl font-normal text-plum-900">
                           ₹{plan.price}
                         </span>
                         <span className="text-xs text-plum-900/50 line-through font-semibold">

@@ -281,7 +281,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
 
                       {/* Price */}
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-bold text-plum-900">
+                        <span className="text-sm sm:text-lg font-normal text-plum-900">
                           ₹{recipe.price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
@@ -427,7 +427,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                         {pack.tagline}
                       </p>
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-bold text-plum-900">
+                        <span className="text-sm sm:text-lg font-normal text-plum-900">
                           ₹{pack.price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
