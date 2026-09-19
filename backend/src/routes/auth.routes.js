@@ -208,6 +208,84 @@ router.post('/login', rateLimit({ windowMs: 15 * 60 * 1000, max: 10 }), async (r
   } catch (error) {
     next(error);
   }
+// POST /api/v1/auth/google — Google / Gmail OAuth Login
+router.post('/google', async (req, res, next) => {
+  try {
+    const { credential, accessToken } = req.body;
+
+    if (!credential && !accessToken) {
+      return res.status(400).json({ error: 'Google credential or access token is required' });
+    }
+
+    let payload;
+
+    if (credential) {
+      // Verify via Google tokeninfo endpoint
+      const verifyRes = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${credential}`);
+      payload = await verifyRes.json();
+      if (!verifyRes.ok || !payload.email) {
+        return res.status(401).json({ error: payload.error_description || 'Invalid Google credential' });
+      }
+    } else if (accessToken) {
+      // Verify via Google userinfo endpoint
+      const userinfoRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      payload = await userinfoRes.json();
+      if (!userinfoRes.ok || !payload.email) {
+        return res.status(401).json({ error: 'Invalid Google access token' });
+      }
+    }
+
+    const email = payload.email.toLowerCase().trim();
+    const name = payload.name || payload.given_name || null;
+
+    let user = await prisma.user.findUnique({ where: { email } });
+    let isNewUser = false;
+
+    if (!user) {
+      isNewUser = true;
+      user = await prisma.user.create({
+        data: {
+          email,
+          name,
+          emailVerified: true,
+          phoneVerified: false,
+        },
+      });
+    } else {
+      // Update name if not set yet
+      if (!user.name && name) {
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: { name, emailVerified: true },
+        });
+      }
+    }
+
+    const { accessToken: newAccessToken, refreshToken } = generateTokens(user);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
+      user: {
+        id: user.id,
+        phone: user.phone,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      },
+      token: newAccessToken,
+      isNewUser: isNewUser || !user.name,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // POST /api/v1/auth/logout

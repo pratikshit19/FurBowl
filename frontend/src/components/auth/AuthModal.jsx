@@ -53,6 +53,18 @@ export default function AuthModal() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, closeAuthModal]);
 
+  // Load Google Identity Services SDK
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (document.getElementById('google-gsi-client')) return;
+    const script = document.createElement('script');
+    script.id = 'google-gsi-client';
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+  }, []);
+
   if (!isOpen) return null;
 
   const handleSendOtp = async (e) => {
@@ -144,6 +156,76 @@ export default function AuthModal() {
       setError(err.message || 'Could not save profile name');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleSuccess = async (googlePayload) => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`${API_URL}/auth/google`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(googlePayload),
+        credentials: 'include',
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Google login failed');
+
+      setUser(data.user, data.token);
+
+      if (data.isNewUser || !data.user?.name) {
+        setStep('name');
+      } else {
+        closeAuthModal();
+      }
+    } catch (err) {
+      setError(err.message || 'Google sign-in failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const triggerGoogleLogin = () => {
+    setError('');
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
+    if (!clientId) {
+      setError('Google Sign-In is ready! Please configure NEXT_PUBLIC_GOOGLE_CLIENT_ID in your environment.');
+      return;
+    }
+
+    if (window.google?.accounts?.oauth2) {
+      try {
+        const client = window.google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: 'email profile openid',
+          callback: (tokenResponse) => {
+            if (tokenResponse.access_token) {
+              handleGoogleSuccess({ accessToken: tokenResponse.access_token });
+            } else if (tokenResponse.error) {
+              setError('Google login was cancelled or failed.');
+            }
+          },
+        });
+        client.requestAccessToken();
+      } catch (e) {
+        setError('Failed to open Google login popup.');
+      }
+    } else if (window.google?.accounts?.id) {
+      try {
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: (response) => handleGoogleSuccess({ credential: response.credential }),
+          auto_select: false,
+          cancel_on_tap_outside: true,
+        });
+        window.google.accounts.id.prompt();
+      } catch (e) {
+        setError('Google sign-in could not be loaded.');
+      }
+    } else {
+      setError('Loading Google Sign-In SDK... Please try again in a moment.');
     }
   };
 
@@ -283,17 +365,15 @@ export default function AuthModal() {
                 </div>
 
                 {/* Social Buttons */}
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col items-center justify-center gap-3">
                   {/* Google */}
                   <button
                     type="button"
-                    onClick={() => {
-                      // Seamless helper notice for quick sign-in
-                      setError('Mobile OTP is the primary verified login method for FurBowl');
-                    }}
-                    className="w-14 h-12 rounded-none border border-gray-200 hover:border-gray-300 hover:bg-gray-50 flex items-center justify-center transition-all shadow-2xs active:scale-95 cursor-pointer"
-                    title="Continue with Google"
-                    aria-label="Continue with Google"
+                    onClick={triggerGoogleLogin}
+                    disabled={loading}
+                    className="w-14 h-12 rounded-none border border-gray-200 hover:border-gray-300 hover:bg-gray-50 flex items-center justify-center transition-all shadow-2xs active:scale-95 cursor-pointer disabled:opacity-50"
+                    title="Continue with Google / Gmail"
+                    aria-label="Continue with Google / Gmail"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 24 24">
                       <path
@@ -314,10 +394,21 @@ export default function AuthModal() {
                       />
                     </svg>
                   </button>
+
+                  <p className="text-xs text-plum-900/60 text-center">
+                    Prefer email &amp; password?{' '}
+                    <Link
+                      href="/login"
+                      onClick={closeAuthModal}
+                      className="text-teal-700 hover:text-teal-800 font-bold underline"
+                    >
+                      Sign in here
+                    </Link>
+                  </p>
                 </div>
 
                 {/* Footer terms */}
-                <p className="text-[11px] text-gray-400 text-center mt-6">
+                <p className="text-[11px] text-gray-400 text-center mt-5">
                   By continuing, you agree to our{' '}
                   <Link href="/terms" onClick={closeAuthModal} className="underline hover:text-gray-600">
                     Terms of Service
