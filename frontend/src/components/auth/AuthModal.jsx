@@ -296,7 +296,11 @@ export default function AuthModal() {
       }
 
       if (data.user) {
-        updateUser(data.user);
+        if (data.token) {
+          useAuthStore.getState().setUser(data.user, data.token);
+        } else {
+          updateUser(data.user);
+        }
       } else {
         updateUser({
           name: trimmedName,

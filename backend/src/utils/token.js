@@ -10,11 +10,11 @@ export function generateTokens(user) {
   const refreshSecret = process.env.JWT_REFRESH_SECRET || secret || 'furbowlisthebestoutthere';
 
   const accessToken = jwt.sign(payload, secret, {
-    expiresIn: process.env.JWT_EXPIRY || '15m',
+    expiresIn: process.env.JWT_EXPIRY || '30d',
   });
 
   const refreshToken = jwt.sign(payload, refreshSecret, {
-    expiresIn: process.env.JWT_REFRESH_EXPIRY || '7d',
+    expiresIn: process.env.JWT_REFRESH_EXPIRY || '30d',
   });
 
   return { accessToken, refreshToken };

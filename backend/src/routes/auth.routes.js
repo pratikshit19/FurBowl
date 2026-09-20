@@ -345,18 +345,84 @@ router.put('/profile', async (req, res, next) => {
 
     const jwt = await import('jsonwebtoken');
     const secret = process.env.JWT_SECRET || 'furbowlisthebest';
-    const decoded = jwt.default.verify(token, secret);
+    let decoded;
+    try {
+      decoded = jwt.default.verify(token, secret);
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        // Fallback verify for expired tokens to prevent session loss during profile edits
+        decoded = jwt.default.verify(token, secret, { ignoreExpiration: true });
+      } else {
+        return res.status(401).json({ error: 'Invalid or expired session. Please log in again.' });
+      }
+    }
 
     const { name, email, phone } = req.body;
+    const cleanPhone = phone ? phone.replace(/\D/g, '') : (phone === null ? null : undefined);
+    const cleanEmail = email ? email.toLowerCase().trim() : (email === null ? null : undefined);
+    const cleanName = name ? name.trim() : (name === null ? null : undefined);
+
+    // 1. Check if phone is already linked to another user
+    if (cleanPhone) {
+      const existingPhoneUser = await prisma.user.findUnique({
+        where: { phone: cleanPhone },
+        include: {
+          orders: { select: { id: true } },
+          addresses: { select: { id: true } },
+        },
+      });
+
+      if (existingPhoneUser && existingPhoneUser.id !== decoded.userId) {
+        // If the other account has no email, it was created via phone OTP. Merge it into current account!
+        if (!existingPhoneUser.email) {
+          await prisma.order.updateMany({
+            where: { userId: existingPhoneUser.id },
+            data: { userId: decoded.userId },
+          });
+          await prisma.address.updateMany({
+            where: { userId: existingPhoneUser.id },
+            data: { userId: decoded.userId },
+          });
+          await prisma.cartItem.deleteMany({
+            where: { userId: existingPhoneUser.id },
+          });
+          await prisma.wishlistItem.deleteMany({
+            where: { userId: existingPhoneUser.id },
+          });
+          await prisma.user.delete({
+            where: { id: existingPhoneUser.id },
+          });
+        } else {
+          return res.status(400).json({
+            error: `This mobile number is already linked to another account (${existingPhoneUser.email}).`,
+          });
+        }
+      }
+    }
+
+    // 2. Check if email is already linked to another user
+    if (cleanEmail) {
+      const existingEmailUser = await prisma.user.findUnique({
+        where: { email: cleanEmail },
+      });
+      if (existingEmailUser && existingEmailUser.id !== decoded.userId) {
+        return res.status(400).json({
+          error: 'This email address is already linked to another account.',
+        });
+      }
+    }
+
     const updateData = {};
-    if (name !== undefined) updateData.name = name ? name.trim() : null;
-    if (email !== undefined) updateData.email = email ? email.toLowerCase().trim() : null;
-    if (phone !== undefined) updateData.phone = phone ? phone.trim() : null;
+    if (cleanName !== undefined) updateData.name = cleanName;
+    if (cleanEmail !== undefined) updateData.email = cleanEmail;
+    if (cleanPhone !== undefined) updateData.phone = cleanPhone;
 
     const user = await prisma.user.update({
       where: { id: decoded.userId },
       data: updateData,
     });
+
+    const { accessToken: newAccessToken } = generateTokens(user);
 
     res.json({
       message: 'Profile updated successfully',
@@ -367,10 +433,17 @@ router.put('/profile', async (req, res, next) => {
         name: user.name,
         role: user.role,
       },
+      token: newAccessToken,
     });
   } catch (error) {
-    if (error.name === 'JsonWebTokenError') {
-      return res.status(401).json({ error: 'Invalid token' });
+    console.error('Profile update error:', error);
+    if (error.code === 'P2002') {
+      return res.status(400).json({
+        error: 'The mobile number or email address is already registered to another account.',
+      });
+    }
+    if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+      return res.status(401).json({ error: 'Invalid or expired session. Please log in again.' });
     }
     next(error);
   }
