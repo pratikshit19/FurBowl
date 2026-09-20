@@ -8,6 +8,57 @@ import { PawPrint, Heart, Package, Home, Target, BookOpen, ArrowRight, User } fr
 import useAuthStore from '@/store/authStore';
 import useAuthModalStore from '@/store/authModalStore';
 
+const CORE_RECIPES = [
+  {
+    name: 'Chicken Harvest',
+    slug: 'chicken-harvest',
+    price: 179,
+    size: '100g Pouch',
+    image: '/images/products/chicken-harvest-front.jpg',
+    description: 'Farm fresh chicken, garden carrots, pumpkin & spinach — protein-packed daily nourishment.',
+  },
+  {
+    name: 'Chicken Homestyle',
+    slug: 'chicken-homestyle',
+    price: 189,
+    size: '100g Pouch',
+    image: '/images/products/chicken-homestyle-front.jpg',
+    description: 'Tender simmered chicken, sweet potato & peas — gentle on sensitive stomachs.',
+  },
+  {
+    name: 'Golden Egg & Quinoa',
+    slug: 'golden-egg-quinoa',
+    price: 189,
+    size: '100g Pouch',
+    image: '/images/products/golden-egg-quinoa-front.jpg',
+    description: 'Farm eggs, ancient Andean quinoa, and pumpkin — perfect for next week’s superfood energy boost.',
+  },
+  {
+    name: 'Paneer & Greens',
+    slug: 'paneer-greens',
+    price: 179,
+    size: '100g Pouch',
+    image: '/images/products/paneer-greens-front.jpg',
+    description: 'Fresh dairy paneer, spinach & peas — rich in calcium and vegetarian goodness.',
+  },
+  {
+    name: 'Lamb Lentil Harvest',
+    slug: 'lamb-lentil-harvest',
+    price: 219,
+    size: '100g Pouch',
+    image: '/images/products/lamb-lentil-harvest-front.jpg',
+    description: 'Slow-cooked lamb with sprouted lentils & zucchini for peak stamina and muscle recovery.',
+  },
+  {
+    name: 'Golden Chicken Broth',
+    slug: 'golden-chicken-broth',
+    price: 149,
+    size: '200ml Bottle',
+    image: '/images/products/golden-chicken-broth-front.jpg',
+    description: 'Slow-simmered bone broth packed with collagen, turmeric, and joint support.',
+  },
+];
+
 export default function AccountPage() {
   const router = useRouter();
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -19,11 +70,34 @@ export default function AccountPage() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [saving, setSaving] = useState(false);
+  const [stats, setStats] = useState(null);
 
   useEffect(() => {
     useAuthStore.persist.rehydrate();
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    const token = useAuthStore.getState().token;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
+    fetch(`${API_URL}/orders/stats`, {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data?.stats) {
+          setStats(data.stats);
+          useAuthStore.getState().updateUser({
+            mostOrderedProduct: data.stats.mostOrderedProduct,
+            lastOrderDate: data.stats.lastOrderDate,
+            lastOrderSummary: data.stats.lastOrderSummary,
+            lastOrderStatus: data.stats.lastOrderStatus,
+          });
+        }
+      })
+      .catch((err) => console.error('Failed to load order stats:', err));
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (user?.name) setName(user.name);
@@ -112,6 +186,16 @@ export default function AccountPage() {
     );
   }
 
+  const triedNames = new Set(
+    (stats?.triedRecipes || []).map((r) => r.toLowerCase().trim())
+  );
+  const nextRecipe = CORE_RECIPES.find((r) => !triedNames.has(r.name.toLowerCase().trim())) || CORE_RECIPES[0];
+  const recipesTriedCount = stats?.recipesTriedCount ?? (stats?.triedRecipes?.length || 0);
+  const allTried = recipesTriedCount >= 6;
+  const pupName = user?.dogName || 'Your pup';
+  const mostOrdered = stats?.mostOrderedProduct || user?.mostOrderedProduct || 'No orders yet';
+  const lastOrderText = stats?.lastOrderSummary || user?.lastOrderSummary || 'No orders yet';
+
   return (
     <div className="min-h-screen bg-butter-50/40 py-10 sm:py-16">
       <div className="container-main max-w-5xl">
@@ -126,7 +210,7 @@ export default function AccountPage() {
               Welcome, {user?.name || 'Pack Member'}!
             </h1>
             <p className="text-sm text-plum-900/60 font-normal mt-1">
-              Here is {user?.name ? `${user.name}’s` : 'your'} FurBowl dashboard. Track meal favourites, nutrition milestones, and deliveries.
+              Here is {user?.name ? `${user.name}’s` : 'your'} FurBowl dashboard. Track most ordered bowls, nutrition milestones, and deliveries.
             </p>
           </div>
 
@@ -229,12 +313,12 @@ export default function AccountPage() {
         <div className="bg-white rounded-3xl border-2 border-plum-900/10 p-6 sm:p-8 shadow-sm mb-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
-            {/* Left: Bruno Avatar & Details */}
+            {/* Left: Dog Avatar & Details */}
             <div className="lg:col-span-7 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left">
               <div className="relative w-28 h-28 shrink-0 rounded-full overflow-hidden border-4 border-butter-200 shadow-md">
                 <Image
                   src="/images/home/bruno-passport-dog.jpg"
-                  alt="Bruno"
+                  alt={pupName}
                   fill
                   className="object-cover"
                 />
@@ -242,7 +326,7 @@ export default function AccountPage() {
 
               <div>
                 <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                  <h2 className="text-2xl font-bold text-plum-900">{user?.dogName || 'Bruno'}</h2>
+                  <h2 className="text-2xl font-bold text-plum-900">{pupName}</h2>
                   <span className="inline-flex items-center gap-1 text-xs font-bold bg-coral-500/10 text-coral-600 px-2.5 py-0.5 rounded-full">
                     <span>Food Explorer</span>
                     <PawPrint className="w-3 h-3" />
@@ -252,11 +336,11 @@ export default function AccountPage() {
                 <div className="space-y-1.5 text-xs text-plum-900/70 font-medium mb-4">
                   <p className="flex items-center gap-1.5">
                     <Heart className="w-3.5 h-3.5 text-coral-500 shrink-0 inline" />
-                    <span>Favourite: <span className="font-bold text-plum-900">Chicken Harvest</span></span>
+                    <span>Most ordered: <span className="font-bold text-plum-900">{mostOrdered}</span></span>
                   </p>
                   <p className="flex items-center gap-1.5">
                     <Package className="w-3.5 h-3.5 text-amber-600 shrink-0 inline" />
-                    <span>Last order: <span className="font-bold text-plum-900">Delivered Fresh (Sep 2026)</span></span>
+                    <span>Last order: <span className="font-bold text-plum-900">{lastOrderText}</span></span>
                   </p>
                   <p className="flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-teal-600 shrink-0 inline" />
@@ -264,18 +348,21 @@ export default function AccountPage() {
                   </p>
                   <p className="flex items-center gap-1.5">
                     <Home className="w-3.5 h-3.5 text-teal-600 shrink-0 inline" />
-                    <span>Account: <span className="font-bold text-plum-900">+91 {user?.phone || 'Verified Pack Member'}</span></span>
+                    <span>Account: <span className="font-bold text-plum-900">{user?.phone ? (user.phone.startsWith('+91') ? user.phone : `+91 ${user.phone}`) : 'Verified Pack Member'}</span></span>
                   </p>
                 </div>
 
-                {/* Progress: Recipes Tried 3/6 */}
+                {/* Progress: Recipes Tried */}
                 <div className="max-w-xs">
                   <div className="flex items-center justify-between text-xs font-bold text-plum-900 mb-1.5">
                     <span>Recipes tried</span>
-                    <span className="text-coral-600">3 / 6</span>
+                    <span className="text-coral-600">{recipesTriedCount} / 6</span>
                   </div>
                   <div className="w-full h-2.5 bg-plum-900/10 rounded-full overflow-hidden">
-                    <div className="h-full bg-coral-500 rounded-full w-1/2" />
+                    <div
+                      className="h-full bg-coral-500 rounded-full transition-all duration-500"
+                      style={{ width: `${Math.min(100, Math.round((recipesTriedCount / 6) * 100))}%` }}
+                    />
                   </div>
                 </div>
               </div>
@@ -288,10 +375,14 @@ export default function AccountPage() {
                   What’s next?
                 </span>
                 <h3 className="text-base font-bold text-plum-900 mt-1 mb-2">
-                  Bruno hasn’t tried Golden Egg &amp; Quinoa yet!
+                  {allTried
+                    ? `${pupName} has tried all 6 fresh recipes! 🎉`
+                    : `${pupName} hasn’t tried ${nextRecipe.name} yet!`}
                 </h3>
                 <p className="text-xs text-plum-900/60 leading-relaxed mb-4">
-                  Farm eggs, ancient Andean quinoa, and pumpkin — perfect for next week’s superfood energy boost.
+                  {allTried
+                    ? `Keep ${pupName} thriving with a fresh monthly subscription or explore all recipes.`
+                    : nextRecipe.description}
                 </p>
               </div>
 
@@ -299,23 +390,23 @@ export default function AccountPage() {
                 <div className="flex items-center gap-2">
                   <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-white border border-plum-900/10">
                     <Image
-                      src="/images/products/golden-egg-quinoa-front.jpg"
-                      alt="Golden Egg & Quinoa"
+                      src={nextRecipe.image}
+                      alt={nextRecipe.name}
                       fill
                       className="object-contain p-1"
                     />
                   </div>
                   <div>
-                    <div className="text-xs font-bold text-plum-900">₹189</div>
-                    <div className="text-[10px] text-plum-900/50">100g Pouch</div>
+                    <div className="text-xs font-bold text-plum-900">₹{nextRecipe.price}</div>
+                    <div className="text-[10px] text-plum-900/50">{nextRecipe.size}</div>
                   </div>
                 </div>
 
                 <Link
-                  href="/shop/golden-egg-quinoa"
+                  href={`/shop/${nextRecipe.slug}`}
                   className="bg-coral-500 hover:bg-coral-600 text-white font-bold text-xs px-5 py-2 rounded shadow-sm transition-all inline-flex items-center gap-1"
                 >
-                  <span>Try Now</span>
+                  <span>{allTried ? 'Reorder' : 'Try Now'}</span>
                   <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                 </Link>
               </div>

@@ -41,7 +41,7 @@ export async function createOrderFromItems({ userId, items, address, couponCode,
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_FEE;
   const total = Math.max(0, subtotal - discount + shipping);
 
-  return prisma.$transaction(async (tx) => {
+  const createdOrder = await prisma.$transaction(async (tx) => {
     const created = await tx.order.create({
       data: {
         orderNumber: orderNumber(), userId, shippingAddressSnapshot: address, billingAddressSnapshot: address,
@@ -55,4 +55,109 @@ export async function createOrderFromItems({ userId, items, address, couponCode,
     if (coupon) await tx.coupon.update({ where: { id: coupon.id }, data: { usedCount: { increment: 1 } } });
     return created;
   });
+
+  if (userId) {
+    try {
+      await computeAndSyncUserOrderStats(userId);
+    } catch (statsErr) {
+      console.error('Failed to sync order stats after order creation:', statsErr.message);
+    }
+  }
+
+  return createdOrder;
+}
+
+export async function computeAndSyncUserOrderStats(userId) {
+  if (!userId) return null;
+
+  const orders = await prisma.order.findMany({
+    where: { userId },
+    orderBy: { createdAt: 'desc' },
+    include: { items: true },
+  });
+
+  if (!orders || orders.length === 0) {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        mostOrderedProduct: null,
+        lastOrderDate: null,
+        lastOrderSummary: null,
+        lastOrderStatus: null,
+      },
+    }).catch(() => {});
+
+    return {
+      mostOrderedProduct: null,
+      lastOrderDate: null,
+      lastOrderSummary: null,
+      lastOrderStatus: null,
+      triedRecipes: [],
+      recipesTriedCount: 0,
+      totalOrders: 0,
+    };
+  }
+
+  const productCounts = {};
+  const triedRecipesSet = new Set();
+
+  for (const order of orders) {
+    for (const item of order.items) {
+      const name = (item.productNameSnapshot || '').trim();
+      if (name) {
+        productCounts[name] = (productCounts[name] || 0) + (item.quantity || 1);
+        triedRecipesSet.add(name);
+      }
+    }
+  }
+
+  let mostOrderedProduct = null;
+  let maxCount = -1;
+  for (const [name, count] of Object.entries(productCounts)) {
+    if (count > maxCount) {
+      maxCount = count;
+      mostOrderedProduct = name;
+    }
+  }
+
+  const latestOrder = orders[0];
+  const lastOrderDate = latestOrder ? latestOrder.createdAt : null;
+  const lastOrderStatus = latestOrder ? latestOrder.fulfillmentStatus : null;
+  let lastOrderSummary = null;
+
+  if (latestOrder) {
+    const d = new Date(latestOrder.createdAt);
+    const monthYear = d.toLocaleString('en-US', { month: 'short', year: 'numeric' });
+    let statusLabel = 'Fresh Order Placed';
+    if (latestOrder.fulfillmentStatus === 'DELIVERED') {
+      statusLabel = 'Delivered Fresh';
+    } else if (latestOrder.fulfillmentStatus === 'SHIPPED') {
+      statusLabel = 'Dispatched Fresh';
+    } else if (latestOrder.fulfillmentStatus === 'PROCESSING') {
+      statusLabel = 'Preparing Fresh';
+    }
+    lastOrderSummary = `${statusLabel} (${monthYear})`;
+  }
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      mostOrderedProduct,
+      lastOrderDate,
+      lastOrderSummary,
+      lastOrderStatus,
+    },
+  }).catch((err) => {
+    console.error('Failed to sync user order stats to Supabase:', err.message);
+  });
+
+  return {
+    mostOrderedProduct,
+    lastOrderDate,
+    lastOrderSummary,
+    lastOrderStatus,
+    triedRecipes: Array.from(triedRecipesSet),
+    recipesTriedCount: triedRecipesSet.size,
+    totalOrders: orders.length,
+  };
 }

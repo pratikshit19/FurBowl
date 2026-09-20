@@ -4,7 +4,7 @@ import Razorpay from 'razorpay';
 import prisma from '../config/database.js';
 import env from '../config/env.js';
 import { authenticate } from '../middleware/auth.js';
-import { createOrderFromItems } from '../services/orders.js';
+import { createOrderFromItems, computeAndSyncUserOrderStats } from '../services/orders.js';
 
 const router = Router();
 const paymentGateway = () => new Razorpay({ key_id: env.razorpayKeyId, key_secret: env.razorpayKeySecret });
@@ -95,6 +95,10 @@ router.post('/verify', authenticate, async (req, res, next) => {
         data: { razorpayPaymentId, razorpaySignature, status: 'captured' },
       }),
     ]);
+
+    if (req.userId) {
+      computeAndSyncUserOrderStats(req.userId).catch(() => {});
+    }
 
     res.json({ orderNumber: order.orderNumber, message: 'Payment verified successfully.' });
   } catch (error) {

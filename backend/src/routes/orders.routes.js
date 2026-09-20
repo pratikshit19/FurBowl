@@ -1,9 +1,16 @@
 import { Router } from 'express';
 import prisma from '../config/database.js';
 import { authenticate } from '../middleware/auth.js';
-import { createOrderFromItems } from '../services/orders.js';
+import { createOrderFromItems, computeAndSyncUserOrderStats } from '../services/orders.js';
 
 const router = Router();
+
+router.get('/stats', authenticate, async (req, res, next) => {
+  try {
+    const stats = await computeAndSyncUserOrderStats(req.userId);
+    res.json({ stats });
+  } catch (error) { next(error); }
+});
 
 router.post('/', authenticate, async (req, res, next) => {
   try {

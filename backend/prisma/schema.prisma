@@ -74,8 +74,12 @@ model User {
   passwordHash   String?   @map("password_hash")
   role           UserRole  @default(CUSTOMER)
   emailVerified  Boolean   @default(false) @map("email_verified")
-  phoneVerified  Boolean   @default(true) @map("phone_verified")
-  createdAt      DateTime  @default(now()) @map("created_at")
+  phoneVerified      Boolean   @default(true) @map("phone_verified")
+  mostOrderedProduct String?   @map("most_ordered_product")
+  lastOrderDate      DateTime? @map("last_order_date")
+  lastOrderSummary   String?   @map("last_order_summary")
+  lastOrderStatus    String?   @map("last_order_status")
+  createdAt          DateTime  @default(now()) @map("created_at")
   updatedAt      DateTime  @updatedAt @map("updated_at")
 
   addresses      Address[]
