@@ -12,6 +12,8 @@ export default function AccountPage() {
   const { user, logout } = useAuthStore();
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -20,6 +22,8 @@ export default function AccountPage() {
 
   useEffect(() => {
     if (user?.name) setName(user.name);
+    if (user?.email) setEmail(user.email);
+    if (user?.phone) setPhone(user.phone.replace(/^\+91/, '').trim());
   }, [user]);
 
   const handleSave = async (e) => {
@@ -28,18 +32,27 @@ export default function AccountPage() {
     setSaving(true);
     try {
       const token = useAuthStore.getState().token;
-      const API_URL = process.env.NEXT_PUBLIC_API_URL;
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
+      const cleanedPhone = phone.replace(/\D/g, '');
       const res = await fetch(`${API_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ name: name.trim() }),
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim() || null,
+          phone: cleanedPhone || null,
+        }),
       });
       const data = await res.json();
       if (res.ok) {
-        useAuthStore.getState().updateUser({ name: data.user.name });
+        useAuthStore.getState().updateUser(data.user || {
+          name: name.trim(),
+          email: email.trim() || null,
+          phone: cleanedPhone || null,
+        });
         setEditing(false);
       }
     } catch (err) {
@@ -101,6 +114,32 @@ export default function AccountPage() {
                   className="w-full border border-plum-900/15 rounded-xl px-4 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-teal-500"
                   required
                 />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-plum-900/70 mb-1">Email Address</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@example.com"
+                  className="w-full border border-plum-900/15 rounded-xl px-4 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-teal-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-plum-900/70 mb-1">Mobile Number</label>
+                <div className="relative flex items-center">
+                  <span className="absolute left-3.5 text-sm font-bold text-plum-900/50 select-none">
+                    +91
+                  </span>
+                  <input
+                    type="tel"
+                    maxLength={10}
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                    placeholder="10-digit number"
+                    className="w-full pl-12 pr-4 py-2.5 border border-plum-900/15 rounded-xl text-sm text-plum-900 focus:outline-none focus:border-teal-500"
+                  />
+                </div>
               </div>
               <button
                 type="submit"

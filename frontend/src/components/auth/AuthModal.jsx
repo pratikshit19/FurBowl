@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { X, User, Package, Heart, LogOut, ArrowLeft, Loader2, CheckCircle2 } from 'lucide-react';
+import { X, User, Package, Heart, LogOut, ArrowLeft, Loader2, CheckCircle2, Pencil, Mail } from 'lucide-react';
 import useAuthModalStore from '@/store/authModalStore';
 import useAuthStore from '@/store/authStore';
 
@@ -10,7 +10,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com
 
 export default function AuthModal() {
   const { isOpen, closeAuthModal } = useAuthModalStore();
-  const { isAuthenticated, user, setUser, updateUser, logout } = useAuthStore();
+  const { isAuthenticated, user, token, setUser, updateUser, logout } = useAuthStore();
 
   const [step, setStep] = useState('phone'); // 'phone' | 'otp' | 'name'
   const [phone, setPhone] = useState('');
@@ -19,6 +19,15 @@ export default function AuthModal() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [resendCountdown, setResendCountdown] = useState(0);
+
+  // Edit profile state
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profileName, setProfileName] = useState('');
+  const [profileEmail, setProfileEmail] = useState('');
+  const [profilePhone, setProfilePhone] = useState('');
+  const [savingProfile, setSavingProfile] = useState(false);
+  const [profileError, setProfileError] = useState('');
+  const [profileSuccess, setProfileSuccess] = useState(false);
 
   const phoneInputRef = useRef(null);
   const otpInputRef = useRef(null);
@@ -32,6 +41,9 @@ export default function AuthModal() {
       setName('');
       setError('');
       setLoading(false);
+      setIsEditingProfile(false);
+      setProfileError('');
+      setProfileSuccess(false);
     }
   }, [isOpen]);
 
@@ -229,6 +241,82 @@ export default function AuthModal() {
     }
   };
 
+  const openEditProfile = () => {
+    setProfileName(user?.name || '');
+    setProfileEmail(user?.email || '');
+    setProfilePhone(user?.phone ? user.phone.replace(/^\+91/, '').trim() : '');
+    setProfileError('');
+    setProfileSuccess(false);
+    setIsEditingProfile(true);
+  };
+
+  const handleSaveProfile = async (e) => {
+    e?.preventDefault();
+    setProfileError('');
+
+    const trimmedName = profileName.trim();
+    const trimmedEmail = profileEmail.trim();
+    const cleanedPhone = profilePhone.replace(/\D/g, '');
+
+    if (!trimmedName) {
+      setProfileError('Please enter your full name');
+      return;
+    }
+
+    if (trimmedEmail && !trimmedEmail.includes('@')) {
+      setProfileError('Please enter a valid email address');
+      return;
+    }
+
+    if (cleanedPhone && cleanedPhone.length !== 10) {
+      setProfileError('Please enter a valid 10-digit mobile number');
+      return;
+    }
+
+    setSavingProfile(true);
+
+    try {
+      const currentToken = token || useAuthStore.getState().token;
+      const res = await fetch(`${API_URL}/auth/profile`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          email: trimmedEmail || null,
+          phone: cleanedPhone || null,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to update profile');
+      }
+
+      if (data.user) {
+        updateUser(data.user);
+      } else {
+        updateUser({
+          name: trimmedName,
+          email: trimmedEmail || null,
+          phone: cleanedPhone || null,
+        });
+      }
+
+      setProfileSuccess(true);
+      setTimeout(() => {
+        setIsEditingProfile(false);
+        setProfileSuccess(false);
+      }, 900);
+    } catch (err) {
+      setProfileError(err.message || 'Could not update profile. Please try again.');
+    } finally {
+      setSavingProfile(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Dark backdrop blur */}
@@ -251,50 +339,206 @@ export default function AuthModal() {
 
         {/* ─── CASE 1: ALREADY LOGGED IN ────────────────────────────────────── */}
         {isAuthenticated ? (
-          <div className="text-center pt-2">
-            <div className="w-16 h-16 rounded-full bg-peach-50 text-coral-600 mx-auto flex items-center justify-center text-xl font-bold border-2 border-coral-200 mb-3 shadow-xs">
-              {user?.name ? user.name[0].toUpperCase() : <User className="w-7 h-7" />}
+          isEditingProfile ? (
+            /* Sub-view: Edit Profile Form */
+            <div className="pt-1">
+              <div className="flex items-center gap-3 mb-5 text-left border-b border-plum-900/10 pb-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsEditingProfile(false);
+                    setProfileError('');
+                  }}
+                  className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 text-plum-900 transition-colors cursor-pointer"
+                  aria-label="Back to profile menu"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                <div>
+                  <h3 className="text-lg font-bold text-plum-900">Edit Profile</h3>
+                  <p className="text-xs text-plum-900/60">Update your account details</p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSaveProfile} className="space-y-4 text-left">
+                {/* Full Name */}
+                <div>
+                  <label className="block text-xs font-bold text-plum-900 mb-1.5">
+                    Full Name <span className="text-coral-500">*</span>
+                  </label>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3.5 text-plum-900/40">
+                      <User className="w-4 h-4" />
+                    </span>
+                    <input
+                      type="text"
+                      value={profileName}
+                      onChange={(e) => setProfileName(e.target.value)}
+                      placeholder="Your full name"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-plum-900/20 text-sm font-semibold text-plum-900 focus:outline-hidden focus:border-coral-500 focus:ring-1 focus:ring-coral-500 transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label className="block text-xs font-bold text-plum-900 mb-1.5">
+                    Email Address
+                  </label>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3.5 text-plum-900/40">
+                      <Mail className="w-4 h-4" />
+                    </span>
+                    <input
+                      type="email"
+                      value={profileEmail}
+                      onChange={(e) => setProfileEmail(e.target.value)}
+                      placeholder="name@example.com"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-plum-900/20 text-sm font-semibold text-plum-900 focus:outline-hidden focus:border-coral-500 focus:ring-1 focus:ring-coral-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="block text-xs font-bold text-plum-900 mb-1.5">
+                    Phone Number
+                  </label>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3.5 text-sm font-bold text-plum-900/50 select-none">
+                      +91
+                    </span>
+                    <input
+                      type="tel"
+                      maxLength={10}
+                      value={profilePhone}
+                      onChange={(e) => setProfilePhone(e.target.value.replace(/\D/g, ''))}
+                      placeholder="10-digit mobile number"
+                      className="w-full pl-12 pr-4 py-2.5 rounded-lg border border-plum-900/20 text-sm font-semibold text-plum-900 focus:outline-hidden focus:border-coral-500 focus:ring-1 focus:ring-coral-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* Success Message */}
+                {profileSuccess && (
+                  <div className="flex items-center gap-2 p-3 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-semibold border border-emerald-200 animate-fade-in">
+                    <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+                    <span>Profile updated successfully!</span>
+                  </div>
+                )}
+
+                {/* Error Message */}
+                {profileError && (
+                  <div className="p-3 bg-red-50 text-red-600 rounded-lg text-xs font-semibold border border-red-200 animate-fade-in">
+                    {profileError}
+                  </div>
+                )}
+
+                {/* Actions */}
+                <div className="pt-2 space-y-2">
+                  <button
+                    type="submit"
+                    disabled={savingProfile || profileSuccess}
+                    className="w-full py-3 px-4 bg-teal-700 hover:bg-teal-800 disabled:opacity-50 text-white rounded-lg text-sm font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    {savingProfile ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Saving changes...</span>
+                      </>
+                    ) : profileSuccess ? (
+                      <>
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>Saved!</span>
+                      </>
+                    ) : (
+                      'Save Changes'
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEditingProfile(false);
+                      setProfileError('');
+                    }}
+                    className="w-full py-2.5 px-4 text-xs font-bold text-plum-900/60 hover:text-plum-900 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
             </div>
+          ) : (
+            /* Main Logged In Overview */
+            <div className="text-center pt-2">
+              <div className="w-16 h-16 rounded-full bg-peach-50 text-coral-600 mx-auto flex items-center justify-center text-xl font-bold border-2 border-coral-200 mb-3 shadow-xs">
+                {user?.name ? user.name[0].toUpperCase() : <User className="w-7 h-7" />}
+              </div>
 
-            <h2 className="text-2xl font-bold text-plum-900 tracking-tight">
-              {user?.name ? `Hi, ${user.name.split(' ')[0]}!` : 'Welcome to FurBowl!'}
-            </h2>
-            <p className="text-xs text-plum-900/60 mt-1 font-mono">
-              +91 {user?.phone || phone}
-            </p>
+              <h2 className="text-2xl font-bold text-plum-900 tracking-tight">
+                {user?.name ? `Hi, ${user.name.split(' ')[0]}!` : 'Welcome to FurBowl!'}
+              </h2>
 
-            <div className="mt-6 space-y-2 text-left">
-              <Link
-                href="/account"
-                onClick={closeAuthModal}
-                className="flex items-center gap-3.5 p-3.5 rounded-xl hover:bg-[#faf6ed] text-sm font-bold text-plum-900 transition-colors border border-plum-900/5"
-              >
-                <Package className="w-5 h-5 text-teal-600" />
-                <span>My Orders & Feeding Plans</span>
-              </Link>
+              <div className="text-xs text-plum-900/60 mt-1 space-y-0.5">
+                {user?.email && (
+                  <p className="truncate font-medium">{user.email}</p>
+                )}
+                {user?.phone ? (
+                  <p className="font-mono text-plum-900/60">+91 {user.phone}</p>
+                ) : !user?.email ? (
+                  <p className="italic text-plum-900/40">No contact info saved</p>
+                ) : null}
+              </div>
 
-              <Link
-                href="/wishlist"
-                onClick={closeAuthModal}
-                className="flex items-center gap-3.5 p-3.5 rounded-xl hover:bg-[#faf6ed] text-sm font-bold text-plum-900 transition-colors border border-plum-900/5"
-              >
-                <Heart className="w-5 h-5 text-coral-500" />
-                <span>Saved Wishlist</span>
-              </Link>
+              <div className="mt-6 space-y-2 text-left">
+                <button
+                  type="button"
+                  onClick={openEditProfile}
+                  className="w-full flex items-center justify-between p-3.5 rounded-xl hover:bg-[#faf6ed] text-sm font-bold text-plum-900 transition-colors border border-plum-900/5 cursor-pointer group"
+                >
+                  <div className="flex items-center gap-3.5">
+                    <Pencil className="w-5 h-5 text-teal-600 group-hover:text-coral-600 transition-colors" />
+                    <span>Edit Profile</span>
+                  </div>
+                  <span className="text-xs font-semibold text-coral-600 bg-peach-50 px-2.5 py-0.5 rounded-full border border-coral-100">
+                    Edit
+                  </span>
+                </button>
 
-              <button
-                type="button"
-                onClick={() => {
-                  logout();
-                  closeAuthModal();
-                }}
-                className="w-full flex items-center gap-3.5 p-3.5 rounded-xl hover:bg-red-50 text-sm font-bold text-red-600 transition-colors border border-red-100 cursor-pointer mt-2"
-              >
-                <LogOut className="w-5 h-5 text-red-500" />
-                <span>Log Out</span>
-              </button>
+                <Link
+                  href="/account"
+                  onClick={closeAuthModal}
+                  className="flex items-center gap-3.5 p-3.5 rounded-xl hover:bg-[#faf6ed] text-sm font-bold text-plum-900 transition-colors border border-plum-900/5"
+                >
+                  <Package className="w-5 h-5 text-teal-600" />
+                  <span>My Orders & Feeding Plans</span>
+                </Link>
+
+                <Link
+                  href="/wishlist"
+                  onClick={closeAuthModal}
+                  className="flex items-center gap-3.5 p-3.5 rounded-xl hover:bg-[#faf6ed] text-sm font-bold text-plum-900 transition-colors border border-plum-900/5"
+                >
+                  <Heart className="w-5 h-5 text-coral-500" />
+                  <span>Saved Wishlist</span>
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    closeAuthModal();
+                  }}
+                  className="w-full flex items-center gap-3.5 p-3.5 rounded-xl hover:bg-red-50 text-sm font-bold text-red-600 transition-colors border border-red-100 cursor-pointer mt-2"
+                >
+                  <LogOut className="w-5 h-5 text-red-500" />
+                  <span>Log Out</span>
+                </button>
+              </div>
             </div>
-          </div>
+          )
         ) : (
           /* ─── CASE 2: LOG IN / SIGN UP FLOW ──────────────────────────────── */
           <div>

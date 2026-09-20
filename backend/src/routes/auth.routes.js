@@ -337,19 +337,21 @@ router.get('/me', async (req, res, next) => {
   }
 });
 
-// PUT /api/v1/auth/profile — update current user profile (name, email)
+// PUT /api/v1/auth/profile — update current user profile (name, email, phone)
 router.put('/profile', async (req, res, next) => {
   try {
     const token = req.headers.authorization?.replace('Bearer ', '');
     if (!token) return res.status(401).json({ error: 'Not authenticated' });
 
     const jwt = await import('jsonwebtoken');
-    const decoded = jwt.default.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || 'furbowlisthebest';
+    const decoded = jwt.default.verify(token, secret);
 
-    const { name, email } = req.body;
+    const { name, email, phone } = req.body;
     const updateData = {};
-    if (name !== undefined) updateData.name = name.trim();
-    if (email !== undefined) updateData.email = email.trim();
+    if (name !== undefined) updateData.name = name ? name.trim() : null;
+    if (email !== undefined) updateData.email = email ? email.toLowerCase().trim() : null;
+    if (phone !== undefined) updateData.phone = phone ? phone.trim() : null;
 
     const user = await prisma.user.update({
       where: { id: decoded.userId },
