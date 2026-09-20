@@ -36,13 +36,6 @@ export default function ProductGallery({ images, productName }) {
           className="object-contain p-2 sm:p-4 transition-all duration-300"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 520px"
         />
-
-        {/* Magnifying Glass Icon (bottom-right, matching reference image) */}
-        <div className="absolute bottom-2.5 right-2.5 w-8 h-8 rounded-full bg-white/90 shadow-2xs border border-plum-900/10 flex items-center justify-center text-plum-900/70 pointer-events-none">
-          <svg className="w-4 h-4 text-plum-900" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
       </div>
 
       {/* Carousel Controls: Arrows + Dots Indicator */}

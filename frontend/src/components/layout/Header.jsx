@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { User } from 'lucide-react';
 import { NAV_LINKS, PRODUCTS_NAV, SITE_NAME } from '@/lib/constants';
 import MobileNav from './MobileNav';
+import SearchDrawer from './SearchDrawer';
 import useCartStore from '@/store/cartStore';
 import useAuthStore from '@/store/authStore';
 import useWishlistStore from '@/store/wishlistStore';
@@ -23,8 +24,7 @@ export default function Header() {
   const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
   const [contactDropdownOpen, setContactDropdownOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [searchDrawerOpen, setSearchDrawerOpen] = useState(false);
 
   // Rehydrate stores on mount
   useEffect(() => {
@@ -56,6 +56,7 @@ export default function Header() {
     setMobileNavOpen(false);
     setProductsDropdownOpen(false);
     setContactDropdownOpen(false);
+    setSearchDrawerOpen(false);
   }, [pathname]);
 
   const handleSearchSubmit = (e) => {
@@ -120,45 +121,29 @@ export default function Header() {
               />
             </Link>
 
-            {/* Right: Profile, Wishlist, Search & Cart Icons */}
-            <div className="flex items-center gap-0.5 -mr-1">
+            {/* Right: Search & Cart Icons (Increased size for mobile touch and visibility) */}
+            <div className="flex items-center gap-1.5 sm:gap-2 -mr-1">
               <button
                 type="button"
-                onClick={openAuthModal}
-                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full text-plum-900 hover:text-coral-600 active:scale-95 transition-all cursor-pointer"
-                aria-label="Account profile"
-              >
-                <User className="w-5 h-5 stroke-[2]" />
-              </button>
-              <Link
-                href="/wishlist"
-                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full text-plum-900 hover:text-coral-600 active:scale-95 transition-all relative"
-                aria-label={`Wishlist${hydrated && wishlistCount > 0 ? ` (${wishlistCount} items)` : ''}`}
-              >
-                <svg className={`w-5 h-5 stroke-[2] ${hydrated && wishlistCount > 0 ? 'text-coral-600 fill-coral-50' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                </svg>
-              </Link>
-              <Link
-                href="/shop"
-                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full text-plum-900 hover:text-teal-600 active:scale-95 transition-all"
+                onClick={() => setSearchDrawerOpen(true)}
+                className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-plum-900 hover:text-teal-600 active:scale-95 transition-all cursor-pointer"
                 aria-label="Search products"
               >
-                <svg className="w-5 h-5 stroke-[2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6 h-6 sm:w-6.5 sm:h-6.5 stroke-[2.2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
-              </Link>
+              </button>
               <button
                 type="button"
                 onClick={() => useCartStore.getState().openDrawer()}
-                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full text-plum-900 hover:text-teal-600 relative active:scale-95 transition-all cursor-pointer"
+                className="flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 rounded-full text-plum-900 hover:text-teal-600 relative active:scale-95 transition-all cursor-pointer"
                 aria-label={`Cart${hydrated && cartCount > 0 ? ` (${cartCount} items)` : ''}`}
               >
-                <svg className="w-5 h-5 stroke-[1.8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-6.5 h-6.5 sm:w-7 sm:h-7 stroke-[2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
                 </svg>
                 {hydrated && cartCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-peach-500 text-white text-[10px] font-extrabold rounded-full flex items-center justify-center leading-none shadow-xs">
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[19px] h-5 px-1 bg-peach-500 text-white text-[11px] font-extrabold rounded-full flex items-center justify-center leading-none shadow-xs">
                     {cartCount > 9 ? '9+' : cartCount}
                   </span>
                 )}
@@ -303,8 +288,21 @@ export default function Header() {
             */}
 
             {/* Right Actions */}
-            <div className="flex items-center gap-3 sm:gap-5 shrink-0">
+            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
               
+              {/* Search Button -> Opens Right Slide-Out Search Drawer */}
+              <button
+                type="button"
+                onClick={() => setSearchDrawerOpen(true)}
+                className="relative flex items-center justify-center w-10 h-10 rounded-full text-plum-900 hover:text-teal-600 hover:bg-plum-900/5 transition-colors cursor-pointer"
+                aria-label="Search products"
+                title="Search products"
+              >
+                <svg className="w-6 h-6 stroke-[2]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+              </button>
+
               {/* Account Quick Login Button -> Opens Centered Auth Modal */}
               <button
                 type="button"
@@ -361,6 +359,7 @@ export default function Header() {
       </header>
 
       <MobileNav isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+      <SearchDrawer isOpen={searchDrawerOpen} onClose={() => setSearchDrawerOpen(false)} />
     </>
   );
 }

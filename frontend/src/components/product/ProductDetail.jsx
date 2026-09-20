@@ -306,18 +306,6 @@ export default function ProductDetail({ product }) {
                 </span>
               </button>
 
-              {product.badge && (
-                <span className="text-[11px] font-bold text-white bg-teal-700 px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs">
-                  {product.badge}
-                </span>
-              )}
-
-              {product.dogType && (
-                <span className="text-[11px] font-medium text-plum-900/85 bg-plum-900/5 border border-plum-900/10 px-2.5 py-0.5 rounded-full">
-                  🐾 {product.dogType}
-                </span>
-              )}
-
               {product.proteinType && (
                 <span className="text-[11px] font-medium text-teal-800 bg-teal-50 border border-teal-200/60 px-2.5 py-0.5 rounded-full">
                   🥩 {product.proteinType}
