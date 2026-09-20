@@ -47,9 +47,54 @@ export const metadata = {
   },
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://furbowl.co.in/#organization',
+      'name': 'FurBowl',
+      'alternateName': ['Fur Bowl', 'FurBowl Fresh Dog Food', 'FurBowl India'],
+      'url': 'https://furbowl.co.in',
+      'logo': {
+        '@type': 'ImageObject',
+        'url': 'https://furbowl.co.in/images/LOGO2.png',
+        'caption': 'FurBowl Logo',
+      },
+      'description': 'Fresh, ready-to-eat cooked dog food made with real human-grade ingredients in India.',
+      'contactPoint': {
+        '@type': 'ContactPoint',
+        'contactType': 'customer support',
+        'areaServed': 'IN',
+        'availableLanguage': ['English', 'Hindi'],
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://furbowl.co.in/#website',
+      'url': 'https://furbowl.co.in',
+      'name': 'FurBowl',
+      'publisher': {
+        '@id': 'https://furbowl.co.in/#organization',
+      },
+      'potentialAction': {
+        '@type': 'SearchAction',
+        'target': 'https://furbowl.co.in/shop?search={search_term_string}',
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="h-full font-sans" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col antialiased font-sans" suppressHydrationWarning>
         {children}
         <AuthModal />

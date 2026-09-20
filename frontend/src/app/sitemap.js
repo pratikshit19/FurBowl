@@ -1,10 +1,30 @@
 export default function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://furbowl.in';
-  const routes = ['', '/shop', '/plans', '/find-food', '/about', '/faq', '/contact', '/why-furbowl', '/shipping-returns', '/privacy-policy', '/terms-conditions'];
-  return routes.map((route) => ({
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://furbowl.co.in';
+  
+  const staticRoutes = [
+    '',
+    '/shop',
+    '/shop/chicken-harvest',
+    '/shop/chicken-homestyle',
+    '/shop/golden-egg-quinoa',
+    '/shop/paneer-greens',
+    '/shop/lamb-lentil-harvest',
+    '/shop/golden-chicken-broth',
+    '/plans',
+    '/find-food',
+    '/why-furbowl',
+    '/about',
+    '/faq',
+    '/contact',
+    '/shipping-returns',
+    '/privacy-policy',
+    '/terms-conditions',
+  ];
+
+  return staticRoutes.map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
-    changeFrequency: route === '/shop' ? 'weekly' : 'monthly',
-    priority: route === '' ? 1 : route === '/shop' ? 0.9 : 0.7,
+    changeFrequency: route.startsWith('/shop') ? 'weekly' : 'monthly',
+    priority: route === '' ? 1.0 : route === '/shop' || route.startsWith('/shop/') ? 0.9 : 0.7,
   }));
 }
