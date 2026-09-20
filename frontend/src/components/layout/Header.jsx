@@ -47,7 +47,24 @@ export default function Header() {
   const logout = useAuthStore((s) => s.logout);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const y = window.scrollY;
+          setScrolled((prev) => {
+            // Hysteresis: collapse when scrolling past 50px, re-expand only when returning to top (<= 10px)
+            // This prevents the scroll oscillation / wiggle loop caused by header height reduction
+            if (!prev && y > 50) return true;
+            if (prev && y <= 10) return false;
+            return prev;
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -70,23 +87,26 @@ export default function Header() {
 
   return (
     <>
+      {/* Main Sticky Header — Stays fixed at the top while scrolling */}
       <header
         className={`sticky top-0 z-50 w-full transition-shadow duration-200 bg-white border-b border-plum-900/10 ${
           scrolled ? 'shadow-md' : ''
         }`}
       >
-        {/* Top Announcement Bar */}
+        {/* Top Announcement Bar — Collapses smoothly on scroll without layout oscillation or text clipping */}
         <div
-          className={`bg-[#15aec0] text-white text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 ease-in-out overflow-hidden ${
-            scrolled ? 'max-h-0 py-0 opacity-0' : 'max-h-12 py-2 px-4 opacity-100'
+          className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out bg-[#15aec0] text-white ${
+            scrolled ? 'grid-rows-[0fr] opacity-0 pointer-events-none' : 'grid-rows-[1fr] opacity-100'
           }`}
         >
-          <div className="container-main flex items-center justify-center text-center">
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-butter-100 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.25h2.25c.427 0 .831.18 1.117.495l2.25 2.54m-5.617-3.035H12m-9 0h9" />
-              </svg>
-              <span>Free shipping on orders above ₹499</span>
+          <div className="overflow-hidden">
+            <div className="py-2 px-4 text-xs sm:text-sm font-semibold tracking-wide flex items-center justify-center text-center">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-butter-100 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.25h2.25c.427 0 .831.18 1.117.495l2.25 2.54m-5.617-3.035H12m-9 0h9" />
+                </svg>
+                <span>Free shipping on orders above ₹499</span>
+              </div>
             </div>
           </div>
         </div>
