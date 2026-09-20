@@ -71,7 +71,13 @@ export async function computeAndSyncUserOrderStats(userId) {
   if (!userId) return null;
 
   const orders = await prisma.order.findMany({
-    where: { userId },
+    where: {
+      userId,
+      OR: [
+        { paymentStatus: 'PAID' },
+        { paymentMethod: 'COD', fulfillmentStatus: { not: 'CANCELLED' } },
+      ],
+    },
     orderBy: { createdAt: 'desc' },
     include: { items: true },
   });

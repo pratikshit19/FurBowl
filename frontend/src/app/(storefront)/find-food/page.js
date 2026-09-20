@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
 import ScrollReveal from '@/components/common/ScrollReveal';
+import useAuthStore from '@/store/authStore';
 
 const PROTEIN_OPTIONS = [
   { id: 'chicken', label: 'Chicken', icon: Drumstick, desc: 'Lean & digestible farm poultry' },
@@ -36,10 +37,17 @@ const VIBE_OPTIONS = [
 ];
 
 export default function FindFoodPage() {
+  const { user } = useAuthStore();
   const [step, setStep] = useState(1);
-  const [pupName, setPupName] = useState('Bruno');
+  const [pupName, setPupName] = useState(user?.dogName || '');
   const [selectedProtein, setSelectedProtein] = useState('chicken');
   const [selectedVibe, setSelectedVibe] = useState('zoomies');
+
+  useEffect(() => {
+    if (user?.dogName) {
+      setPupName(user.dogName);
+    }
+  }, [user?.dogName]);
 
   const getResults = () => {
     if (selectedProtein === 'chicken') {
@@ -93,7 +101,7 @@ export default function FindFoodPage() {
             What does your pup love?
           </h1>
           <p className="text-sm sm:text-base text-plum-900/60 font-normal">
-            Every bowl is tailored for individual tastes and digestive comfort. Let’s calibrate Bruno’s taste profile.
+            Every bowl is tailored for individual tastes and digestive comfort. Let’s calibrate {pupName ? `${pupName}’s` : 'your pup’s'} taste profile.
           </p>
         </div>
 
@@ -248,7 +256,7 @@ export default function FindFoodPage() {
                         onClick={() => setStep(3)}
                         className="bg-coral-500 hover:bg-coral-600 text-white font-bold text-sm px-8 py-3.5 rounded shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2"
                       >
-                        <span>Show Taste Profile</span>
+                        <span>Show {pupName ? `${pupName}’s` : 'Taste'} Profile</span>
                         <ArrowRight className="w-4 h-4 shrink-0" />
                       </button>
                     </div>

@@ -19,6 +19,7 @@ import {
   ArrowLeft 
 } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
+import useAuthStore from '@/store/authStore';
 
 const PROTEIN_OPTIONS = [
   { id: 'chicken', label: 'Chicken', icon: Drumstick, desc: 'Lean & digestible' },
@@ -35,46 +36,53 @@ const VIBE_OPTIONS = [
 ];
 
 export default function PickTheirPlateSection() {
+  const { user } = useAuthStore();
   const [step, setStep] = useState(1);
   const [selectedProtein, setSelectedProtein] = useState('chicken');
   const [selectedVibe, setSelectedVibe] = useState('zoomies');
 
+  const activeDogName = user?.dogName || null;
+
   // Match recipes based on protein choice
   const getMatches = () => {
     if (selectedProtein === 'chicken') {
+      const name = activeDogName || 'Bruno';
       return {
         topMatch: MOCKUP_RECIPES.find((r) => r.id === 'chicken-harvest'),
         secondMatch: MOCKUP_RECIPES.find((r) => r.id === 'chicken-homestyle'),
         wildCard: MOCKUP_RECIPES.find((r) => r.id === 'golden-chicken-broth'),
-        pupTitle: 'Meet Bruno — The Chicken Chaser',
-        pupDesc: 'Bruno loves real poultry and crisp garden veggies. Here are his chef-calibrated top matches!',
+        pupTitle: `Meet ${name} — The Chicken Chaser`,
+        pupDesc: `${name} loves real poultry and crisp garden veggies. Here are their chef-calibrated top matches!`,
       };
     }
     if (selectedProtein === 'lamb') {
+      const name = activeDogName || 'Simba';
       return {
         topMatch: MOCKUP_RECIPES.find((r) => r.id === 'lamb-lentil-harvest'),
         secondMatch: MOCKUP_RECIPES.find((r) => r.id === 'chicken-harvest'),
         wildCard: MOCKUP_RECIPES.find((r) => r.id === 'golden-chicken-broth'),
-        pupTitle: 'Meet Simba — The Flavor Champion',
-        pupDesc: 'Simba craves rich iron and hearty warmth. These slow-simmered dishes are tailor-made!',
+        pupTitle: `Meet ${name} — The Flavor Champion`,
+        pupDesc: `${name} craves rich iron and hearty warmth. These slow-simmered dishes are tailor-made!`,
       };
     }
     if (selectedProtein === 'egg') {
+      const name = activeDogName || 'Bella';
       return {
         topMatch: MOCKUP_RECIPES.find((r) => r.id === 'golden-egg-quinoa'),
         secondMatch: MOCKUP_RECIPES.find((r) => r.id === 'paneer-greens'),
         wildCard: MOCKUP_RECIPES.find((r) => r.id === 'golden-chicken-broth'),
-        pupTitle: 'Meet Bella — The Superfood Hound',
-        pupDesc: 'Bella thrives on clean farm proteins and wholesome super grains for radiant stamina!',
+        pupTitle: `Meet ${name} — The Superfood Hound`,
+        pupDesc: `${name} thrives on clean farm proteins and wholesome super grains for radiant stamina!`,
       };
     }
     // paneer
+    const name = activeDogName || 'Oreo';
     return {
       topMatch: MOCKUP_RECIPES.find((r) => r.id === 'paneer-greens'),
       secondMatch: MOCKUP_RECIPES.find((r) => r.id === 'golden-egg-quinoa'),
       wildCard: MOCKUP_RECIPES.find((r) => r.id === 'chicken-harvest'),
-      pupTitle: 'Meet Oreo — The Gentle Gourmet',
-      pupDesc: 'Oreo adores tender cottage cheese cubes and fresh wilted greens for smooth digestion!',
+      pupTitle: `Meet ${name} — The Gentle Gourmet`,
+      pupDesc: `${name} adores tender cottage cheese cubes and fresh wilted greens for smooth digestion!`,
     };
   };
 
@@ -233,7 +241,7 @@ export default function PickTheirPlateSection() {
                       onClick={() => setStep(3)}
                       className="bg-coral-500 hover:bg-coral-600 text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-md hover:shadow-lg transition-all inline-flex items-center gap-2"
                     >
-                      <span>Show Bruno’s Matches</span>
+                      <span>Show {activeDogName ? `${activeDogName}’s` : 'Bruno’s'} Matches</span>
                       <ArrowRight className="w-4 h-4 shrink-0" />
                     </button>
                   </div>

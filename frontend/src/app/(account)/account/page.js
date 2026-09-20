@@ -333,14 +333,14 @@ export default function AccountPage() {
                   </span>
                 </div>
 
-                <div className="space-y-1.5 text-xs text-plum-900/70 font-medium mb-4">
+                <div className="space-y-2 text-xs text-plum-900/70 font-medium">
                   <p className="flex items-center gap-1.5">
                     <Heart className="w-3.5 h-3.5 text-coral-500 shrink-0 inline" />
-                    <span>Most ordered: <span className="font-bold text-plum-900">{mostOrdered}</span></span>
+                    <span>Most ordered: <span className={stats?.mostOrderedProduct || user?.mostOrderedProduct ? "font-bold text-plum-900" : "font-semibold text-plum-900/60"}>{stats?.mostOrderedProduct || user?.mostOrderedProduct || 'No orders yet'}</span></span>
                   </p>
                   <p className="flex items-center gap-1.5">
                     <Package className="w-3.5 h-3.5 text-amber-600 shrink-0 inline" />
-                    <span>Last order: <span className="font-bold text-plum-900">{lastOrderText}</span></span>
+                    <span>Last order: <span className={stats?.lastOrderSummary || user?.lastOrderSummary ? "font-bold text-plum-900" : "font-semibold text-plum-900/60"}>{stats?.lastOrderSummary || user?.lastOrderSummary || 'No orders yet'}</span></span>
                   </p>
                   <p className="flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-teal-600 shrink-0 inline" />
@@ -350,20 +350,6 @@ export default function AccountPage() {
                     <Home className="w-3.5 h-3.5 text-teal-600 shrink-0 inline" />
                     <span>Account: <span className="font-bold text-plum-900">{user?.phone ? (user.phone.startsWith('+91') ? user.phone : `+91 ${user.phone}`) : 'Verified Pack Member'}</span></span>
                   </p>
-                </div>
-
-                {/* Progress: Recipes Tried */}
-                <div className="max-w-xs">
-                  <div className="flex items-center justify-between text-xs font-bold text-plum-900 mb-1.5">
-                    <span>Recipes tried</span>
-                    <span className="text-coral-600">{recipesTriedCount} / 6</span>
-                  </div>
-                  <div className="w-full h-2.5 bg-plum-900/10 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-coral-500 rounded-full transition-all duration-500"
-                      style={{ width: `${Math.min(100, Math.round((recipesTriedCount / 6) * 100))}%` }}
-                    />
-                  </div>
                 </div>
               </div>
             </div>
