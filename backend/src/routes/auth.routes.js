@@ -208,6 +208,8 @@ router.post('/login', rateLimit({ windowMs: 15 * 60 * 1000, max: 10 }), async (r
   } catch (error) {
     next(error);
   }
+});
+
 // POST /api/v1/auth/google — Google / Gmail OAuth Login
 router.post('/google', async (req, res, next) => {
   try {
