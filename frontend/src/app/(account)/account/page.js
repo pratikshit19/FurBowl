@@ -6,10 +6,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PawPrint, Heart, Package, Home, Target, BookOpen, ArrowRight, User } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
+import useAuthModalStore from '@/store/authModalStore';
 
 export default function AccountPage() {
   const router = useRouter();
-  const { user, logout } = useAuthStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
+  const [hydrated, setHydrated] = useState(false);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,6 +20,7 @@ export default function AccountPage() {
 
   useEffect(() => {
     useAuthStore.persist.rehydrate();
+    setHydrated(true);
   }, []);
 
   useEffect(() => {
@@ -61,6 +64,40 @@ export default function AccountPage() {
       setSaving(false);
     }
   };
+
+  // If logged out, never show dashboard or Edit Profile
+  if (hydrated && (!isAuthenticated || !user)) {
+    return (
+      <div className="min-h-[75vh] flex items-center justify-center p-6 bg-butter-50/40">
+        <div className="max-w-md w-full bg-white rounded-2xl p-8 sm:p-10 shadow-lg border border-plum-900/10 text-center animate-fade-in">
+          <div className="w-16 h-16 rounded-full bg-peach-50 text-coral-600 mx-auto flex items-center justify-center mb-4 border-2 border-coral-200">
+            <User className="w-8 h-8 text-coral-500" />
+          </div>
+          <h2 className="text-2xl font-bold text-plum-900 tracking-tight mb-2">
+            Please Log In
+          </h2>
+          <p className="text-sm text-plum-900/60 mb-6">
+            You must be logged in to view your orders, feeding plans, and profile.
+          </p>
+          <div className="space-y-3">
+            <button
+              type="button"
+              onClick={() => useAuthModalStore.getState().openAuthModal()}
+              className="w-full py-3 px-6 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl shadow-xs transition-colors cursor-pointer text-sm"
+            >
+              Log In / Sign Up
+            </button>
+            <Link
+              href="/"
+              className="block w-full py-2.5 px-4 text-xs font-bold text-plum-900/60 hover:text-plum-900 transition-colors text-center"
+            >
+              Back to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-butter-50/40 py-10 sm:py-16">

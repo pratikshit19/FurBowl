@@ -32,9 +32,9 @@ export default function AuthModal() {
   const phoneInputRef = useRef(null);
   const otpInputRef = useRef(null);
 
-  // Reset state on close
+  // Reset state on close or when logged out
   useEffect(() => {
-    if (!isOpen) {
+    if (!isOpen || !isAuthenticated || !user) {
       setStep('phone');
       setPhone('');
       setOtp('');
@@ -45,7 +45,7 @@ export default function AuthModal() {
       setProfileError('');
       setProfileSuccess(false);
     }
-  }, [isOpen]);
+  }, [isOpen, isAuthenticated, user]);
 
   // Resend OTP countdown
   useEffect(() => {
@@ -342,7 +342,7 @@ export default function AuthModal() {
         </button>
 
         {/* ─── CASE 1: ALREADY LOGGED IN ────────────────────────────────────── */}
-        {isAuthenticated ? (
+        {Boolean(isAuthenticated && user) ? (
           isEditingProfile ? (
             /* Sub-view: Edit Profile Form */
             <div className="pt-1">
@@ -532,6 +532,9 @@ export default function AuthModal() {
                 <button
                   type="button"
                   onClick={() => {
+                    setIsEditingProfile(false);
+                    setProfileError('');
+                    setProfileSuccess(false);
                     logout();
                     closeAuthModal();
                   }}

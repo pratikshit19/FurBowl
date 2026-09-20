@@ -24,6 +24,9 @@ const useAuthStore = create(
       logout: () => {
         if (typeof window !== 'undefined') {
           useCartStore.getState().logoutCart();
+          try {
+            localStorage.removeItem('furbowl-auth');
+          } catch (e) {}
         }
         set({ user: null, token: null, isAuthenticated: false });
       },
