@@ -239,6 +239,10 @@ router.post('/google', async (req, res, next) => {
       }
     }
 
+    if (!payload || !payload.email) {
+      return res.status(401).json({ error: 'Could not retrieve email from Google profile' });
+    }
+
     const email = payload.email.toLowerCase().trim();
     const name = payload.name || payload.given_name || null;
 
@@ -256,37 +260,46 @@ router.post('/google', async (req, res, next) => {
         },
       });
     } else {
-      // Update name if not set yet
-      if (!user.name && name) {
+      // Update name if not set yet, or ensure email is marked verified
+      const updateData = {};
+      if (!user.name && name) updateData.name = name;
+      if (!user.emailVerified) updateData.emailVerified = true;
+
+      if (Object.keys(updateData).length > 0) {
         user = await prisma.user.update({
           where: { id: user.id },
-          data: { name, emailVerified: true },
+          data: updateData,
         });
       }
     }
 
     const { accessToken: newAccessToken, refreshToken } = generateTokens(user);
 
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    try {
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+    } catch (cookieErr) {
+      console.warn('Cookie set warning:', cookieErr.message);
+    }
 
-    res.json({
+    return res.json({
       user: {
         id: user.id,
-        phone: user.phone,
+        phone: user.phone || null,
         email: user.email,
-        name: user.name,
-        role: user.role,
+        name: user.name || name || 'Pet Parent',
+        role: user.role || 'CUSTOMER',
       },
       token: newAccessToken,
       isNewUser: isNewUser || !user.name,
     });
   } catch (error) {
-    next(error);
+    console.error('Google Auth Error:', error);
+    return res.status(500).json({ error: error.message || 'Google sign-in encountered an internal error.' });
   }
 });
 
