@@ -70,6 +70,7 @@ model User {
   phone          String?   @unique
   email          String?   @unique
   name           String?
+  dogName        String?   @map("dog_name")
   passwordHash   String?   @map("password_hash")
   role           UserRole  @default(CUSTOMER)
   emailVerified  Boolean   @default(false) @map("email_verified")

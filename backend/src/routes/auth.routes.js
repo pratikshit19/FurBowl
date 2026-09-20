@@ -104,6 +104,7 @@ router.post('/verify-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 8, key: (r
         phone: user.phone,
         email: user.email,
         name: user.name,
+        dogName: user.dogName || null,
         role: user.role,
       },
       token: accessToken,
@@ -200,6 +201,7 @@ router.post('/login', rateLimit({ windowMs: 15 * 60 * 1000, max: 10 }), async (r
         phone: user.phone,
         email: user.email,
         name: user.name,
+        dogName: user.dogName || null,
         role: user.role,
       },
       token: accessToken,
@@ -292,6 +294,7 @@ router.post('/google', async (req, res, next) => {
         phone: user.phone || null,
         email: user.email,
         name: user.name || name || 'Pet Parent',
+        dogName: user.dogName || null,
         role: user.role || 'CUSTOMER',
       },
       token: newAccessToken,
@@ -326,6 +329,7 @@ router.get('/me', async (req, res, next) => {
         phone: user.phone,
         email: user.email,
         name: user.name,
+        dogName: user.dogName || null,
         role: user.role,
       },
     });
@@ -357,10 +361,11 @@ router.put('/profile', async (req, res, next) => {
       }
     }
 
-    const { name, email, phone } = req.body;
+    const { name, email, phone, dogName, password } = req.body;
     const cleanPhone = phone ? phone.replace(/\D/g, '') : (phone === null ? null : undefined);
     const cleanEmail = email ? email.toLowerCase().trim() : (email === null ? null : undefined);
     const cleanName = name ? name.trim() : (name === null ? null : undefined);
+    const cleanDogName = dogName !== undefined ? (dogName ? dogName.trim() : null) : undefined;
 
     // 1. Check if phone is already linked to another user
     if (cleanPhone) {
@@ -416,6 +421,15 @@ router.put('/profile', async (req, res, next) => {
     if (cleanName !== undefined) updateData.name = cleanName;
     if (cleanEmail !== undefined) updateData.email = cleanEmail;
     if (cleanPhone !== undefined) updateData.phone = cleanPhone;
+    if (cleanDogName !== undefined) updateData.dogName = cleanDogName;
+
+    // 3. Update password if provided
+    if (password && password.trim()) {
+      if (password.trim().length < 6) {
+        return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
+      }
+      updateData.passwordHash = await bcrypt.hash(password.trim(), 10);
+    }
 
     const user = await prisma.user.update({
       where: { id: decoded.userId },
@@ -431,6 +445,7 @@ router.put('/profile', async (req, res, next) => {
         phone: user.phone,
         email: user.email,
         name: user.name,
+        dogName: user.dogName,
         role: user.role,
       },
       token: newAccessToken,

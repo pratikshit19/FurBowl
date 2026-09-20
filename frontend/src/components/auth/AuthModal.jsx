@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { X, User, Package, Heart, LogOut, ArrowLeft, Loader2, CheckCircle2, Pencil, Mail } from 'lucide-react';
+import { X, User, Package, Heart, LogOut, ArrowLeft, Loader2, CheckCircle2, Pencil, Mail, Lock, Eye, EyeOff, PawPrint } from 'lucide-react';
 import useAuthModalStore from '@/store/authModalStore';
 import useAuthStore from '@/store/authStore';
 
@@ -23,8 +23,11 @@ export default function AuthModal() {
   // Edit profile state
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileName, setProfileName] = useState('');
+  const [profileDogName, setProfileDogName] = useState('');
   const [profileEmail, setProfileEmail] = useState('');
   const [profilePhone, setProfilePhone] = useState('');
+  const [profilePassword, setProfilePassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [savingProfile, setSavingProfile] = useState(false);
   const [profileError, setProfileError] = useState('');
   const [profileSuccess, setProfileSuccess] = useState(false);
@@ -243,8 +246,11 @@ export default function AuthModal() {
 
   const openEditProfile = () => {
     setProfileName(user?.name || '');
+    setProfileDogName(user?.dogName || '');
     setProfileEmail(user?.email || '');
     setProfilePhone(user?.phone ? user.phone.replace(/^\+91/, '').trim() : '');
+    setProfilePassword('');
+    setShowPassword(false);
     setProfileError('');
     setProfileSuccess(false);
     setIsEditingProfile(true);
@@ -255,8 +261,10 @@ export default function AuthModal() {
     setProfileError('');
 
     const trimmedName = profileName.trim();
+    const trimmedDogName = profileDogName.trim();
     const trimmedEmail = profileEmail.trim();
     const cleanedPhone = profilePhone.replace(/\D/g, '');
+    const trimmedPassword = profilePassword.trim();
 
     if (!trimmedName) {
       setProfileError('Please enter your full name');
@@ -273,21 +281,33 @@ export default function AuthModal() {
       return;
     }
 
+    if (trimmedPassword && trimmedPassword.length < 6) {
+      setProfileError('Password must be at least 6 characters long');
+      return;
+    }
+
     setSavingProfile(true);
 
     try {
       const currentToken = token || useAuthStore.getState().token;
+      const payload = {
+        name: trimmedName,
+        email: trimmedEmail || null,
+        phone: cleanedPhone || null,
+        dogName: trimmedDogName || null,
+      };
+
+      if (trimmedPassword) {
+        payload.password = trimmedPassword;
+      }
+
       const res = await fetch(`${API_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           ...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
         },
-        body: JSON.stringify({
-          name: trimmedName,
-          email: trimmedEmail || null,
-          phone: cleanedPhone || null,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
@@ -306,9 +326,11 @@ export default function AuthModal() {
           name: trimmedName,
           email: trimmedEmail || null,
           phone: cleanedPhone || null,
+          dogName: trimmedDogName || null,
         });
       }
 
+      setProfilePassword('');
       setProfileSuccess(true);
       setTimeout(() => {
         setIsEditingProfile(false);
@@ -385,6 +407,25 @@ export default function AuthModal() {
                   </div>
                 </div>
 
+                {/* Pup's / Dog's Name */}
+                <div>
+                  <label className="block text-xs font-bold text-plum-900 mb-1.5">
+                    Pup's Name
+                  </label>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3.5 text-coral-500">
+                      <PawPrint className="w-4 h-4" />
+                    </span>
+                    <input
+                      type="text"
+                      value={profileDogName}
+                      onChange={(e) => setProfileDogName(e.target.value)}
+                      placeholder="e.g. Bruno, Max, Bella"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-plum-900/20 text-sm font-semibold text-plum-900 focus:outline-hidden focus:border-coral-500 focus:ring-1 focus:ring-coral-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
                 {/* Email */}
                 <div>
                   <label className="block text-xs font-bold text-plum-900 mb-1.5">
@@ -421,6 +462,38 @@ export default function AuthModal() {
                       placeholder="10-digit mobile number"
                       className="w-full pl-12 pr-4 py-2.5 rounded-lg border border-plum-900/20 text-sm font-semibold text-plum-900 focus:outline-hidden focus:border-coral-500 focus:ring-1 focus:ring-coral-500 transition-colors"
                     />
+                  </div>
+                </div>
+
+                {/* Password */}
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-bold text-plum-900">
+                      Set Password
+                    </label>
+                    <span className="text-[10px] text-plum-900/50">
+                      Leave blank to keep unchanged
+                    </span>
+                  </div>
+                  <div className="relative flex items-center">
+                    <span className="absolute left-3.5 text-plum-900/40">
+                      <Lock className="w-4 h-4" />
+                    </span>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      value={profilePassword}
+                      onChange={(e) => setProfilePassword(e.target.value)}
+                      placeholder="•••••••• (min 6 characters)"
+                      className="w-full pl-10 pr-10 py-2.5 rounded-lg border border-plum-900/20 text-sm font-semibold text-plum-900 focus:outline-hidden focus:border-coral-500 focus:ring-1 focus:ring-coral-500 transition-colors"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((p) => !p)}
+                      className="absolute right-3 text-plum-900/40 hover:text-plum-900 cursor-pointer transition-colors"
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
                   </div>
                 </div>
 
@@ -484,6 +557,13 @@ export default function AuthModal() {
               <h2 className="text-2xl font-bold text-plum-900 tracking-tight">
                 {user?.name ? `Hi, ${user.name.split(' ')[0]}!` : 'Welcome to FurBowl!'}
               </h2>
+
+              {user?.dogName && (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-peach-50 text-coral-600 rounded-full text-xs font-bold mt-2 border border-coral-200 shadow-2xs">
+                  <PawPrint className="w-3.5 h-3.5 text-coral-500" />
+                  <span>Pup: {user.dogName}</span>
+                </div>
+              )}
 
               <div className="text-xs text-plum-900/60 mt-1 space-y-0.5">
                 {user?.email && (

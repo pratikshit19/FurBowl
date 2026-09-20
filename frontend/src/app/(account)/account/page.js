@@ -14,8 +14,10 @@ export default function AccountPage() {
   const [hydrated, setHydrated] = useState(false);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState('');
+  const [dogName, setDogName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export default function AccountPage() {
 
   useEffect(() => {
     if (user?.name) setName(user.name);
+    if (user?.dogName) setDogName(user.dogName);
     if (user?.email) setEmail(user.email);
     if (user?.phone) setPhone(user.phone.replace(/^\+91/, '').trim());
   }, [user]);
@@ -37,25 +40,35 @@ export default function AccountPage() {
       const token = useAuthStore.getState().token;
       const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
       const cleanedPhone = phone.replace(/\D/g, '');
+      const payload = {
+        name: name.trim(),
+        dogName: dogName.trim() || null,
+        email: email.trim() || null,
+        phone: cleanedPhone || null,
+      };
+      if (password.trim()) {
+        payload.password = password.trim();
+      }
       const res = await fetch(`${API_URL}/auth/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim() || null,
-          phone: cleanedPhone || null,
-        }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (res.ok) {
         useAuthStore.getState().updateUser(data.user || {
           name: name.trim(),
+          dogName: dogName.trim() || null,
           email: email.trim() || null,
           phone: cleanedPhone || null,
         });
+        if (data.token) {
+          useAuthStore.getState().setUser(data.user, data.token);
+        }
+        setPassword('');
         setEditing(false);
       }
     } catch (err) {
@@ -153,6 +166,16 @@ export default function AccountPage() {
                 />
               </div>
               <div>
+                <label className="block text-xs font-bold text-plum-900/70 mb-1">Pup's Name</label>
+                <input
+                  type="text"
+                  value={dogName}
+                  onChange={(e) => setDogName(e.target.value)}
+                  placeholder="e.g. Bruno, Max, Bella"
+                  className="w-full border border-plum-900/15 rounded-xl px-4 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-teal-500"
+                />
+              </div>
+              <div>
                 <label className="block text-xs font-bold text-plum-900/70 mb-1">Email Address</label>
                 <input
                   type="email"
@@ -177,6 +200,19 @@ export default function AccountPage() {
                     className="w-full pl-12 pr-4 py-2.5 border border-plum-900/15 rounded-xl text-sm text-plum-900 focus:outline-none focus:border-teal-500"
                   />
                 </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-plum-900/70">Set Password</label>
+                  <span className="text-[10px] text-plum-900/50">Leave blank to keep unchanged</span>
+                </div>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="•••••••• (min 6 characters)"
+                  className="w-full border border-plum-900/15 rounded-xl px-4 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-teal-500"
+                />
               </div>
               <button
                 type="submit"
