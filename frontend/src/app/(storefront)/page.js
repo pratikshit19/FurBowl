@@ -1,5 +1,6 @@
 import HeroCarousel from '@/components/home/HeroCarousel';
 import ShopByCategorySection from '@/components/home/ShopByCategorySection';
+import WhyFurBowlSection from '@/components/home/WhyFurBowlSection';
 import IngredientsSection from '@/components/home/IngredientsSection';
 import MenuSection from '@/components/home/MenuSection';
 import ComparisonSection from '@/components/home/ComparisonSection';
@@ -20,7 +21,10 @@ export default function HomePage() {
       {/* 2. Shop by Category */}
       <ShopByCategorySection />
 
-      {/* 3. Our Ingredients */}
+      {/* 3. Why FurBowl */}
+      <WhyFurBowlSection />
+
+      {/* 4. Food so real you could eat it yourself (Our Ingredients) */}
       <IngredientsSection />
 
       {/* 4. Our Products / Meals */}
