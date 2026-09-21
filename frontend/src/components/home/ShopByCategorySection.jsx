@@ -9,7 +9,7 @@ const CATEGORIES = [
   {
     id: 'trial-packs',
     name: 'Trial Packs',
-    tagline: 'Test before you trust with real sample pouches',
+    tagline: '5 delicious recipes. One easy way to discover their favourite.',
     packOf: 'Pack of 5',
     discount: '17% OFF',
     isSuperSaver: true,
@@ -22,7 +22,7 @@ const CATEGORIES = [
   {
     id: 'monthly-packs',
     name: 'Monthly Packs',
-    tagline: 'Auto-delivered monthly batches with max savings',
+    tagline: 'Their favourite meals, delivered regularly.',
     packOf: 'Pack of 30',
     discount: '25% OFF',
     isSuperSaver: true,
@@ -35,7 +35,7 @@ const CATEGORIES = [
   {
     id: 'build-your-box',
     name: 'Build Your Own Box',
-    tagline: 'Mix & match any 6 chef-crafted recipes',
+    tagline: 'Pick their favourites and create your own variety pack.',
     packOf: 'Custom 6-Pack',
     discount: '17% OFF',
     isSuperSaver: false,
@@ -67,9 +67,6 @@ export default function ShopByCategorySection() {
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div>
-            <div className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200/60 mb-2">
-              <span>Curated Feeding Journeys</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
               Shop by Category
             </h2>
@@ -145,7 +142,7 @@ export default function ShopByCategorySection() {
                     </h3>
 
                     {/* Subtitle / Tagline */}
-                    <p className="text-[10.5px] sm:text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                    <p className="text-[10.5px] sm:text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-2 min-h-[2rem] sm:min-h-[2.25rem]">
                       {cat.tagline}
                     </p>
 
