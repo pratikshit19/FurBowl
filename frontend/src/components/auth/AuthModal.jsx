@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { X, User, Package, Heart, LogOut, ArrowLeft, Loader2, CheckCircle2, Pencil, Mail, Lock, Eye, EyeOff, PawPrint } from 'lucide-react';
 import useAuthModalStore from '@/store/authModalStore';
 import useAuthStore from '@/store/authStore';
+import { msg91SendOtp, msg91VerifyOtp, msg91RetryOtp, initMsg91Widget } from '@/lib/msg91';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
 
@@ -80,6 +81,11 @@ export default function AuthModal() {
     document.body.appendChild(script);
   }, []);
 
+  // Initialize MSG91 OTP Widget (Custom UI headless mode)
+  useEffect(() => {
+    initMsg91Widget().catch((err) => console.warn('MSG91 init warning:', err));
+  }, []);
+
   if (!isOpen) return null;
 
   const handleSendOtp = async (e) => {
@@ -93,6 +99,17 @@ export default function AuthModal() {
     setError('');
 
     try {
+      let msg91Sent = false;
+      try {
+        const msg91Res = await msg91SendOtp(cleaned);
+        if (msg91Res?.success) {
+          msg91Sent = true;
+        }
+      } catch (msg91Err) {
+        console.warn('MSG91 sendOtp note:', msg91Err?.message);
+      }
+
+      // Also notify backend /auth/send-otp (stores dev OTP & rate limits)
       const res = await fetch(`${API_URL}/auth/send-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,7 +117,7 @@ export default function AuthModal() {
         credentials: 'include',
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to send OTP');
+      if (!res.ok && !msg91Sent) throw new Error(data.error || 'Failed to send OTP');
       
       setStep('otp');
       setResendCountdown(30);
@@ -115,18 +132,31 @@ export default function AuthModal() {
     e?.preventDefault();
     const cleanedPhone = phone.replace(/\D/g, '');
     const cleanedOtp = otp.replace(/\D/g, '');
-    if (cleanedOtp.length !== 6) {
-      setError('Please enter the 6-digit OTP');
+    if (cleanedOtp.length < 4) {
+      setError('Please enter the OTP');
       return;
     }
     setLoading(true);
     setError('');
 
     try {
+      let accessToken = null;
+
+      // 1. Try verifying with MSG91 custom UI SDK
+      try {
+        const msg91Res = await msg91VerifyOtp(cleanedOtp);
+        if (msg91Res?.token) {
+          accessToken = msg91Res.token;
+        }
+      } catch (msg91Err) {
+        console.warn('MSG91 verifyOtp note:', msg91Err?.message);
+      }
+
+      // 2. Complete verification with backend
       const res = await fetch(`${API_URL}/auth/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: cleanedPhone, otp: cleanedOtp }),
+        body: JSON.stringify({ phone: cleanedPhone, otp: cleanedOtp, accessToken }),
         credentials: 'include',
       });
       const data = await res.json();
@@ -144,6 +174,16 @@ export default function AuthModal() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleResendOtp = async () => {
+    if (resendCountdown > 0) return;
+    try {
+      await msg91RetryOtp();
+    } catch (e) {
+      console.warn('MSG91 retryOtp note:', e?.message);
+    }
+    handleSendOtp();
   };
 
   const handleSaveName = async (e) => {
@@ -774,7 +814,7 @@ export default function AuthModal() {
                     Enter Verification Code
                   </h2>
                   <p className="text-sm text-plum-900/60 mt-1.5">
-                    We sent a 6-digit OTP to{' '}
+                    We sent a verification code to{' '}
                     <span className="font-bold text-plum-900">+91 {phone}</span>
                   </p>
                 </div>
@@ -790,7 +830,7 @@ export default function AuthModal() {
                         setOtp(e.target.value.replace(/\D/g, ''));
                         setError('');
                       }}
-                      placeholder="• • • • • •"
+                      placeholder="• • • •"
                       style={{ outline: 'none', boxShadow: 'none' }}
                       className="w-full text-center tracking-[0.35em] font-mono text-2xl py-3 rounded-none border border-gray-200 focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 focus:border-gray-300 font-bold text-plum-900 !outline-none placeholder:text-gray-300"
                       required
@@ -802,7 +842,7 @@ export default function AuthModal() {
 
                   <button
                     type="submit"
-                    disabled={loading || otp.length !== 6}
+                    disabled={loading || otp.length < 4}
                     className="w-full bg-[#ff4e20] hover:bg-[#e84318] active:scale-[0.98] text-white font-bold py-3.5 px-6 rounded-none transition-all shadow-md shadow-coral-500/25 text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
@@ -825,7 +865,7 @@ export default function AuthModal() {
                   ) : (
                     <button
                       type="button"
-                      onClick={handleSendOtp}
+                      onClick={handleResendOtp}
                       className="text-xs font-bold text-coral-600 hover:text-coral-700 underline cursor-pointer"
                     >
                       Resend OTP

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Phone, Mail } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
+import { msg91SendOtp, msg91VerifyOtp, msg91RetryOtp, initMsg91Widget } from '@/lib/msg91';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -11,6 +12,10 @@ function PhoneStep({ onOtpSent }) {
   const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    initMsg91Widget().catch((err) => console.warn('MSG91 init warning:', err));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +26,16 @@ function PhoneStep({ onOtpSent }) {
     }
     setLoading(true); setError('');
     try {
+      let msg91Sent = false;
+      try {
+        const msg91Res = await msg91SendOtp(cleaned);
+        if (msg91Res?.success) {
+          msg91Sent = true;
+        }
+      } catch (msg91Err) {
+        console.warn('MSG91 sendOtp note:', msg91Err?.message);
+      }
+
       const res = await fetch(`${API_URL}/auth/send-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -28,7 +43,7 @@ function PhoneStep({ onOtpSent }) {
         credentials: 'include',
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to send OTP');
+      if (!res.ok && !msg91Sent) throw new Error(data.error || 'Failed to send OTP');
       onOtpSent(cleaned);
     } catch (e) {
       setError(e.message);
@@ -79,18 +94,24 @@ function PhoneStep({ onOtpSent }) {
 }
 
 function OtpStep({ phone, onSuccess, onBack }) {
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [otp, setOtp] = useState(['', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [resendTimer, setResendTimer] = useState(30);
   const inputsRef = useRef([]);
+
+  useEffect(() => {
+    if (resendTimer <= 0) return;
+    const interval = setInterval(() => setResendTimer((prev) => prev - 1), 1000);
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   const handleChange = (index, value) => {
     const digit = value.replace(/\D/g, '').slice(-1);
     const newOtp = [...otp];
     newOtp[index] = digit;
     setOtp(newOtp);
-    if (digit && index < 5) {
+    if (digit && index < 3) {
       inputsRef.current[index + 1]?.focus();
     }
   };
@@ -102,23 +123,36 @@ function OtpStep({ phone, onSuccess, onBack }) {
   };
 
   const handlePaste = (e) => {
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
-    if (pasted.length === 6) {
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+    if (pasted.length === 4) {
       setOtp(pasted.split(''));
-      inputsRef.current[5]?.focus();
+      inputsRef.current[3]?.focus();
     }
     e.preventDefault();
   };
 
   const handleVerify = async () => {
     const code = otp.join('');
-    if (code.length !== 6) return;
+    if (code.length < 4) return;
     setLoading(true); setError('');
     try {
+      let accessToken = null;
+
+      // 1. Try verifying with MSG91 custom UI SDK
+      try {
+        const msg91Res = await msg91VerifyOtp(code);
+        if (msg91Res?.token) {
+          accessToken = msg91Res.token;
+        }
+      } catch (msg91Err) {
+        console.warn('MSG91 verifyOtp note:', msg91Err?.message);
+      }
+
+      // 2. Complete verification with backend
       const res = await fetch(`${API_URL}/auth/verify-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, otp: code }),
+        body: JSON.stringify({ phone, otp: code, accessToken }),
         credentials: 'include',
       });
       const data = await res.json();
@@ -126,23 +160,45 @@ function OtpStep({ phone, onSuccess, onBack }) {
       onSuccess(data.user, data.token, data.isNewUser || !data.user.name);
     } catch (e) {
       setError(e.message);
-      setOtp(['', '', '', '', '', '']);
+      setOtp(['', '', '', '']);
       inputsRef.current[0]?.focus();
     } finally {
       setLoading(false);
     }
   };
 
+  const handleResend = async () => {
+    if (resendTimer > 0) return;
+    setLoading(true);
+    try {
+      try {
+        await msg91RetryOtp();
+      } catch (err) {
+        console.warn('MSG91 retry error:', err);
+      }
+
+      await fetch(`${API_URL}/auth/send-otp`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone }),
+        credentials: 'include',
+      });
+      setResendTimer(30);
+      setError('');
+    } catch (e) {
+      setError(e.message || 'Failed to resend OTP');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const otpString = otp.join('');
-  if (otpString.length === 6 && !loading) {
-    handleVerify();
-  }
 
   return (
     <div>
-      <h1 className="text-2xl font-extrabold text-plum-900 mb-2">Enter OTP</h1>
+      <h1 className="text-2xl font-extrabold text-plum-900 mb-2">Enter Verification Code</h1>
       <p className="text-plum-900/60 text-sm mb-6">
-        We sent a 6-digit code to <strong className="text-plum-900 font-bold">+91 {phone}</strong>
+        We sent a code to <strong className="text-plum-900 font-bold">+91 {phone}</strong>
       </p>
 
       {/* OTP Boxes */}
@@ -157,7 +213,7 @@ function OtpStep({ phone, onSuccess, onBack }) {
             value={digit}
             onChange={(e) => handleChange(i, e.target.value)}
             onKeyDown={(e) => handleKeyDown(i, e)}
-            className={`w-11 h-13 text-center text-lg font-bold border rounded-xl focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all ${
+            className={`w-12 h-14 text-center text-xl font-bold border rounded-xl focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all ${
               digit ? 'border-coral-500 bg-coral-50/50 text-coral-600' : 'border-plum-900/15 bg-white text-plum-900'
             }`}
             id={`otp-${i}`}
@@ -173,8 +229,8 @@ function OtpStep({ phone, onSuccess, onBack }) {
 
       <button
         onClick={handleVerify}
-        disabled={loading || otpString.length !== 6}
-        className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-coral-500/20"
+        disabled={loading || otpString.length < 4}
+        className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-coral-500/20 cursor-pointer"
         id="verify-otp-btn"
       >
         {loading ? 'Verifying…' : 'Verify OTP'}
@@ -184,14 +240,18 @@ function OtpStep({ phone, onSuccess, onBack }) {
         <button
           type="button"
           onClick={onBack}
-          className="text-xs text-plum-900/60 font-semibold hover:text-coral-500 transition-colors"
+          className="text-xs text-plum-900/60 font-semibold hover:text-coral-500 transition-colors cursor-pointer"
         >
           ← Change Number
         </button>
         {resendTimer > 0 ? (
           <p className="text-xs text-plum-900/50 font-medium">Resend in {resendTimer}s</p>
         ) : (
-          <button className="text-xs text-coral-500 font-bold hover:underline">
+          <button
+            type="button"
+            onClick={handleResend}
+            className="text-xs text-coral-500 font-bold hover:underline cursor-pointer"
+          >
             Resend OTP
           </button>
         )}

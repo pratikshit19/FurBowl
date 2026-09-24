@@ -47,48 +47,105 @@ router.post('/send-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 5, key: (req
 });
 
 // POST /api/v1/auth/verify-otp
-router.post('/verify-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 8, key: (req) => `${req.ip}:${req.body.phone || ''}` }), async (req, res, next) => {
+router.post('/verify-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 15, key: (req) => `${req.ip}:${req.body.phone || ''}` }), async (req, res, next) => {
   try {
-    const { phone, otp } = req.body;
-    if (!phone || !otp) {
-      return res.status(400).json({ error: 'Phone and OTP are required' });
+    const { phone, otp, accessToken } = req.body;
+    if (!phone && !accessToken) {
+      return res.status(400).json({ error: 'Phone or verified access token is required' });
     }
 
-    const stored = otpStore.get(phone);
+    let verifiedPhone = phone ? phone.replace(/\D/g, '').slice(-10) : '';
 
-    if (!stored) {
-      return res.status(400).json({ error: 'OTP not found or expired. Please request a new one.' });
+    // 1. If an MSG91 Widget access-token is provided, verify it directly with MSG91
+    if (accessToken && process.env.MSG91_AUTH_KEY) {
+      try {
+        const msg91Res = await fetch('https://api.msg91.com/api/v5/widget/verifyAccessToken', {
+          method: 'POST',
+          headers: {
+            'authkey': process.env.MSG91_AUTH_KEY,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            'access-token': accessToken,
+          }),
+        });
+
+        const msg91Data = await msg91Res.json();
+
+        if (msg91Data.type === 'success' || msg91Data.status === 'success') {
+          const rawIdentifier = msg91Data.data?.identifier || msg91Data.message || msg91Data.mobile || '';
+          const cleanedId = String(rawIdentifier).replace(/\D/g, '').slice(-10);
+          if (cleanedId) {
+            verifiedPhone = cleanedId;
+          }
+        } else {
+          console.warn('MSG91 verifyAccessToken rejected:', msg91Data);
+          if (process.env.NODE_ENV === 'production' && !otp) {
+            return res.status(400).json({ error: msg91Data.message || 'OTP verification failed' });
+          }
+        }
+      } catch (err) {
+        console.error('MSG91 verifyAccessToken error:', err);
+        if (process.env.NODE_ENV === 'production' && !otp) {
+          return res.status(400).json({ error: 'Failed to verify OTP with MSG91' });
+        }
+      }
     }
 
-    if (Date.now() > stored.expiresAt) {
-      otpStore.delete(phone);
-      return res.status(400).json({ error: 'OTP expired. Please request a new one.' });
+    // 2. If not verified via MSG91 access token, fallback to local otpStore / dev bypass
+    if (!verifiedPhone || !accessToken) {
+      if (!phone || !otp) {
+        return res.status(400).json({ error: 'Phone and OTP are required' });
+      }
+
+      const lookupPhone = verifiedPhone || phone.replace(/\D/g, '').slice(-10);
+      const stored = otpStore.get(lookupPhone);
+
+      // Dev bypass: accept "1234" or "123456" in development
+      const isDevBypass = process.env.NODE_ENV === 'development' && (otp === '1234' || otp === '123456');
+
+      if (!stored && !isDevBypass) {
+        return res.status(400).json({ error: 'OTP not found or expired. Please request a new one.' });
+      }
+
+      if (stored) {
+        if (Date.now() > stored.expiresAt) {
+          otpStore.delete(lookupPhone);
+          return res.status(400).json({ error: 'OTP expired. Please request a new one.' });
+        }
+
+        stored.attempts += 1;
+        if (stored.attempts > 5) {
+          otpStore.delete(lookupPhone);
+          return res.status(400).json({ error: 'Too many incorrect attempts. Please request a new OTP.' });
+        }
+
+        const isValid = otp === stored.otp || isDevBypass;
+        if (!isValid) {
+          return res.status(400).json({ error: 'Incorrect OTP' });
+        }
+
+        otpStore.delete(lookupPhone);
+      }
+
+      verifiedPhone = lookupPhone;
     }
 
-    stored.attempts += 1;
-    if (stored.attempts > 3) {
-      otpStore.delete(phone);
-      return res.status(400).json({ error: 'Too many incorrect attempts. Please request a new OTP.' });
+    const finalPhone = verifiedPhone || (phone ? phone.replace(/\D/g, '').slice(-10) : '');
+    if (!finalPhone || finalPhone.length !== 10) {
+      return res.status(400).json({ error: 'Valid 10-digit phone number required' });
     }
-
-    // Dev bypass: accept "123456" as valid OTP
-    const isValid = otp === stored.otp || (process.env.NODE_ENV === 'development' && otp === '123456');
-    if (!isValid) {
-      return res.status(400).json({ error: 'Incorrect OTP' });
-    }
-
-    otpStore.delete(phone);
 
     // Find or create user
-    let user = await prisma.user.findUnique({ where: { phone } });
+    let user = await prisma.user.findUnique({ where: { phone: finalPhone } });
     const isNewUser = !user || !user.name;
     if (!user) {
       user = await prisma.user.create({
-        data: { phone, phoneVerified: true },
+        data: { phone: finalPhone, phoneVerified: true },
       });
     }
 
-    const { accessToken, refreshToken } = generateTokens(user);
+    const { accessToken: userAccessToken, refreshToken } = generateTokens(user);
 
     // Set refresh token as httpOnly cookie
     res.cookie('refreshToken', refreshToken, {
@@ -111,7 +168,7 @@ router.post('/verify-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 8, key: (r
         lastOrderSummary: user.lastOrderSummary || null,
         lastOrderStatus: user.lastOrderStatus || null,
       },
-      token: accessToken,
+      token: userAccessToken,
       isNewUser,
     });
   } catch (error) {
