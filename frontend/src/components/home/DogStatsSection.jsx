@@ -106,12 +106,12 @@ export default function DogStatsSection() {
           ref={scrollRef}
           onScroll={handleScroll}
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto sm:overflow-visible pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scroll-smooth no-scrollbar [&::-webkit-scrollbar]:hidden snap-x snap-mandatory items-stretch"
+          className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto sm:overflow-visible pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scroll-smooth no-scrollbar [&::-webkit-scrollbar]:hidden snap-x snap-mandatory items-stretch scroll-pl-4 sm:scroll-pl-0"
         >
           {STATS.map((stat) => (
             <div
               key={stat.id}
-              className="w-[78vw] max-w-[290px] sm:w-auto shrink-0 snap-start h-full"
+              className="w-[78vw] max-w-[290px] sm:max-w-none sm:w-full shrink-0 snap-start flex flex-col"
             >
               <div
                 className={`rounded-xl p-5 sm:p-7 border ${stat.borderColor} ${stat.bgLight} transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5 flex flex-col justify-between overflow-hidden relative group h-full`}

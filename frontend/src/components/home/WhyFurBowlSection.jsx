@@ -216,10 +216,10 @@ export default function WhyFurBowlSection() {
   };
 
   return (
-    <section id="why-furbowl-section" className="py-12 sm:py-16 lg:py-20 bg-[#fcf5eb] border-b border-plum-900/5 relative overflow-hidden">
+    <section id="why-furbowl-section" className="py-12 sm:py-16 lg:py-20 bg-white border-b border-plum-900/5 relative overflow-hidden">
       <div className="container-main max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12 px-2">
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-14 lg:mb-20 px-2">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#fbe7dc] text-[#804a3e] text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2.5 sm:mb-3 shadow-2xs">
             <span>🐾</span>
             <span>Why FurBowl?</span>
@@ -235,12 +235,12 @@ export default function WhyFurBowlSection() {
           ref={scrollRef}
           onScroll={handleScroll}
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          className="flex lg:grid lg:grid-cols-4 gap-4 sm:gap-5 overflow-x-auto lg:overflow-visible pb-4 pt-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 scroll-smooth no-scrollbar [&::-webkit-scrollbar]:hidden snap-x snap-mandatory items-stretch"
+          className="flex lg:grid lg:grid-cols-4 gap-4 sm:gap-5 overflow-x-auto lg:overflow-visible pb-4 pt-2 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0 scroll-smooth no-scrollbar [&::-webkit-scrollbar]:hidden snap-x snap-mandatory items-stretch scroll-pl-4 sm:scroll-pl-6 lg:scroll-pl-0"
         >
           {WHY_FURBOWL_CARDS.map((card) => (
             <div
               key={card.id}
-              className="w-[78vw] max-w-[290px] sm:w-[320px] lg:w-auto shrink-0 snap-start h-full relative group"
+              className="w-[78vw] max-w-[290px] sm:w-[320px] lg:max-w-none lg:w-full shrink-0 snap-start flex flex-col relative group"
             >
               {/* Desktop: Dog peeking over Card 4 — responsive sizes for lg & xl */}
               {card.id === 'no-colours' && (
@@ -257,7 +257,7 @@ export default function WhyFurBowlSection() {
               )}
 
               <div
-                className="relative rounded-2xl sm:rounded-3xl p-5 sm:p-6 pb-0 sm:pb-0 h-full flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-300 group-hover:-translate-y-1 overflow-hidden"
+                className="relative rounded-lg sm:rounded-xl p-5 sm:p-6 pb-0 sm:pb-0 h-full flex flex-col justify-between shadow-xs hover:shadow-md transition-all duration-300 group-hover:-translate-y-1 overflow-hidden"
                 style={{ backgroundColor: card.bgColor }}
               >
                 {/* Upper Content */}
@@ -268,7 +268,7 @@ export default function WhyFurBowlSection() {
                   >
                     {card.icon}
                   </div>
-                  <h3 className="font-extrabold text-base sm:text-lg lg:text-xl text-[#2d1723] tracking-tight leading-snug mt-3 sm:mt-4 group-hover:text-plum-950 transition-colors">
+                  <h3 className="font-bold text-base sm:text-lg lg:text-xl text-[#2d1723] tracking-tight leading-snug mt-3 sm:mt-4 group-hover:text-plum-950 transition-colors">
                     {card.heading}
                   </h3>
                   <p className="text-xs sm:text-[13px] text-[#422834]/85 font-normal leading-relaxed mt-1.5 sm:mt-2">
@@ -277,7 +277,7 @@ export default function WhyFurBowlSection() {
                 </div>
 
                 {/* Bottom SVG Illustration */}
-                <div className="w-full h-[160px] sm:h-[190px] lg:h-[220px] mt-3 flex items-center justify-center select-none pointer-events-none transition-transform duration-500 group-hover:scale-105">
+                <div className="w-full h-[150px] sm:h-[175px] lg:h-[195px] mt-2.5 sm:mt-3 flex items-center justify-center select-none pointer-events-none transition-transform duration-500 group-hover:scale-105">
                   {card.illustration}
                 </div>
               </div>

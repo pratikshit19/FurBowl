@@ -128,7 +128,9 @@ export default function MenuSection() {
 
   const scroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -340 : 340;
+      const card = scrollRef.current.querySelector('[data-product-card]');
+      const cardWidth = card ? card.offsetWidth + 24 : scrollRef.current.clientWidth * 0.8;
+      const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
@@ -160,7 +162,7 @@ export default function MenuSection() {
 
   return (
     <section id="menu-section" className="py-12 sm:py-16 bg-white border-b border-plum-900/5 relative">
-      <div className="container-main max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-main max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
@@ -190,7 +192,7 @@ export default function MenuSection() {
             type="button"
             onClick={() => scroll('left')}
             aria-label="Previous products"
-            className="hidden sm:flex absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white border border-plum-900/10 shadow-md hover:shadow-lg items-center justify-center text-plum-900 hover:text-peach-600 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="hidden sm:flex absolute -left-4 md:-left-6 lg:-left-12 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-xl bg-white border border-plum-900/10 shadow-sm hover:shadow-md items-center justify-center text-plum-900 hover:text-teal-700 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
             <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
           </button>
@@ -200,21 +202,22 @@ export default function MenuSection() {
             type="button"
             onClick={() => scroll('right')}
             aria-label="Next products"
-            className="hidden sm:flex absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white border border-plum-900/10 shadow-md hover:shadow-lg items-center justify-center text-plum-900 hover:text-peach-600 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            className="hidden sm:flex absolute -right-4 md:-right-6 lg:-right-12 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-xl bg-white border border-plum-900/10 shadow-sm hover:shadow-md items-center justify-center text-plum-900 hover:text-teal-700 hover:scale-105 active:scale-95 transition-all cursor-pointer"
           >
             <ChevronRight className="w-5 h-5 stroke-[2.5]" />
           </button>
 
-          {/* Horizontal Scroll Track (Scrollbar hidden) */}
+          {/* Horizontal Scroll Track: 3 Cards Fit on Desktop */}
           <div
             ref={scrollRef}
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 pt-1 px-1 scroll-smooth no-scrollbar [&::-webkit-scrollbar]:hidden snap-x snap-mandatory"
+            className="flex gap-4 sm:gap-5 lg:gap-6 overflow-x-auto pb-4 pt-1 px-1 scroll-smooth no-scrollbar [&::-webkit-scrollbar]:hidden snap-x snap-mandatory items-stretch"
           >
             {BUNDLE_PRODUCTS.map((item) => (
               <div
                 key={item.id}
-                className="w-[270px] sm:w-[280px] lg:w-[290px] shrink-0 snap-start rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                data-product-card
+                className="w-[82vw] max-w-[320px] sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-3rem)/3)] shrink-0 snap-start rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-1"
               >
                 {/* ─── Clickable Card Area (Pouch + Details) ─── */}
                 <Link
@@ -222,11 +225,11 @@ export default function MenuSection() {
                   className="flex-1 flex flex-col justify-between focus:outline-none group/link"
                 >
                   {/* ─── Upper Image Area ─── */}
-                  <div className="relative w-full h-[230px] sm:h-[245px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
+                  <div className="relative w-full h-[220px] sm:h-[240px] lg:h-[250px] bg-gradient-to-b from-[#faf6ed] to-[#f4ede0]/40 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
                     
                     {/* Top-Left Discount Badge — FurBowl Peach */}
                     <div className="absolute top-2.5 left-2.5 z-20">
-                      <span className="text-[11px] font-bold tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-[3px] shadow-xs uppercase">
+                      <span className="text-[10.5px] sm:text-[11px] font-bold tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-sm shadow-xs uppercase">
                         {item.discount}
                       </span>
                     </div>
@@ -234,12 +237,12 @@ export default function MenuSection() {
                     {/* Top-Right SUPER SAVER Ribbon Badge — Amber Gold */}
                     {item.isSuperSaver && (
                       <div className="absolute top-0 right-3 z-20">
-                        <div className="relative bg-amber-500 text-white text-[8.5px] font-bold uppercase tracking-wider px-2 pt-1.5 pb-2 shadow-xs text-center flex flex-col items-center leading-none">
+                        <div className="relative bg-amber-500 text-white text-[8px] sm:text-[8.5px] font-bold uppercase tracking-wider px-2 pt-1 pb-1.5 shadow-xs text-center flex flex-col items-center leading-none">
                           <span>SUPER</span>
                           <span className="mt-0.5">•SAVER•</span>
                           {/* Ribbon notch cut-out */}
                           <div
-                            className="absolute -bottom-1.5 left-0 right-0 h-1.5 bg-amber-500"
+                            className="absolute -bottom-1 left-0 right-0 h-1 bg-amber-500"
                             style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
                           />
                         </div>
@@ -247,43 +250,43 @@ export default function MenuSection() {
                     )}
 
                     {/* Stand-Up Retort Pouch Product Mockup */}
-                    <div className="relative w-full h-full p-2.5 flex items-center justify-center">
+                    <div className="relative w-full h-full p-3.5 sm:p-4 flex items-center justify-center">
                       <Image
                         src={item.image}
                         alt={item.title}
                         fill
-                        sizes="(max-width: 768px) 275px, 290px"
-                        className="object-contain transition-transform duration-300 group-hover:scale-103"
+                        sizes="(max-width: 640px) 300px, (max-width: 1024px) 380px, 420px"
+                        className="object-contain transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
 
                     {/* Bottom Center Pack Pill */}
                     <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
-                      <span className="text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
+                      <span className="text-[11px] sm:text-xs font-semibold text-plum-900 bg-white/95 backdrop-blur-xs px-3.5 py-0.5 rounded-full shadow-xs border border-plum-900/10">
                         {item.packOf}
                       </span>
                     </div>
                   </div>
 
                   {/* ─── Lower Details Area ─── */}
-                  <div className="px-3.5 sm:px-4 pt-3 pb-1.5 flex flex-col justify-between flex-1 bg-white">
+                  <div className="p-4 sm:p-4.5 lg:p-5 flex flex-col justify-between flex-1 bg-white">
                     <div>
                       {/* Title */}
-                      <h3 className="font-bold text-[14.5px] text-plum-900 group-hover/link:text-teal-600 transition-colors leading-snug line-clamp-1">
+                      <h3 className="font-bold text-base sm:text-lg text-plum-900 group-hover/link:text-teal-700 transition-colors leading-snug line-clamp-1">
                         {item.title}
                       </h3>
 
                       {/* Subtitle */}
-                      <p className="text-xs text-plum-900/60 font-medium mt-0.5 line-clamp-1">
+                      <p className="text-xs sm:text-[13px] text-plum-900/60 font-medium mt-1 line-clamp-1">
                         {item.subtitle}
                       </p>
 
                       {/* Price */}
-                      <div className="flex items-baseline gap-2 mt-1.5 mb-0.5">
-                        <span className="text-base sm:text-lg font-normal text-plum-900">
+                      <div className="flex items-baseline gap-2 mt-2.5 mb-1">
+                        <span className="text-base sm:text-lg lg:text-xl font-bold text-plum-900">
                           ₹{item.price.toLocaleString('en-IN')}
                         </span>
-                        <span className="text-xs text-plum-900/40 line-through">
+                        <span className="text-xs sm:text-sm text-plum-900/40 line-through font-normal">
                           ₹{item.originalPrice.toLocaleString('en-IN')}
                         </span>
                       </div>
@@ -292,11 +295,11 @@ export default function MenuSection() {
                 </Link>
 
                 {/* Add to Cart Button Footer — FurBowl Teal */}
-                <div className="px-3.5 pb-2.5 sm:px-4 sm:pb-3 pt-0 bg-white">
+                <div className="px-4 pb-4 sm:px-4.5 sm:pb-4.5 lg:px-5 lg:pb-5 pt-0 bg-white">
                   <button
                     type="button"
                     onClick={(e) => handleQuickAdd(e, item)}
-                    className={`w-full py-2.5 rounded text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
+                    className={`w-full py-2.5 sm:py-3 rounded-md text-xs sm:text-sm font-semibold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
                       addedSlug === item.id
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
