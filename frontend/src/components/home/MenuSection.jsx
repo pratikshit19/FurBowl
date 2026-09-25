@@ -163,7 +163,7 @@ export default function MenuSection() {
   return (
     <section id="menu-section" className="py-12 sm:py-16 bg-white border-b border-plum-900/5 relative">
       <div className="container-main max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div>
@@ -171,7 +171,7 @@ export default function MenuSection() {
               <span>Multi-Packs &bull; Maximum Savings</span>
             </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight">
-              Value Bundles &amp; Packs
+              Fresh Dog Food Packs
             </h2>
           </div>
 
@@ -186,7 +186,7 @@ export default function MenuSection() {
 
         {/* Carousel Slider with Side Arrows */}
         <div className="relative group/carousel">
-          
+
           {/* Left Arrow Button */}
           <button
             type="button"
@@ -226,7 +226,7 @@ export default function MenuSection() {
                 >
                   {/* ─── Upper Image Area ─── */}
                   <div className="relative w-full h-[220px] sm:h-[240px] lg:h-[250px] bg-gradient-to-b from-[#faf6ed] to-[#f4ede0]/40 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
-                    
+
                     {/* Top-Left Discount Badge — FurBowl Peach */}
                     <div className="absolute top-2.5 left-2.5 z-20">
                       <span className="text-[10.5px] sm:text-[11px] font-bold tracking-wider text-white bg-peach-500 px-2.5 py-0.5 rounded-sm shadow-xs uppercase">
@@ -299,11 +299,10 @@ export default function MenuSection() {
                   <button
                     type="button"
                     onClick={(e) => handleQuickAdd(e, item)}
-                    className={`w-full py-2.5 sm:py-3 rounded-md text-xs sm:text-sm font-semibold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
-                      addedSlug === item.id
+                    className={`w-full py-2.5 sm:py-3 rounded-md text-xs sm:text-sm font-semibold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${addedSlug === item.id
                         ? 'bg-emerald-600 text-white'
                         : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
-                    }`}
+                      }`}
                   >
                     {addedSlug === item.id ? (
                       <>

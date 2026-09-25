@@ -2,21 +2,13 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import {
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
 
 export default function ComparisonSection() {
   const [sliderPos, setSliderPos] = useState(50);
-  const [isHovered, setIsHovered] = useState(false);
-  const containerRef = useRef(null);
   const animRef = useRef({ progressTime: 1625 }); // Start near 50% split
 
-  // Continuous smooth back-and-forth scanning animation
+  // Continuous smooth back-and-forth scanning animation (never stops on hover)
   useEffect(() => {
-    if (isHovered) return;
-
     let animId;
     let lastTime = performance.now();
     const DURATION = 6500; // 6.5s full back-and-forth sweep
@@ -37,128 +29,105 @@ export default function ComparisonSection() {
 
     animId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animId);
-  }, [isHovered]);
+  }, []);
 
   return (
     <section
       id="comparison-section"
-      className="py-16 sm:py-24 bg-[#faf6ed] border-b border-plum-900/5 overflow-hidden"
+      className="relative w-full overflow-hidden bg-stone-900 border-b border-plum-900/5 select-none"
     >
-      <div className="container-main max-w-5xl mx-auto px-4 sm:px-6">
+      {/* ═══ FULL-BLEED INTERACTIVE SPLIT SLIDER CANVAS ═══ */}
+      <div
+        className="relative w-full h-[480px] sm:h-[560px] md:h-[620px] lg:h-[680px] overflow-hidden select-none bg-stone-900 cursor-default"
+      >
+        {/* ─── BASE LAYER: FurBowl Fresh Food (Right Side Revealed) ─── */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/home/fresh-dog-bowl.jpg"
+            alt="Fresh human-grade FurBowl dog food meal"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          {/* Cinematic dark gradient top and bottom for readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/75 pointer-events-none" />
 
-        {/* ─── Section Header ─── */}
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
-          <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-teal-600 mb-2">
+          {/* Bottom-Right Title & Benefits Grouped */}
+          <div
+            className="absolute bottom-5 sm:bottom-8 right-5 sm:right-8 md:right-12 lg:right-16 z-20 transition-opacity duration-200 pointer-events-none text-right"
+            style={{ opacity: sliderPos < 75 ? 1 : Math.max(0, (85 - sliderPos) / 10) }}
+          >
+            <div className="flex flex-col gap-1 sm:gap-1.5 items-end text-right">
+              <span className="text-lg sm:text-2xl md:text-3xl font-extrabold text-teal-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight">
+                FurBowl Fresh Food
+              </span>
+              <span className="text-xs sm:text-base md:text-lg font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
+                75%+ Natural Hydration
+              </span>
+              <span className="text-xs sm:text-base md:text-lg font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
+                &lt;85°C Gentle Steam Cook
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── CLIPPED TOP LAYER: Commercial Pet Food (Left Side Revealed) ─── */}
+        <div
+          className="absolute inset-0 z-10 transition-none"
+          style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
+        >
+          <Image
+            src="/images/home/dry-kibble-bowl.jpg"
+            alt="Processed commercial pet food in metal bowl"
+            fill
+            priority
+            className="object-cover object-center filter grayscale-[30%] contrast-[105%]"
+            sizes="100vw"
+          />
+          {/* Cinematic dark gradient top and bottom for readability */}
+          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/75 pointer-events-none" />
+
+          {/* Bottom-Left Title & Warnings Grouped */}
+          <div
+            className="absolute bottom-5 sm:bottom-8 left-5 sm:left-8 md:left-12 lg:left-16 z-20 transition-opacity duration-200 pointer-events-none"
+            style={{ opacity: sliderPos > 25 ? 1 : Math.max(0, (sliderPos - 15) / 10) }}
+          >
+            <div className="flex flex-col gap-1 sm:gap-1.5 items-start">
+              <span className="text-lg sm:text-2xl md:text-3xl font-extrabold text-amber-200 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight">
+                Commercial Pet Food
+              </span>
+              <span className="text-xs sm:text-base md:text-lg font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
+                ~10% Moisture (Dehydrating)
+              </span>
+              <span className="text-xs sm:text-base md:text-lg font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
+                200°C+ High-Heat Extrusion
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* ─── OVERLAID SECTION HEADER (Top Center on Canvas) ─── */}
+        <div className="absolute top-6 sm:top-8 md:top-10 inset-x-0 z-20 pointer-events-none text-center px-4 max-w-2xl mx-auto">
+          <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-teal-300 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] mb-1 sm:mb-1.5">
             THE BOWL TELLS THE STORY
-          </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight leading-tight">
+          </span>
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
             See The Difference
           </h2>
-          <p className="text-xs sm:text-sm lg:text-base text-plum-900/70 font-normal mt-2 max-w-xl mx-auto">
+          <p className="text-xs sm:text-sm md:text-base text-white/85 font-medium mt-1.5 sm:mt-2 max-w-lg mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] hidden sm:block">
             Watch the real, physical difference between ultra-processed commercial food and FurBowl&apos;s fresh, whole-food meal.
           </p>
         </div>
 
-        {/* ═══ INTERACTIVE SPLIT SLIDER CANVAS (AUTO-SCANNING) ════════════ */}
+        {/* ─── SCANNING DIVIDER BAR ─── */}
         <div
-          ref={containerRef}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          className="relative w-full max-w-4xl mx-auto h-[360px] sm:h-[440px] md:h-[480px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white select-none bg-stone-900 group cursor-default"
+          className="absolute top-0 bottom-0 z-30 pointer-events-none transition-none"
+          style={{ left: `${sliderPos}%` }}
         >
-          {/* ─── BASE LAYER: FurBowl Fresh Food (Right Side Revealed) ─── */}
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/images/home/fresh-dog-bowl.jpg"
-              alt="Fresh human-grade FurBowl dog food meal"
-              fill
-              priority
-              className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 896px"
-            />
-            {/* Cinematic dark gradient to ensure white text pops clearly */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/45 pointer-events-none" />
-
-            {/* Top-Right Title: Plain white text big in size */}
-            <div className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 pointer-events-none text-right">
-              <span className="text-lg sm:text-xl md:text-2xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight">
-                FurBowl Fresh Food
-              </span>
-            </div>
-
-            {/* Bottom-Right Benefits: Plain white text big in size */}
-            <div
-              className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 z-20 transition-opacity duration-200 pointer-events-none"
-              style={{ opacity: sliderPos < 75 ? 1 : Math.max(0, (85 - sliderPos) / 10) }}
-            >
-              <div className="flex flex-col gap-1 sm:gap-1.5 items-end text-right">
-                <span className="text-base sm:text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
-                  75%+ Natural Hydration
-                </span>
-                <span className="text-base sm:text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
-                  &lt;85°C Gentle Steam Cook
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* ─── CLIPPED TOP LAYER: Commercial Pet Food (Left Side Revealed) ─── */}
-          <div
-            className="absolute inset-0 z-10 transition-none"
-            style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
-          >
-            <Image
-              src="/images/home/dry-kibble-bowl.jpg"
-              alt="Processed commercial pet food in metal bowl"
-              fill
-              priority
-              className="object-cover object-center filter grayscale-[30%] contrast-[105%]"
-              sizes="(max-width: 1024px) 100vw, 896px"
-            />
-            {/* Cinematic dark gradient to ensure white text pops clearly */}
-            <div className="absolute inset-0 bg-black/20 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-black/45 pointer-events-none" />
-
-            {/* Top-Left Title: Plain white text big in size */}
-            <div className="absolute top-4 sm:top-6 left-4 sm:left-6 z-20 pointer-events-none">
-              <span className="text-lg sm:text-xl md:text-2xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight">
-                Commercial Pet Food
-              </span>
-            </div>
-
-            {/* Bottom-Left Warnings: Plain white text big in size */}
-            <div
-              className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 z-20 transition-opacity duration-200 pointer-events-none"
-              style={{ opacity: sliderPos > 25 ? 1 : Math.max(0, (sliderPos - 15) / 10) }}
-            >
-              <div className="flex flex-col gap-1 sm:gap-1.5 items-start">
-                <span className="text-base sm:text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
-                  ~10% Moisture (Dehydrating)
-                </span>
-                <span className="text-base sm:text-lg md:text-xl font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] tracking-tight whitespace-nowrap">
-                  200°C+ High-Heat Extrusion
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* ─── SCANNING DIVIDER BAR & SCANNER ORB ─── */}
-          <div
-            className="absolute top-0 bottom-0 z-30 pointer-events-none transition-none"
-            style={{ left: `${sliderPos}%` }}
-          >
-            {/* Glowing vertical divider line */}
-            <div className="absolute top-0 bottom-0 -left-[1.5px] w-[3px] bg-white shadow-[0_0_14px_rgba(255,255,255,0.8),0_0_20px_rgba(0,0,0,0.5)]" />
-
-            {/* Central scanning circular badge */}
-            <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white text-plum-900 shadow-2xl border-[3px] border-plum-900 flex items-center justify-center">
-              <div className="flex items-center text-plum-900">
-                <ChevronLeft className="w-4 h-4 sm:w-4.5 sm:h-4.5 -mr-0.5 text-peach-600" />
-                <div className="w-0.5 h-3.5 sm:h-4 bg-plum-900/30 rounded-full mx-0.5" />
-                <ChevronRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 -ml-0.5 text-teal-600" />
-              </div>
-            </div>
-          </div>
+          {/* Slim vertical divider line */}
+          <div className="absolute top-0 bottom-0 -left-[0.75px] w-[1.5px] bg-white/95 shadow-[0_0_8px_rgba(255,255,255,0.7)]" />
         </div>
       </div>
     </section>
