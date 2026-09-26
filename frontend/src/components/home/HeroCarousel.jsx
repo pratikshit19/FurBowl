@@ -158,7 +158,7 @@ export default function HeroCarousel() {
             <button
               type="button"
               onClick={prev}
-              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-md hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+              className="hidden sm:flex absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-md hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
               aria-label="Previous slide"
             >
               <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-plum-900" />
@@ -166,7 +166,7 @@ export default function HeroCarousel() {
             <button
               type="button"
               onClick={next}
-              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 flex items-center justify-center w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-md hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
+              className="hidden sm:flex absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-20 items-center justify-center w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-white/85 hover:bg-white text-plum-900 transition-all backdrop-blur-md border border-plum-900/10 shadow-md hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer"
               aria-label="Next slide"
             >
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-plum-900" />

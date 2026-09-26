@@ -117,12 +117,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
 
       {/* ─── 2. INTERACTIVE SPINNING WHEEL (BEHIND THE DOG IMAGE, Z-10) ─── */}
       <div
-        className="absolute z-10 pointer-events-auto aspect-square -translate-x-1/2 -translate-y-1/2"
-        style={{
-          left: '82.5%',
-          top: '38%',
-          height: '63%',
-        }}
+        className="absolute z-10 pointer-events-auto aspect-square -translate-x-1/2 -translate-y-1/2 left-[76%] sm:left-[79%] md:left-[82.5%] top-[43%] sm:top-[40%] md:top-[38%] h-[68%] sm:h-[65%] md:h-[63%]"
       >
         <div className="relative w-full h-full flex items-center justify-center">
           {/* Wheel 3D Stand Foot behind wheel */}
@@ -307,7 +302,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
       </div>
 
       {/* ─── 3. USER SUPPLIED ASSET: DOG + BOWL + INGREDIENTS (IN FRONT OF WHEEL, Z-20) ─── */}
-      <div className="absolute right-0 sm:right-[1%] md:right-[2%] bottom-0 h-[92%] sm:h-[95%] md:h-[98%] aspect-[1774/887] pointer-events-none z-20">
+      <div className="absolute right-[-6%] sm:right-[0%] md:right-[2%] bottom-0 h-[86%] sm:h-[92%] md:h-[98%] aspect-[1774/887] pointer-events-none z-20">
         <Image
           src="/images/border_collie_spin.png"
           alt="Happy smiling dog with FurBowl fresh dog food bowl, chicken, carrots, and sweet potato"
@@ -320,66 +315,66 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
 
 
       {/* ─── 5. PURE LIVE HTML & CSS TYPOGRAPHY, BUTTONS & VALUE PROPS (LEFT COLUMN, Z-30) ─── */}
-      <div className="relative z-30 w-full h-full flex items-center pointer-events-none px-4 sm:px-8 md:px-12 lg:px-[5.5%]">
-        <div className="w-full max-w-[42%] md:max-w-[43%] lg:max-w-[41%] flex flex-col items-start pointer-events-auto -translate-y-[2%]">
+      <div className="relative z-30 w-full h-full flex items-center pointer-events-none px-3 sm:px-6 md:px-12 lg:px-[5.5%]">
+        <div className="w-full max-w-[48%] sm:max-w-[45%] md:max-w-[43%] lg:max-w-[41%] flex flex-col items-start pointer-events-auto -translate-y-[1%] sm:-translate-y-[2%]">
           {/* Pill Badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-50 border border-teal-300/40 text-teal-700 text-[9px] sm:text-xs font-bold uppercase tracking-wider mb-2 sm:mb-3 shadow-xs">
-            <Tag className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+          <div className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-teal-50 border border-teal-300/40 text-teal-700 text-[8px] sm:text-xs font-bold uppercase tracking-wider mb-1 sm:mb-2 md:mb-3 shadow-xs">
+            <Tag className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />
             <span>EXCLUSIVE OFFER</span>
           </div>
 
           {/* Headline: Spin to Save! */}
-          <h2 className="text-2xl sm:text-4xl md:text-[2.75rem] lg:text-[3.35rem] xl:text-[3.7rem] font-black text-[#31102f] leading-[0.95] tracking-tight">
+          <h2 className="text-xl sm:text-3xl md:text-[2.75rem] lg:text-[3.35rem] xl:text-[3.7rem] font-black text-[#31102f] leading-[0.95] tracking-tight">
             Spin to Save!
           </h2>
 
           {/* Subheading: Up to 25% OFF */}
-          <div className="flex items-center gap-2 mt-1 sm:mt-2">
-            <span className="text-lg sm:text-2xl md:text-[2.05rem] lg:text-[2.6rem] font-black text-[#31102f] uppercase tracking-tight leading-none">
+          <div className="flex items-center gap-1.5 sm:gap-2 mt-0.5 sm:mt-1.5 md:mt-2">
+            <span className="text-sm sm:text-xl md:text-[2.05rem] lg:text-[2.6rem] font-black text-[#31102f] uppercase tracking-tight leading-none">
               Up to <span className="text-[#f26a4f]">25% OFF</span>
             </span>
-            <div className="flex flex-col gap-1 items-start ml-0.5">
-              <span className="w-3 sm:w-4 h-0.5 sm:h-1 bg-[#f26a4f] rounded-full rotate-[20deg]" />
-              <span className="w-2 sm:w-3 h-0.5 sm:h-1 bg-[#f26a4f] rounded-full -rotate-[20deg]" />
+            <div className="flex flex-col gap-0.5 sm:gap-1 items-start ml-0.5">
+              <span className="w-2.5 sm:w-4 h-0.5 sm:h-1 bg-[#f26a4f] rounded-full rotate-[20deg]" />
+              <span className="w-1.5 sm:w-3 h-0.5 sm:h-1 bg-[#f26a4f] rounded-full -rotate-[20deg]" />
             </div>
           </div>
 
           {/* Description Paragraph */}
-          <p className="text-[10px] sm:text-xs md:text-sm lg:text-[0.95rem] text-[#31102f]/80 font-medium mt-2 sm:mt-3 leading-snug max-w-sm sm:max-w-md">
-            Every spin wins! Unlock exclusive discounts, free shipping, or special meal trial savings.
+          <p className="text-[9px] sm:text-xs md:text-sm lg:text-[0.95rem] text-[#31102f]/80 font-medium mt-1 sm:mt-2 md:mt-3 leading-tight sm:leading-snug max-w-sm md:max-w-md">
+            Every spin wins! Unlock exclusive discounts & free shipping.
           </p>
 
           {/* CTA Button & 100% Win Guarantee */}
-          <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2.5 sm:gap-3.5">
+          <div className="mt-2 sm:mt-3 md:mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2.5 md:gap-3.5">
             <button
               type="button"
               onClick={spinWheel}
               disabled={spinning}
-              className="inline-flex items-center gap-2 px-4 sm:px-6 md:px-7 py-2.5 sm:py-3.5 rounded-none bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-extrabold text-[10px] sm:text-xs md:text-sm uppercase tracking-wider transition-all shadow-lg shadow-teal-600/30 hover:shadow-xl hover:shadow-teal-600/40 cursor-pointer disabled:opacity-80"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 md:px-7 py-1.5 sm:py-2.5 md:py-3.5 rounded-none bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-extrabold text-[9px] sm:text-xs md:text-sm uppercase tracking-wider transition-all shadow-md sm:shadow-lg shadow-teal-600/30 hover:shadow-xl hover:shadow-teal-600/40 cursor-pointer disabled:opacity-80"
               aria-label="Spin the wheel"
             >
               {spinning ? (
                 <>
-                  <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
+                  <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
                   <span>Spinning…</span>
                 </>
               ) : (
                 <>
-                  <Gift className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <Gift className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>SPIN THE WHEEL</span>
-                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
                 </>
               )}
             </button>
 
-            <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold text-[#31102f]/80">
-              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-teal-600" />
+            <div className="inline-flex items-center gap-1 sm:gap-1.5 text-[8.5px] sm:text-xs font-bold text-[#31102f]/80">
+              <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 text-teal-600" />
               <span>100% Win Guarantee</span>
             </div>
           </div>
 
           {/* 4 Feature Badges row matching the reference image */}
-          <div className="mt-4 sm:mt-6 w-full grid grid-cols-4 gap-2 sm:gap-3">
+          <div className="hidden md:grid mt-4 sm:mt-6 w-full grid-cols-4 gap-2 sm:gap-3">
             {/* 1. Human Grade Ingredients */}
             <div className="flex flex-col items-center text-center gap-1">
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#dff4d8] flex items-center justify-center shadow-xs">
@@ -438,10 +433,10 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
         </div>
       </div>
 
-      {/* ─── 6. WINNING CELEBRATION MODAL (Z-40) ─── */}
+      {/* ─── 6. WINNING CELEBRATION MODAL (Z-100) ─── */}
       {wonOffer && (
-        <div className="absolute inset-0 z-40 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300 pointer-events-auto">
-          <div className="relative bg-white rounded-2xl p-5 sm:p-7 md:p-8 max-w-sm sm:max-w-md w-full shadow-2xl border-2 border-teal-500 text-center animate-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300 pointer-events-auto">
+          <div className="relative bg-white rounded-2xl p-5 sm:p-7 md:p-8 max-w-sm sm:max-w-md w-full shadow-2xl border-2 border-teal-500 text-center animate-in zoom-in-95 duration-300 max-h-[90vh] overflow-y-auto">
             {/* Close Button */}
             <button
               type="button"
