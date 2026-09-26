@@ -532,7 +532,7 @@ export default function IngredientsSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-black leading-[1.08] tracking-tight">
             <span className="text-[#3d1235]">WHAT&apos;S IN</span>
             <br />
-            <span className="text-[#00a699]">A FURBOWL?</span>
+            <span className="text-teal-600">A FURBOWL?</span>
           </h2>
           <p className="mt-2.5 sm:mt-3 text-sm sm:text-base lg:text-lg text-[#3d1235] font-semibold italic">
             Good ingredients. Thoughtfully put together.
@@ -635,7 +635,7 @@ export default function IngredientsSection() {
 
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 bg-[#00a699] hover:bg-[#008f83] text-white font-black text-xs sm:text-sm tracking-wider uppercase px-7 sm:px-9 py-2.5 sm:py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
+              className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-black text-xs sm:text-sm tracking-wider uppercase px-7 sm:px-9 py-2.5 sm:py-3 rounded-xl shadow-md hover:shadow-lg shadow-teal-600/20 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0"
             >
               <span>EXPLORE OUR PACKS</span>
               <ArrowRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.5]" />

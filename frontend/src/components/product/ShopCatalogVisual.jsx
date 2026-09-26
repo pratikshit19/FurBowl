@@ -485,9 +485,12 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
             return (
               <div
                 key={pack.count}
-                className="rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                className="rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group hover:-translate-y-0.5"
               >
-                <div className="flex-1 flex flex-col justify-between">
+                <Link
+                  href={`/shop/${pack.slug}`}
+                  className="flex-1 flex flex-col justify-between focus:outline-none"
+                >
                   {/* Upper Image Area */}
                   <div className="relative w-full h-[165px] sm:h-[240px] bg-[#faf6ed]/90 flex items-center justify-center overflow-hidden select-none border-b border-plum-900/5">
                     {/* Top-Left Discount Badge */}
@@ -514,11 +517,11 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     {/* Lineup Image */}
                     <div className="relative w-full h-full p-2 sm:p-2.5 flex items-center justify-center">
                       <Image
-                        src="/images/products/bundles/furbowl-bundle-all-three.jpg"
+                        src={pack.image || '/images/products/bundles/furbowl-bundle-all-three.jpg'}
                         alt={`${pack.count} Pack FurBowl Meals`}
                         fill
                         sizes="240px"
-                        className="object-contain transition-transform duration-300 group-hover:scale-103"
+                        className="object-contain transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
 
@@ -541,25 +544,29 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                       </p>
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
                         <span className="text-sm sm:text-lg font-bold text-plum-900">
-                          {savings}
+                          {pack.price ? `₹${pack.price.toLocaleString('en-IN')}` : savings}
                         </span>
-                        <span className="text-[10px] sm:text-xs text-plum-900/50 font-bold">
-                          • {pack.count} x 100g
+                        {pack.originalPrice && (
+                          <span className="text-[10px] sm:text-xs text-plum-900/40 line-through font-normal">
+                            ₹{pack.originalPrice.toLocaleString('en-IN')}
+                          </span>
+                        )}
+                        <span className="text-[10px] sm:text-xs text-plum-900/50 font-bold ml-auto">
+                          {pack.count} x 100g
                         </span>
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Action Button Footer */}
                 <div className="px-2 pb-2 sm:px-4 sm:pb-3 pt-0 bg-white">
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('trial-packs')}
-                    className="w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
+                  <Link
+                    href={`/shop/${pack.slug}`}
+                    className="w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 bg-teal-600 hover:bg-teal-700 text-white shadow-teal-600/20"
                   >
-                    <span>View Flavours</span>
-                  </button>
+                    <span>View Meals</span>
+                  </Link>
                 </div>
               </div>
             );

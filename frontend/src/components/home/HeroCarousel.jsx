@@ -8,6 +8,10 @@ import SpinWheelSlide from './SpinWheelSlide';
 
 const DEFAULT_BANNERS = [
   {
+    id: 'spin-discount-wheel',
+    type: 'wheel',
+  },
+  {
     id: 'carousel-2',
     image: '/images/carousel_2_3to1.png',
     imageMobile: '/images/carousel_2.png',
@@ -28,11 +32,6 @@ const DEFAULT_BANNERS = [
     alt: 'FurBowl — 100% Natural, 0% Compromise. Shop fresh dog food now.',
     link: '/shop',
   },
-  {
-    id: 'spin-discount-wheel',
-    type: 'wheel',
-  }
-
 ];
 
 export default function HeroCarousel() {
@@ -52,11 +51,11 @@ export default function HeroCarousel() {
   }, [banners.length]);
 
   useEffect(() => {
-    // Keep rotating continuously in a loop; only pause when hovered or when user is actively spinning the wheel
-    if (paused || isWheelSpinning) return;
+    // Keep rotating continuously in a loop; pause when hovered, when actively spinning, or when viewing interactive wheel
+    if (paused || isWheelSpinning || banners[current]?.type === 'wheel') return;
     const id = setInterval(next, 5500);
     return () => clearInterval(id);
-  }, [next, paused, isWheelSpinning]);
+  }, [next, paused, isWheelSpinning, current, banners]);
 
   const minSwipeDistance = 50;
 
