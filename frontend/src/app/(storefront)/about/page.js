@@ -16,7 +16,7 @@ export default function AboutPage() {
           <p className="text-amber-200 text-sm font-semibold uppercase tracking-widest mb-3">
             Our Story
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             About FurBowl
           </h1>
           <p className="text-amber-100 text-lg leading-relaxed">

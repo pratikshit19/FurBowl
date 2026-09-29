@@ -5,6 +5,7 @@ import IngredientsSection from '@/components/home/IngredientsSection';
 import MenuSection from '@/components/home/MenuSection';
 import ComparisonSection from '@/components/home/ComparisonSection';
 import DogStatsSection from '@/components/home/DogStatsSection';
+import FAQSection from '@/components/home/FAQSection';
 
 export const metadata = {
   title: 'FurBowl — Real Food. Pure Love. | Fresh Dog Food India',
@@ -35,6 +36,9 @@ export default function HomePage() {
 
       {/* 6. Section where there are some stats for dogs */}
       <DogStatsSection />
+
+      {/* 7. FAQs — Before Choosing FURBOWL (Last section) */}
+      <FAQSection />
     </>
   );
 }

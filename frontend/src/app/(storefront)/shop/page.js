@@ -70,66 +70,66 @@ const PLACEHOLDER_PRODUCTS = [
     variants: [{ mrp: 249, sellingPrice: 229, size: '100g Pouch' }],
   },
 
-  // ─── Official Curated Trial Packs ───
+  // ─── Official Curated 7-Day Packs (Multiples of 7, 100g each) ───
   {
     id: 'all-recipes-trial-pack',
-    name: 'All Recipes Wet Dog Food Trial Pack – 5 x 100g',
+    name: 'All Recipes Wet Dog Food Pack – 7 x 100g',
     slug: 'all-recipes-trial-pack',
-    shortDescription: '1 of each recipe (Chicken, Lamb, Egg & Paneer). ⭐ Best discovery pack.',
+    shortDescription: 'Complete 7-day variety pack (Chicken, Lamb, Egg & Paneer). ⭐ Best discovery pack.',
     isVeg: false,
     isFeatured: true,
     foodType: 'TRIAL_PACK',
     category: { slug: 'trial-packs' },
-    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'All Recipes Trial Pack' }],
-    variants: [{ mrp: 599, sellingPrice: 499, size: '5 x 100g' }],
+    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'All Recipes Pack – 7 x 100g' }],
+    variants: [{ mrp: 839, sellingPrice: 699, size: '7 x 100g' }],
   },
   {
     id: 'chicken-lovers-trial-pack',
-    name: 'Chicken Wet Dog Food Trial Pack – 4 x 100g',
+    name: 'Chicken Wet Dog Food Pack – 7 x 100g',
     slug: 'chicken-lovers-trial-pack',
-    shortDescription: '2x Chicken Veg + 2x Chicken Rice. For dogs who love poultry.',
+    shortDescription: '4x Chicken Veg + 3x Chicken Rice. 7-day feast for dogs who love poultry.',
     isVeg: false,
     isFeatured: true,
     foodType: 'TRIAL_PACK',
     category: { slug: 'trial-packs' },
-    images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Lovers Trial Pack' }],
-    variants: [{ mrp: 479, sellingPrice: 399, size: '4 x 100g' }],
+    images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Lovers Pack – 7 x 100g' }],
+    variants: [{ mrp: 779, sellingPrice: 649, size: '7 x 100g' }],
   },
   {
     id: 'meat-lovers-trial-pack',
-    name: 'Chicken & Lamb Wet Dog Food Trial Pack – 4 x 100g',
+    name: 'Chicken & Lamb Wet Dog Food Pack – 7 x 100g',
     slug: 'meat-lovers-trial-pack',
-    shortDescription: '1x Chicken Veg + 1x Chicken Rice + 2x Lamb & Lentils. Protein-focused.',
+    shortDescription: '2x Chicken Veg + 2x Chicken Rice + 3x Lamb & Lentils. 7-day protein power pack.',
     isVeg: false,
     isFeatured: true,
     foodType: 'TRIAL_PACK',
     category: { slug: 'trial-packs' },
-    images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Chicken & Lamb Trial Pack' }],
-    variants: [{ mrp: 519, sellingPrice: 429, size: '4 x 100g' }],
+    images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Chicken & Lamb Pack – 7 x 100g' }],
+    variants: [{ mrp: 839, sellingPrice: 699, size: '7 x 100g' }],
   },
   {
     id: 'chicken-egg-trial-pack',
-    name: 'Chicken & Egg Wet Dog Food Trial Pack – 4 x 100g',
+    name: 'Chicken & Egg Wet Dog Food Pack – 7 x 100g',
     slug: 'chicken-egg-trial-pack',
-    shortDescription: '1x Chicken Veg + 1x Chicken Rice + 2x Egg SuperFood. Familiar + variety.',
+    shortDescription: '2x Chicken Veg + 2x Chicken Rice + 3x Egg SuperFood. 7-day coat shine & stamina.',
     isVeg: false,
     isFeatured: false,
     foodType: 'TRIAL_PACK',
     category: { slug: 'trial-packs' },
-    images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Chicken & Egg Trial Pack' }],
-    variants: [{ mrp: 479, sellingPrice: 399, size: '4 x 100g' }],
+    images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Chicken & Egg Pack – 7 x 100g' }],
+    variants: [{ mrp: 779, sellingPrice: 649, size: '7 x 100g' }],
   },
   {
     id: 'meat-veggie-variety-pack',
-    name: 'Meat & Veggie Wet Dog Food Trial Pack – 6 x 100g',
+    name: 'Meat & Veggie Wet Dog Food Pack – 7 x 100g',
     slug: 'meat-veggie-variety-pack',
-    shortDescription: '2x Chicken Veg + 1x Chicken Rice + 1x Lamb + 1x Egg + 1x Paneer.',
+    shortDescription: '2x Chicken Veg + 1x Chicken Rice + 2x Lamb + 1x Egg + 1x Paneer.',
     isVeg: false,
     isFeatured: false,
     foodType: 'TRIAL_PACK',
     category: { slug: 'trial-packs' },
-    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Meat & Veggie Trial Pack' }],
-    variants: [{ mrp: 699, sellingPrice: 579, size: '6 x 100g' }],
+    images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Meat & Veggie Pack – 7 x 100g' }],
+    variants: [{ mrp: 839, sellingPrice: 699, size: '7 x 100g' }],
   },
 ];
 
@@ -256,7 +256,7 @@ export default async function ShopPage({ searchParams }) {
           <div className="flex flex-wrap items-baseline justify-between gap-4 border-b border-plum-900/10 pb-5">
             <div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-plum-900 tracking-tight mb-2">
-                All Products &amp; Fresh Meals
+                All Products
               </h1>
               <p className="text-sm sm:text-base text-plum-900/65 font-normal">
                 100% human-grade, chef-crafted recipes gently cooked &amp; vacuum-sealed for fresh daily feeding.

@@ -296,7 +296,7 @@ export default function ProductReviews({
               <button
                 type="submit"
                 disabled={submitting}
-                className="px-6 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 active:scale-95 text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-teal-700/25 transition-all cursor-pointer disabled:opacity-50"
+                className="px-6 py-2.5 rounded-xl bg-[#15aec0] hover:bg-[#0f8e9d] active:scale-95 text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-[#15aec0]/25 transition-all cursor-pointer disabled:opacity-50"
               >
                 {submitting ? 'Posting...' : 'Submit Review'}
               </button>
@@ -327,7 +327,7 @@ export default function ProductReviews({
           <button
             type="button"
             onClick={() => setShowForm(true)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-teal-700/25 active:scale-95 transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#15aec0] hover:bg-[#0f8e9d] text-white font-bold text-xs uppercase tracking-wider shadow-sm shadow-[#15aec0]/25 active:scale-95 transition-all cursor-pointer"
           >
             <span>Write the First Review</span>
           </button>

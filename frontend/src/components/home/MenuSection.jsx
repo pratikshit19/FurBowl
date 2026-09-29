@@ -250,7 +250,7 @@ export default function MenuSection() {
                     className={`w-full py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 ${
                       addedSlug === item.id
                         ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                        : 'bg-teal-600 hover:bg-teal-700 text-white shadow-teal-600/25 hover:shadow-teal-600/35'
+                        : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
                     }`}
                   >
                     {addedSlug === item.id ? (

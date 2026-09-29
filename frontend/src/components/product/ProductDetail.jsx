@@ -537,7 +537,7 @@ export default function ProductDetail({ product }) {
               className={`w-full py-4 px-6 rounded-xl font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-2 cursor-pointer mb-3.5 shadow-md ${
                 added
                   ? 'bg-emerald-600 text-white shadow-emerald-600/20'
-                  : 'bg-teal-700 hover:bg-teal-800 active:scale-[0.99] text-white shadow-teal-700/25'
+                  : 'bg-[#15aec0] hover:bg-[#0f8e9d] active:scale-[0.99] text-white shadow-[#15aec0]/25'
               }`}
             >
               {addingToCart ? (
@@ -843,7 +843,7 @@ export default function ProductDetail({ product }) {
             type="button"
             onClick={handleAddToCart}
             disabled={addingToCart}
-            className="px-6 py-3 rounded-xl bg-teal-700 hover:bg-teal-800 active:scale-95 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-teal-700/20 shrink-0 cursor-pointer"
+            className="px-6 py-3 rounded-xl bg-[#15aec0] hover:bg-[#0f8e9d] active:scale-95 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-[#15aec0]/20 shrink-0 cursor-pointer"
           >
             {added ? 'ADDED ✓' : 'ADD TO CART'}
           </button>

@@ -281,7 +281,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
 
                       {/* Price */}
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-normal text-plum-900">
+                        <span className="text-sm sm:text-lg font-bold text-plum-900">
                           ₹{recipe.price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
@@ -388,13 +388,13 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     </button>
 
                     {/* Overlapping Visual Pouches */}
-                    <div className="flex items-center justify-center -space-x-5 sm:-space-x-10 group-hover:-space-x-4 sm:group-hover:-space-x-6 transition-all duration-300 pt-2">
+                    <div className="flex items-center justify-center -space-x-6 sm:-space-x-12 group-hover:-space-x-5 sm:group-hover:-space-x-9 transition-all duration-300 pt-2">
                       {pouches.map((pouch, pIdx) => (
                         <div
                           key={pIdx}
-                          className="relative w-16 h-22 sm:w-28 sm:h-36 shrink-0 transition-transform duration-300 drop-shadow-[0_6px_10px_rgba(42,26,46,0.14)] group-hover:scale-105"
+                          className="relative w-15 h-20 sm:w-26 sm:h-34 shrink-0 transition-transform duration-300 drop-shadow-[0_6px_10px_rgba(42,26,46,0.14)] group-hover:scale-105"
                           style={{
-                            transform: `rotate(${(pIdx - (pouches.length - 1) / 2) * 5}deg)`,
+                            transform: `rotate(${(pIdx - (pouches.length - 1) / 2) * 3.8}deg)`,
                             zIndex: pIdx + 1,
                           }}
                         >
@@ -427,7 +427,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                         {pack.tagline}
                       </p>
                       <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-normal text-plum-900">
+                        <span className="text-sm sm:text-lg font-bold text-plum-900">
                           ₹{pack.price.toLocaleString('en-IN')}
                         </span>
                         <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
@@ -563,7 +563,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 <div className="px-2 pb-2 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <Link
                     href={`/shop/${pack.slug}`}
-                    className="w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 bg-teal-600 hover:bg-teal-700 text-white shadow-teal-600/20"
+                    className="w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
                   >
                     <span>View Meals</span>
                   </Link>

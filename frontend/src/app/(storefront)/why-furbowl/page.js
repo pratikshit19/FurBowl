@@ -15,7 +15,7 @@ export default function WhyFurBowlPage() {
           <p className="text-turquoise-200 text-sm font-semibold uppercase tracking-widest mb-3">
             Real Food. Pure Love.
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
             The FurBowl Standard
           </h1>
           <p className="text-turquoise-100 text-lg leading-relaxed">

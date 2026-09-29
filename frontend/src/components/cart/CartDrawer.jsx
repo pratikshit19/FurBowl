@@ -255,7 +255,7 @@ export default function CartDrawer() {
           {/* Progress track */}
           <div className="w-full bg-white rounded-full h-2.5 overflow-hidden p-0.5 border border-plum-900/10 shadow-inner relative">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-teal-600 via-teal-700 to-teal-800 transition-all duration-500 ease-out"
+              className="h-full rounded-full bg-gradient-to-r from-[#15aec0] to-[#0f8e9d] transition-all duration-500 ease-out"
               style={{ width: `${freeShippingProgress}%` }}
             />
           </div>
@@ -282,7 +282,7 @@ export default function CartDrawer() {
               <Link
                 href="/shop"
                 onClick={closeDrawer}
-                className="inline-flex items-center gap-2 bg-teal-700 hover:bg-teal-800 text-white font-bold text-sm px-6 py-3 rounded transition-all shadow-md shadow-teal-700/20 active:scale-95 cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#15aec0] hover:bg-[#0f8e9d] text-white font-bold text-sm px-6 py-3 rounded transition-all shadow-md shadow-[#15aec0]/20 active:scale-95 cursor-pointer"
               >
                 <span>Explore Meals</span>
                 <ArrowRight className="w-4 h-4" />
@@ -421,7 +421,7 @@ export default function CartDrawer() {
                         </div>
                         <button
                           onClick={() => handleAddUpsell(upsell)}
-                          className="w-full bg-teal-700 hover:bg-teal-800 text-white text-[11px] font-bold px-2 py-1.5 rounded transition-all shadow-xs cursor-pointer active:scale-95 flex items-center justify-center gap-0.5"
+                          className="w-full bg-[#15aec0] hover:bg-[#0f8e9d] text-white text-[11px] font-bold px-2 py-1.5 rounded transition-all shadow-xs cursor-pointer active:scale-95 flex items-center justify-center gap-0.5"
                           aria-label={`Add ${upsell.name} to cart`}
                         >
                           <Plus className="w-3 h-3 stroke-[2.5]" />
@@ -481,7 +481,7 @@ export default function CartDrawer() {
                           <button
                             onClick={applyCoupon}
                             disabled={couponLoading || !couponCode.trim()}
-                            className="bg-teal-700 hover:bg-teal-800 disabled:opacity-50 text-white text-xs font-bold px-4 py-2 rounded transition-all shadow-xs cursor-pointer"
+                            className="bg-[#15aec0] hover:bg-[#0f8e9d] disabled:opacity-50 text-white text-xs font-bold px-4 py-2 rounded transition-all shadow-xs cursor-pointer"
                           >
                             {couponLoading ? '…' : 'Apply'}
                           </button>
@@ -570,11 +570,11 @@ export default function CartDrawer() {
               </div>
             </div>
 
-            {/* Big Dark Teal Checkout CTA */}
+            {/* Big Theme Color Checkout CTA */}
             <button
               onClick={handleCheckoutClick}
               id="drawer-checkout-btn"
-              className="w-full bg-teal-700 hover:bg-teal-800 active:scale-[0.99] text-white py-4 rounded font-extrabold text-base shadow-lg shadow-teal-700/25 transition-all flex items-center justify-between px-6 cursor-pointer"
+              className="w-full bg-[#15aec0] hover:bg-[#0f8e9d] active:scale-[0.99] text-white py-4 rounded font-extrabold text-base shadow-lg shadow-[#15aec0]/25 transition-all flex items-center justify-between px-6 cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <Lock className="w-4 h-4" />

@@ -343,7 +343,7 @@ export default function SearchDrawer({ isOpen, onClose }) {
           <Link
             href={trimmedQuery ? `/shop?search=${encodeURIComponent(trimmedQuery)}` : '/shop'}
             onClick={onClose}
-            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-teal-700 hover:bg-teal-800 active:scale-95 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-teal-700/20"
+            className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-[#15aec0] hover:bg-[#0f8e9d] active:scale-95 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-[#15aec0]/20"
           >
             <span>{trimmedQuery ? `View All Results for "${trimmedQuery}"` : 'Browse Complete Menu in Shop'}</span>
             <ArrowRight className="w-4 h-4" />
