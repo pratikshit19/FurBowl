@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
+import Parallax, { ParallaxFloat, ParallaxBackground } from '@/components/common/Parallax';
 
 /* ─── 7 Core Ingredients ─────────────────────────────────────────────────── */
 const TOP_ROW = [
@@ -469,41 +470,47 @@ export default function IngredientsSection() {
       <div className="absolute inset-0 bg-[#faf4ea]" />
 
       {/* ─── Decorative Corner Blobs & Curves ────────────────────────────── */}
-      <div className="absolute -top-12 -left-12 w-40 h-40 sm:w-56 sm:h-56 rounded-full bg-[#fbd4c0]/50 blur-sm pointer-events-none" />
-      <div className="absolute -top-10 -right-10 w-36 h-36 sm:w-52 sm:h-52 rounded-full bg-[#fbd4c0]/50 blur-sm pointer-events-none" />
+      <ParallaxBackground speed={0.08} className="absolute -top-12 -left-12 w-40 h-40 sm:w-56 sm:h-56 rounded-full bg-[#fbd4c0]/50 blur-sm pointer-events-none" />
+      <ParallaxBackground speed={-0.08} className="absolute -top-10 -right-10 w-36 h-36 sm:w-52 sm:h-52 rounded-full bg-[#fbd4c0]/50 blur-sm pointer-events-none" />
 
       {/* Bottom-left warm peach curve behind dog */}
-      <div className="hidden sm:block absolute -bottom-14 -left-14 w-64 h-64 md:w-88 md:h-88 lg:w-110 lg:h-110 rounded-full bg-[#fbdac7]/80 pointer-events-none" />
+      <ParallaxBackground speed={0.05} className="hidden sm:block absolute -bottom-14 -left-14 w-64 h-64 md:w-88 md:h-88 lg:w-110 lg:h-110 rounded-full bg-[#fbdac7]/80 pointer-events-none" />
 
-      {/* ─── Scattered Paw Prints (Decorative) ──────────────────────────── */}
-      <div className="absolute top-[12%] right-[5%] text-[#ebd7c8] text-5xl sm:text-6xl md:text-7xl lg:text-8xl rotate-[20deg] opacity-35 pointer-events-none select-none">🐾</div>
+      {/* ─── Scattered Paw Prints (Decorative Parallax Float) ───────────── */}
+      <ParallaxFloat speed={-0.25} rotate={15} className="absolute top-[12%] right-[5%] text-[#ebd7c8] text-5xl sm:text-6xl md:text-7xl lg:text-8xl opacity-35 pointer-events-none select-none">
+        🐾
+      </ParallaxFloat>
 
-      {/* ═══ DOG — Absolute Bottom-Left (Desktop only) ════════════════════ */}
+      {/* ═══ DOG — Absolute Bottom-Left (Desktop only with Parallax) ═══════ */}
       <div className="hidden sm:block absolute bottom-0 left-0 z-20 pointer-events-none">
-        <div className="relative w-48 h-56 md:w-56 md:h-64 lg:w-76 lg:h-80 xl:w-80 xl:h-[24rem]">
-          <Image
-            src="/images/sideways_dog.png"
-            alt="Happy dog with FurBowl bandana"
-            fill
-            className="object-contain object-bottom"
-            sizes="(max-width: 768px) 192px, (max-width: 1024px) 224px, (max-width: 1280px) 288px, 320px"
-            priority
-          />
-        </div>
+        <Parallax speed={-0.12}>
+          <div className="relative w-48 h-56 md:w-56 md:h-64 lg:w-76 lg:h-80 xl:w-80 xl:h-[24rem]">
+            <Image
+              src="/images/sideways_dog.png"
+              alt="Happy dog with FurBowl bandana"
+              fill
+              className="object-contain object-bottom drop-shadow-md"
+              sizes="(max-width: 768px) 192px, (max-width: 1024px) 224px, (max-width: 1280px) 288px, 320px"
+              priority
+            />
+          </div>
+        </Parallax>
       </div>
 
-      {/* ═══ BOWL — Absolute Bottom-Right (Desktop only) ═══════════════════ */}
+      {/* ═══ BOWL — Absolute Bottom-Right (Desktop only with Parallax) ════ */}
       <div className="hidden sm:block absolute bottom-0 right-0 z-20 pointer-events-none">
-        <div className="relative w-48 h-36 sm:w-56 sm:h-42 md:w-68 md:h-50 lg:w-80 lg:h-60 xl:w-92 xl:h-68">
-          <Image
-            src="/images/ingredients/furbowl_bowl_shadow.png"
-            alt="FurBowl fresh food bowl"
-            fill
-            className="object-contain object-bottom-right"
-            sizes="(max-width: 768px) 224px, (max-width: 1024px) 272px, (max-width: 1280px) 320px, 368px"
-            priority
-          />
-        </div>
+        <Parallax speed={-0.18}>
+          <div className="relative w-48 h-36 sm:w-56 sm:h-42 md:w-68 md:h-50 lg:w-80 lg:h-60 xl:w-92 xl:h-68">
+            <Image
+              src="/images/ingredients/furbowl_bowl_shadow.png"
+              alt="FurBowl fresh food bowl"
+              fill
+              className="object-contain object-bottom-right drop-shadow-lg"
+              sizes="(max-width: 768px) 224px, (max-width: 1024px) 272px, (max-width: 1280px) 320px, 368px"
+              priority
+            />
+          </div>
+        </Parallax>
       </div>
 
       {/* ─── Content Container ──────────────────────────────────────────── */}

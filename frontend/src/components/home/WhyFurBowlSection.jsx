@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { Leaf, ShieldCheck, Utensils, Sparkles } from 'lucide-react';
+import Parallax, { ParallaxFloat } from '@/components/common/Parallax';
 
 const WHY_FURBOWL_CARDS = [
   {
@@ -96,17 +97,21 @@ export default function WhyFurBowlSection() {
               key={card.id}
               className="w-[80vw] max-w-[300px] sm:w-[320px] lg:max-w-none lg:w-full shrink-0 snap-start flex flex-col relative group"
             >
-              {/* Desktop: Dog peeking over Card 4 */}
+              {/* Desktop: Dog peeking over Card 4 with Parallax Motion */}
               {card.id === 'no-colours' && (
-                <div className="hidden lg:block absolute -top-[195px] xl:-top-[235px] left-1/2 -translate-x-1/2 w-[200px] h-[245px] xl:w-[240px] xl:h-[294px] pointer-events-none z-30 transition-transform duration-300 group-hover:-translate-y-1">
-                  <Image
-                    src="/images/why-furbowl/dog-perfect-peeking.png"
-                    alt="Happy Dog with sunglasses taking support on card"
-                    fill
-                    sizes="(min-width: 1280px) 240px, 200px"
-                    className="object-contain object-bottom drop-shadow-md"
-                    priority
-                  />
+                <div className="hidden lg:block absolute -top-[195px] xl:-top-[235px] left-1/2 -translate-x-1/2 w-[200px] h-[245px] xl:w-[240px] xl:h-[294px] pointer-events-none z-30">
+                  <Parallax speed={-0.12}>
+                    <div className="relative w-[200px] h-[245px] xl:w-[240px] xl:h-[294px] transition-transform duration-300 group-hover:-translate-y-1">
+                      <Image
+                        src="/images/why-furbowl/dog-perfect-peeking.png"
+                        alt="Happy Dog with sunglasses taking support on card"
+                        fill
+                        sizes="(min-width: 1280px) 240px, 200px"
+                        className="object-contain object-bottom drop-shadow-md"
+                        priority
+                      />
+                    </div>
+                  </Parallax>
                 </div>
               )}
 

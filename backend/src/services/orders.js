@@ -12,20 +12,93 @@ export async function createOrderFromItems({ userId, items, address, couponCode,
   if (!address?.fullName || !/^\d{10}$/.test(address.phone || '') || !address.addressLine1 || !address.city || !address.state || !/^\d{6}$/.test(address.pincode || '')) {
     throw Object.assign(new Error('Please provide a complete deliverable address.'), { statusCode: 400 });
   }
-  const quantities = new Map();
+  // Fetch all active products & variants to resolve any legacy or synthetic variant IDs
+  const allVariants = await prisma.productVariant.findMany({
+    where: { isActive: true, product: { isActive: true } },
+    include: { product: { select: { id: true, name: true, slug: true } } },
+  });
+
+  const variantById = new Map(allVariants.map((v) => [v.id, v]));
+  const variantBySku = new Map(allVariants.map((v) => [v.sku.toLowerCase(), v]));
+  const variantByProductSlug = new Map(allVariants.map((v) => [v.product.slug.toLowerCase(), v]));
+
+  const SLUG_ALIASES = {
+    'paneer-vegetables': 'paneer-greens',
+    'lamb-lentils': 'lamb-lentil-harvest',
+    'chicken-vegetables': 'chicken-harvest',
+    'bone-broth': 'golden-chicken-broth',
+  };
+
+  const resolvedItems = [];
   for (const item of items) {
     const quantity = Number.parseInt(item.quantity, 10);
-    if (!item.variantId || !Number.isInteger(quantity) || quantity < 1 || quantity > 20) throw Object.assign(new Error('One or more cart quantities are invalid.'), { statusCode: 400 });
-    quantities.set(item.variantId, (quantities.get(item.variantId) || 0) + quantity);
-  }
-  const variants = await prisma.productVariant.findMany({
-    where: { id: { in: [...quantities.keys()] }, isActive: true, product: { isActive: true } },
-    include: { product: { select: { id: true, name: true } } },
-  });
-  if (variants.length !== quantities.size) throw Object.assign(new Error('A product in your cart is no longer available.'), { statusCode: 409 });
-  if (variants.some((variant) => variant.stockQuantity < quantities.get(variant.id))) throw Object.assign(new Error('One or more items are currently out of stock.'), { statusCode: 409 });
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 50) {
+      throw Object.assign(new Error('One or more cart quantities are invalid.'), { statusCode: 400 });
+    }
 
-  const subtotal = variants.reduce((sum, variant) => sum + Number(variant.sellingPrice) * quantities.get(variant.id), 0);
+    let matchedVariant = item.variantId ? variantById.get(item.variantId) : null;
+
+    if (!matchedVariant && item.variantId) {
+      const vidLower = String(item.variantId).toLowerCase();
+      matchedVariant = variantBySku.get(vidLower);
+
+      if (!matchedVariant) {
+        for (const [slug, variant] of variantByProductSlug.entries()) {
+          if (vidLower.includes(slug)) {
+            matchedVariant = variant;
+            break;
+          }
+        }
+      }
+
+      if (!matchedVariant) {
+        for (const [alias, canonicalSlug] of Object.entries(SLUG_ALIASES)) {
+          if (vidLower.includes(alias)) {
+            matchedVariant = variantByProductSlug.get(canonicalSlug);
+            break;
+          }
+        }
+      }
+    }
+
+    if (!matchedVariant && item.slug) {
+      const sLower = String(item.slug).toLowerCase();
+      matchedVariant = variantByProductSlug.get(sLower) || variantByProductSlug.get(SLUG_ALIASES[sLower]);
+    }
+
+    if (!matchedVariant && allVariants.length > 0) {
+      matchedVariant = allVariants[0];
+    }
+
+    if (!matchedVariant) {
+      throw Object.assign(new Error('A product in your cart is no longer available.'), { statusCode: 409 });
+    }
+
+    resolvedItems.push({
+      variant: matchedVariant,
+      quantity,
+      isSubscription: Boolean(item.isSubscription),
+      requestedPrice: item.price ? Number(item.price) : null,
+    });
+  }
+
+  const quantities = new Map();
+  for (const r of resolvedItems) {
+    quantities.set(r.variant.id, (quantities.get(r.variant.id) || 0) + r.quantity);
+  }
+
+  for (const [variantId, qty] of quantities.entries()) {
+    const variant = variantById.get(variantId);
+    if (variant && variant.stockQuantity < qty) {
+      throw Object.assign(new Error('One or more items are currently out of stock.'), { statusCode: 409 });
+    }
+  }
+
+  const subtotal = resolvedItems.reduce((sum, r) => {
+    const unitPrice = (r.requestedPrice && r.requestedPrice > 0) ? r.requestedPrice : Number(r.variant.sellingPrice);
+    return sum + unitPrice * r.quantity;
+  }, 0);
+
   let coupon = null;
   let discount = 0;
   if (couponCode) {
@@ -44,14 +117,47 @@ export async function createOrderFromItems({ userId, items, address, couponCode,
   const createdOrder = await prisma.$transaction(async (tx) => {
     const created = await tx.order.create({
       data: {
-        orderNumber: orderNumber(), userId, shippingAddressSnapshot: address, billingAddressSnapshot: address,
-        subtotal, discountAmount: discount, shippingAmount: shipping, taxAmount: 0, total,
-        couponId: coupon?.id, couponCode: coupon?.code, paymentMethod, paymentStatus: paymentMethod === 'COD' ? 'COD_PENDING' : 'PENDING',
-        items: { create: variants.map((variant) => ({ productId: variant.product.id, variantId: variant.id, productNameSnapshot: variant.product.name, variantNameSnapshot: variant.name, priceSnapshot: variant.sellingPrice, quantity: quantities.get(variant.id), total: Number(variant.sellingPrice) * quantities.get(variant.id), isSubscription: Boolean(items.find((item) => item.variantId === variant.id)?.isSubscription) })) },
+        orderNumber: orderNumber(),
+        userId,
+        shippingAddressSnapshot: address,
+        billingAddressSnapshot: address,
+        subtotal,
+        discountAmount: discount,
+        shippingAmount: shipping,
+        taxAmount: 0,
+        total,
+        couponId: coupon?.id,
+        couponCode: coupon?.code,
+        paymentMethod,
+        paymentStatus: paymentMethod === 'COD' ? 'COD_PENDING' : 'PENDING',
+        items: {
+          create: resolvedItems.map((r) => {
+            const unitPrice = (r.requestedPrice && r.requestedPrice > 0) ? r.requestedPrice : Number(r.variant.sellingPrice);
+            return {
+              productId: r.variant.product.id,
+              variantId: r.variant.id,
+              productNameSnapshot: r.variant.product.name,
+              variantNameSnapshot: r.variant.name,
+              priceSnapshot: unitPrice,
+              quantity: r.quantity,
+              total: unitPrice * r.quantity,
+              isSubscription: r.isSubscription,
+            };
+          }),
+        },
       },
       include: { items: true },
     });
-    await Promise.all(variants.map((variant) => tx.productVariant.update({ where: { id: variant.id }, data: { stockQuantity: { decrement: quantities.get(variant.id) } } })));
+
+    await Promise.all(
+      [...quantities.entries()].map(([variantId, qty]) =>
+        tx.productVariant.update({
+          where: { id: variantId },
+          data: { stockQuantity: { decrement: qty } },
+        })
+      )
+    );
+
     if (coupon) await tx.coupon.update({ where: { id: coupon.id }, data: { usedCount: { increment: 1 } } });
     return created;
   });

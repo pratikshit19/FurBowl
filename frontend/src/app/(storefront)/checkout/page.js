@@ -136,7 +136,15 @@ function PaymentSection({ address, onPlaceOrder }) {
           },
           credentials: 'include',
           body: JSON.stringify({
-            items: items.map((i) => ({ variantId: i.variantId, quantity: i.quantity, isSubscription: i.isSubscription })),
+            items: items.map((i) => ({
+              variantId: i.variantId,
+              productId: i.productId,
+              slug: i.slug,
+              price: i.price,
+              name: i.productName,
+              quantity: i.quantity,
+              isSubscription: i.isSubscription,
+            })),
             address,
             couponCode: coupon?.code,
             paymentMethod: 'RAZORPAY',
@@ -225,7 +233,15 @@ function PaymentSection({ address, onPlaceOrder }) {
           },
           credentials: 'include',
           body: JSON.stringify({
-            items: items.map((i) => ({ variantId: i.variantId, quantity: i.quantity, isSubscription: i.isSubscription })),
+            items: items.map((i) => ({
+              variantId: i.variantId,
+              productId: i.productId,
+              slug: i.slug,
+              price: i.price,
+              name: i.productName,
+              quantity: i.quantity,
+              isSubscription: i.isSubscription,
+            })),
             address,
             couponCode: coupon?.code,
             paymentMethod: 'COD',
@@ -266,14 +282,14 @@ function PaymentSection({ address, onPlaceOrder }) {
               onClick={() => setPaymentMethod(method.value)}
               className={`w-full flex items-center gap-3.5 p-4 rounded border text-left transition-all cursor-pointer ${
                 paymentMethod === method.value
-                  ? 'border-teal-700 bg-teal-50/60 ring-2 ring-teal-700/20 shadow-xs'
+                  ? 'border-[#15aec0] bg-[#15aec0]/10 ring-2 ring-[#15aec0]/20 shadow-xs'
                   : 'border-plum-900/10 hover:border-plum-900/25 bg-white'
               }`}
             >
               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                paymentMethod === method.value ? 'border-teal-700' : 'border-plum-900/30'
+                paymentMethod === method.value ? 'border-[#15aec0]' : 'border-plum-900/30'
               }`}>
-                {paymentMethod === method.value && <div className="w-2.5 h-2.5 rounded-full bg-teal-700" />}
+                {paymentMethod === method.value && <div className="w-2.5 h-2.5 rounded-full bg-[#15aec0]" />}
               </div>
               <div>
                 <p className="font-bold text-plum-900 text-sm">{method.label}</p>
@@ -312,7 +328,7 @@ function PaymentSection({ address, onPlaceOrder }) {
         onClick={handlePlaceOrder}
         disabled={placing}
         id="place-order-btn"
-        className="w-full bg-teal-700 hover:bg-teal-800 active:scale-[0.99] text-white py-4 rounded font-bold text-base shadow-md shadow-teal-700/20 disabled:opacity-50 transition-all cursor-pointer flex items-center justify-center gap-2"
+        className="w-full bg-[#15aec0] hover:bg-[#0f8e9d] active:scale-[0.99] text-white py-4 rounded font-bold text-base shadow-md shadow-[#15aec0]/20 disabled:opacity-50 transition-all cursor-pointer flex items-center justify-center gap-2"
       >
         <Lock className="w-4 h-4 shrink-0" />
         <span>

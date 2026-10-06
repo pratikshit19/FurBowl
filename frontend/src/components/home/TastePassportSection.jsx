@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { PawPrint, Award, Lock, Check, ArrowRight } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
 import ScrollReveal from '@/components/common/ScrollReveal';
+import { ParallaxFloat } from '@/components/common/Parallax';
 
 export default function TastePassportSection() {
   // 3 unlocked by default, 3 locked
@@ -49,8 +50,10 @@ export default function TastePassportSection() {
             
             {/* Left: Teal Passport Card */}
             <div className="lg:col-span-5 bg-gradient-to-br from-coral-500 to-coral-600 rounded-lg p-6 sm:p-8 text-white shadow-lg relative overflow-hidden flex flex-col justify-between min-h-[380px]">
-              {/* Background paw watermark */}
-              <PawPrint className="absolute -right-8 -bottom-8 w-44 h-44 text-white/10 select-none pointer-events-none stroke-1" />
+              {/* Background paw watermark with Parallax Float */}
+              <ParallaxFloat speed={-0.15} rotate={12} className="absolute -right-8 -bottom-8 pointer-events-none">
+                <PawPrint className="w-44 h-44 text-white/10 select-none stroke-1" />
+              </ParallaxFloat>
 
               <div>
                 <div className="flex items-center justify-between mb-4">

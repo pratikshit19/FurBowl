@@ -27,6 +27,8 @@ import { formatPrice } from '@/lib/constants';
 const UPSELL_PRODUCTS = [
   {
     id: 'upsell-bone-broth',
+    productId: '70108cd8-ee3a-4a69-a121-7b298a3a2e1f',
+    variantId: '67c21f7a-151d-49e3-b6b9-ecf75f664689',
     name: 'Slow-Cooked Bone Broth',
     variantName: '250ml Pouch',
     slug: 'golden-chicken-broth',
@@ -39,9 +41,11 @@ const UPSELL_PRODUCTS = [
   },
   {
     id: 'upsell-chicken-harvest',
+    productId: '6a7f3e53-3108-4921-aa60-4b8d1d988a7c',
+    variantId: '2802c5b3-8473-4dc6-a57f-10be74fe71e2',
     name: 'Chicken & Vegetables',
     variantName: '100g Fresh Pouch',
-    slug: 'chicken-vegetables',
+    slug: 'chicken-harvest',
     price: 199,
     mrp: 219,
     isVeg: false,
@@ -51,9 +55,11 @@ const UPSELL_PRODUCTS = [
   },
   {
     id: 'upsell-paneer-greens',
+    productId: '1b169e4b-2628-4a57-a0f0-ad6e4b900c5c',
+    variantId: 'e480144e-6f01-4624-9a40-31e45b2e2da8',
     name: 'Paneer & Vegetables',
     variantName: '100g Fresh Pouch',
-    slug: 'paneer-vegetables',
+    slug: 'paneer-greens',
     price: 189,
     mrp: 209,
     isVeg: true,
@@ -63,9 +69,11 @@ const UPSELL_PRODUCTS = [
   },
   {
     id: 'upsell-lamb-lentils',
+    productId: '45ff0ec2-4c9c-4da1-9a01-b9323e44d8c1',
+    variantId: '50d5e2ef-b2d7-4bf8-991c-dfae1956b6d0',
     name: 'Lamb & Lentils Harvest',
     variantName: '100g Fresh Pouch',
-    slug: 'lamb-lentils',
+    slug: 'lamb-lentil-harvest',
     price: 229,
     mrp: 249,
     isVeg: false,
@@ -171,14 +179,14 @@ export default function CartDrawer() {
   const handleAddUpsell = (upsell) => {
     addItem(
       {
-        id: upsell.id,
+        id: upsell.productId || upsell.id,
         name: upsell.name,
         slug: upsell.slug,
         isVeg: upsell.isVeg,
         images: [{ url: upsell.imageUrl || upsell.fallbackImg }],
       },
       {
-        id: `var-${upsell.id}`,
+        id: upsell.variantId || `var-${upsell.id}`,
         name: upsell.variantName,
         sellingPrice: upsell.price,
         mrp: upsell.mrp,

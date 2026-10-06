@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { ParallaxFloat } from '@/components/common/Parallax';
 
 export default function ComparisonSection() {
   const [sliderPos, setSliderPos] = useState(50);
@@ -108,17 +109,19 @@ export default function ComparisonSection() {
           </div>
         </div>
 
-        {/* ─── OVERLAID SECTION HEADER (Top Center on Canvas) ─── */}
+        {/* ─── OVERLAID SECTION HEADER (Top Center on Canvas with Parallax) ─── */}
         <div className="absolute top-6 sm:top-8 md:top-10 inset-x-0 z-20 pointer-events-none text-center px-4 max-w-2xl mx-auto">
-          <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-teal-300 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] mb-1 sm:mb-1.5">
-            THE BOWL TELLS THE STORY
-          </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
-            See The Difference
-          </h2>
-          <p className="text-xs sm:text-sm md:text-base text-white/85 font-medium mt-1.5 sm:mt-2 max-w-lg mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] hidden sm:block">
-            Watch the real, physical difference between ultra-processed commercial food and FurBowl&apos;s fresh, whole-food meal.
-          </p>
+          <ParallaxFloat speed={-0.1}>
+            <span className="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-widest text-teal-300 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] mb-1 sm:mb-1.5">
+              THE BOWL TELLS THE STORY
+            </span>
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.95)]">
+              See The Difference
+            </h2>
+            <p className="text-xs sm:text-sm md:text-base text-white/85 font-medium mt-1.5 sm:mt-2 max-w-lg mx-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] hidden sm:block">
+              Watch the real, physical difference between ultra-processed commercial food and FurBowl&apos;s fresh, whole-food meal.
+            </p>
+          </ParallaxFloat>
         </div>
 
         {/* ─── SCANNING DIVIDER BAR ─── */}

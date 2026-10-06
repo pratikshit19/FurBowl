@@ -8,6 +8,29 @@ function getStorageKey(userId) {
   return userId ? `furbowl-cart-user-${userId}` : 'furbowl-cart-guest';
 }
 
+const KNOWN_VARIANT_MAP = {
+  'var-upsell-paneer-greens': 'e480144e-6f01-4624-9a40-31e45b2e2da8',
+  'var-upsell-bone-broth': '67c21f7a-151d-49e3-b6b9-ecf75f664689',
+  'var-upsell-chicken-harvest': '2802c5b3-8473-4dc6-a57f-10be74fe71e2',
+  'var-upsell-lamb-lentils': '50d5e2ef-b2d7-4bf8-991c-dfae1956b6d0',
+  'variant-fb-ch-1': '2802c5b3-8473-4dc6-a57f-10be74fe71e2',
+  'variant-fb-chs-1': '7f5ecb7f-97b5-4eef-b9b7-58be4adf2e84',
+  'variant-fb-geq-1': '30dba041-f13a-430a-b8f4-465cd74164f9',
+  'variant-fb-pg-1': 'e480144e-6f01-4624-9a40-31e45b2e2da8',
+  'variant-fb-llh-1': '50d5e2ef-b2d7-4bf8-991c-dfae1956b6d0',
+  'variant-fb-gcb-1': '67c21f7a-151d-49e3-b6b9-ecf75f664689',
+};
+
+function normalizeCartItems(items) {
+  if (!Array.isArray(items)) return [];
+  return items.map((item) => {
+    if (item.variantId && KNOWN_VARIANT_MAP[item.variantId]) {
+      return { ...item, variantId: KNOWN_VARIANT_MAP[item.variantId] };
+    }
+    return item;
+  });
+}
+
 function loadCartFromStorage(userId) {
   if (typeof window === 'undefined') return { items: [], coupon: null };
   try {
@@ -23,7 +46,7 @@ function loadCartFromStorage(userId) {
           const legacyState = parsed?.state || parsed;
           if (Array.isArray(legacyState?.items) && legacyState.items.length > 0) {
             raw = JSON.stringify({
-              items: legacyState.items,
+              items: normalizeCartItems(legacyState.items),
               coupon: legacyState.coupon || null,
             });
             localStorage.setItem('furbowl-cart-guest', raw);
@@ -36,7 +59,7 @@ function loadCartFromStorage(userId) {
     if (raw) {
       const parsed = JSON.parse(raw);
       return {
-        items: Array.isArray(parsed.items) ? parsed.items : [],
+        items: normalizeCartItems(parsed.items),
         coupon: parsed.coupon || null,
       };
     }

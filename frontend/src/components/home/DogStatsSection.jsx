@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { Activity, ShieldCheck, Ban, Flame } from 'lucide-react';
 import ScrollReveal from '@/components/common/ScrollReveal';
+import Parallax, { ParallaxBackground } from '@/components/common/Parallax';
 
 const STATS = [
   {
@@ -74,17 +75,19 @@ export default function DogStatsSection() {
 
   return (
     <section id="dog-stats-section" className="py-14 sm:py-20 lg:py-24 relative overflow-hidden bg-white border-b border-plum-900/5">
-      {/* Low-opacity large dog shifted up in the top-middle behind the stats */}
+      {/* Low-opacity large dog shifted up in the top-middle behind the stats with Parallax */}
       <div className="absolute inset-0 flex items-start justify-center pt-6 sm:pt-12 pointer-events-none select-none z-0 overflow-hidden">
-        <div className="relative w-[500px] h-[500px] sm:w-[650px] sm:h-[650px] lg:w-[800px] lg:h-[800px] opacity-20 mix-blend-multiply [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_75%)]">
-          <Image
-            src="/images/home/hero-golden-dog.jpg"
-            alt=""
-            fill
-            className="object-contain"
-            priority={false}
-          />
-        </div>
+        <ParallaxBackground speed={0.15}>
+          <div className="relative w-[500px] h-[500px] sm:w-[650px] sm:h-[650px] lg:w-[800px] lg:h-[800px] opacity-20 mix-blend-multiply [mask-image:radial-gradient(ellipse_at_center,black_45%,transparent_75%)]">
+            <Image
+              src="/images/home/hero-golden-dog.jpg"
+              alt=""
+              fill
+              className="object-contain"
+              priority={false}
+            />
+          </div>
+        </ParallaxBackground>
       </div>
 
       <div className="container-main relative z-10">

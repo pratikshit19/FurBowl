@@ -6,13 +6,21 @@ import {
   HelpCircle,
   ChevronDown,
   MessageCircle,
+  Info,
+  Sparkles,
+  Package,
+  ShieldCheck,
+  ArrowDown,
 } from 'lucide-react';
 import ScrollReveal from '@/components/common/ScrollReveal';
 
 export const FAQ_CATEGORIES = [
   {
     id: 'about',
-    label: 'ABOUT FURBOWL',
+    label: 'About FurBowl',
+    badge: 'ABOUT FURBOWL',
+    icon: Info,
+    description: 'Learn about our mission, human-grade standards, and kibble comparison.',
     faqs: [
       {
         id: 'about-1',
@@ -39,7 +47,10 @@ export const FAQ_CATEGORIES = [
   },
   {
     id: 'ingredients',
-    label: 'INGREDIENTS & RECIPES',
+    label: 'Ingredients & Recipes',
+    badge: 'INGREDIENTS & RECIPES',
+    icon: Sparkles,
+    description: 'Fresh meats, vegetables, superfoods, and custom recipe options.',
     faqs: [
       {
         id: 'ing-1',
@@ -66,7 +77,10 @@ export const FAQ_CATEGORIES = [
   },
   {
     id: 'packs',
-    label: 'PACKS & ORDERS',
+    label: 'Packs & Orders',
+    badge: 'PACKS & ORDERS',
+    icon: Package,
+    description: 'Weekly meal plans, bulk savings, variety packs, and delivery details.',
     faqs: [
       {
         id: 'packs-1',
@@ -93,7 +107,10 @@ export const FAQ_CATEGORIES = [
   },
   {
     id: 'feeding',
-    label: 'FEEDING & STORAGE',
+    label: 'Feeding & Storage',
+    badge: 'FEEDING & STORAGE',
+    icon: ShieldCheck,
+    description: 'Transition tips, shelf life, and post-opening storage advice.',
     faqs: [
       {
         id: 'feed-1',
@@ -121,14 +138,14 @@ export const FAQ_CATEGORIES = [
 ];
 
 export default function ComprehensiveFAQSection() {
-  const [activeCategory, setActiveCategory] = useState('all');
   const [openId, setOpenId] = useState('about-1');
 
-  // Filter FAQs based on active category
-  const activeFaqs =
-    activeCategory === 'all'
-      ? FAQ_CATEGORIES.flatMap((c) => c.faqs)
-      : FAQ_CATEGORIES.find((c) => c.id === activeCategory)?.faqs || [];
+  const scrollToCategory = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <section
@@ -138,7 +155,7 @@ export default function ComprehensiveFAQSection() {
     >
       <div className="container-main max-w-5xl mx-auto px-4 sm:px-6">
         {/* ─── Section Header ─── */}
-        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[#15aec0] bg-[#15aec0]/10 border border-[#15aec0]/25 px-3 py-1 rounded-full mb-3 shadow-2xs">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>FAQs</span>
@@ -154,98 +171,114 @@ export default function ComprehensiveFAQSection() {
           <p className="text-sm sm:text-base text-plum-900/70 font-normal leading-relaxed">
             Everything you need to know about our fresh meals, ingredients, weekly packs, and feeding instructions.
           </p>
-        </div>
 
-        {/* ─── Category Filter Tabs ─── */}
-        <div className="flex items-center justify-center gap-2 flex-wrap mb-8 sm:mb-10">
-          <button
-            type="button"
-            onClick={() => setActiveCategory('all')}
-            className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
-              activeCategory === 'all'
-                ? 'bg-plum-900 text-white shadow-sm ring-2 ring-plum-900/10'
-                : 'bg-butter-50/80 text-plum-900/70 border border-plum-900/10 hover:bg-butter-100 hover:text-plum-900'
-            }`}
-          >
-            All Questions (12)
-          </button>
-
-          {FAQ_CATEGORIES.map((cat) => {
-            const isSelected = activeCategory === cat.id;
-            return (
+          {/* ─── Quick Jump Navigation Bar ─── */}
+          <div className="flex items-center justify-center gap-2 flex-wrap mt-6 pt-2">
+            <span className="text-xs text-plum-900/50 font-medium mr-1 flex items-center gap-1">
+              <ArrowDown className="w-3 h-3 text-[#15aec0]" /> Quick Jump:
+            </span>
+            {FAQ_CATEGORIES.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-3.5 sm:px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                  isSelected
-                    ? 'bg-plum-900 text-white shadow-sm ring-2 ring-plum-900/10'
-                    : 'bg-butter-50/80 text-plum-900/70 border border-plum-900/10 hover:bg-butter-100 hover:text-plum-900'
-                }`}
+                onClick={() => scrollToCategory(cat.id)}
+                className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-butter-50 border border-plum-900/10 text-plum-900/80 hover:bg-[#15aec0] hover:text-white hover:border-[#15aec0] transition-all cursor-pointer shadow-2xs"
               >
-                <span>{cat.label}</span>
+                {cat.label}
               </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ─── Continuous Flow FAQ Category Sections ─── */}
+        <div className="space-y-12 sm:space-y-16">
+          {FAQ_CATEGORIES.map((category, catIdx) => {
+            const IconComponent = category.icon;
+            return (
+              <ScrollReveal key={category.id} delay={catIdx * 75}>
+                <div id={category.id} className="scroll-mt-28">
+                  {/* Category Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-plum-900/10">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-xl bg-[#15aec0]/10 border border-[#15aec0]/20 flex items-center justify-center text-[#15aec0] shrink-0">
+                        <IconComponent className="w-4 h-4 stroke-[2.2]" />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold tracking-wider text-[#15aec0] uppercase block">
+                          {category.badge}
+                        </span>
+                        <h3 className="text-lg sm:text-xl font-bold text-plum-900">
+                          {category.label}
+                        </h3>
+                      </div>
+                    </div>
+                    {category.description && (
+                      <p className="text-xs text-plum-900/60 font-normal sm:text-right max-w-xs">
+                        {category.description}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Accordion Questions for Category */}
+                  <div className="bg-cream-50/50 rounded-2xl border border-plum-900/10 divide-y divide-plum-900/10 shadow-xs overflow-hidden">
+                    {category.faqs.map((faq) => {
+                      const isOpen = openId === faq.id;
+                      return (
+                        <div
+                          key={faq.id}
+                          className={`transition-colors duration-200 ${
+                            isOpen ? 'bg-white' : 'hover:bg-white/60'
+                          }`}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => setOpenId(isOpen ? null : faq.id)}
+                            aria-expanded={isOpen}
+                            aria-controls={`faq-answer-${faq.id}`}
+                            id={`faq-question-${faq.id}`}
+                            className="w-full flex items-center justify-between gap-4 p-4 sm:p-5 text-left cursor-pointer transition-all"
+                          >
+                            <div className="flex-1 pr-2">
+                              <span className="font-bold text-sm sm:text-base text-plum-900 leading-snug">
+                                {faq.question}
+                              </span>
+                            </div>
+
+                            <div
+                              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 border transition-all ${
+                                isOpen
+                                  ? 'bg-[#15aec0] border-[#15aec0] text-white rotate-180 shadow-xs'
+                                  : 'border-plum-900/15 text-plum-900/60 bg-white'
+                              }`}
+                            >
+                              <ChevronDown className="w-4 h-4 stroke-[2.5]" />
+                            </div>
+                          </button>
+
+                          <div
+                            id={`faq-answer-${faq.id}`}
+                            role="region"
+                            aria-labelledby={`faq-question-${faq.id}`}
+                            className={`overflow-hidden transition-all duration-300 ease-out ${
+                              isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                            }`}
+                          >
+                            <div className="px-4 pb-5 sm:px-5 sm:pb-6 pt-0 text-xs sm:text-sm text-plum-900/75 leading-relaxed font-normal pr-8 sm:pr-12">
+                              <p>{faq.answer}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </ScrollReveal>
             );
           })}
         </div>
 
-        {/* ─── Accordion Questions Grid ─── */}
-        <ScrollReveal delay={50}>
-          <div className="bg-cream-50/50 rounded-2xl border border-plum-900/10 divide-y divide-plum-900/10 shadow-xs overflow-hidden">
-            {activeFaqs.map((faq) => {
-              const isOpen = openId === faq.id;
-              return (
-                <div
-                  key={faq.id}
-                  className={`transition-colors duration-200 ${
-                    isOpen ? 'bg-white' : 'hover:bg-white/60'
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenId(isOpen ? null : faq.id)}
-                    aria-expanded={isOpen}
-                    aria-controls={`faq-answer-${faq.id}`}
-                    id={`faq-question-${faq.id}`}
-                    className="w-full flex items-center justify-between gap-4 p-4 sm:p-5 text-left cursor-pointer transition-all"
-                  >
-                    <div className="flex-1 pr-2">
-                      <span className="font-bold text-sm sm:text-base text-plum-900 leading-snug">
-                        {faq.question}
-                      </span>
-                    </div>
-
-                    <div
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 border transition-all ${
-                        isOpen
-                          ? 'bg-[#15aec0] border-[#15aec0] text-white rotate-180 shadow-xs'
-                          : 'border-plum-900/15 text-plum-900/60 bg-white'
-                      }`}
-                    >
-                      <ChevronDown className="w-4 h-4 stroke-[2.5]" />
-                    </div>
-                  </button>
-
-                  <div
-                    id={`faq-answer-${faq.id}`}
-                    role="region"
-                    aria-labelledby={`faq-question-${faq.id}`}
-                    className={`overflow-hidden transition-all duration-300 ease-out ${
-                      isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-                    }`}
-                  >
-                    <div className="px-4 pb-5 sm:px-5 sm:pb-6 pt-0 text-xs sm:text-sm text-plum-900/75 leading-relaxed font-normal pr-8 sm:pr-12">
-                      <p>{faq.answer}</p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </ScrollReveal>
-
         {/* ─── Bottom Help Card ─── */}
-        <div className="mt-8 sm:mt-10 bg-butter-50/70 border border-plum-900/10 rounded-xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-12 sm:mt-16 bg-butter-50/70 border border-plum-900/10 rounded-xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
             <h4 className="font-bold text-sm sm:text-base text-plum-900 mb-0.5">
               Still have questions about your pup's unique diet?
@@ -263,8 +296,8 @@ export default function ComprehensiveFAQSection() {
             <span>Chat with us</span>
           </Link>
         </div>
-
       </div>
     </section>
   );
 }
+
