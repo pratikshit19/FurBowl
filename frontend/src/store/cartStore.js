@@ -227,7 +227,7 @@ const useCartStore = create((set, get) => ({
       ];
     }
 
-    set({ items: updatedItems, isDrawerOpen: true });
+    set({ items: updatedItems });
     saveCartToStorage(state.currentUserId, { items: updatedItems, coupon: state.coupon });
 
     // Sync to backend if logged in

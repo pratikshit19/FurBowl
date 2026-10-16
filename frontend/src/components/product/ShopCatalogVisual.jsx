@@ -3,11 +3,47 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ShoppingBag, Check, Package, Star, ShieldCheck, Filter, Heart } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Check, Package, Star, ShieldCheck, Filter, Heart, X } from 'lucide-react';
 import { MOCKUP_RECIPES } from '@/lib/constants';
 import { TRIAL_PACKS, MULTI_PACK_SIZES } from '@/lib/furbowl-data';
 import useCartStore from '@/store/cartStore';
 import useWishlistStore from '@/store/wishlistStore';
+
+const FRESH_MEAL_PACKS = [
+  {
+    count: 7,
+    title: 'Pack of 7',
+    label: '1-Week Starter Plan',
+    pouches: '7 × 100g fresh pouches',
+    price: 699,
+    mrp: 839,
+    discount: '17% OFF',
+    perMeal: '₹99/meal',
+    badge: null,
+  },
+  {
+    count: 14,
+    title: 'Pack of 14',
+    label: '2-Week Routine Plan',
+    pouches: '14 × 100g fresh pouches',
+    price: 1349,
+    mrp: 1679,
+    discount: '20% OFF',
+    perMeal: '₹96/meal',
+    badge: 'POPULAR',
+  },
+  {
+    count: 28,
+    title: 'Pack of 28',
+    label: '4-Week Complete Month',
+    pouches: '28 × 100g fresh pouches',
+    price: 2599,
+    mrp: 3499,
+    discount: '25% OFF',
+    perMeal: '₹92/meal',
+    badge: 'BEST VALUE',
+  },
+];
 
 const TABS = [
   { id: 'meals', label: 'Fresh Meals', count: '5 Recipes' },
@@ -65,8 +101,36 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
   const [activeTab, setActiveTab] = useState(initialTab);
   const [dietFilter, setDietFilter] = useState('ALL'); // 'ALL' | 'VEG' | 'NON_VEG'
   const [addedSlug, setAddedSlug] = useState(null);
+  const [selectedMealForOptions, setSelectedMealForOptions] = useState(null);
+  const [addedPackKey, setAddedPackKey] = useState(null);
+
   const addItem = useCartStore((state) => state.addItem);
   const { toggleItem: toggleWishlist, isWishlisted } = useWishlistStore();
+
+  const handleAddPackOption = (e, recipe, pack) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(
+      {
+        id: `${recipe.id}-pack-${pack.count}`,
+        name: `${recipe.name} (${pack.title})`,
+        slug: recipe.slug,
+        isVeg: recipe.slug.includes('paneer') || recipe.slug.includes('egg'),
+        images: [{ url: recipe.image, altText: recipe.name }],
+      },
+      {
+        id: `variant-${recipe.id}-${pack.count}`,
+        name: pack.title,
+        mrp: pack.mrp,
+        sellingPrice: pack.price,
+        size: `${pack.count} × 100g`,
+      },
+      1
+    );
+    const key = `${recipe.id}-${pack.count}`;
+    setAddedPackKey(key);
+    setTimeout(() => setAddedPackKey(null), 1800);
+  };
 
   const handleQuickAddMeal = (e, recipe) => {
     e.preventDefault();
@@ -260,8 +324,8 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
 
                     {/* Bottom Center Pack Pill */}
                     <div className="absolute bottom-2 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
-                      <span className="text-[9px] sm:text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-2 sm:px-3 py-0.5 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1">
-                        <span>100g Single Packet</span>
+                      <span className="text-[9px] sm:text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-2.5 sm:px-3 py-0.5 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1">
+                        <span>Packs of 7, 14, 28</span>
                       </span>
                     </div>
                   </div>
@@ -279,38 +343,32 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                         {visual.subtitle}
                       </p>
 
-                      {/* Price */}
-                      <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5">
-                        <span className="text-sm sm:text-lg font-bold text-plum-900">
-                          ₹{recipe.price.toLocaleString('en-IN')}
+                      {/* Price Range */}
+                      <div className="flex items-baseline gap-1.5 sm:gap-2 mt-1 sm:mt-1.5 mb-0.5 flex-wrap">
+                        <span className="text-xs sm:text-base font-extrabold text-plum-900">
+                          ₹699 – ₹2,599
                         </span>
-                        <span className="text-[10px] sm:text-xs text-plum-900/40 line-through">
-                          ₹{(recipe.price + 20).toLocaleString('en-IN')}
+                        <span className="text-[9px] sm:text-[10px] font-bold text-teal-800 bg-teal-50 border border-teal-200/60 px-1.5 py-0.2 rounded uppercase">
+                          Up to 25% Off
                         </span>
                       </div>
                     </div>
                   </div>
                 </Link>
 
-                {/* Add to Cart Button Footer — FurBowl Teal */}
+                {/* View Options Button Footer — FurBowl Teal */}
                 <div className="px-2 pb-2 sm:px-4 sm:pb-3 pt-0 bg-white">
                   <button
                     type="button"
-                    onClick={(e) => handleQuickAddMeal(e, recipe)}
-                    className={`w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1 cursor-pointer active:scale-98 ${
-                      addedSlug === recipe.slug
-                        ? 'bg-emerald-600 text-white'
-                        : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm'
-                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedMealForOptions(recipe);
+                    }}
+                    className="w-full py-2 sm:py-2.5 rounded text-xs sm:text-sm font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 bg-[#15aec0] hover:bg-[#0f8e9d] text-white shadow-sm"
                   >
-                    {addedSlug === recipe.slug ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 stroke-[3]" />
-                        <span>Added</span>
-                      </>
-                    ) : (
-                      <span>Add to Cart</span>
-                    )}
+                    <span>View options</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
@@ -571,6 +629,141 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* ─── Fresh Meals Pack Options Modal ─── */}
+      {selectedMealForOptions && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-plum-950/60 backdrop-blur-xs animate-fade-in">
+          <div
+            className="fixed inset-0"
+            onClick={() => setSelectedMealForOptions(null)}
+          />
+          <div className="relative z-10 w-full max-w-lg bg-white rounded-3xl p-5 sm:p-7 shadow-2xl border border-plum-900/10 max-h-[90vh] overflow-y-auto">
+            {/* Modal Header */}
+            <div className="flex items-start justify-between gap-3 pb-4 border-b border-plum-900/10">
+              <div className="flex items-center gap-3">
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#faf6ed] p-1 border border-plum-900/10 shrink-0 overflow-hidden">
+                  <Image
+                    src={selectedMealForOptions.image}
+                    alt={selectedMealForOptions.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div>
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-teal-700 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-200/50">
+                    Fresh Meals Pack Options
+                  </span>
+                  <h3 className="text-base sm:text-lg font-extrabold text-plum-900 mt-1 leading-tight">
+                    {selectedMealForOptions.name}
+                  </h3>
+                  <p className="text-xs text-plum-900/60 font-medium">
+                    Select your pack size for fresh daily feeding:
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setSelectedMealForOptions(null)}
+                className="w-8 h-8 rounded-full bg-plum-900/5 hover:bg-plum-900/10 text-plum-900 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                aria-label="Close options"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Pack Cards List (7, 14, 28) */}
+            <div className="space-y-3 my-5">
+              {FRESH_MEAL_PACKS.map((pack) => {
+                const key = `${selectedMealForOptions.id}-${pack.count}`;
+                const isAdded = addedPackKey === key;
+
+                return (
+                  <div
+                    key={pack.count}
+                    className={`relative p-3.5 sm:p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                      pack.badge === 'POPULAR'
+                        ? 'bg-teal-50/40 border-teal-600/40 shadow-xs'
+                        : pack.badge === 'BEST VALUE'
+                        ? 'bg-amber-50/40 border-amber-500/40 shadow-xs'
+                        : 'bg-white border-plum-900/15 hover:border-plum-900/30'
+                    }`}
+                  >
+                    {pack.badge && (
+                      <span
+                        className={`absolute -top-2.5 right-4 text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider text-white shadow-2xs ${
+                          pack.badge === 'POPULAR' ? 'bg-teal-700' : 'bg-amber-600'
+                        }`}
+                      >
+                        {pack.badge}
+                      </span>
+                    )}
+
+                    <div className="space-y-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-extrabold text-sm sm:text-base text-plum-900">
+                          {pack.title}
+                        </span>
+                        <span className="text-[11px] font-bold text-teal-800 bg-white border border-teal-200 px-2 py-0.2 rounded-full">
+                          {pack.label}
+                        </span>
+                      </div>
+                      <p className="text-xs text-plum-900/60 font-medium">
+                        {pack.pouches} • <span className="font-bold text-plum-900/80">{pack.perMeal}</span>
+                      </p>
+                      <div className="flex items-baseline gap-2 pt-0.5">
+                        <span className="text-base font-extrabold text-plum-900">
+                          ₹{pack.price.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-xs text-plum-900/40 line-through">
+                          ₹{pack.mrp.toLocaleString('en-IN')}
+                        </span>
+                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded">
+                          {pack.discount}
+                        </span>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={(e) => handleAddPackOption(e, selectedMealForOptions, pack)}
+                      className={`px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs shrink-0 ${
+                        isAdded
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-[#15aec0] hover:bg-[#0f8e9d] text-white active:scale-95'
+                      }`}
+                    >
+                      {isAdded ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 stroke-[3]" />
+                          <span>Added to Cart</span>
+                        </>
+                      ) : (
+                        <span>Add to Cart</span>
+                      )}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Modal Bottom Detail Link */}
+            <div className="pt-3 border-t border-plum-900/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+              <span className="text-plum-900/60">
+                100% gently steam-cooked • Single-serve packets
+              </span>
+              <Link
+                href={`/shop/${selectedMealForOptions.slug}`}
+                onClick={() => setSelectedMealForOptions(null)}
+                className="font-bold text-teal-700 hover:text-teal-900 flex items-center gap-1 transition-colors"
+              >
+                <span>View Full Recipe Details</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
         </div>
       )}
     </div>

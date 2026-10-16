@@ -57,8 +57,8 @@ export const PRODUCTS_NAV = [
 export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Our Products', href: '/shop', hasDropdown: true },
-  { label: 'Plans', href: '/plans' },
   { label: 'FurBowl Finder', href: '/find-food' },
+  { label: 'Track Order', href: '/track-order' },
   { label: 'About', href: '/about' },
   { label: 'FAQs', href: '/faq' },
 ];
@@ -90,8 +90,7 @@ export const FOOTER_LINKS = {
     title: 'Help',
     links: [
       { label: 'FAQs', href: '/faq' },
-      { label: 'Contact Us', href: '/contact' },
-      { label: 'Track Order', href: '/account' },
+      { label: 'Track Order', href: '/track-order' },
       { label: 'Shipping & Returns', href: '/shipping-returns' },
     ],
   },

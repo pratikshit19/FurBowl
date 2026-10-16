@@ -45,10 +45,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken Harvest' }],
     variants: [
-      { id: 'v1-1', name: '1 Packet (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
-      { id: 'v1-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
-      { id: 'v1-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
-      { id: 'v1-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+      { id: 'v1-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v1-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v1-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'chicken-homestyle': {
@@ -91,10 +90,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Homestyle' }],
     variants: [
-      { id: 'v2-1', name: '1 Packet (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
-      { id: 'v2-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
-      { id: 'v2-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
-      { id: 'v2-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+      { id: 'v2-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v2-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v2-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'golden-egg-quinoa': {
@@ -140,10 +138,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Golden Egg & Quinoa' }],
     variants: [
-      { id: 'v3-1', name: '1 Packet (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
-      { id: 'v3-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
-      { id: 'v3-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
-      { id: 'v3-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+      { id: 'v3-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v3-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v3-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'paneer-greens': {
@@ -184,10 +181,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Greens' }],
     variants: [
-      { id: 'v4-1', name: '1 Packet (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
-      { id: 'v4-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
-      { id: 'v4-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
-      { id: 'v4-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+      { id: 'v4-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v4-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v4-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'lamb-lentil-harvest': {
@@ -231,10 +227,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb Lentil Harvest' }],
     variants: [
-      { id: 'v5-1', name: '1 Packet (100g)', count: 1, mrp: 249, sellingPrice: 229, stockQuantity: 100 },
-      { id: 'v5-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1743, sellingPrice: 1449, stockQuantity: 100 },
-      { id: 'v5-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3735, sellingPrice: 2899, stockQuantity: 100 },
-      { id: 'v5-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 7470, sellingPrice: 5149, stockQuantity: 100 },
+      { id: 'v5-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 899, sellingPrice: 749, stockQuantity: 100 },
+      { id: 'v5-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1799, sellingPrice: 1449, stockQuantity: 100 },
+      { id: 'v5-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3599, sellingPrice: 2699, stockQuantity: 100 },
     ],
   },
   // ─── 5 Official Recipes ───
@@ -278,10 +273,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables Wet Dog Food' }],
     variants: [
-      { id: 'v-cv-1', name: '1 Packet (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
-      { id: 'v-cv-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
-      { id: 'v-cv-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
-      { id: 'v-cv-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+      { id: 'v-cv-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v-cv-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v-cv-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'chicken-rice-vegetables': {
@@ -324,10 +318,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Rice & Vegetables Wet Dog Food' }],
     variants: [
-      { id: 'v-crv-1', name: '1 Packet (100g)', count: 1, mrp: 219, sellingPrice: 199, stockQuantity: 100 },
-      { id: 'v-crv-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1533, sellingPrice: 1249, stockQuantity: 100 },
-      { id: 'v-crv-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3285, sellingPrice: 2499, stockQuantity: 100 },
-      { id: 'v-crv-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6570, sellingPrice: 4479, stockQuantity: 100 },
+      { id: 'v-crv-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v-crv-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v-crv-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'egg-superfood': {
@@ -373,10 +366,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Egg Superfood Wet Dog Food' }],
     variants: [
-      { id: 'v-es-1', name: '1 Packet (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
-      { id: 'v-es-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
-      { id: 'v-es-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
-      { id: 'v-es-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+      { id: 'v-es-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v-es-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v-es-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'paneer-vegetables': {
@@ -417,10 +409,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Vegetables Wet Dog Food' }],
     variants: [
-      { id: 'v-pv-1', name: '1 Packet (100g)', count: 1, mrp: 209, sellingPrice: 189, stockQuantity: 100 },
-      { id: 'v-pv-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1463, sellingPrice: 1199, stockQuantity: 100 },
-      { id: 'v-pv-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3135, sellingPrice: 2399, stockQuantity: 100 },
-      { id: 'v-pv-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 6270, sellingPrice: 4299, stockQuantity: 100 },
+      { id: 'v-pv-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 839, sellingPrice: 699, stockQuantity: 100 },
+      { id: 'v-pv-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1679, sellingPrice: 1349, stockQuantity: 100 },
+      { id: 'v-pv-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3499, sellingPrice: 2599, stockQuantity: 100 },
     ],
   },
   'lamb-lentils': {
@@ -464,10 +455,9 @@ const MOCK_PRODUCTS = {
     category: { name: 'Meals', slug: 'meals' },
     images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils Wet Dog Food' }],
     variants: [
-      { id: 'v-ll-1', name: '1 Packet (100g)', count: 1, mrp: 249, sellingPrice: 229, stockQuantity: 100 },
-      { id: 'v-ll-7', name: '7-Pack Box', count: 7, badge: 'Save 12%', subtitle: '1-Week Fresh Plan', mrp: 1743, sellingPrice: 1449, stockQuantity: 100 },
-      { id: 'v-ll-15', name: '15-Pack Box', count: 15, badge: 'Save 20%', subtitle: 'Half-Month Supply', mrp: 3735, sellingPrice: 2899, stockQuantity: 100 },
-      { id: 'v-ll-30', name: '30-Pack Box', count: 30, badge: 'Save 25% • Best Value', subtitle: 'Monthly Fresh Diet', mrp: 7470, sellingPrice: 5149, stockQuantity: 100 },
+      { id: 'v-ll-7', name: 'Pack of 7', count: 7, badge: 'Save 17%', subtitle: '7 × 100g • 1-Week Starter', mrp: 899, sellingPrice: 749, stockQuantity: 100 },
+      { id: 'v-ll-14', name: 'Pack of 14', count: 14, badge: 'Save 20% • Popular', subtitle: '14 × 100g • 2-Week Routine', mrp: 1799, sellingPrice: 1449, stockQuantity: 100 },
+      { id: 'v-ll-28', name: 'Pack of 28', count: 28, badge: 'Save 25% • Best Value', subtitle: '28 × 100g • Complete Month', mrp: 3599, sellingPrice: 2699, stockQuantity: 100 },
     ],
   },
 

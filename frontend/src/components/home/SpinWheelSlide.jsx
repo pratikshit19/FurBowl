@@ -344,7 +344,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
             Every spin wins! Unlock exclusive discounts & free shipping.
           </p>
 
-          {/* CTA Button & 100% Win Guarantee */}
+          {/* CTA Buttons */}
           <div className="mt-2 sm:mt-3 md:mt-4 flex flex-wrap items-center gap-1.5 sm:gap-2.5 md:gap-3">
             <button
               type="button"
@@ -373,11 +373,6 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
             >
               <span>Shop Meals</span>
             </Link>
-
-            <div className="inline-flex items-center gap-1 sm:gap-1.5 text-[8.5px] sm:text-xs font-bold text-[#31102f]/80">
-              <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 text-teal-600" />
-              <span>100% Win Guarantee</span>
-            </div>
           </div>
 
           {/* 4 Feature Badges row matching the reference image */}
@@ -395,7 +390,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
               </span>
             </div>
 
-            {/* 2. Vet Approved Nutrition */}
+            {/* 2. Balanced Nutrition */}
             <div className="flex flex-col items-center text-center gap-1">
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#fff0c9] flex items-center justify-center shadow-xs">
                 <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5 text-[#eea52b]" fill="currentColor">
@@ -407,7 +402,7 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                 </svg>
               </div>
               <span className="text-[8px] sm:text-[9.5px] font-bold leading-tight text-[#31102f]">
-                Vet Approved<br />Nutrition
+                Balanced<br />Nutrition
               </span>
             </div>
 

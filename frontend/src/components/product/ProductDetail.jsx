@@ -119,7 +119,7 @@ const INGREDIENT_DEFINITIONS = [
 const BRAND_GUARANTEES = [
   '100% Human-Grade Food',
   'Gently Steam-Cooked Fresh',
-  'Vet-Approved & Balanced',
+  'Nutritionally Balanced',
   'Zero Preservatives or Fillers',
 ];
 
@@ -388,11 +388,6 @@ export default function ProductDetail({ product }) {
                   </span>
                 )}
               </div>
-              {isSubscription && (
-                <p className="text-xs font-normal text-teal-700 mt-1">
-                  Includes {SUBSCRIPTION_DISCOUNT_PERCENT}% Monthly Saver discount
-                </p>
-              )}
             </div>
 
             {/* Product-Specific Variants / Pack Selector */}
@@ -519,11 +514,11 @@ export default function ProductDetail({ product }) {
               <ul className="space-y-1.5 text-xs text-plum-900/85">
                 <li className="flex items-start gap-2">
                   <span className="text-plum-900 font-bold">•</span>
-                  <span>Flat 10% OFF on orders above ₹995.</span>
+                  <span>Flat 10% OFF on orders above ₹995 with automatic checkout savings.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-plum-900 font-bold">•</span>
-                  <span>Extra {SUBSCRIPTION_DISCOUNT_PERCENT}% OFF on Monthly Saver Plans with priority chilled delivery.</span>
+                  <span>Free Chilled Priority Shipping across India on orders above ₹499.</span>
                 </li>
               </ul>
             </div>
@@ -534,7 +529,7 @@ export default function ProductDetail({ product }) {
               type="button"
               onClick={handleAddToCart}
               disabled={addingToCart}
-              className={`w-full py-4 px-6 rounded-xl font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-2 cursor-pointer mb-3.5 shadow-md ${
+              className={`w-full py-4 px-6 rounded-xl font-bold text-sm tracking-wider uppercase transition-all flex items-center justify-center gap-2 cursor-pointer mb-6 shadow-md ${
                 added
                   ? 'bg-emerald-600 text-white shadow-emerald-600/20'
                   : 'bg-[#15aec0] hover:bg-[#0f8e9d] active:scale-[0.99] text-white shadow-[#15aec0]/25'
@@ -551,42 +546,6 @@ export default function ProductDetail({ product }) {
                 'ADD TO CART'
               )}
             </button>
-
-            {/* Monthly Saver Plans Checkbox Card */}
-            <div
-              role="checkbox"
-              aria-checked={isSubscription}
-              tabIndex={0}
-              onClick={() => setIsSubscription(!isSubscription)}
-              onKeyDown={(e) => {
-                if (e.key === ' ' || e.key === 'Enter') {
-                  e.preventDefault();
-                  setIsSubscription(!isSubscription);
-                }
-              }}
-              className={`w-full p-3.5 rounded-xl border-2 cursor-pointer transition-all flex items-center gap-3.5 mb-6 ${
-                isSubscription
-                  ? 'border-teal-700 bg-teal-50/50 shadow-xs'
-                  : 'border-plum-900/20 bg-white hover:border-plum-900/35'
-              }`}
-            >
-              <div
-                className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${
-                  isSubscription ? 'border-teal-700 bg-teal-700 text-white' : 'border-plum-900/40 bg-white'
-                }`}
-              >
-                {isSubscription && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-sm font-bold text-plum-900 block leading-tight">Monthly Saver Plans</span>
-                <span className="text-xs text-plum-900/70 font-normal block mt-0.5">
-                  Save {SUBSCRIPTION_DISCOUNT_PERCENT}% on scheduled fresh packet refills
-                </span>
-              </div>
-              <span className="text-[11px] font-bold text-teal-800 bg-teal-50 border border-teal-200/60 px-2 py-0.5 rounded-full uppercase shrink-0">
-                10% OFF
-              </span>
-            </div>
 
             {/* Wishlist Feedback Toast */}
             {wishlistToast && (

@@ -138,13 +138,10 @@ export default function Footer() {
                 Shop For Dogs
               </h3>
               <ul className="space-y-2 text-xs sm:text-sm text-white/80 font-normal">
-                <li><Link href="/shop" className="hover:text-white transition-colors">Food</Link></li>
-                <li><Link href="/shop" className="hover:text-white transition-colors">Treats</Link></li>
+                <li><Link href="/shop" className="hover:text-white transition-colors">Wet Food</Link></li>
                 <li><Link href="/shop/golden-chicken-broth" className="hover:text-white transition-colors">Broth</Link></li>
-                <li><Link href="/plans" className="hover:text-white transition-colors">Custom Monthly Packs</Link></li>
                 <li><Link href="/about" className="hover:text-white transition-colors">About FurBowl</Link></li>
                 <li><Link href="/why-furbowl" className="hover:text-white transition-colors">Why FurBowl</Link></li>
-                <li><Link href="/why-furbowl" className="hover:text-white transition-colors">Feeding Guidelines</Link></li>
               </ul>
             </div>
 
@@ -157,24 +154,23 @@ export default function Footer() {
                 Quick Links
               </h3>
               <ul className="space-y-2 text-xs sm:text-sm text-white/80 font-normal">
+                <li><Link href="/track-order" className="hover:text-white transition-colors font-medium">Track Order</Link></li>
                 <li><Link href="/why-furbowl" className="hover:text-white transition-colors">Blogs &amp; Science</Link></li>
-                <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
                 <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
                 <li><Link href="/shipping-returns#returns" className="hover:text-white transition-colors">Refund Policy</Link></li>
                 <li><Link href="/shipping-returns" className="hover:text-white transition-colors">Shipping Policy</Link></li>
                 <li><Link href="/terms-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
                 <li><Link href="/faq" className="hover:text-white transition-colors">FAQs</Link></li>
-                <li><Link href="/find-food" className="hover:text-white transition-colors">Pet Parent Resources</Link></li>
               </ul>
             </div>
 
-            {/* Column 3: SUPPORT & ADDRESS */}
+            {/* Column 3: CONTACT US */}
             <div className="col-span-2 md:col-span-3 space-y-3.5">
               <h3
                 className="text-xs sm:text-sm font-bold uppercase tracking-wider !text-white"
                 style={{ color: '#ffffff' }}
               >
-                Support &amp; Location
+                Contact Us
               </h3>
               <div className="space-y-3 text-xs sm:text-sm text-white/85 font-normal">
                 <a

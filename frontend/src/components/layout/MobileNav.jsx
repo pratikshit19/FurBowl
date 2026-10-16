@@ -143,17 +143,17 @@ export default function MobileNav({ isOpen, onClose }) {
             )}
           </div>
 
-          {/* 2. PLANS */}
+          {/* 2. TRACK ORDER */}
           <div className="py-1">
             <Link
-              href="/plans"
+              href="/track-order"
               onClick={onClose}
-              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-peach-600 transition-colors uppercase"
+              className="flex items-center justify-between py-4 text-lg font-bold tracking-tight text-plum-900 hover:text-teal-600 transition-colors uppercase"
             >
               <span className="flex items-center gap-2">
-                <span>Plans</span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-peach-50 text-peach-700 border border-peach-200">
-                  Save 20%
+                <span>Track Order</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+                  Live
                 </span>
               </span>
               <ChevronRight className="w-5 h-5 text-plum-900/30" />

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import useCartStore from '@/store/cartStore';
-import { Home, Search, LayoutGrid, ShoppingCart, RotateCcw, X } from 'lucide-react';
+import { Home, Search, LayoutGrid, ShoppingCart, Package, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function BottomNav() {
@@ -62,10 +62,10 @@ export default function BottomNav() {
       isActive: pathname === '/cart',
     },
     {
-      label: 'Reorder',
-      href: '/plans',
-      icon: RotateCcw,
-      isActive: pathname === '/plans' || pathname.startsWith('/account'),
+      label: 'Track',
+      href: '/track-order',
+      icon: Package,
+      isActive: pathname === '/track-order' || pathname.startsWith('/account'),
     },
   ];
 
@@ -117,7 +117,7 @@ export default function BottomNav() {
             <div className="space-y-2">
               <p className="text-[11px] font-bold text-plum-900/50 uppercase tracking-wider">Popular Searches</p>
               <div className="flex flex-wrap gap-2">
-                {['Chicken Harvest', 'Lamb & Lentils', 'Trial Packs', 'Monthly Plans', 'Bone Broth'].map((tag) => (
+                {['Chicken Harvest', 'Lamb & Lentils', 'Trial Packs', 'Value Packs', 'Bone Broth'].map((tag) => (
                   <button
                     key={tag}
                     type="button"
