@@ -345,12 +345,12 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
           </p>
 
           {/* CTA Button & 100% Win Guarantee */}
-          <div className="mt-2 sm:mt-3 md:mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2.5 md:gap-3.5">
+          <div className="mt-2 sm:mt-3 md:mt-4 flex flex-wrap items-center gap-1.5 sm:gap-2.5 md:gap-3">
             <button
               type="button"
               onClick={spinWheel}
               disabled={spinning}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 md:px-7 py-1.5 sm:py-2.5 md:py-3.5 rounded-none bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-extrabold text-[9px] sm:text-xs md:text-sm uppercase tracking-wider transition-all shadow-md sm:shadow-lg shadow-teal-600/30 hover:shadow-xl hover:shadow-teal-600/40 cursor-pointer disabled:opacity-80"
+              className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 md:px-6 py-1.5 sm:py-2.5 md:py-3 rounded-none bg-teal-600 hover:bg-teal-700 active:scale-95 text-white font-extrabold text-[9px] sm:text-xs md:text-sm uppercase tracking-wider transition-all shadow-md sm:shadow-lg shadow-teal-600/30 hover:shadow-xl hover:shadow-teal-600/40 cursor-pointer disabled:opacity-80"
               aria-label="Spin the wheel"
             >
               {spinning ? (
@@ -366,6 +366,13 @@ export default function SpinWheelSlide({ onSpinStateChange }) {
                 </>
               )}
             </button>
+
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2.5 md:py-3 border border-[#31102f]/30 bg-white/90 hover:bg-white text-[#31102f] font-bold text-[9px] sm:text-xs md:text-sm uppercase tracking-wider transition-all shadow-xs hover:border-[#31102f]"
+            >
+              <span>Shop Meals</span>
+            </Link>
 
             <div className="inline-flex items-center gap-1 sm:gap-1.5 text-[8.5px] sm:text-xs font-bold text-[#31102f]/80">
               <ShieldCheck className="w-3 h-3 sm:w-4 sm:h-4 text-teal-600" />

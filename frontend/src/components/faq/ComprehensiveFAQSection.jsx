@@ -27,7 +27,7 @@ export const FAQ_CATEGORIES = [
         category: 'ABOUT FURBOWL',
         question: 'What is FURBOWL fresh dog food?',
         answer:
-          'FURBOWL is 100% human-grade, ready-to-eat fresh dog food gently steam-cooked using real whole meats, fresh farm vegetables, and essential canine superfoods. It contains zero preservatives, zero meat meals, and zero artificial additives, vacuum-sealed in single-serve 100g pouches for optimal daily nutrition.',
+          'FURBOWL is 100% human-grade, ready-to-eat fresh dog food gently steam-cooked using real whole meats, fresh farm vegetables, and essential canine superfoods. It contains zero preservatives, zero meat meals, and zero artificial additives, vacuum-sealed in single-serve 100g packets for optimal daily nutrition.',
       },
       {
         id: 'about-2',
@@ -87,7 +87,7 @@ export const FAQ_CATEGORIES = [
         category: 'PACKS & ORDERS',
         question: 'What pack sizes are available?',
         answer:
-          'All FURBOWL packs are structured in convenient weekly multiples of 7 single-serve 100g pouches: 7-Pack (1-Week Starter Plan), 14-Pack (2-Week Routine Plan), 21-Pack (3-Week Transformation Plan), and 28-Pack (4-Week Complete Month Plan).',
+          'All FURBOWL packs are structured in convenient weekly multiples of 7 single-serve 100g packets: 7-Pack (1-Week Starter Plan), 14-Pack (2-Week Routine Plan), 21-Pack (3-Week Transformation Plan), and 28-Pack (4-Week Complete Month Plan).',
       },
       {
         id: 'packs-2',
@@ -124,14 +124,14 @@ export const FAQ_CATEGORIES = [
         category: 'FEEDING & STORAGE',
         question: 'How should I store FURBOWL?',
         answer:
-          'Unopened FURBOWL pouches can be stored in a cool, dry pantry at ambient room temperature thanks to our vacuum retort sterilization technology. No freezing or refrigeration is needed until the pouch is opened.',
+          'Unopened FURBOWL packets can be stored in a cool, dry pantry at ambient room temperature thanks to our vacuum retort sterilization technology. No freezing or refrigeration is needed until the packet is opened.',
       },
       {
         id: 'feed-3',
         category: 'FEEDING & STORAGE',
         question: 'How long does it stay fresh after opening?',
         answer:
-          'Once a pouch is opened, transfer any unused food into an airtight container or seal the pouch, store it in your refrigerator, and serve it within 24 to 48 hours for optimal flavor and nutrient integrity.',
+          'Once a packet is opened, transfer any unused food into an airtight container or seal the packet, store it in your refrigerator, and serve it within 24 to 48 hours for optimal flavor and nutrient integrity.',
       },
     ],
   },

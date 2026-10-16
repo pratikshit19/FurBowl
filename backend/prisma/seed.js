@@ -541,7 +541,7 @@ async function main() {
     },
     {
       question: 'Is FurBowl food cooked or raw?',
-      answer: 'All FurBowl meals are fully cooked and ready to eat. Simply cut open the pouch and serve — no cooking, no preparation needed.',
+      answer: 'All FurBowl meals are fully cooked and ready to eat. Simply cut open the packet and serve — no cooking, no preparation needed.',
       category: 'General',
       sortOrder: 2,
     },
@@ -553,7 +553,7 @@ async function main() {
     },
     {
       question: 'How should I store FurBowl food?',
-      answer: 'Store unopened pouches in a cool, dry place. Once opened, refrigerate and consume within 24 hours for best freshness.',
+      answer: 'Store unopened packets in a cool, dry place. Once opened, refrigerate and consume within 24 hours for best freshness.',
       category: 'Storage',
       sortOrder: 4,
     },

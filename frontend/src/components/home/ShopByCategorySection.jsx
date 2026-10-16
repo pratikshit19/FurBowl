@@ -123,7 +123,7 @@ export default function ShopByCategorySection() {
                     </div>
                   )}
 
-                  {/* Retort Pouch / Product Mockup */}
+                  {/* Retort Packet / Product Mockup */}
                   <div className="relative w-full h-full p-3.5 sm:p-4 flex items-center justify-center">
                     <Image
                       src={cat.image}

@@ -36,7 +36,7 @@ export default function AboutPage() {
               <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 h-full">
                 <ShieldCheck className="w-8 h-8 text-turquoise-600 mb-3" />
                 <h3 className="font-bold text-gray-900 mb-2">Uncompromising Integrity</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">What is printed on our label is exactly what is inside the pouch. No hidden ingredients or misleading claims.</p>
+                <p className="text-sm text-gray-600 leading-relaxed">What is printed on our label is exactly what is inside the packet. No hidden ingredients or misleading claims.</p>
               </div>
             </ScrollReveal>
             <ScrollReveal delay={100} className="h-full">

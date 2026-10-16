@@ -5,9 +5,19 @@ import Link from 'next/link';
 import { X, User, Package, Heart, LogOut, ArrowLeft, Loader2, CheckCircle2, Pencil, Mail, Lock, Eye, EyeOff, PawPrint } from 'lucide-react';
 import useAuthModalStore from '@/store/authModalStore';
 import useAuthStore from '@/store/authStore';
-import { msg91SendOtp, msg91VerifyOtp, msg91RetryOtp, initMsg91Widget } from '@/lib/msg91';
+import { initMsg91Widget } from '@/lib/msg91';
+import { sendOtpService, verifyOtpService, retryOtpService, isLocalhost } from '@/lib/auth-client';
+import { apiFetch } from '@/lib/api';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
+
+function WhatsAppIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.456 5.711 1.457h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  );
+}
 
 export default function AuthModal() {
   const { isOpen, closeAuthModal } = useAuthModalStore();
@@ -17,6 +27,7 @@ export default function AuthModal() {
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [name, setName] = useState('');
+  const [channel, setChannel] = useState('whatsapp'); // 'whatsapp' | 'sms'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [resendCountdown, setResendCountdown] = useState(0);
@@ -88,41 +99,29 @@ export default function AuthModal() {
 
   if (!isOpen) return null;
 
-  const handleSendOtp = async (e) => {
+  const handleSendOtp = async (e, chosenChannel = channel) => {
     e?.preventDefault();
     const cleaned = phone.replace(/\D/g, '');
     if (cleaned.length !== 10) {
       setError('Please enter a valid 10-digit mobile number');
       return;
     }
+    setChannel(chosenChannel);
     setLoading(true);
     setError('');
 
     try {
-      let msg91Sent = false;
-      try {
-        const msg91Res = await msg91SendOtp(cleaned);
-        if (msg91Res?.success) {
-          msg91Sent = true;
-        }
-      } catch (msg91Err) {
-        console.warn('MSG91 sendOtp note:', msg91Err?.message);
+      const res = await sendOtpService(cleaned, chosenChannel);
+      if (!res.success) {
+        setError(res.error || 'Failed to send OTP');
+        setLoading(false);
+        return;
       }
-
-      // Also notify backend /auth/send-otp (stores dev OTP & rate limits)
-      const res = await fetch(`${API_URL}/auth/send-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: cleaned }),
-        credentials: 'include',
-      });
-      const data = await res.json();
-      if (!res.ok && !msg91Sent) throw new Error(data.error || 'Failed to send OTP');
-      
       setStep('otp');
       setResendCountdown(30);
     } catch (err) {
-      setError(err.message || 'Something went wrong. Please try again.');
+      const msg = typeof err === 'string' ? err : (err?.message || 'Something went wrong. Please try again.');
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -140,50 +139,30 @@ export default function AuthModal() {
     setError('');
 
     try {
-      let accessToken = null;
-
-      // 1. Try verifying with MSG91 custom UI SDK
-      try {
-        const msg91Res = await msg91VerifyOtp(cleanedOtp);
-        if (msg91Res?.token) {
-          accessToken = msg91Res.token;
-        }
-      } catch (msg91Err) {
-        console.warn('MSG91 verifyOtp note:', msg91Err?.message);
+      const res = await verifyOtpService({ phone: cleanedPhone, otp: cleanedOtp });
+      if (!res.success) {
+        setError(res.error || 'Invalid OTP');
+        return;
       }
 
-      // 2. Complete verification with backend
-      const res = await fetch(`${API_URL}/auth/verify-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: cleanedPhone, otp: cleanedOtp, accessToken }),
-        credentials: 'include',
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Invalid OTP');
+      setUser(res.user, res.token);
 
-      setUser(data.user, data.token);
-
-      if (data.isNewUser || !data.user?.name) {
+      if (res.isNewUser || !res.user?.name) {
         setStep('name');
       } else {
         closeAuthModal();
       }
     } catch (err) {
-      setError(err.message || 'Invalid or expired OTP');
+      setError(typeof err === 'string' ? err : (err?.message || 'Invalid or expired OTP'));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleResendOtp = async () => {
+  const handleResendOtp = async (targetChannel = channel) => {
     if (resendCountdown > 0) return;
-    try {
-      await msg91RetryOtp();
-    } catch (e) {
-      console.warn('MSG91 retryOtp note:', e?.message);
-    }
-    handleSendOtp();
+    await retryOtpService(targetChannel);
+    handleSendOtp(null, targetChannel);
   };
 
   const handleSaveName = async (e) => {
@@ -193,19 +172,13 @@ export default function AuthModal() {
     setError('');
 
     try {
-      const token = useAuthStore.getState().token;
-      const res = await fetch(`${API_URL}/auth/profile`, {
+      const data = await apiFetch('/auth/profile', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
         body: JSON.stringify({ name: name.trim() }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to update name');
-
-      updateUser({ name: data.user.name });
+      if (data?.user?.name) {
+        updateUser({ name: data.user.name });
+      }
       closeAuthModal();
     } catch (err) {
       setError(err.message || 'Could not save profile name');
@@ -218,14 +191,10 @@ export default function AuthModal() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API_URL}/auth/google`, {
+      const data = await apiFetch('/auth/google', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(googlePayload),
-        credentials: 'include',
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Google login failed');
 
       setUser(data.user, data.token);
 
@@ -341,19 +310,10 @@ export default function AuthModal() {
         payload.password = trimmedPassword;
       }
 
-      const res = await fetch(`${API_URL}/auth/profile`, {
+      const data = await apiFetch('/auth/profile', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(currentToken ? { Authorization: `Bearer ${currentToken}` } : {}),
-        },
         body: JSON.stringify(payload),
       });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to update profile');
-      }
 
       if (data.user) {
         if (data.token) {
@@ -677,11 +637,11 @@ export default function AuthModal() {
                     Welcome back!
                   </h2>
                   <p className="text-sm text-plum-900/60 mt-1.5">
-                    Log in to access your account.
+                    Log in with instant WhatsApp OTP verification.
                   </p>
                 </div>
 
-                <form onSubmit={handleSendOtp} className="space-y-4">
+                <form onSubmit={(e) => handleSendOtp(e, 'whatsapp')} className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold text-plum-900 mb-1.5">
                       Mobile Number <span className="text-coral-500">*</span>
@@ -706,22 +666,58 @@ export default function AuthModal() {
                       />
                     </div>
                     {error && (
-                      <p className="text-xs text-coral-600 font-semibold mt-1.5">{error}</p>
+                      <div className="mt-2 p-2.5 bg-amber-50 border border-amber-200 rounded-none text-xs text-amber-900 font-medium space-y-1.5">
+                        <p>{typeof error === 'string' ? error : (error?.message || 'Something went wrong')}</p>
+                        {String(error || '').includes('DLT') && (
+                          <button
+                            type="button"
+                            onClick={(e) => handleSendOtp(e, 'whatsapp')}
+                            className="font-bold text-emerald-700 hover:text-emerald-800 underline inline-flex items-center gap-1 cursor-pointer"
+                          >
+                            <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+                            <span>Switch to WhatsApp OTP now</span>
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
 
+                  {/* Primary CTA: WhatsApp OTP (Instant, No Telecom DLT Delays) */}
                   <button
-                    type="submit"
+                    type="button"
+                    onClick={(e) => handleSendOtp(e, 'whatsapp')}
                     disabled={loading || phone.length !== 10}
-                    className="w-full bg-[#ff4e20] hover:bg-[#e84318] active:scale-[0.98] text-white font-bold py-3.5 px-6 rounded-none transition-all shadow-md shadow-coral-500/25 text-sm sm:text-base flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+                    className="w-full bg-[#25D366] hover:bg-[#20bd5a] active:scale-[0.98] text-white font-bold py-3.5 px-6 rounded-none transition-all shadow-md shadow-emerald-500/20 text-sm sm:text-base flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+                    id="whatsapp-otp-btn"
                   >
-                    {loading ? (
+                    {loading && channel === 'whatsapp' ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Sending OTP...</span>
+                        <span>Sending WhatsApp OTP...</span>
                       </>
                     ) : (
-                      <span>Get OTP</span>
+                      <>
+                        <WhatsAppIcon className="w-5 h-5 fill-white shrink-0" />
+                        <span>Get OTP on WhatsApp</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Secondary Option: SMS OTP */}
+                  <button
+                    type="button"
+                    onClick={(e) => handleSendOtp(e, 'sms')}
+                    disabled={loading || phone.length !== 10}
+                    className="w-full bg-white hover:bg-gray-50 border border-gray-200 active:scale-[0.98] text-plum-900 font-semibold py-2.5 px-4 rounded-none transition-all text-xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    id="sms-otp-btn"
+                  >
+                    {loading && channel === 'sms' ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-plum-900" />
+                        <span>Sending SMS...</span>
+                      </>
+                    ) : (
+                      <span>Get OTP via SMS</span>
                     )}
                   </button>
                 </form>
@@ -814,8 +810,17 @@ export default function AuthModal() {
                     Enter Verification Code
                   </h2>
                   <p className="text-sm text-plum-900/60 mt-1.5">
-                    We sent a verification code to{' '}
-                    <span className="font-bold text-plum-900">+91 {phone}</span>
+                    {channel === 'whatsapp' ? (
+                      <>
+                        We sent a code to your <strong className="text-emerald-700 font-bold">WhatsApp</strong> at{' '}
+                        <span className="font-bold text-plum-900">+91 {phone}</span>
+                      </>
+                    ) : (
+                      <>
+                        We sent a verification SMS to{' '}
+                        <span className="font-bold text-plum-900">+91 {phone}</span>
+                      </>
+                    )}
                   </p>
                 </div>
 
@@ -856,20 +861,34 @@ export default function AuthModal() {
                   </button>
                 </form>
 
-                {/* Resend button */}
-                <div className="text-center mt-5">
+                {/* Resend & alternate channel options */}
+                <div className="text-center mt-5 space-y-2">
                   {resendCountdown > 0 ? (
                     <p className="text-xs text-gray-400 font-medium">
-                      Resend OTP in <span className="font-bold text-plum-900">{resendCountdown}s</span>
+                      Resend code in <span className="font-bold text-plum-900">{resendCountdown}s</span>
                     </p>
                   ) : (
-                    <button
-                      type="button"
-                      onClick={handleResendOtp}
-                      className="text-xs font-bold text-coral-600 hover:text-coral-700 underline cursor-pointer"
-                    >
-                      Resend OTP
-                    </button>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-xs">
+                      <button
+                        type="button"
+                        onClick={() => handleResendOtp(channel)}
+                        className="font-bold text-emerald-700 hover:text-emerald-800 underline cursor-pointer inline-flex items-center gap-1"
+                      >
+                        {channel === 'whatsapp' && <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />}
+                        <span>Resend on {channel === 'whatsapp' ? 'WhatsApp' : 'SMS'}</span>
+                      </button>
+
+                      <span className="text-gray-300 hidden sm:inline">•</span>
+
+                      <button
+                        type="button"
+                        onClick={() => handleResendOtp(channel === 'whatsapp' ? 'sms' : 'whatsapp')}
+                        className="font-semibold text-plum-900/70 hover:text-plum-900 underline cursor-pointer inline-flex items-center gap-1"
+                      >
+                        {channel === 'sms' && <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />}
+                        <span>Send via {channel === 'whatsapp' ? 'SMS' : 'WhatsApp (Instant)'} instead</span>
+                      </button>
+                    </div>
                   )}
                 </div>
               </>

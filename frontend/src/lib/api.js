@@ -1,11 +1,20 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+export const CLOUD_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
+export const LOCAL_API_URL = 'http://localhost:5000/api/v1';
+
+export function getApiBaseUrl() {
+  if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+    return LOCAL_API_URL;
+  }
+  return CLOUD_API_URL;
+}
 
 /**
  * Centralized API client for making requests to the backend.
- * Handles JSON parsing, error responses, and auth headers.
+ * Automatically supports both development (localhost with cloud failover) and production.
  */
-async function apiFetch(endpoint, options = {}) {
-  const url = `${API_URL}${endpoint}`;
+export async function apiFetch(endpoint, options = {}) {
+  const isLocal = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+  const baseUrls = isLocal ? [LOCAL_API_URL, CLOUD_API_URL] : [CLOUD_API_URL];
 
   let authToken = options.token;
   if (!authToken && typeof window !== 'undefined') {
@@ -33,19 +42,31 @@ async function apiFetch(endpoint, options = {}) {
     delete config.headers['Content-Type'];
   }
 
-  const response = await fetch(url, config);
+  let lastError = null;
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({
-      error: 'An unexpected error occurred',
-    }));
-    throw new ApiError(error.error || 'Request failed', response.status, error);
+  for (const base of baseUrls) {
+    try {
+      const response = await fetch(`${base}${endpoint}`, config);
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({
+          error: 'An unexpected error occurred',
+        }));
+        throw new ApiError(error.error || 'Request failed', response.status, error);
+      }
+
+      // Handle 204 No Content
+      if (response.status === 204) return null;
+
+      return response.json();
+    } catch (err) {
+      lastError = err;
+      // If server responded with an application error (4xx/5xx), don't retry alternate URL
+      if (err instanceof ApiError) throw err;
+    }
   }
 
-  // Handle 204 No Content
-  if (response.status === 204) return null;
-
-  return response.json();
+  throw lastError || new Error('Failed to connect to API server');
 }
 
 class ApiError extends Error {

@@ -144,7 +144,7 @@ function getVisualIngredients(ingredientsText, productName = '') {
 export default function ProductDetail({ product }) {
   const defaultVariant = product.variants?.[0] || {
     id: `v-${product.slug || product.id}`,
-    name: product.foodType === 'TRIAL_PACK' || product.foodType === 'MULTI_PACK' ? (product.name || 'Pack') : '100g Pouch',
+    name: product.foodType === 'TRIAL_PACK' || product.foodType === 'MULTI_PACK' ? (product.name || 'Pack') : '100g Packet',
     mrp: product.price ? product.price + 20 : 199,
     sellingPrice: product.price || 179,
     stockQuantity: 100,
@@ -580,7 +580,7 @@ export default function ProductDetail({ product }) {
               <div className="flex-1 min-w-0">
                 <span className="text-sm font-bold text-plum-900 block leading-tight">Monthly Saver Plans</span>
                 <span className="text-xs text-plum-900/70 font-normal block mt-0.5">
-                  Save {SUBSCRIPTION_DISCOUNT_PERCENT}% on scheduled fresh pouch refills
+                  Save {SUBSCRIPTION_DISCOUNT_PERCENT}% on scheduled fresh packet refills
                 </span>
               </div>
               <span className="text-[11px] font-bold text-teal-800 bg-teal-50 border border-teal-200/60 px-2 py-0.5 rounded-full uppercase shrink-0">
@@ -684,6 +684,29 @@ export default function ProductDetail({ product }) {
                         </div>
                       </div>
 
+                      {/* Ingredient Benefits from Laboratory / Master Recipe */}
+                      {product.ingredientBenefits && product.ingredientBenefits.length > 0 && (
+                        <div className="bg-white rounded-xl border border-plum-900/10 overflow-hidden shadow-2xs">
+                          <div className="bg-plum-900/[0.04] px-3.5 py-2.5 border-b border-plum-900/10 flex items-center justify-between">
+                            <p className="font-bold text-plum-900 text-xs">Ingredient Nutritional Contributions</p>
+                            <span className="text-[10px] text-teal-800 font-semibold bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200/50">
+                              Master Recipe Specification
+                            </span>
+                          </div>
+                          <div className="divide-y divide-plum-900/5 max-h-80 overflow-y-auto">
+                            {product.ingredientBenefits.map((item, idx) => (
+                              <div key={idx} className="p-3 text-xs flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 hover:bg-butter-50/40 transition-colors">
+                                <span className="font-bold text-plum-900 sm:w-2/5 shrink-0 flex items-center gap-1.5">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-peach-500 shrink-0" />
+                                  <span>{item.ingredient}</span>
+                                </span>
+                                <span className="text-plum-900/75 leading-relaxed sm:flex-1">{item.contribution}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
                       {/* Recipe-Specific Key Benefits (fully rendered without truncation) */}
                       {product.keyBenefits && product.keyBenefits.length > 0 && (
                         <div className="bg-white rounded-xl p-3.5 border border-plum-900/10 space-y-2">
@@ -773,12 +796,17 @@ export default function ProductDetail({ product }) {
                   </button>
 
                   {expandedSection.nutrition && (
-                    <div className="pt-3 animate-fade-in">
+                    <div className="pt-3 animate-fade-in space-y-2.5">
+                      {product.keyFeatures && (
+                        <div className="p-3 rounded-xl bg-teal-50/60 border border-teal-200/50 text-xs text-teal-900 font-medium">
+                          <strong>Key Profile:</strong> {product.keyFeatures}
+                        </div>
+                      )}
                       <div className="overflow-hidden rounded-xl border border-plum-900/10">
                         <table className="w-full text-xs">
                           <thead>
                             <tr className="bg-plum-900/[0.04]">
-                              <th className="text-left px-3 py-2 font-bold text-plum-900">Nutrient</th>
+                              <th className="text-left px-3 py-2 font-bold text-plum-900">Nutrient (Per 100g wet food)</th>
                               <th className="text-right px-3 py-2 font-bold text-plum-900">Value</th>
                             </tr>
                           </thead>
@@ -786,7 +814,11 @@ export default function ProductDetail({ product }) {
                             {Object.entries(product.nutritionalInfo).map(([key, val], i) => (
                               <tr key={key} className={i % 2 === 0 ? 'bg-white' : 'bg-plum-900/[0.015]'}>
                                 <td className="px-3 py-2 text-plum-900/70 capitalize font-medium">
-                                  {key.replace(/([A-Z])/g, ' $1').trim()}
+                                  {key === 'dietaryFibre'
+                                    ? 'Dietary Fibre'
+                                    : key === 'carbohydrates'
+                                    ? 'Carbohydrates'
+                                    : key.replace(/([A-Z])/g, ' $1').trim()}
                                 </td>
                                 <td className="px-3 py-2 text-plum-900 font-bold text-right">{val}</td>
                               </tr>
@@ -794,6 +826,9 @@ export default function ProductDetail({ product }) {
                           </tbody>
                         </table>
                       </div>
+                      <p className="text-[11px] text-plum-900/50 leading-relaxed italic">
+                        * Values per 100 g of wet food. Carbohydrates include total dietary fibre. Formulated to meet complete and balanced canine nutritional requirements.
+                      </p>
                     </div>
                   )}
                 </div>

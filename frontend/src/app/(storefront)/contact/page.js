@@ -1,121 +1,15 @@
-'use client';
+import ContactClient from '@/components/contact/ContactClient';
 
-import { useState } from 'react';
-import { MapPin, Mail, Clock, CheckCircle2 } from 'lucide-react';
-import api from '@/lib/api';
+export const metadata = {
+  title: 'Contact Us | FurBowl Customer Support',
+  description:
+    'Get in touch with FurBowl. Reach out for custom dog diets, batch ingredients, order tracking, and feeding consultations. Phone: +91 8860503685, Email: care@furbowl.com.',
+  openGraph: {
+    title: 'Contact FurBowl | Fresh Dog Food India',
+    description: 'Reach our certified pet care team for feeding advice, order tracking, and custom nutrition.',
+  },
+};
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      setError('');
-      await api.submitContact(form);
-      setSubmitted(true);
-    } catch (err) {
-      setError(err.message || 'We could not send your message. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="section-padding bg-butter-50 min-h-screen">
-      <div className="container-main max-w-4xl py-12">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl sm:text-4xl font-bold text-plum-900 mb-2">Get in Touch</h1>
-          <p className="text-plum-900/60 font-medium">Have questions about our recipes, delivery, or custom diets? We’d love to hear from you.</p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {/* Contact Info */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-turquoise-50 text-turquoise-600 flex items-center justify-center mb-3">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Our Location</h3>
-              <p className="text-sm text-gray-500">India (Shipping nationwide)</p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-turquoise-50 text-turquoise-600 flex items-center justify-center mb-3">
-                <Mail className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
-              <p className="text-sm text-gray-500">hello@furbowl.in</p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-turquoise-50 text-turquoise-600 flex items-center justify-center mb-3">
-                <Clock className="w-5 h-5" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Support Hours</h3>
-              <p className="text-sm text-gray-500">Mon - Sat: 10 AM - 6 PM IST</p>
-            </div>
-          </div>
-
-          {/* Form */}
-          <div className="md:col-span-2 bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-            {submitted ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">Message Received!</h3>
-                <p className="text-gray-500 text-sm mb-6">Thank you for reaching out. Our team will respond within 24 hours.</p>
-                <button onClick={() => setSubmitted(false)} className="text-turquoise-600 font-semibold text-sm hover:underline cursor-pointer">
-                  Send another message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Your Name *</label>
-                    <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="Priya Sharma" />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Email *</label>
-                    <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="priya@example.com" />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Phone Number</label>
-                  <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="8860503685 (optional)" />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Subject</label>
-                  <input value={form.subject} onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                    className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="Question about feeding guide..." />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Message *</label>
-                  <textarea required rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full border border-plum-900/10 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-coral-500 focus:ring-1 focus:ring-coral-500/30 transition-all" placeholder="How can we help you?" />
-                </div>
-
-                <button type="submit" disabled={loading}
-                  className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 disabled:opacity-50 transition-all shadow-md shadow-coral-500/20">
-                  {loading ? 'Sending…' : 'Send Message'}
-                </button>
-                {error && <p role="alert" className="text-center text-sm font-medium text-red-600">{error}</p>}
-              </form>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return <ContactClient />;
 }

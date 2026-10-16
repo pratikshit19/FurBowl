@@ -157,24 +157,24 @@ export default function Footer() {
                 Quick Links
               </h3>
               <ul className="space-y-2 text-xs sm:text-sm text-white/80 font-normal">
-                <li><Link href="/why-furbowl" className="hover:text-white transition-colors">Blogs</Link></li>
+                <li><Link href="/why-furbowl" className="hover:text-white transition-colors">Blogs &amp; Science</Link></li>
                 <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
                 <li><Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms-conditions" className="hover:text-white transition-colors">Refund Policy</Link></li>
-                <li><Link href="/terms-conditions" className="hover:text-white transition-colors">Shipping Policy</Link></li>
+                <li><Link href="/shipping-returns#returns" className="hover:text-white transition-colors">Refund Policy</Link></li>
+                <li><Link href="/shipping-returns" className="hover:text-white transition-colors">Shipping Policy</Link></li>
                 <li><Link href="/terms-conditions" className="hover:text-white transition-colors">Terms of Service</Link></li>
                 <li><Link href="/faq" className="hover:text-white transition-colors">FAQs</Link></li>
                 <li><Link href="/find-food" className="hover:text-white transition-colors">Pet Parent Resources</Link></li>
               </ul>
             </div>
 
-            {/* Column 3: SUPPORT */}
+            {/* Column 3: SUPPORT & ADDRESS */}
             <div className="col-span-2 md:col-span-3 space-y-3.5">
               <h3
                 className="text-xs sm:text-sm font-bold uppercase tracking-wider !text-white"
                 style={{ color: '#ffffff' }}
               >
-                Support
+                Support &amp; Location
               </h3>
               <div className="space-y-3 text-xs sm:text-sm text-white/85 font-normal">
                 <a
@@ -191,9 +191,11 @@ export default function Footer() {
                   <Mail className="w-4 h-4 text-white shrink-0 group-hover:scale-110 transition-transform" />
                   <span>care@furbowl.com</span>
                 </a>
-                <p className="text-xs text-white/75 pt-1.5 leading-relaxed">
-                  Contact Us: Monday–Saturday, 9am to 9pm
-                </p>
+                <div className="text-xs text-white/75 pt-1.5 leading-relaxed space-y-1">
+                  <p className="font-semibold text-white/90">FurBowl Petcare Pvt. Ltd.</p>
+                  <p>Plot No. 42, Sector 18, Udyog Vihar, Phase IV, Gurugram, HR 122015, India</p>
+                  <p className="text-[11px] text-white/60">Mon–Sat: 9am to 9pm IST</p>
+                </div>
               </div>
             </div>
 

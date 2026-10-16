@@ -75,7 +75,7 @@ const useWishlistStore = create((set, get) => ({
       originalPrice: primaryVariant?.mrp || product.originalPrice || product.price || 219,
       image: primaryImage,
       isVeg: product.isVeg || product.slug?.includes('paneer') || product.slug?.includes('egg') || false,
-      size: primaryVariant?.size || product.size || '100g Pouch',
+      size: primaryVariant?.size || product.size || '100g Packet',
       addedAt: new Date().toISOString(),
     };
 

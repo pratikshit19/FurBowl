@@ -16,7 +16,7 @@ const PILLARS = [
   {
     id: 2,
     title: 'Ready to Eat',
-    body: 'Cut. Open. Serve. No cooking, no mixing, no guesswork. Our meals are fully cooked and ready straight from the pouch.',
+    body: 'Cut. Open. Serve. No cooking, no mixing, no guesswork. Our meals are fully cooked and ready straight from the packet.',
     icon: (
       <svg className="w-6 h-6 text-[#15aec0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />

@@ -3,6 +3,7 @@ import Footer from '@/components/layout/Footer';
 import BottomNav from '@/components/layout/BottomNav';
 import WhatsAppWidget from '@/components/common/WhatsAppWidget';
 import CartDrawer from '@/components/cart/CartDrawer';
+import CookieBanner from '@/components/common/CookieBanner';
 
 export default function StorefrontLayout({ children }) {
   return (
@@ -15,6 +16,7 @@ export default function StorefrontLayout({ children }) {
       <BottomNav />
       <WhatsAppWidget />
       <CartDrawer />
+      <CookieBanner />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import "./globals.css";
 import AuthModal from "@/components/auth/AuthModal";
+import Analytics from "@/components/common/Analytics";
 
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://furbowl.co.in'),
@@ -10,10 +11,13 @@ export const metadata = {
   icons: {
     icon: [
       { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/images/LOGO2.png', type: 'image/png' },
     ],
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/images/LOGO2.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   description:
     "Fresh, ready-to-eat dog food made with real, human-grade ingredients. No fillers, no preservatives — just honest nutrition for your dog. Shop FurBowl.",
@@ -39,6 +43,9 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: "FurBowl — Real Food. Pure Love.",
+    description: "Fresh, ready-to-eat dog food made with real, human-grade ingredients.",
+    images: ['/images/carousel_1.png'],
   },
   alternates: { canonical: '/' },
   robots: {
@@ -53,7 +60,7 @@ const jsonLd = {
     {
       '@type': 'Organization',
       '@id': 'https://furbowl.co.in/#organization',
-      'name': 'FurBowl',
+      'name': 'FurBowl Petcare Pvt. Ltd.',
       'alternateName': ['Fur Bowl', 'FurBowl Fresh Dog Food', 'FurBowl India'],
       'url': 'https://furbowl.co.in',
       'logo': {
@@ -62,8 +69,19 @@ const jsonLd = {
         'caption': 'FurBowl Logo',
       },
       'description': 'Fresh, ready-to-eat cooked dog food made with real human-grade ingredients in India.',
+      'address': {
+        '@type': 'PostalAddress',
+        'streetAddress': 'Plot No. 42, Sector 18, Udyog Vihar, Phase IV',
+        'addressLocality': 'Gurugram',
+        'addressRegion': 'Haryana',
+        'postalCode': '122015',
+        'addressCountry': 'IN',
+      },
+      'telephone': '+91-8860503685',
+      'email': 'care@furbowl.com',
       'contactPoint': {
         '@type': 'ContactPoint',
+        'telephone': '+91-8860503685',
         'contactType': 'customer support',
         'areaServed': 'IN',
         'availableLanguage': ['English', 'Hindi'],
@@ -96,6 +114,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-full flex flex-col antialiased font-sans" suppressHydrationWarning>
+        <Analytics />
         {children}
         <AuthModal />
       </body>

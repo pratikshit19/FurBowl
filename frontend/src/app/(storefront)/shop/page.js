@@ -19,7 +19,7 @@ const PLACEHOLDER_PRODUCTS = [
     foodType: 'WET',
     category: { slug: 'meals' },
     images: [{ url: '/images/products/chicken-harvest-front.jpg', altText: 'Chicken & Vegetables Wet Dog Food' }],
-    variants: [{ mrp: 219, sellingPrice: 199, size: '100g Pouch' }],
+    variants: [{ mrp: 219, sellingPrice: 199, size: '100g Packet' }],
   },
   {
     id: 'chicken-rice-vegetables',
@@ -31,7 +31,7 @@ const PLACEHOLDER_PRODUCTS = [
     foodType: 'WET',
     category: { slug: 'meals' },
     images: [{ url: '/images/products/chicken-homestyle-front.jpg', altText: 'Chicken Rice & Vegetables Wet Dog Food' }],
-    variants: [{ mrp: 219, sellingPrice: 199, size: '100g Pouch' }],
+    variants: [{ mrp: 219, sellingPrice: 199, size: '100g Packet' }],
   },
   {
     id: 'egg-superfood',
@@ -43,7 +43,7 @@ const PLACEHOLDER_PRODUCTS = [
     foodType: 'WET',
     category: { slug: 'meals' },
     images: [{ url: '/images/products/golden-egg-quinoa-front.jpg', altText: 'Egg Superfood Wet Dog Food' }],
-    variants: [{ mrp: 209, sellingPrice: 189, size: '100g Pouch' }],
+    variants: [{ mrp: 209, sellingPrice: 189, size: '100g Packet' }],
   },
   {
     id: 'paneer-vegetables',
@@ -55,7 +55,7 @@ const PLACEHOLDER_PRODUCTS = [
     foodType: 'WET',
     category: { slug: 'meals' },
     images: [{ url: '/images/products/paneer-greens-front.jpg', altText: 'Paneer & Vegetables Wet Dog Food' }],
-    variants: [{ mrp: 209, sellingPrice: 189, size: '100g Pouch' }],
+    variants: [{ mrp: 209, sellingPrice: 189, size: '100g Packet' }],
   },
   {
     id: 'lamb-lentils',
@@ -67,7 +67,7 @@ const PLACEHOLDER_PRODUCTS = [
     foodType: 'WET',
     category: { slug: 'meals' },
     images: [{ url: '/images/products/lamb-lentil-harvest-front.jpg', altText: 'Lamb & Lentils Wet Dog Food' }],
-    variants: [{ mrp: 249, sellingPrice: 229, size: '100g Pouch' }],
+    variants: [{ mrp: 249, sellingPrice: 229, size: '100g Packet' }],
   },
 
   // ─── Official Curated 7-Day Packs (Multiples of 7, 100g each) ───

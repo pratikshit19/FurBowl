@@ -190,7 +190,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                 key={recipe.id}
                 className="rounded-lg bg-white border border-plum-900/10 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
-                {/* ─── Clickable Card Area (Pouch + Details) ─── */}
+                {/* ─── Clickable Card Area (Packet + Details) ─── */}
                 <Link
                   href={`/shop/${recipe.slug}`}
                   className="flex-1 flex flex-col justify-between focus:outline-none group/link"
@@ -247,7 +247,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                       <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${isWishlisted(recipe.id) ? 'fill-coral-500 text-coral-500 scale-110' : ''}`} />
                     </button>
 
-                    {/* Stand-Up Retort Pouch / Product Mockup */}
+                    {/* Stand-Up Retort Packet / Product Mockup */}
                     <div className="relative w-full h-full p-2 sm:p-2.5 flex items-center justify-center">
                       <Image
                         src={recipe.image}
@@ -261,7 +261,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                     {/* Bottom Center Pack Pill */}
                     <div className="absolute bottom-2 sm:bottom-2.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
                       <span className="text-[9px] sm:text-xs font-bold text-plum-900 bg-white/95 backdrop-blur-xs px-2 sm:px-3 py-0.5 rounded-full shadow-xs border border-plum-900/10 flex items-center gap-1">
-                        <span>100g Single Pouch</span>
+                        <span>100g Single Packet</span>
                       </span>
                     </div>
                   </div>
@@ -387,7 +387,7 @@ export default function ShopCatalogVisual({ initialTab = 'meals' }) {
                       <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-200 ${isWishlisted(pack.id) ? 'fill-coral-500 text-coral-500 scale-110' : ''}`} />
                     </button>
 
-                    {/* Overlapping Visual Pouches */}
+                    {/* Overlapping Visual Packets */}
                     <div className="flex items-center justify-center -space-x-6 sm:-space-x-12 group-hover:-space-x-5 sm:group-hover:-space-x-9 transition-all duration-300 pt-2">
                       {pouches.map((pouch, pIdx) => (
                         <div

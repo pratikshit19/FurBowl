@@ -11,6 +11,38 @@ const SCRIPT_URL = 'https://verify.msg91.com/otp-provider.js';
 
 let scriptLoadingPromise = null;
 let lastVerifiedToken = null;
+let isMsg91IpBlocked = false;
+
+function formatArg(arg) {
+  if (!arg) return '';
+  if (arg instanceof Error) return `${arg.name} ${arg.message} ${arg.stack || ''}`;
+  if (typeof arg === 'object') {
+    try { return JSON.stringify(arg); } catch (_) { return String(arg); }
+  }
+  return String(arg);
+}
+
+// Intercept third-party MSG91 console.error calls (e.g. "IPBlocked", rate limits) so Next.js dev overlay is not triggered
+if (typeof window !== 'undefined' && !window.__msg91ConsoleIntercepted) {
+  window.__msg91ConsoleIntercepted = true;
+  const originalConsoleError = console.error;
+  console.error = function (...args) {
+    const combined = args.map(formatArg).join(' ');
+    const isMsg91Error =
+      combined.includes('IPBlocked') ||
+      combined.includes('ip_blocked') ||
+      combined.includes('MSG91') ||
+      combined.includes('OTPWidget') ||
+      combined.includes('otp-provider');
+
+    if (isMsg91Error) {
+      isMsg91IpBlocked = true;
+      console.warn('[MSG91 Rate Limit Note]', ...args);
+      return;
+    }
+    return originalConsoleError.apply(console, args);
+  };
+}
 
 /**
  * Dynamically loads the MSG91 OTP Widget SDK script once.
@@ -64,6 +96,7 @@ export function loadMsg91Script() {
  */
 export async function initMsg91Widget({ onSuccess, onFailure } = {}) {
   if (typeof window === 'undefined') return false;
+  if (isMsg91IpBlocked) return false;
 
   // Ensure captcha placeholder container exists to prevent MSG91 hCaptcha initialization TypeError
   if (!document.getElementById('msg91-captcha-container')) {
@@ -88,7 +121,12 @@ export async function initMsg91Widget({ onSuccess, onFailure } = {}) {
         if (onSuccess) onSuccess(data);
       },
       failure: (error) => {
-        console.warn('MSG91 Widget error:', error);
+        if (error?.message === 'IPBlocked' || error?.code === '408' || String(error).includes('IPBlocked')) {
+          isMsg91IpBlocked = true;
+          console.warn('[MSG91 Note] Client IP is throttled on widget. Fallback handles OTP delivery.');
+        } else {
+          console.warn('MSG91 Widget error:', error);
+        }
         if (onFailure) onFailure(error);
       },
     };
@@ -143,8 +181,13 @@ export function getLastVerifiedToken() {
 /**
  * Sends OTP via MSG91 custom UI method
  * @param {string} phone - 10-digit Indian phone number
+ * @param {'whatsapp'|'sms'} [channel='whatsapp'] - delivery channel
  */
-export async function msg91SendOtp(phone) {
+export async function msg91SendOtp(phone, channel = 'whatsapp') {
+  if (isMsg91IpBlocked) {
+    return { fallback: true, isIpBlocked: true };
+  }
+
   const cleaned = phone.replace(/\D/g, '').slice(-10);
   const identifier = `91${cleaned}`;
 
@@ -153,17 +196,28 @@ export async function msg91SendOtp(phone) {
   if (typeof window !== 'undefined' && typeof window.sendOtp === 'function') {
     return new Promise((resolve) => {
       try {
+        // MSG91 Web SDK accepts the mobile string directly
         window.sendOtp(
           identifier,
-          (res) => resolve({ success: true, data: res }),
+          (res) => {
+            // If whatsapp channel requested, retry via whatsapp channel if initial was SMS
+            if (channel === 'whatsapp' && typeof window.retryOtp === 'function') {
+              try {
+                window.retryOtp('12', () => {}, () => {});
+              } catch (_) {}
+            }
+            resolve({ success: true, channel, data: res });
+          },
           (err) => {
-            console.warn('MSG91 sendOtp returned error callback:', err);
-            resolve({ fallback: true, error: err?.message || err });
+            const errorText = typeof err === 'string' ? err : err?.message || (typeof err === 'object' ? JSON.stringify(err) : 'Failed to send OTP');
+            console.warn('MSG91 sendOtp returned callback error:', errorText);
+            resolve({ fallback: true, error: errorText });
           }
         );
       } catch (e) {
-        console.warn('MSG91 sendOtp caught synchronous error:', e);
-        resolve({ fallback: true, error: e?.message });
+        const errorText = typeof e === 'string' ? e : e?.message || 'Failed to send OTP';
+        console.warn('MSG91 sendOtp caught synchronous error:', errorText);
+        resolve({ fallback: true, error: errorText });
       }
     });
   }
@@ -189,13 +243,15 @@ export async function msg91VerifyOtp(otp) {
             resolve({ success: true, token, data: res });
           },
           (err) => {
-            console.warn('MSG91 verifyOtp returned error callback:', err);
-            resolve({ success: false, error: err?.message || (typeof err === 'string' ? err : 'Incorrect OTP') });
+            const errorMsg = typeof err === 'string' ? err : err?.message || 'Incorrect OTP';
+            console.warn('MSG91 verifyOtp returned error callback:', errorMsg);
+            resolve({ success: false, error: errorMsg });
           }
         );
       } catch (e) {
-        console.warn('MSG91 verifyOtp caught synchronous error:', e);
-        resolve({ success: false, error: e?.message });
+        const errorMsg = typeof e === 'string' ? e : e?.message || 'Verification failed';
+        console.warn('MSG91 verifyOtp caught synchronous error:', errorMsg);
+        resolve({ success: false, error: errorMsg });
       }
     });
   }
@@ -205,16 +261,21 @@ export async function msg91VerifyOtp(otp) {
 
 /**
  * Retries/resends OTP via MSG91
- * @param {string|null} channel - optional channel
+ * @param {'whatsapp'|'sms'|string|null} [channel='whatsapp'] - delivery channel
  */
-export async function msg91RetryOtp(channel = null) {
+export async function msg91RetryOtp(channel = 'whatsapp') {
   if (typeof window !== 'undefined' && typeof window.retryOtp === 'function') {
+    // In MSG91 widget: '12' = WhatsApp, '11' = SMS
+    const channelCode = channel === 'sms' ? '11' : (channel === 'whatsapp' ? '12' : channel);
     return new Promise((resolve, reject) => {
       try {
         window.retryOtp(
-          channel,
-          (res) => resolve({ success: true, data: res }),
-          (err) => reject(new Error(err?.message || 'Failed to resend OTP'))
+          channelCode,
+          (res) => resolve({ success: true, channel, data: res }),
+          (err) => {
+            const errorMsg = typeof err === 'string' ? err : err?.message || 'Failed to resend OTP';
+            reject(new Error(errorMsg));
+          }
         );
       } catch (e) {
         reject(e);

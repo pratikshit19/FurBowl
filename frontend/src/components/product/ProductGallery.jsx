@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
-function getSinglePouchImage(url) {
+function getSinglePacketImage(url) {
   if (!url) return '/images/products/chicken-harvest-front.jpg';
   return url;
 }
@@ -22,7 +22,7 @@ export default function ProductGallery({ images, productName }) {
     );
   }
 
-  const activeImgUrl = getSinglePouchImage(images[activeIndex]?.url);
+  const activeImgUrl = getSinglePacketImage(images[activeIndex]?.url);
 
   return (
     <div className="space-y-2.5 sm:space-y-3 w-full min-w-0">
@@ -80,7 +80,7 @@ export default function ProductGallery({ images, productName }) {
       {images.length > 1 && (
         <div className="hidden sm:flex gap-2 overflow-x-auto pb-1 w-full justify-center">
           {images.map((img, i) => {
-            const thumbUrl = getSinglePouchImage(img.url);
+            const thumbUrl = getSinglePacketImage(img.url);
             return (
               <button
                 key={i}

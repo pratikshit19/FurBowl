@@ -4,12 +4,21 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Phone, Mail } from 'lucide-react';
 import useAuthStore from '@/store/authStore';
-import { msg91SendOtp, msg91VerifyOtp, msg91RetryOtp, initMsg91Widget } from '@/lib/msg91';
+import { initMsg91Widget } from '@/lib/msg91';
+import { sendOtpService, verifyOtpService, retryOtpService, isLocalhost } from '@/lib/auth-client';
+import { apiFetch } from '@/lib/api';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+function WhatsAppIcon({ className = 'w-5 h-5' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.456 5.711 1.457h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  );
+}
 
 function PhoneStep({ onOtpSent }) {
   const [phone, setPhone] = useState('');
+  const [channel, setChannel] = useState('whatsapp');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -17,51 +26,41 @@ function PhoneStep({ onOtpSent }) {
     initMsg91Widget().catch((err) => console.warn('MSG91 init warning:', err));
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e, chosenChannel = 'whatsapp') => {
+    e?.preventDefault();
     const cleaned = phone.replace(/\D/g, '');
     if (cleaned.length !== 10) {
       setError('Please enter a valid 10-digit mobile number');
       return;
     }
+    setChannel(chosenChannel);
     setLoading(true); setError('');
     try {
-      let msg91Sent = false;
-      try {
-        const msg91Res = await msg91SendOtp(cleaned);
-        if (msg91Res?.success) {
-          msg91Sent = true;
-        }
-      } catch (msg91Err) {
-        console.warn('MSG91 sendOtp note:', msg91Err?.message);
+      const res = await sendOtpService(cleaned, chosenChannel);
+      if (!res.success) {
+        setError(res.error || 'Failed to send OTP');
+        setLoading(false);
+        return;
       }
-
-      const res = await fetch(`${API_URL}/auth/send-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone: cleaned }),
-        credentials: 'include',
-      });
-      const data = await res.json();
-      if (!res.ok && !msg91Sent) throw new Error(data.error || 'Failed to send OTP');
-      onOtpSent(cleaned);
+      onOtpSent(cleaned, chosenChannel);
     } catch (e) {
-      setError(e.message);
+      const msg = typeof e === 'string' ? e : (e?.message || 'Failed to send verification code');
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(e, 'whatsapp')}>
       <h1 className="text-2xl font-extrabold text-plum-900 mb-2">Login / Sign Up</h1>
-      <p className="text-plum-900/60 text-sm mb-6">Enter your mobile number to receive a one-time password</p>
+      <p className="text-plum-900/60 text-sm mb-4">Enter your mobile number to receive an instant verification code</p>
 
       <div className="mb-5">
         <label htmlFor="phone-input" className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-2">
           Mobile Number
         </label>
-        <div className="flex rounded-md border border-plum-900/15 focus-within:border-coral-500 focus-within:ring-1 focus-within:ring-coral-500/30 transition-all bg-white overflow-hidden">
+        <div className="flex rounded-md border border-plum-900/15 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500/30 transition-all bg-white overflow-hidden">
           <div className="flex items-center bg-plum-900/5 px-3.5 text-sm text-plum-900/70 font-bold border-r border-plum-900/10">
             +91
           </div>
@@ -72,29 +71,70 @@ function PhoneStep({ onOtpSent }) {
             maxLength={10}
             value={phone}
             onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-            placeholder="8860503685"
+            placeholder="9876543210"
             className="flex-1 bg-transparent px-4 py-3 text-sm text-plum-900 font-medium placeholder-plum-900/30 focus:outline-none"
             required
             autoFocus
           />
         </div>
-        {error && <p className="text-xs text-rose-500 font-semibold mt-1.5">{error}</p>}
+        {error && (
+          <div className="mt-2 p-2.5 bg-amber-50 border border-amber-200 rounded text-xs text-amber-900 font-medium space-y-1.5">
+            <p>{typeof error === 'string' ? error : (error?.message || 'Something went wrong')}</p>
+            {String(error || '').includes('DLT') && (
+              <button
+                type="button"
+                onClick={(e) => handleSubmit(e, 'whatsapp')}
+                className="font-bold text-emerald-700 hover:text-emerald-800 underline inline-flex items-center gap-1 cursor-pointer"
+              >
+                <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+                <span>Switch to WhatsApp OTP now</span>
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
-      <button
-        type="submit"
-        disabled={loading || phone.length !== 10}
-        className="w-full bg-coral-500 text-white py-3.5 rounded font-bold text-sm hover:bg-coral-600 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-coral-500/20"
-        id="send-otp-btn"
-      >
-        {loading ? 'Sending OTP…' : 'Send OTP'}
-      </button>
+      <div className="space-y-3">
+        {/* Primary Action: WhatsApp OTP */}
+        <button
+          type="button"
+          onClick={(e) => handleSubmit(e, 'whatsapp')}
+          disabled={loading || phone.length !== 10}
+          className="w-full bg-[#25D366] text-white py-3.5 rounded font-bold text-sm hover:bg-[#20bd5a] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-pointer"
+          id="send-whatsapp-otp-btn"
+        >
+          {loading && channel === 'whatsapp' ? (
+            'Sending WhatsApp OTP…'
+          ) : (
+            <>
+              <WhatsAppIcon className="w-5 h-5 fill-white" />
+              <span>Get OTP on WhatsApp</span>
+            </>
+          )}
+        </button>
+
+        {/* Secondary Action: SMS OTP */}
+        <button
+          type="button"
+          onClick={(e) => handleSubmit(e, 'sms')}
+          disabled={loading || phone.length !== 10}
+          className="w-full bg-white border border-plum-900/15 text-plum-900 py-2.5 rounded font-semibold text-xs hover:bg-gray-50 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+          id="send-sms-otp-btn"
+        >
+          {loading && channel === 'sms' ? (
+            'Sending SMS…'
+          ) : (
+            <span>Get OTP via SMS</span>
+          )}
+        </button>
+      </div>
     </form>
   );
 }
 
-function OtpStep({ phone, onSuccess, onBack }) {
-  const [otp, setOtp] = useState(['', '', '', '']);
+function OtpStep({ phone, channel = 'whatsapp', onSuccess, onBack }) {
+  const [currentChannel, setCurrentChannel] = useState(channel);
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [resendTimer, setResendTimer] = useState(30);
@@ -111,7 +151,7 @@ function OtpStep({ phone, onSuccess, onBack }) {
     const newOtp = [...otp];
     newOtp[index] = digit;
     setOtp(newOtp);
-    if (digit && index < 3) {
+    if (digit && index < 5) {
       inputsRef.current[index + 1]?.focus();
     }
   };
@@ -123,70 +163,56 @@ function OtpStep({ phone, onSuccess, onBack }) {
   };
 
   const handlePaste = (e) => {
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
-    if (pasted.length === 4) {
-      setOtp(pasted.split(''));
-      inputsRef.current[3]?.focus();
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (pasted.length >= 4) {
+      const newOtp = ['', '', '', '', '', ''];
+      pasted.split('').forEach((char, idx) => {
+        if (idx < 6) newOtp[idx] = char;
+      });
+      setOtp(newOtp);
+      const nextFocus = Math.min(pasted.length, 5);
+      inputsRef.current[nextFocus]?.focus();
     }
     e.preventDefault();
   };
 
   const handleVerify = async () => {
-    const code = otp.join('');
+    const code = otp.join('').trim();
     if (code.length < 4) return;
     setLoading(true); setError('');
     try {
-      let accessToken = null;
-
-      // 1. Try verifying with MSG91 custom UI SDK
-      try {
-        const msg91Res = await msg91VerifyOtp(code);
-        if (msg91Res?.token) {
-          accessToken = msg91Res.token;
-        }
-      } catch (msg91Err) {
-        console.warn('MSG91 verifyOtp note:', msg91Err?.message);
+      const res = await verifyOtpService({ phone, otp: code });
+      if (!res.success) {
+        setError(res.error || 'Invalid OTP');
+        setOtp(['', '', '', '', '', '']);
+        inputsRef.current[0]?.focus();
+        return;
       }
-
-      // 2. Complete verification with backend
-      const res = await fetch(`${API_URL}/auth/verify-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone, otp: code, accessToken }),
-        credentials: 'include',
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Invalid OTP');
-      onSuccess(data.user, data.token, data.isNewUser || !data.user.name);
+      onSuccess(res.user, res.token, res.isNewUser || !res.user?.name);
     } catch (e) {
-      setError(e.message);
-      setOtp(['', '', '', '']);
+      setError(typeof e === 'string' ? e : (e?.message || 'Invalid OTP'));
+      setOtp(['', '', '', '', '', '']);
       inputsRef.current[0]?.focus();
     } finally {
       setLoading(false);
     }
   };
 
-  const handleResend = async () => {
+  const handleResend = async (targetChannel = currentChannel) => {
     if (resendTimer > 0) return;
     setLoading(true);
+    setCurrentChannel(targetChannel);
     try {
-      try {
-        await msg91RetryOtp();
-      } catch (err) {
-        console.warn('MSG91 retry error:', err);
+      await retryOtpService(targetChannel);
+      const res = await sendOtpService(phone, targetChannel);
+      if (!res.success) {
+        setError(res.error || 'Failed to resend OTP');
+        return;
       }
-
-      await fetch(`${API_URL}/auth/send-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phone }),
-        credentials: 'include',
-      });
       setResendTimer(30);
       setError('');
     } catch (e) {
-      setError(e.message || 'Failed to resend OTP');
+      setError(typeof e === 'string' ? e : (e?.message || 'Failed to resend OTP'));
     } finally {
       setLoading(false);
     }
@@ -197,8 +223,17 @@ function OtpStep({ phone, onSuccess, onBack }) {
   return (
     <div>
       <h1 className="text-2xl font-extrabold text-plum-900 mb-2">Enter Verification Code</h1>
-      <p className="text-plum-900/60 text-sm mb-6">
-        We sent a code to <strong className="text-plum-900 font-bold">+91 {phone}</strong>
+      <p className="text-plum-900/60 text-sm mb-4">
+        {currentChannel === 'whatsapp' ? (
+          <>
+            We sent a verification code to your <strong className="text-emerald-700 font-bold">WhatsApp</strong> at{' '}
+            <strong className="text-plum-900 font-bold">+91 {phone}</strong>
+          </>
+        ) : (
+          <>
+            We sent an SMS verification code to <strong className="text-plum-900 font-bold">+91 {phone}</strong>
+          </>
+        )}
       </p>
 
       {/* OTP Boxes */}
@@ -236,24 +271,39 @@ function OtpStep({ phone, onSuccess, onBack }) {
         {loading ? 'Verifying…' : 'Verify OTP'}
       </button>
 
-      <div className="flex justify-between items-center mt-5 pt-3 border-t border-plum-900/10">
-        <button
-          type="button"
-          onClick={onBack}
-          className="text-xs text-plum-900/60 font-semibold hover:text-coral-500 transition-colors cursor-pointer"
-        >
-          ← Change Number
-        </button>
-        {resendTimer > 0 ? (
-          <p className="text-xs text-plum-900/50 font-medium">Resend in {resendTimer}s</p>
-        ) : (
+      <div className="flex flex-col gap-2.5 mt-5 pt-3 border-t border-plum-900/10">
+        <div className="flex justify-between items-center">
           <button
             type="button"
-            onClick={handleResend}
-            className="text-xs text-coral-500 font-bold hover:underline cursor-pointer"
+            onClick={onBack}
+            className="text-xs text-plum-900/60 font-semibold hover:text-coral-500 transition-colors cursor-pointer"
           >
-            Resend OTP
+            ← Change Number
           </button>
+          {resendTimer > 0 ? (
+            <p className="text-xs text-plum-900/50 font-medium">Resend in {resendTimer}s</p>
+          ) : (
+            <button
+              type="button"
+              onClick={() => handleResend(currentChannel)}
+              className="text-xs text-emerald-700 font-bold hover:underline cursor-pointer inline-flex items-center gap-1"
+            >
+              {currentChannel === 'whatsapp' && <WhatsAppIcon className="w-3 h-3 text-[#25D366]" />}
+              <span>Resend on {currentChannel === 'whatsapp' ? 'WhatsApp' : 'SMS'}</span>
+            </button>
+          )}
+        </div>
+
+        {resendTimer <= 0 && (
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={() => handleResend(currentChannel === 'whatsapp' ? 'sms' : 'whatsapp')}
+              className="text-xs text-plum-900/70 hover:text-plum-900 underline font-medium cursor-pointer"
+            >
+              Send via {currentChannel === 'whatsapp' ? 'SMS' : 'WhatsApp (Instant)'} instead
+            </button>
+          </div>
         )}
       </div>
     </div>
@@ -285,15 +335,11 @@ function EmailStep({ onSuccess }) {
       const endpoint = mode === 'signup' ? '/auth/register' : '/auth/login';
       const body = { email: email.trim(), password };
 
-      const res = await fetch(`${API_URL}${endpoint}`, {
+      const data = await apiFetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-        credentials: 'include',
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || `${mode === 'signup' ? 'Registration' : 'Login'} failed`);
       onSuccess(data.user, data.token, mode === 'signup' || data.isNewUser || !data.user.name);
     } catch (e) {
       // Fallback for demo/offline
@@ -411,16 +457,11 @@ function UsernameStep({ user, token, onComplete }) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API_URL}/auth/profile`, {
+      const data = await apiFetch('/auth/profile', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+        token,
         body: JSON.stringify({ name: cleanUsername }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to update username');
       onComplete(data.user, token);
     } catch (err) {
       setError(err.message || 'Failed to save username');
@@ -470,10 +511,12 @@ export default function LoginPage() {
   const [method, setMethod] = useState('phone'); // 'phone' | 'email'
   const [step, setStep] = useState('phone'); // 'phone' | 'otp' | 'username'
   const [phone, setPhone] = useState('');
+  const [channel, setChannel] = useState('whatsapp');
   const [tempAuth, setTempAuth] = useState(null);
 
-  const handleOtpSent = (phoneNum) => {
+  const handleOtpSent = (phoneNum, chosenChannel = 'whatsapp') => {
     setPhone(phoneNum);
+    setChannel(chosenChannel);
     setStep('otp');
   };
 
@@ -502,12 +545,12 @@ export default function LoginPage() {
             onClick={() => setMethod('phone')}
             className={`flex-1 py-2.5 text-xs font-extrabold border-b-2 transition-all flex items-center justify-center gap-2 ${
               method === 'phone'
-                ? 'border-teal-500 text-teal-600'
+                ? 'border-emerald-500 text-emerald-700'
                 : 'border-transparent text-plum-900/50 hover:text-plum-900'
             }`}
           >
-            <Phone className="w-3.5 h-3.5" />
-            <span>Mobile OTP</span>
+            <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+            <span>WhatsApp / Phone OTP</span>
           </button>
           <button
             type="button"
@@ -535,7 +578,7 @@ export default function LoginPage() {
       ) : step === 'phone' ? (
         <PhoneStep onOtpSent={handleOtpSent} />
       ) : (
-        <OtpStep phone={phone} onSuccess={handleSuccess} onBack={() => setStep('phone')} />
+        <OtpStep phone={phone} channel={channel} onSuccess={handleSuccess} onBack={() => setStep('phone')} />
       )}
     </div>
   );
