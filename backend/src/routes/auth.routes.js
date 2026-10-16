@@ -2,7 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import prisma from '../config/database.js';
 import { generateTokens, generateOtpCode } from '../utils/token.js';
-import { sendOtp } from '../utils/sms.js';
+import { sendOtpEmail } from '../utils/email.js';
 import { rateLimit } from '../middleware/rate-limit.js';
 
 const router = Router();
@@ -10,39 +10,120 @@ const router = Router();
 // In-memory OTP store (use Redis in production)
 const otpStore = new Map();
 
-// POST /api/v1/auth/send-otp
-router.post('/send-otp', rateLimit({ windowMs: 15 * 60 * 1000, max: 10, key: (req) => `${req.ip}:${req.body.phone || ''}` }), async (req, res, next) => {
+// POST /api/v1/auth/send-email-otp
+router.post('/send-email-otp', rateLimit({ windowMs: 10 * 60 * 1000, max: 5, key: (req) => `${req.ip}:${(req.body.email || '').toLowerCase()}` }), async (req, res, next) => {
   try {
-    const { phone, channel = 'whatsapp' } = req.body;
-    if (!phone || !/^\d{10}$/.test(phone)) {
-      return res.status(400).json({ error: 'Valid 10-digit phone number required' });
+    const { email } = req.body;
+    if (!email || !email.includes('@') || !email.includes('.')) {
+      return res.status(400).json({ error: 'Valid email address required' });
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
     const otp = generateOtpCode();
-    const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
 
-    otpStore.set(phone, { otp, expiresAt, attempts: 0, channel });
+    otpStore.set(normalizedEmail, { otp, expiresAt, attempts: 0 });
 
-    // Always log OTP to console in development & staging
-    console.log(`\n  📱 [DEV OTP - ${channel.toUpperCase()}] Code for ${phone}: ${otp} (Bypass: 123456)\n`);
+    // Always log OTP to console for debugging
+    console.log(`\n  📧 [OTP] Code for ${normalizedEmail}: ${otp}\n`);
 
-    // Send OTP via MSG91 (WhatsApp or SMS)
-    if (process.env.MSG91_AUTH_KEY) {
-      try {
-        await sendOtp(phone, otp, channel);
-      } catch (smsErr) {
-        console.error(`Failed to dispatch ${channel} OTP to ${phone}:`, smsErr.message);
-        if (channel === 'sms') {
-          // If SMS failed because DLT registration is pending, suggest WhatsApp OTP
-          return res.status(400).json({
-            error: 'SMS OTP is temporarily unavailable due to pending telecom DLT approval. Please use WhatsApp OTP to log in.',
-            suggestWhatsApp: true,
-          });
-        }
+    // Send OTP email
+    const emailResult = await sendOtpEmail(normalizedEmail, otp);
+    if (!emailResult.success) {
+      console.error('Email OTP send failed:', emailResult.error);
+      // Still respond OK so console OTP can be used in dev
+      if (process.env.NODE_ENV !== 'production') {
+        return res.json({ message: 'OTP generated (check server console)', email: normalizedEmail, devMode: true });
       }
+      return res.status(500).json({ error: 'Failed to send OTP email. Please try again.' });
     }
 
-    res.json({ message: 'OTP sent', phone, channel });
+    res.json({ message: 'OTP sent to email', email: normalizedEmail });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// POST /api/v1/auth/verify-email-otp
+router.post('/verify-email-otp', rateLimit({ windowMs: 10 * 60 * 1000, max: 10, key: (req) => `${req.ip}:${(req.body.email || '').toLowerCase()}` }), async (req, res, next) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      return res.status(400).json({ error: 'Email and OTP are required' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const cleanedOtp = String(otp).replace(/\D/g, '').trim();
+
+    const stored = otpStore.get(normalizedEmail);
+
+    if (!stored) {
+      return res.status(400).json({ error: 'OTP not found or expired. Please request a new one.' });
+    }
+
+    if (Date.now() > stored.expiresAt) {
+      otpStore.delete(normalizedEmail);
+      return res.status(400).json({ error: 'OTP has expired. Please request a new one.' });
+    }
+
+    stored.attempts += 1;
+    if (stored.attempts > 5) {
+      otpStore.delete(normalizedEmail);
+      return res.status(400).json({ error: 'Too many incorrect attempts. Please request a new OTP.' });
+    }
+
+    if (cleanedOtp !== stored.otp) {
+      return res.status(400).json({ error: 'Incorrect OTP. Please try again.' });
+    }
+
+    otpStore.delete(normalizedEmail);
+
+    // Find or create user by email
+    let user;
+    let isNewUser = false;
+    try {
+      user = await prisma.user.findUnique({ where: { email: normalizedEmail } });
+      isNewUser = !user || !user.name;
+      if (!user) {
+        user = await prisma.user.create({
+          data: { email: normalizedEmail, emailVerified: true },
+        });
+      } else if (!user.emailVerified) {
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: { emailVerified: true },
+        });
+      }
+    } catch (dbErr) {
+      console.error('DB error in verify-email-otp:', dbErr.message);
+      return res.status(500).json({ error: 'Database error. Please try again.' });
+    }
+
+    const { accessToken, refreshToken } = generateTokens(user);
+
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.json({
+      user: {
+        id: user.id,
+        email: user.email,
+        phone: user.phone || null,
+        name: user.name || null,
+        dogName: user.dogName || null,
+        role: user.role,
+        mostOrderedProduct: user.mostOrderedProduct || null,
+        lastOrderDate: user.lastOrderDate || null,
+        lastOrderSummary: user.lastOrderSummary || null,
+        lastOrderStatus: user.lastOrderStatus || null,
+      },
+      token: accessToken,
+      isNewUser,
+    });
   } catch (error) {
     next(error);
   }
