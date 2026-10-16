@@ -2,8 +2,8 @@ import nodemailer from 'nodemailer';
 
 /**
  * Creates a Nodemailer transporter.
- * Uses Gmail SMTP (App Password) in production / staging.
- * Falls back to Ethereal (fake SMTP) in development if Gmail creds not set.
+ * - Production: requires GMAIL_USER + GMAIL_APP_PASSWORD
+ * - Development: falls back to Ethereal fake SMTP (OTP logged to console)
  */
 async function getTransporter() {
   const gmailUser = process.env.GMAIL_USER;
@@ -12,112 +12,106 @@ async function getTransporter() {
   if (gmailUser && gmailPass) {
     return nodemailer.createTransport({
       service: 'gmail',
-      auth: {
-        user: gmailUser,
-        pass: gmailPass,
-      },
+      auth: { user: gmailUser, pass: gmailPass },
     });
   }
 
-  // Dev fallback: Ethereal (captures emails, doesn't deliver — check console for preview URL)
-  const testAccount = await nodemailer.createTestAccount();
-  const transport = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    secure: false,
-    auth: {
-      user: testAccount.user,
-      pass: testAccount.pass,
-    },
-  });
-  return transport;
+  // In production, fail fast if Gmail not configured
+  if (process.env.NODE_ENV === 'production') {
+    return null;
+  }
+
+  // Dev fallback: Ethereal (OTP won't actually be delivered, check console)
+  try {
+    const testAccount = await nodemailer.createTestAccount();
+    return nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      secure: false,
+      auth: { user: testAccount.user, pass: testAccount.pass },
+    });
+  } catch {
+    return null;
+  }
 }
 
 /**
- * Send an OTP email.
- * @param {string} to  - recipient email address
+ * Send an OTP email to the given address.
+ * @param {string} to  - recipient email
  * @param {string} otp - 6-digit OTP code
+ * @returns {{ success: boolean, error?: string, previewUrl?: string }}
  */
 export async function sendOtpEmail(to, otp) {
-  try {
-    const transporter = await getTransporter();
+  const transporter = await getTransporter();
 
-    const mailOptions = {
-      from: `"FurBowl 🐾" <${process.env.GMAIL_USER || 'noreply@furbowl.co.in'}>`,
-      to,
-      subject: `${otp} is your FurBowl verification code`,
-      text: `Your FurBowl verification code is: ${otp}\n\nThis code expires in 10 minutes. Do not share it with anyone.\n\n– The FurBowl Team`,
-      html: `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-          <title>FurBowl OTP</title>
-        </head>
-        <body style="margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif;background:#fdf8f2;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background:#fdf8f2;padding:40px 0;">
-            <tr>
-              <td align="center">
-                <table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);max-width:520px;width:100%;">
-                  
-                  <!-- Header -->
-                  <tr>
-                    <td style="background:linear-gradient(135deg,#ff6b35 0%,#ff4e20 100%);padding:32px 40px;text-align:center;">
-                      <h1 style="margin:0;color:#ffffff;font-size:28px;font-weight:800;letter-spacing:-0.5px;">🐾 FurBowl</h1>
-                      <p style="margin:6px 0 0;color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;">Premium pet nutrition, delivered.</p>
-                    </td>
-                  </tr>
-
-                  <!-- Body -->
-                  <tr>
-                    <td style="padding:40px 40px 32px;">
-                      <h2 style="margin:0 0 10px;font-size:20px;font-weight:700;color:#1a1035;">Your Verification Code</h2>
-                      <p style="margin:0 0 28px;font-size:14px;color:#6b7280;line-height:1.6;">
-                        Use the code below to log in to your FurBowl account. This code is valid for <strong>10 minutes</strong> and can only be used once.
-                      </p>
-
-                      <!-- OTP Box -->
-                      <div style="background:#fdf8f2;border:2px dashed #ff6b35;border-radius:12px;padding:24px;text-align:center;margin-bottom:28px;">
-                        <p style="margin:0 0 4px;font-size:11px;font-weight:700;color:#ff6b35;letter-spacing:0.1em;text-transform:uppercase;">Verification Code</p>
-                        <p style="margin:0;font-size:44px;font-weight:800;color:#1a1035;letter-spacing:0.15em;font-family:'Courier New',monospace;">${otp}</p>
-                      </div>
-
-                      <p style="margin:0;font-size:13px;color:#9ca3af;line-height:1.6;">
-                        🔒 Never share this code with anyone. FurBowl will never ask for your OTP via call or chat.
-                      </p>
-                    </td>
-                  </tr>
-
-                  <!-- Footer -->
-                  <tr>
-                    <td style="background:#f9fafb;border-top:1px solid #f3f4f6;padding:20px 40px;text-align:center;">
-                      <p style="margin:0;font-size:12px;color:#9ca3af;">
-                        © ${new Date().getFullYear()} FurBowl · Premium Pet Nutrition<br/>
-                        <a href="https://furbowl.co.in" style="color:#ff6b35;text-decoration:none;">furbowl.co.in</a>
-                      </p>
-                    </td>
-                  </tr>
-
-                </table>
-              </td>
-            </tr>
-          </table>
-        </body>
-        </html>
-      `,
+  if (!transporter) {
+    return {
+      success: false,
+      error: 'Email service is not configured. Please add GMAIL_USER and GMAIL_APP_PASSWORD to your environment variables.',
     };
+  }
 
-    const info = await transporter.sendMail(mailOptions);
+  try {
+    const fromAddress = process.env.GMAIL_USER || 'noreply@furbowl.co.in';
 
-    // In dev (Ethereal), log preview URL
-    if (!process.env.GMAIL_USER) {
-      console.log(`📧 [DEV] Email OTP preview: ${nodemailer.getTestMessageUrl(info)}`);
+    const info = await transporter.sendMail({
+      from: `"FurBowl 🐾" <${fromAddress}>`,
+      to,
+      subject: `${otp} — Your FurBowl login code`,
+      text: `Your FurBowl verification code is: ${otp}\n\nValid for 10 minutes. Do not share it with anyone.\n\n– FurBowl Team`,
+      html: `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/></head>
+<body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f5f5f5;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:40px 16px;">
+    <tr><td align="center">
+      <table width="480" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.08);max-width:480px;width:100%;">
+        <!-- Header -->
+        <tr>
+          <td style="background:#ff4e20;padding:28px 40px;text-align:center;">
+            <p style="margin:0;color:#fff;font-size:22px;font-weight:800;letter-spacing:-0.3px;">🐾 FurBowl</p>
+            <p style="margin:4px 0 0;color:rgba(255,255,255,0.8);font-size:12px;">Premium pet nutrition</p>
+          </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+          <td style="padding:36px 40px 28px;">
+            <p style="margin:0 0 8px;font-size:18px;font-weight:700;color:#111;">Your login code</p>
+            <p style="margin:0 0 24px;font-size:14px;color:#666;line-height:1.6;">
+              Use this code to sign in to FurBowl. It expires in <strong>10 minutes</strong>.
+            </p>
+            <!-- OTP Box -->
+            <div style="background:#fff8f6;border:2px solid #ff4e20;border-radius:10px;padding:20px;text-align:center;margin-bottom:24px;">
+              <p style="margin:0 0 2px;font-size:11px;font-weight:600;color:#ff4e20;letter-spacing:0.08em;text-transform:uppercase;">Verification Code</p>
+              <p style="margin:0;font-size:42px;font-weight:800;color:#111;letter-spacing:0.2em;font-family:'Courier New',monospace;">${otp}</p>
+            </div>
+            <p style="margin:0;font-size:12px;color:#999;line-height:1.6;">
+              🔒 Never share this code. FurBowl will never ask for it via call or message.
+            </p>
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="background:#fafafa;border-top:1px solid #f0f0f0;padding:16px 40px;text-align:center;">
+            <p style="margin:0;font-size:11px;color:#bbb;">© ${new Date().getFullYear()} FurBowl · <a href="https://furbowl.co.in" style="color:#ff4e20;text-decoration:none;">furbowl.co.in</a></p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+    });
+
+    // In dev (Ethereal), log the preview URL
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    if (previewUrl) {
+      console.log(`\n  📧 [DEV] Email preview URL: ${previewUrl}\n`);
     } else {
-      console.log(`✅ OTP email sent to ${to} (MessageID: ${info.messageId})`);
+      console.log(`  ✅ OTP email sent to ${to}`);
     }
 
-    return { success: true };
+    return { success: true, previewUrl: previewUrl || null };
   } catch (err) {
     console.error('Email send error:', err.message);
     return { success: false, error: err.message };

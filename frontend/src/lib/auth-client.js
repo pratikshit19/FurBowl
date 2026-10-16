@@ -1,11 +1,5 @@
 /**
- * Email OTP Auth Client (Development & Production)
- *
- * Flow:
- *  1. User enters email → POST /auth/send-email-otp
- *  2. OTP is sent to their inbox (Gmail / any email)
- *  3. User enters OTP → POST /auth/verify-email-otp
- *  4. On success → JWT token + user object returned
+ * Email OTP Auth Client — with 12s fetch timeout
  */
 
 export const CLOUD_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
@@ -26,10 +20,20 @@ function getEndpoints(path) {
     : [`${CLOUD_API_URL}${path}`];
 }
 
+/** Fetch with a timeout (default 12s) */
+async function fetchWithTimeout(url, options, timeoutMs = 12000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    return res;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /**
  * Send OTP to an email address.
- * @param {string} email
- * @returns {{ success: boolean, error?: string }}
  */
 export async function sendEmailOtpService(email) {
   const normalizedEmail = email.toLowerCase().trim();
@@ -38,7 +42,7 @@ export async function sendEmailOtpService(email) {
 
   for (const url of endpoints) {
     try {
-      const res = await fetch(url, {
+      const res = await fetchWithTimeout(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: normalizedEmail }),
@@ -52,21 +56,23 @@ export async function sendEmailOtpService(email) {
       }
 
       lastError = typeof data.error === 'string' ? data.error : (data.message || 'Failed to send OTP');
-    } catch (fetchErr) {
-      lastError = fetchErr.message;
+    } catch (err) {
+      if (err.name === 'AbortError') {
+        lastError = 'Request timed out. Please check your connection and try again.';
+      } else {
+        lastError = err.message;
+      }
     }
   }
 
   return {
     success: false,
-    error: lastError || 'Could not connect to authentication server. Please try again.',
+    error: lastError || 'Could not connect to server. Please try again.',
   };
 }
 
 /**
- * Verify OTP entered by user against their email.
- * @param {{ email: string, otp: string }} params
- * @returns {{ success: boolean, user?, token?, isNewUser?, error? }}
+ * Verify OTP.
  */
 export async function verifyEmailOtpService({ email, otp }) {
   const normalizedEmail = email.toLowerCase().trim();
@@ -76,7 +82,7 @@ export async function verifyEmailOtpService({ email, otp }) {
 
   for (const url of endpoints) {
     try {
-      const res = await fetch(url, {
+      const res = await fetchWithTimeout(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: normalizedEmail, otp: cleanedOtp }),
@@ -90,8 +96,12 @@ export async function verifyEmailOtpService({ email, otp }) {
       }
 
       lastError = typeof data.error === 'string' ? data.error : (data.message || 'Invalid OTP');
-    } catch (fetchErr) {
-      lastError = fetchErr.message;
+    } catch (err) {
+      if (err.name === 'AbortError') {
+        lastError = 'Request timed out. Please try again.';
+      } else {
+        lastError = err.message;
+      }
     }
   }
 
@@ -101,14 +111,7 @@ export async function verifyEmailOtpService({ email, otp }) {
   };
 }
 
-// ── Legacy phone OTP exports (kept for any residual usage, map to no-ops) ──
-
-export async function sendOtpService() {
-  return { success: false, error: 'Phone OTP is no longer supported. Use email OTP.' };
-}
-
-export async function verifyOtpService() {
-  return { success: false, error: 'Phone OTP is no longer supported. Use email OTP.' };
-}
-
+// Legacy no-ops
+export async function sendOtpService() { return { success: false, error: 'Use email OTP.' }; }
+export async function verifyOtpService() { return { success: false, error: 'Use email OTP.' }; }
 export async function retryOtpService() {}
