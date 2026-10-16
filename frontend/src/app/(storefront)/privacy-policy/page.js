@@ -85,15 +85,14 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="bg-peach-50/50 p-6 rounded-2xl border border-peach-200/50">
-            <h2 className="text-lg font-bold text-plum-900 mb-2">8. Grievance Officer &amp; Registered Address</h2>
+            <h2 className="text-lg font-bold text-plum-900 mb-2">8. Grievance Officer &amp; Customer Support</h2>
             <p className="text-sm text-plum-900/80 mb-3">
               In accordance with the Information Technology Act, 2000 and rules made thereunder:
             </p>
             <div className="text-xs sm:text-sm text-plum-900/90 space-y-1 font-medium">
               <p><strong>Entity:</strong> FurBowl Petcare Pvt. Ltd.</p>
-              <p><strong>Kitchen &amp; Office:</strong> Plot No. 42, Sector 18, Udyog Vihar, Phase IV, Gurugram, Haryana 122015, India</p>
               <p><strong>Grievance Email:</strong> support.furbowl@gmail.com</p>
-              <p><strong>Customer Helpline:</strong> +91 8860503685 (Monday – Saturday, 9:00 AM – 9:00 PM IST)</p>
+              <p><strong>Customer Helpline:</strong> +91 8076400762 (Monday – Saturday, 9:00 AM – 9:00 PM IST)</p>
             </div>
           </section>
         </div>

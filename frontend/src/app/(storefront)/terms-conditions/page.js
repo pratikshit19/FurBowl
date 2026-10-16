@@ -65,7 +65,7 @@ export default function TermsConditionsPage() {
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-plum-900/75">
               <li>We cannot accept returns on opened, unsealed, or thawed packets once received.</li>
-              <li>If you receive a package that is visibly damaged, leaking, incorrect, or defective, you must notify us within <strong>24 hours of delivery</strong> with photographic evidence at <strong>support.furbowl@gmail.com</strong> or via WhatsApp at <strong>+91 8860503685</strong>.</li>
+              <li>If you receive a package that is visibly damaged, leaking, incorrect, or defective, you must notify us within <strong>24 hours of delivery</strong> with photographic evidence at <strong>support.furbowl@gmail.com</strong> or via WhatsApp at <strong>+91 8076400762</strong>.</li>
               <li>Upon verification, we will promptly dispatch a replacement package or initiate a full refund to your original payment method within 5–7 business days.</li>
             </ul>
           </section>
@@ -95,8 +95,7 @@ export default function TermsConditionsPage() {
             <h2 className="text-lg font-bold text-plum-900 mb-2">9. Company Details &amp; Customer Support</h2>
             <div className="text-xs sm:text-sm text-plum-900/90 space-y-1 font-medium">
               <p><strong>Corporate Entity:</strong> FurBowl Petcare Pvt. Ltd.</p>
-              <p><strong>Registered Office:</strong> Plot No. 42, Sector 18, Udyog Vihar, Phase IV, Gurugram, Haryana 122015, India</p>
-              <p><strong>Support Phone:</strong> +91 8860503685 (Mon – Sat, 9:00 AM – 9:00 PM IST)</p>
+              <p><strong>Support Phone:</strong> +91 8076400762 (Mon – Sat, 9:00 AM – 9:00 PM IST)</p>
               <p><strong>Official Email:</strong> support.furbowl@gmail.com</p>
             </div>
           </section>

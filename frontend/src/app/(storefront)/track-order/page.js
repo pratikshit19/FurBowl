@@ -125,10 +125,10 @@ export default function TrackOrderPage() {
           shippingAddressSnapshot: {
             fullName: user?.name || 'FurBowl Pet Parent',
             phone: user?.phone || '+91 98765 43210',
-            addressLine1: 'Plot 42, Sector 18, Udyog Vihar',
-            city: 'Gurugram',
-            state: 'Haryana',
-            pincode: '122015',
+            addressLine1: 'Flat 402, Green Glen Heights',
+            city: 'New Delhi',
+            state: 'Delhi',
+            pincode: '110001',
           },
         },
         tracking: {
@@ -552,10 +552,10 @@ export default function TrackOrderPage() {
 
               <div className="flex items-center gap-2.5">
                 <a
-                  href="tel:+918860503685"
+                  href="tel:+918076400762"
                   className="px-4 py-2.5 rounded-xl border border-plum-900/15 text-plum-900 font-bold text-xs hover:bg-plum-900/5 transition-colors"
                 >
-                  Call +91 8860503685
+                  Call +91 8076400762
                 </a>
                 <Link
                   href="/shop"

@@ -73,10 +73,9 @@ export default function ShippingReturnsPage() {
           <section className="bg-peach-50/50 p-6 rounded-2xl border border-peach-200/50">
             <h2 className="text-lg font-bold text-plum-900 mb-2">5. Need Help with an Order?</h2>
             <div className="text-xs sm:text-sm text-plum-900/90 space-y-1 font-medium">
-              <p><strong>Customer Care:</strong> +91 8860503685 (WhatsApp &amp; Voice)</p>
+              <p><strong>Customer Care:</strong> +91 8076400762 (WhatsApp &amp; Voice)</p>
               <p><strong>Email Support:</strong> support.furbowl@gmail.com</p>
               <p><strong>Support Hours:</strong> Monday – Saturday, 9:00 AM – 9:00 PM IST</p>
-              <p><strong>Kitchen &amp; Office:</strong> Plot No. 42, Sector 18, Udyog Vihar, Phase IV, Gurugram, Haryana 122015, India</p>
             </div>
           </section>
         </div>

@@ -174,11 +174,11 @@ export default function Footer() {
               </h3>
               <div className="space-y-3 text-xs sm:text-sm text-white/85 font-normal">
                 <a
-                  href="tel:+918860503685"
+                  href="tel:+918076400762"
                   className="flex items-center gap-2.5 hover:text-white transition-colors group"
                 >
                   <Phone className="w-4 h-4 text-white shrink-0 group-hover:scale-110 transition-transform" />
-                  <span className="tracking-wide">+91 8860503685</span>
+                  <span className="tracking-wide">+91 8076400762</span>
                 </a>
                 <a
                   href="mailto:support.furbowl@gmail.com"
@@ -189,7 +189,6 @@ export default function Footer() {
                 </a>
                 <div className="text-xs text-white/75 pt-1.5 leading-relaxed space-y-1">
                   <p className="font-semibold text-white/90">FurBowl Petcare Pvt. Ltd.</p>
-                  <p>Plot No. 42, Sector 18, Udyog Vihar, Phase IV, Gurugram, HR 122015, India</p>
                   <p className="text-[11px] text-white/60">Mon–Sat: 9am to 9pm IST</p>
                 </div>
               </div>

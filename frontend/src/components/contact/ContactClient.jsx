@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MapPin, Mail, Clock, CheckCircle2, Phone, AlertCircle } from 'lucide-react';
+import { Mail, Clock, CheckCircle2, Phone, AlertCircle } from 'lucide-react';
 import api from '@/lib/api';
 
 export default function ContactClient() {
@@ -64,19 +64,6 @@ export default function ContactClient() {
         <div className="grid md:grid-cols-12 gap-8 items-start">
           {/* Contact Info Sidebar */}
           <div className="md:col-span-5 space-y-4">
-            {/* Real Registered Address */}
-            <div className="bg-white rounded-2xl p-6 border border-plum-900/10 shadow-xs">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center mb-3">
-                <MapPin className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-plum-900 text-sm mb-1">Kitchen &amp; Office</h3>
-              <p className="text-xs sm:text-sm text-plum-900/75 leading-relaxed font-normal">
-                <strong>FurBowl Petcare Pvt. Ltd.</strong><br />
-                Plot No. 42, Sector 18, Udyog Vihar, Phase IV<br />
-                Gurugram, Haryana 122015, India
-              </p>
-            </div>
-
             {/* Direct Phone & WhatsApp */}
             <div className="bg-white rounded-2xl p-6 border border-plum-900/10 shadow-xs">
               <div className="w-10 h-10 rounded-xl bg-peach-50 text-peach-600 flex items-center justify-center mb-3">
@@ -84,10 +71,10 @@ export default function ContactClient() {
               </div>
               <h3 className="font-bold text-plum-900 text-sm mb-1">Direct Call &amp; WhatsApp</h3>
               <a
-                href="tel:+918860503685"
+                href="tel:+918076400762"
                 className="text-xs sm:text-sm font-semibold text-teal-700 hover:text-teal-800 transition-colors block"
               >
-                +91 8860503685
+                +91 8076400762
               </a>
               <p className="text-xs text-plum-900/50 mt-1">Instant support for feeding advice</p>
             </div>

@@ -69,15 +69,7 @@ const jsonLd = {
         'caption': 'FurBowl Logo',
       },
       'description': 'Fresh, ready-to-eat cooked dog food made with real human-grade ingredients in India.',
-      'address': {
-        '@type': 'PostalAddress',
-        'streetAddress': 'Plot No. 42, Sector 18, Udyog Vihar, Phase IV',
-        'addressLocality': 'Gurugram',
-        'addressRegion': 'Haryana',
-        'postalCode': '122015',
-        'addressCountry': 'IN',
-      },
-      'telephone': '+91-8860503685',
+      'telephone': '+91-8076400762',
       'email': 'support.furbowl@gmail.com',
       'sameAs': [
         'https://instagram.com/furbowl.in',
@@ -85,7 +77,7 @@ const jsonLd = {
       ],
       'contactPoint': {
         '@type': 'ContactPoint',
-        'telephone': '+91-8860503685',
+        'telephone': '+91-8076400762',
         'contactType': 'customer support',
         'areaServed': 'IN',
         'availableLanguage': ['English', 'Hindi'],

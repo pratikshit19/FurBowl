@@ -216,7 +216,7 @@ export default function MobileNav({ isOpen, onClose }) {
           {/* 6. CONTACT US */}
           <div className="py-1">
             <a
-              href="https://wa.me/918860503685"
+              href="https://wa.me/918076400762"
               target="_blank"
               rel="noopener noreferrer"
               onClick={onClose}

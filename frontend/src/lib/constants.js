@@ -6,14 +6,14 @@ export const SITE_DESCRIPTION = 'Fresh, ready-to-eat dog food made with real, hu
 
 // ─── Brand Handles & Support Contact ─────────────────────────────────────────
 export const SUPPORT_EMAIL = 'support.furbowl@gmail.com';
-export const SUPPORT_PHONE = '+91 8860503685';
+export const SUPPORT_PHONE = '+91 8076400762';
 export const BRAND_HANDLES = {
   instagram: 'https://instagram.com/furbowl.in',
   instagramHandle: '@furbowl.in',
   facebook: 'https://facebook.com/furbowl.in',
   email: 'support.furbowl@gmail.com',
-  phone: '+91 8860503685',
-  whatsapp: 'https://wa.me/918860503685',
+  phone: '+91 8076400762',
+  whatsapp: 'https://wa.me/918076400762',
 };
 
 // ─── Re-export Official Product & Trial Packs Catalog ─────────────────────

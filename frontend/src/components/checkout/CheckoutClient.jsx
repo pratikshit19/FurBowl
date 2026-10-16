@@ -73,7 +73,7 @@ function AddressForm({ onSubmit, initial }) {
           <label className="block text-xs font-bold text-plum-900/70 uppercase tracking-wider mb-1.5">Phone *</label>
           <input required value={form.phone} onChange={(e) => set('phone', e.target.value.replace(/\D/g,'').slice(0,10))}
             inputMode="numeric" maxLength={10}
-            className="w-full border border-plum-900/15 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/20 transition-all bg-white" placeholder="8860503685" />
+            className="w-full border border-plum-900/15 rounded-xl px-3.5 py-2.5 text-sm text-plum-900 focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/20 transition-all bg-white" placeholder="8076400762" />
         </div>
       </div>
       <div>

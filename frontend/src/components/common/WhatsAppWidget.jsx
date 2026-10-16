@@ -3,11 +3,11 @@
 export default function WhatsAppWidget() {
   return (
     <a
-      href="https://wa.me/918860503685"
+      href="https://wa.me/918076400762"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-20 sm:bottom-24 right-4 sm:right-6 z-50 flex items-center bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-none p-3 sm:p-3.5 shadow-xl opacity-90 hover:opacity-100 transition-all duration-300 transform hover:scale-105 group"
-      aria-label="Chat with us on WhatsApp (+91 88605 03685)"
+      aria-label="Chat with us on WhatsApp (+91 80764 00762)"
     >
       <div className="flex items-center gap-2">
         <svg className="w-6 h-6 sm:w-7 sm:h-7 fill-current shrink-0" viewBox="0 0 24 24">
