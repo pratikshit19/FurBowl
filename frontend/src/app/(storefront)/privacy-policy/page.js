@@ -92,7 +92,7 @@ export default function PrivacyPolicyPage() {
             <div className="text-xs sm:text-sm text-plum-900/90 space-y-1 font-medium">
               <p><strong>Entity:</strong> FurBowl Petcare Pvt. Ltd.</p>
               <p><strong>Kitchen &amp; Office:</strong> Plot No. 42, Sector 18, Udyog Vihar, Phase IV, Gurugram, Haryana 122015, India</p>
-              <p><strong>Grievance Email:</strong> care@furbowl.com / hello@furbowl.in</p>
+              <p><strong>Grievance Email:</strong> support.furbowl@gmail.com</p>
               <p><strong>Customer Helpline:</strong> +91 8860503685 (Monday – Saturday, 9:00 AM – 9:00 PM IST)</p>
             </div>
           </section>

@@ -99,12 +99,12 @@ export default function ContactClient() {
               </div>
               <h3 className="font-bold text-plum-900 text-sm mb-1">Email Us</h3>
               <a
-                href="mailto:care@furbowl.com"
+                href="mailto:support.furbowl@gmail.com"
                 className="text-xs sm:text-sm font-semibold text-teal-700 hover:text-teal-800 transition-colors block"
               >
-                care@furbowl.com
+                support.furbowl@gmail.com
               </a>
-              <p className="text-xs text-plum-900/50 mt-1">hello@furbowl.in • 24hr response time</p>
+              <p className="text-xs text-plum-900/50 mt-1">Instagram/Facebook: @furbowl.in • 24hr response</p>
             </div>
 
             {/* Support Hours */}

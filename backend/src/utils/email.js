@@ -52,7 +52,7 @@ export async function sendOtpEmail(to, otp) {
   }
 
   try {
-    const fromAddress = process.env.GMAIL_USER || 'noreply@furbowl.co.in';
+    const fromAddress = process.env.GMAIL_USER || 'support.furbowl@gmail.com';
 
     const info = await transporter.sendMail({
       from: `"FurBowl 🐾" <${fromAddress}>`,

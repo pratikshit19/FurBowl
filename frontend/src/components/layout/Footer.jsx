@@ -181,11 +181,11 @@ export default function Footer() {
                   <span className="tracking-wide">+91 8860503685</span>
                 </a>
                 <a
-                  href="mailto:care@furbowl.com"
+                  href="mailto:support.furbowl@gmail.com"
                   className="flex items-center gap-2.5 hover:text-white transition-colors group"
                 >
                   <Mail className="w-4 h-4 text-white shrink-0 group-hover:scale-110 transition-transform" />
-                  <span>care@furbowl.com</span>
+                  <span>support.furbowl@gmail.com</span>
                 </a>
                 <div className="text-xs text-white/75 pt-1.5 leading-relaxed space-y-1">
                   <p className="font-semibold text-white/90">FurBowl Petcare Pvt. Ltd.</p>
@@ -208,10 +208,10 @@ export default function Footer() {
               <div className="inline-flex items-center border border-white/40 divide-x divide-white/40 rounded-xs overflow-hidden bg-white/5">
                 {/* Facebook */}
                 <a
-                  href="https://facebook.com"
+                  href="https://facebook.com/furbowl.in"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Facebook"
+                  aria-label="Facebook: @furbowl.in"
                   className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -234,10 +234,10 @@ export default function Footer() {
 
                 {/* Instagram */}
                 <a
-                  href="https://instagram.com"
+                  href="https://instagram.com/furbowl.in"
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Instagram"
+                  aria-label="Instagram: @furbowl.in"
                   className="w-10 h-10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

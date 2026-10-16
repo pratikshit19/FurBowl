@@ -4,6 +4,18 @@ export const SITE_NAME = 'FurBowl';
 export const SITE_TAGLINE = 'Real Food. Pure Love.';
 export const SITE_DESCRIPTION = 'Fresh, ready-to-eat dog food made with real, human-grade ingredients.';
 
+// ─── Brand Handles & Support Contact ─────────────────────────────────────────
+export const SUPPORT_EMAIL = 'support.furbowl@gmail.com';
+export const SUPPORT_PHONE = '+91 8860503685';
+export const BRAND_HANDLES = {
+  instagram: 'https://instagram.com/furbowl.in',
+  instagramHandle: '@furbowl.in',
+  facebook: 'https://facebook.com/furbowl.in',
+  email: 'support.furbowl@gmail.com',
+  phone: '+91 8860503685',
+  whatsapp: 'https://wa.me/918860503685',
+};
+
 // ─── Re-export Official Product & Trial Packs Catalog ─────────────────────
 export * from './furbowl-data';
 

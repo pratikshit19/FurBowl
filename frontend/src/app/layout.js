@@ -78,7 +78,11 @@ const jsonLd = {
         'addressCountry': 'IN',
       },
       'telephone': '+91-8860503685',
-      'email': 'care@furbowl.com',
+      'email': 'support.furbowl@gmail.com',
+      'sameAs': [
+        'https://instagram.com/furbowl.in',
+        'https://facebook.com/furbowl.in',
+      ],
       'contactPoint': {
         '@type': 'ContactPoint',
         'telephone': '+91-8860503685',
